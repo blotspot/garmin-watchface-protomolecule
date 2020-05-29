@@ -1,7 +1,7 @@
 <layout id="WatchFace">
-	<label id="Date" x="center" y="28%" font="@Fonts.DateFont" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-    <label id="Hours" x="48%" y="center" font="@Fonts.HoursFont" justification="Graphics.TEXT_JUSTIFY_RIGHT" color="Graphics.COLOR_WHITE" />
-    <label id="Minutes" x="52%" y="center" font="@Fonts.MinutesFont" justification="Graphics.TEXT_JUSTIFY_LEFT" color="Graphics.COLOR_WHITE" />
+	  <label id="Date" x="center" y="31%" font="@Fonts.DateFont" justification="Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
+    <label id="Hours" x="49%" y="48%" font="@Fonts.HoursFont" justification="Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
+    <label id="Minutes" x="52%" y="48%" font="@Fonts.MinutesFont" justification="Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
     
     <label id="BottomDataFieldText"
       x="center" y="82%" 
@@ -48,12 +48,19 @@
     <drawable id="SecondaryDataField1" class="SecondaryDataField">
         <param name="field">1</param>
     </drawable>
-      
     <drawable id="SecondaryDataField2" class="SecondaryDataField">
         <param name="field">2</param>
     </drawable>
-      
     <drawable id="SecondaryDataField3" class="SecondaryDataField">
         <param name="field">3</param>
+    </drawable>
+    
+    <drawable id="OuterRing" class="OuterRing" />
+    
+    <drawable id="LeftInnerRing" class="InnerRing">
+        <param name="side">"LEFT"</param>
+    </drawable>
+    <drawable id="RightInnerRing" class="InnerRing">
+        <param name="side">"RIGHT"</param>
     </drawable>
 </layout>
