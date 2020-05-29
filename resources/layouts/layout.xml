@@ -1,0 +1,5 @@
+<layout id="WatchFace">
+	<label id="Date" x="center" y="27%" font="@Fonts.DateFont" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+    <label id="Hours" x="48%" y="center" font="@Fonts.HoursFont" justification="Graphics.TEXT_JUSTIFY_RIGHT" color="Graphics.COLOR_WHITE" />
+    <label id="Minutes" x="52%" y="center" font="@Fonts.MinutesFont" justification="Graphics.TEXT_JUSTIFY_LEFT" color="Graphics.COLOR_WHITE" />
+</layout>
