@@ -2,21 +2,26 @@ using Toybox.Application;
 
 class ProtomoleculeFaceApp extends Application.AppBase {
 
-    function initialize() {
-        AppBase.initialize();
-    }
+  const gSecondaryDataFieldYPos = 0.74 * System.getDeviceSettings().screenHeight;
+  const gSecondaryDataFieldXPos1 = 0.22 * System.getDeviceSettings().screenWidth;
+  const gSecondaryDataFieldXPos2 = 0.50 * System.getDeviceSettings().screenWidth;
+  const gSecondaryDataFieldXPos3 = 0.78 * System.getDeviceSettings().screenWidth;
 
-    // onStart() is called on application start up
-    function onStart(state) {
-    }
+  function initialize() {
+    AppBase.initialize();
+  }
 
-    // onStop() is called when your application is exiting
-    function onStop(state) {
-    }
+  // onStart() is called on application start up
+  function onStart(state) {
+  }
 
-    // Return the initial view of your application here
-    function getInitialView() {
-        return [ new ProtomoleculeFaceView() ];
-    }
+  // onStop() is called when your application is exiting
+  function onStop(state) {
+  }
+
+  // Return the initial view of your application here
+  function getInitialView() {
+    return [ new ProtomoleculeFaceView() ];
+  }
 
 }
