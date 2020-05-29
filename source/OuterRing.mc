@@ -4,10 +4,10 @@ using Toybox.System;
 using Toybox.Application as App;
 
 
-var gOuterStartDegree = 90;
-var gOuterArcDegree = 360; 
-  
 class OuterRing extends Ui.Drawable {
+
+  const START_DEGREE = 90;
+  const ARC_DEGREE = 360; 
 
   var mWidth;
   var mHeight;
@@ -22,7 +22,7 @@ class OuterRing extends Ui.Drawable {
   }
 
   function draw(dc) {
-    dc.setPenWidth(mWidth * 0.006);
+    dc.setPenWidth(mWidth * PTS);
     dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
     drawArc(dc, 1);
         
@@ -32,13 +32,13 @@ class OuterRing extends Ui.Drawable {
   }
   
   function drawArc(dc, fillLevel) {
-    var endDegree = gOuterStartDegree - gOuterArcDegree * fillLevel;
+    var endDegree = START_DEGREE - ARC_DEGREE * fillLevel;
     dc.drawArc(
       mWidth / 2.0, 
       mHeight / 2.0, 
       mRadius, 
       Graphics.ARC_CLOCKWISE, 
-      gOuterStartDegree, 
+      START_DEGREE, 
       endDegree
     );
   }

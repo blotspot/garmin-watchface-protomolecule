@@ -1,5 +1,8 @@
 using Toybox.Application;
 
+
+const PTS = 0.006;
+
 class ProtomoleculeFaceApp extends Application.AppBase {
 
   const gSecondaryDataFieldYPos = 0.715 * System.getDeviceSettings().screenHeight;

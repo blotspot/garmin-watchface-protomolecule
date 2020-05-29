@@ -6,9 +6,9 @@ using Toybox.Application as App;
 
 class InnerRing extends Ui.Drawable {
 
-  const gRightStartDegree = 82;
-  const gLeftStartDegree = 248;
-  const gArcDegree = 150; 
+  const RIGHT_START_DEGREE = 82;
+  const LEFT_START_DEGREE = 248;
+  const ARC_DEGREE = 150; 
 
   var mWidth;
   var mHeight;
@@ -26,7 +26,7 @@ class InnerRing extends Ui.Drawable {
   }
 
   function draw(dc) {
-    dc.setPenWidth(mWidth * 0.006);
+    dc.setPenWidth(mWidth * PTS);
     
     switch(mSide) {
       case "RIGHT":
@@ -41,24 +41,24 @@ class InnerRing extends Ui.Drawable {
   
   function drawRightArc(dc) {
     dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-    drawArc(dc, gRightStartDegree, 1);
+    drawArc(dc, RIGHT_START_DEGREE, 1);
         
     var fillLevel = 0.2;
     dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
-    drawArc(dc, gRightStartDegree, fillLevel);
+    drawArc(dc, RIGHT_START_DEGREE, fillLevel);
   }
   
   function drawLeftArc(dc) {
     dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-    drawArc(dc, gLeftStartDegree, 1);
+    drawArc(dc, LEFT_START_DEGREE, 1);
         
     var fillLevel = 0.8;
     dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-    drawArc(dc, gLeftStartDegree, fillLevel);
+    drawArc(dc, LEFT_START_DEGREE, fillLevel);
   }
   
   function drawArc(dc, startDegree, fillLevel) {
-    var endDegree = startDegree - gArcDegree * fillLevel;
+    var endDegree = startDegree - ARC_DEGREE * fillLevel;
     var obj = dc.drawArc(
       mWidth / 2.0, 
       mHeight / 2.0, 

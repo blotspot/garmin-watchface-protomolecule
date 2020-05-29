@@ -3,47 +3,18 @@
     <label id="Hours" x="49%" y="48%" font="@Fonts.HoursFont" justification="Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
     <label id="Minutes" x="52%" y="48%" font="@Fonts.MinutesFont" justification="Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
     
-    <label id="BottomDataFieldText"
-      x="center" y="82%" 
-      font="@Fonts.PrimaryIndicatorFont" 
-      justification="Graphics.TEXT_JUSTIFY_CENTER" 
-      color="Graphics.COLOR_YELLOW" 
-      text="22500" 
-    />
-    <label id="BottomDataFieldIcon"
-      x="center" y="90%" 
-      font="@Fonts.IconsFont" 
-      justification="Graphics.TEXT_JUSTIFY_CENTER" 
-      color="Graphics.COLOR_YELLOW" 
-      text="6" />
-      
-    <label id="LeftDataFieldIcon"
-      x="37%" y="11%" 
-      font="@Fonts.IconsFont" 
-      justification="Graphics.TEXT_JUSTIFY_CENTER" 
-      color="Graphics.COLOR_RED" 
-      text="2" />
-    <label id="LeftDataFieldText"
-      x="37%" y="16%" 
-      font="@Fonts.PrimaryIndicatorFont" 
-      justification="Graphics.TEXT_JUSTIFY_CENTER" 
-      color="Graphics.COLOR_RED" 
-      text="72%" 
-    />
-      
-    <label id="RightDataFieldIcon"
-      x="63%" y="11%" 
-      font="@Fonts.IconsFont" 
-      justification="Graphics.TEXT_JUSTIFY_CENTER" 
-      color="Graphics.COLOR_BLUE" 
-      text="4" />
-    <label id="RightDataFieldText"
-      x="63%" y="16%" 
-      font="@Fonts.PrimaryIndicatorFont" 
-      justification="Graphics.TEXT_JUSTIFY_CENTER" 
-      color="Graphics.COLOR_BLUE" 
-      text="1380" 
-    />
+    <drawable id="OuterRing" class="OuterRing" />
+    <drawable id="BottomDataField" class="BottomDataField" />
+    
+    <drawable id="LeftDataField" class="LeftDataField" />
+    <drawable id="LeftInnerRing" class="InnerRing">
+        <param name="side">"LEFT"</param>
+    </drawable>
+    
+    <drawable id="RightDataField" class="RightDataField" />
+    <drawable id="RightInnerRing" class="InnerRing">
+        <param name="side">"RIGHT"</param>
+    </drawable>
       
     <drawable id="SecondaryDataField1" class="SecondaryDataField">
         <param name="field">1</param>
@@ -53,14 +24,5 @@
     </drawable>
     <drawable id="SecondaryDataField3" class="SecondaryDataField">
         <param name="field">3</param>
-    </drawable>
-    
-    <drawable id="OuterRing" class="OuterRing" />
-    
-    <drawable id="LeftInnerRing" class="InnerRing">
-        <param name="side">"LEFT"</param>
-    </drawable>
-    <drawable id="RightInnerRing" class="InnerRing">
-        <param name="side">"RIGHT"</param>
     </drawable>
 </layout>
