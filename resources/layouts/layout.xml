@@ -1,5 +1,61 @@
 <layout id="WatchFace">
-	<label id="Date" x="center" y="27%" font="@Fonts.DateFont" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+	<label id="Date" x="center" y="28%" font="@Fonts.DateFont" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
     <label id="Hours" x="48%" y="center" font="@Fonts.HoursFont" justification="Graphics.TEXT_JUSTIFY_RIGHT" color="Graphics.COLOR_WHITE" />
     <label id="Minutes" x="52%" y="center" font="@Fonts.MinutesFont" justification="Graphics.TEXT_JUSTIFY_LEFT" color="Graphics.COLOR_WHITE" />
+    
+    <label id="InditacorTextBottom"
+      x="center" y="82%" 
+      font="@Fonts.PrimaryIndicatorFont" 
+      justification="Graphics.TEXT_JUSTIFY_CENTER" 
+      color="Graphics.COLOR_YELLOW" 
+      text="22500" 
+    />
+    <label id="InditacorIconBottom"
+      x="center" y="90%" 
+      font="@Fonts.IconsFont" 
+      justification="Graphics.TEXT_JUSTIFY_CENTER" 
+      color="Graphics.COLOR_YELLOW" 
+      text="6" />
+      
+    <label id="InditacorIconLeft"
+      x="37%" y="11%" 
+      font="@Fonts.IconsFont" 
+      justification="Graphics.TEXT_JUSTIFY_CENTER" 
+      color="Graphics.COLOR_RED" 
+      text="2" />
+    <label id="InditacorTextLeft"
+      x="37%" y="16%" 
+      font="@Fonts.PrimaryIndicatorFont" 
+      justification="Graphics.TEXT_JUSTIFY_CENTER" 
+      color="Graphics.COLOR_RED" 
+      text="72%" 
+    />
+      
+    <label id="InditacorIconRight"
+      x="63%" y="11%" 
+      font="@Fonts.IconsFont" 
+      justification="Graphics.TEXT_JUSTIFY_CENTER" 
+      color="Graphics.COLOR_BLUE" 
+      text="4" />
+    <label id="InditacorTextRight"
+      x="63%" y="16%" 
+      font="@Fonts.PrimaryIndicatorFont" 
+      justification="Graphics.TEXT_JUSTIFY_CENTER" 
+      color="Graphics.COLOR_BLUE" 
+      text="1380" 
+    />
+      
+    <label id="SecondaryInditacorIcon1"
+      x="63%" y="11%" 
+      font="@Fonts.IconsFont" 
+      justification="Graphics.TEXT_JUSTIFY_CENTER" 
+      color="Graphics.COLOR_WHITE" 
+      text="4" />
+    <label id="SecondaryInditacorText1"
+      x="63%" y="16%" 
+      font="@Fonts.SecondaryIndicatorFont" 
+      justification="Graphics.TEXT_JUSTIFY_CENTER" 
+      color="Graphics.COLOR_WHITE" 
+      text="1380" 
+    />
 </layout>

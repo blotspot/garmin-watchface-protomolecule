@@ -1,0 +1,14 @@
+info face="Protomolecule" size=161 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1 outline=0
+common lineHeight=161 base=131 scaleW=256 scaleH=256 pages=1 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
+page id=0 file="PM_161_light_0.png"
+chars count=10
+char id=48   x=107   y=0     width=49    height=92    xoffset=8     yoffset=40    xadvance=65    page=0  chnl=15
+char id=49   x=207   y=0     width=24    height=90    xoffset=16    yoffset=41    xadvance=65    page=0  chnl=15
+char id=50   x=157   y=0     width=49    height=91    xoffset=8     yoffset=40    xadvance=65    page=0  chnl=15
+char id=51   x=54    y=0     width=52    height=92    xoffset=5     yoffset=40    xadvance=65    page=0  chnl=15
+char id=52   x=150   y=93    width=55    height=90    xoffset=5     yoffset=41    xadvance=65    page=0  chnl=15
+char id=53   x=0     y=93    width=49    height=91    xoffset=9     yoffset=41    xadvance=65    page=0  chnl=15
+char id=54   x=50    y=93    width=49    height=91    xoffset=8     yoffset=41    xadvance=65    page=0  chnl=15
+char id=55   x=206   y=92    width=49    height=90    xoffset=10    yoffset=41    xadvance=65    page=0  chnl=15
+char id=56   x=0     y=0     width=53    height=92    xoffset=6     yoffset=40    xadvance=65    page=0  chnl=15
+char id=57   x=100   y=93    width=49    height=91    xoffset=8     yoffset=40    xadvance=65    page=0  chnl=15
