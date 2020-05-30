@@ -1,7 +1,7 @@
 using Toybox.Application;
 
 
-const PTS = 0.006;
+const SCALE_STROKE_THICKNESS = 0.006;
 
 class ProtomoleculeFaceApp extends Application.AppBase {
 
@@ -9,7 +9,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   const gSecondaryDataFieldXPos1 = 0.168 * System.getDeviceSettings().screenWidth;
   const gSecondaryDataFieldXPos2 = 0.50 * System.getDeviceSettings().screenWidth;
   const gSecondaryDataFieldXPos3 = 0.832 * System.getDeviceSettings().screenWidth;
-  
+
   var gIconSize;
 
   function initialize() {

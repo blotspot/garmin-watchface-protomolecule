@@ -1,8 +1,8 @@
 <fonts>
-	<font id="IconsFont" filename="icons_19.fnt" antialias="true"/>
-	<font id="HoursFont" filename="PM_107_bold.fnt" antialias="true"/>
-	<font id="MinutesFont" filename="PM_107_light.fnt" antialias="true"/>
-	<font id="DateFont" filename="PM_23_regular.fnt" antialias="true"/>
-	<font id="PrimaryIndicatorFont" filename="PM_23_medium.fnt" antialias="true"/>
-	<font id="SecondaryIndicatorFont" filename="PM_23_light.fnt" antialias="true"/>
+  <font id="IconsFont" filename="icons_19.fnt" antialias="true"/>
+  <font id="HoursFont" filename="PM_107_bold.fnt" antialias="true"/>
+  <font id="MinutesFont" filename="PM_107_light.fnt" antialias="true"/>
+  <font id="DateFont" filename="PM_23_regular.fnt" antialias="true"/>
+  <font id="PrimaryIndicatorFont" filename="PM_23_medium.fnt" antialias="true"/>
+  <font id="SecondaryIndicatorFont" filename="PM_23_light.fnt" antialias="true"/>
 </fonts>
