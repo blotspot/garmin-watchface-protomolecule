@@ -8,12 +8,18 @@
   <drawable id="RightDataField" class="RightDataField" />
 
   <drawable id="SecondaryDataField1" class="SecondaryDataField">
-    <param name="field">1</param>
+    <param name="fieldId">3</param>
+    <param name="offsetModifier">0</param>
+    <param name="relativeXPos">0.168</param>
   </drawable>
   <drawable id="SecondaryDataField2" class="SecondaryDataField">
-    <param name="field">2</param>
+    <param name="fieldId">4</param>
+    <param name="offsetModifier">0.5</param>
+    <param name="relativeXPos">0.5</param>
   </drawable>
   <drawable id="SecondaryDataField3" class="SecondaryDataField">
-    <param name="field">3</param>
+    <param name="fieldId">5</param>
+    <param name="offsetModifier">1</param>
+    <param name="relativeXPos">0.832</param>
   </drawable>
 </layout>

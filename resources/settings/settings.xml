@@ -1,0 +1,73 @@
+<settings>
+
+  <setting propertyKey="@Properties.theme" title="@Strings.SettingsThemeTitle">
+    <settingConfig type="list">
+      <listEntry value="0">@Strings.ThemeExpanse</listEntry>
+      <listEntry value="1">@Strings.ThemeEarth</listEntry>
+      <listEntry value="2">@Strings.ThemeMars</listEntry>
+      <listEntry value="3">@Strings.ThemeBelt</listEntry>
+    </settingConfig>
+  </setting>
+
+  <setting propertyKey="@Properties.caloriesGoal" title="@Strings.SettingsCaloriesGoalTitle">
+    <settingConfig type="numeric" min="1" max="9999" required="true"/>
+  </setting>
+  
+  <setting propertyKey="@Properties.primaryDataFieldBottom" title="@Strings.SettingsPrimaryBottomTitle">
+    <settingConfig type="list">
+      <listEntry value="0">@Strings.DataFieldSteps</listEntry>
+      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="2">@Strings.DataFieldCalories</listEntry>
+      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
+    </settingConfig>
+  </setting>
+  
+  <setting propertyKey="@Properties.primaryDataFieldRight" title="@Strings.SettingsPrimaryRightTitle">
+    <settingConfig type="list">
+      <listEntry value="0">@Strings.DataFieldSteps</listEntry>
+      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="2">@Strings.DataFieldCalories</listEntry>
+      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
+    </settingConfig>
+  </setting>
+  
+  <setting propertyKey="@Properties.primaryDataFieldLeft" title="@Strings.SettingsPrimaryLeftTitle">
+    <settingConfig type="list">
+      <listEntry value="0">@Strings.DataFieldSteps</listEntry>
+      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="2">@Strings.DataFieldCalories</listEntry>
+      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
+    </settingConfig>
+  </setting>
+  
+  <setting propertyKey="@Properties.secondaryDataField1" title="@Strings.SettingsSecondary1Title">
+    <settingConfig type="list">
+      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="2">@Strings.DataFieldCalories</listEntry>
+      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="4">@Strings.DataFieldHeartRate</listEntry>
+      <listEntry value="5">@Strings.DataFieldMessages</listEntry>
+    </settingConfig>
+  </setting>
+  
+  <setting propertyKey="@Properties.secondaryDataField2" title="@Strings.SettingsSecondary2Title">
+    <settingConfig type="list">
+      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="2">@Strings.DataFieldCalories</listEntry>
+      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="4">@Strings.DataFieldHeartRate</listEntry>
+      <listEntry value="5">@Strings.DataFieldMessages</listEntry>
+    </settingConfig>
+  </setting>
+  
+  <setting propertyKey="@Properties.secondaryDataField3" title="@Strings.SettingsSecondary3Title">
+    <settingConfig type="list">
+      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="2">@Strings.DataFieldCalories</listEntry>
+      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="4">@Strings.DataFieldHeartRate</listEntry>
+      <listEntry value="5">@Strings.DataFieldMessages</listEntry>
+    </settingConfig>
+  </setting>
+
+</settings>

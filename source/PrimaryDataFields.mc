@@ -4,72 +4,66 @@ using Toybox.System;
 using Toybox.Application as App;
 using Toybox.ActivityMonitor;
 
-class BottomDataField extends PrimaryDataField {
+class BottomDataField extends PrimaryDataFieldDrawable {
 
   function initialize(params) {
-    PrimaryDataField.initialize(params, /* x in % */ 0.5, /* y in % */ 0.89);
+    PrimaryDataFieldDrawable.initialize(params, /* x in % */ 0.5, /* y in % */ 0.89);
   }
 
   function draw(dc) {
-    PrimaryDataField.draw(dc);
-    var color = Graphics.COLOR_YELLOW;
-    dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+    PrimaryDataFieldDrawable.draw(dc);
+    var color = themeColor(FieldId.PRIMARY_BOTTOM);
+    dc.setColor(color, Color.BACKGROUND);
 
-    var activityInfo = ActivityMonitor.getInfo();
-    var text = activityInfo.steps;
-    var icon = "6"; // Steps Icon
+    var info = DataFieldInfo.getInfoForField(FieldId.PRIMARY_BOTTOM);
 
-    PrimaryDataField.drawIcon(dc, icon, mXPos, mYPos);
-    PrimaryDataField.drawText(dc, text, mXPos, mYPos - mIconSize - mHeight * SCALE_STROKE_THICKNESS);
-    GoalMeter.drawOuterRing(dc, color, activityInfo.steps.toDouble() / activityInfo.stepGoal);
+    PrimaryDataFieldDrawable.drawIcon(dc, info.icon, mXPos, mYPos);
+    PrimaryDataFieldDrawable.drawText(dc, info.text, mXPos, mYPos - mIconSize - mHeight * SCALE_STROKE_THICKNESS);
+    GoalIndicator.drawOuterRing(dc, color, info.progress);
   }
 }
 
-class RightDataField extends PrimaryDataField {
+class RightDataField extends PrimaryDataFieldDrawable {
 
   function initialize(params) {
-    PrimaryDataField.initialize(params, /* x in % */ 0.63, /* y in % */ 0.094);
+    PrimaryDataFieldDrawable.initialize(params, /* x in % */ 0.63, /* y in % */ 0.094);
   }
 
   function draw(dc) {
-    PrimaryDataField.draw(dc);
-    var color = Graphics.COLOR_BLUE;
-    dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+    PrimaryDataFieldDrawable.draw(dc);
+    var color = themeColor(FieldId.PRIMARY_RIGHT);
+    dc.setColor(color, Color.BACKGROUND);
 
-    var activityInfo = ActivityMonitor.getInfo();
-    var text = activityInfo.activeMinutesDay.total;
-    var icon = "3"; // Active Minutes Icon
+    var info = DataFieldInfo.getInfoForField(FieldId.PRIMARY_RIGHT);
 
-    PrimaryDataField.drawIcon(dc, icon, mXPos, mYPos);
-    PrimaryDataField.drawText(dc, text, mXPos, mYPos + mIconSize - mHeight * SCALE_STROKE_THICKNESS * 3);
+    PrimaryDataFieldDrawable.drawIcon(dc, info.icon, mXPos, mYPos);
+    PrimaryDataFieldDrawable.drawText(dc, info.text, mXPos, mYPos + mIconSize - mHeight * SCALE_STROKE_THICKNESS * 3);
 
-    GoalMeter.drawRightRing(dc, color, activityInfo.activeMinutesDay.total.toDouble() / activityInfo.activeMinutesWeekGoal);
+    GoalIndicator.drawRightRing(dc, color, info.progress);
   }
 }
 
-class LeftDataField extends PrimaryDataField {
+class LeftDataField extends PrimaryDataFieldDrawable {
 
   function initialize(params) {
-    PrimaryDataField.initialize(params, /* x in % */ 0.37, /* y in % */ 0.094);
+    PrimaryDataFieldDrawable.initialize(params, /* x in % */ 0.37, /* y in % */ 0.094);
   }
 
   function draw(dc) {
-    PrimaryDataField.draw(dc);
-    var color = Graphics.COLOR_RED;
-    dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+    PrimaryDataFieldDrawable.draw(dc);
+    var color = themeColor(FieldId.PRIMARY_LEFT);
+    dc.setColor(color, Color.BACKGROUND);
 
-    var batteryLevel = System.getSystemStats().battery;
-    var text = Math.round(batteryLevel).format("%2.0d") + " %";
-    var icon = "2"; // Power Icon
+    var info = DataFieldInfo.getInfoForField(FieldId.PRIMARY_LEFT);
 
-    PrimaryDataField.drawIcon(dc, icon, mXPos, mYPos);
-    PrimaryDataField.drawText(dc, text, mXPos, mYPos + mIconSize - mHeight * SCALE_STROKE_THICKNESS * 3);
+    PrimaryDataFieldDrawable.drawIcon(dc, info.icon, mXPos, mYPos);
+    PrimaryDataFieldDrawable.drawText(dc, info.text, mXPos, mYPos + mIconSize - mHeight * SCALE_STROKE_THICKNESS * 3);
 
-    GoalMeter.drawLeftRing(dc, color, batteryLevel / 100.0);
+    GoalIndicator.drawLeftRing(dc, color, info.progress);
   }
 }
 
-class PrimaryDataField extends Ui.Drawable {
+class PrimaryDataFieldDrawable extends Ui.Drawable {
 
   hidden var mHeight;
   hidden var mXPos;

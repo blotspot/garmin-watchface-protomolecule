@@ -3,10 +3,10 @@ using Toybox.Graphics;
 using Toybox.System;
 using Toybox.Application as App;
 
-class GoalMeter {
+class GoalIndicator {
 
   static function drawOuterRing(dc, color, fillLevel) {
-    var ring = new GoalMeter(
+    var ring = new GoalIndicator(
       /* scaling */ 0.965,
       /* startDegree */ 90,
       /* totalOrbitDegree */ 360
@@ -16,7 +16,7 @@ class GoalMeter {
   }
 
   static function drawRightRing(dc, color, fillLevel) {
-    var ring = new GoalMeter(
+    var ring = new GoalIndicator(
       /* scaling */ 0.9,
       /* startDegree */ 82,
       /* totalOrbitDegree */ 150
@@ -26,7 +26,7 @@ class GoalMeter {
   }
 
   static function drawLeftRing(dc, color, fillLevel) {
-    var ring = new GoalMeter(
+    var ring = new GoalIndicator(
       /* scaling */ 0.9,
       /* startDegree */ 248,
       /* totalOrbitDegree */ 150
@@ -51,18 +51,18 @@ class GoalMeter {
 
   function draw(dc, color, fillLevel) {
     dc.setPenWidth(mWidth * SCALE_STROKE_THICKNESS);
-
-    dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-    drawOrbit(dc, 1);
-
-    dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-    drawOrbit(dc, fillLevel);
-  }
-
-  function drawOrbit(dc, fillLevel) {
     if (fillLevel > 1.0) {
       fillLevel = 1.0;
     }
+
+    dc.setColor(color, Color.BACKGROUND);
+    drawFullfilledArc(dc, fillLevel);
+
+    dc.setColor(Color.INACTIVE, Color.BACKGROUND);
+    drawRemainingArc(dc, fillLevel);
+  }
+
+  function drawFullfilledArc(dc, fillLevel) {
     if (fillLevel > 0.0) {
       var endDegree = mStartDegree - mTotalOrbitDegree * fillLevel;
 
@@ -75,5 +75,17 @@ class GoalMeter {
         endDegree
       );
     }
+  }
+
+  function drawRemainingArc(dc, fillLevel) {
+    var startDegree = mStartDegree - mTotalOrbitDegree * fillLevel;
+    var obj = dc.drawArc(
+      mWidth / 2.0, // x center of ring
+      mHeight / 2.0, // y center of ring
+      mRadius,
+      Graphics.ARC_CLOCKWISE,
+      startDegree,
+      mStartDegree - mTotalOrbitDegree
+    );
   }
 }

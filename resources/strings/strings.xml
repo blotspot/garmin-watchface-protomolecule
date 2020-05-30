@@ -1,3 +1,26 @@
 <strings>
   <string id="AppName">Protomolecule Face</string>
+
+  <string id="ThemeExpanse">Expanse</string>
+  <string id="ThemeEarth">Earth</string>
+  <string id="ThemeMars">Mars</string>
+  <string id="ThemeBelt">The Belt</string>
+
+  <string id="SettingsThemeTitle">Choose Theme</string>
+  <string id="SettingsCaloriesGoalTitle">Daily Calories Goal</string>
+  
+  <string id="SettingsPrimaryBottomTitle">Bottom DataField (Outer Indicator)</string>
+  <string id="SettingsPrimaryRightTitle">Right DataField (Right Indicator)</string>
+  <string id="SettingsPrimaryLeftTitle">Left DataField (Left Indicator)</string>
+  
+  <string id="SettingsSecondary1Title">Sedondary DataField 1 (Left)</string>
+  <string id="SettingsSecondary2Title">Sedondary DataField 2 (Middle)</string>
+  <string id="SettingsSecondary3Title">Sedondary DataField 3 (Right)</string>
+  
+  <string id="DataFieldSteps">Steps</string>
+  <string id="DataFieldBattery">Battery</string>
+  <string id="DataFieldCalories">Calories</string>
+  <string id="DataFieldActiveMinutes">Active Minutes</string>
+  <string id="DataFieldHeartRate">Heartrate</string>
+  <string id="DataFieldMessages">Notifications</string>
 </strings>

@@ -5,11 +5,6 @@ const SCALE_STROKE_THICKNESS = 0.006;
 
 class ProtomoleculeFaceApp extends Application.AppBase {
 
-  const gSecondaryDataFieldYPos = 0.715 * System.getDeviceSettings().screenHeight;
-  const gSecondaryDataFieldXPos1 = 0.168 * System.getDeviceSettings().screenWidth;
-  const gSecondaryDataFieldXPos2 = 0.50 * System.getDeviceSettings().screenWidth;
-  const gSecondaryDataFieldXPos3 = 0.832 * System.getDeviceSettings().screenWidth;
-
   var gIconSize;
 
   function initialize() {
