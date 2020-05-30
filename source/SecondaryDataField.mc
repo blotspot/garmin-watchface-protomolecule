@@ -6,12 +6,12 @@ using Color;
 
 class SecondaryDataField extends Ui.Drawable {
 
-  hidden var mFieldId;
-  hidden var mOffsetMod;
+  private var mFieldId;
+  private var mOffsetMod;
 
-  hidden var mIconSize;
-  hidden var mYPos;
-  hidden var mXPos;
+  private var mIconSize;
+  private var mYPos;
+  private var mXPos;
 
   function initialize(params) {
     Drawable.initialize(params);
@@ -20,7 +20,7 @@ class SecondaryDataField extends Ui.Drawable {
     mFieldId = params[:fieldId];
     mOffsetMod = params[:offsetModifier];
     mXPos = params[:relativeXPos] * System.getDeviceSettings().screenWidth;
-    mYPos = 0.726 * System.getDeviceSettings().screenHeight;
+    mYPos = 0.685 * System.getDeviceSettings().screenHeight;
   }
 
   function draw(dc) {

@@ -17,8 +17,8 @@ module Color {
     /* EXPANSE */
     [
       Graphics.COLOR_YELLOW, // PRIMARY_BOTTOM
-      Graphics.COLOR_BLUE,   // PRIMARY_LEFT
-      Graphics.COLOR_RED,    // PRIMARY_RIGHT
+      Graphics.COLOR_RED,    // PRIMARY_LEFT
+      Graphics.COLOR_BLUE,   // PRIMARY_RIGHT
       Graphics.COLOR_WHITE,  // SECONDARY_1
       Graphics.COLOR_WHITE,  // SECONDARY_2
       Graphics.COLOR_WHITE   // SECONDARY_3

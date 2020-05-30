@@ -3,9 +3,21 @@
   <label id="Hours" x="49%" y="48%" font="@Fonts.HoursFont" justification="Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
   <label id="Minutes" x="52%" y="48%" font="@Fonts.MinutesFont" justification="Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
 
-  <drawable id="BottomDataField" class="BottomDataField" />
-  <drawable id="LeftDataField" class="LeftDataField" />
-  <drawable id="RightDataField" class="RightDataField" />
+  <drawable id="BottomDataField" class="BottomDataField">
+    <param name="fieldId">0</param>
+    <param name="relativeXPos">0.5</param>
+    <param name="relativeYPos">0.875</param>
+  </drawable>
+  <drawable id="LeftDataField" class="LeftDataField">
+    <param name="fieldId">1</param>
+    <param name="relativeXPos">0.37</param>
+    <param name="relativeYPos">0.094</param>
+  </drawable>
+  <drawable id="RightDataField" class="RightDataField">
+    <param name="fieldId">2</param>
+    <param name="relativeXPos">0.63</param>
+    <param name="relativeYPos">0.094</param>
+  </drawable>
 
   <drawable id="SecondaryDataField1" class="SecondaryDataField">
     <param name="fieldId">3</param>

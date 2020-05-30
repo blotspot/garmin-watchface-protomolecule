@@ -25,19 +25,22 @@ module FieldType {
   }
 }
 
-class DataFieldInfo {
+module DataFieldInfo {
 
-  var icon;
-  var text;
-  var progress;
+  class DataFieldProperties {
+    var icon;
+    var text;
+    var progress;
 
-  function initialize(_icon, _text, _progress) {
-    icon = _icon;
-    text = _text;
-    progress = _progress;
+    function initialize(_icon, _text, _progress) {
+      icon = _icon;
+      text = _text;
+      progress = _progress;
+    }
+
   }
 
-  static function getInfoForField(fieldId) {
+  function getInfoForField(fieldId) {
     switch(fieldId) {
       case FieldId.PRIMARY_BOTTOM:
         return getInfoForType(Application.getApp().getProperty("primaryDataFieldBottom"));
@@ -59,7 +62,7 @@ class DataFieldInfo {
     }
   }
 
-  static function getInfoForType(fieldType) {
+  function getInfoForType(fieldType) {
     var info;
     switch(fieldType) {
       case FieldType.HEART_RATE:
@@ -82,7 +85,7 @@ class DataFieldInfo {
     }
   }
 
-  static function getHeartRate() {
+  function getHeartRate() {
     var activityInfo = Activity.getActivityInfo();
     var heartRate = activityInfo.currentHeartRate;
     if (heartRate == null && ActivityMonitor has :getHeartRateHistory) {
@@ -95,36 +98,36 @@ class DataFieldInfo {
       heartRate = 0;
     }
 
-    return new DataFieldInfo(1, heartRate.format(Format.INT), 0);
+    return new DataFieldProperties(1, heartRate.format(Format.INT), 0);
   }
 
-  static function getCalorieStats() {
+  function getCalorieStats() {
     var current = ActivityMonitor.getInfo().calories.toDouble();
 
-    return new DataFieldInfo(4, current.format(Format.INT), current / Application.getApp().getProperty("caloriesGoal"));
+    return new DataFieldProperties(4, current.format(Format.INT), current / Application.getApp().getProperty("caloriesGoal"));
   }
 
-  static function getMessageCount() {
-    return new DataFieldInfo(5, System.getDeviceSettings().notificationCount.format(Format.INT), 0);
+  function getMessageCount() {
+    return new DataFieldProperties(5, System.getDeviceSettings().notificationCount.format(Format.INT), 0);
   }
 
-  static function getBatteryStats() {
+  function getBatteryStats() {
     var current = System.getSystemStats().battery;
 
-    return new DataFieldInfo(2, current.format(Format.FLOAT) + "%", current / 100);
+    return new DataFieldProperties(2, current.format(Format.FLOAT) + "%", current / 100);
   }
 
-  static function getStepStats() {
+  function getStepStats() {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.steps.toDouble();
 
-    return new DataFieldInfo(6, current.format(Format.INT), current / activityInfo.stepGoal);
+    return new DataFieldProperties(6, current.format(Format.INT), current / activityInfo.stepGoal);
   }
 
-  static function getActiveMinutesStats() {
+  function getActiveMinutesStats() {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.activeMinutesWeek.total.toDouble();
 
-    return new DataFieldInfo(3, current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal);
+    return new DataFieldProperties(3, current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal);
   }
 }

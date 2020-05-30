@@ -35,11 +35,11 @@ class GoalIndicator {
     ring.draw(dc, color, fillLevel);
   }
 
-  hidden var mStartDegree;
-  hidden var mTotalOrbitDegree;
-  hidden var mWidth;
-  hidden var mHeight;
-  hidden var mRadius;
+  private var mStartDegree;
+  private var mTotalOrbitDegree;
+  private var mWidth;
+  private var mHeight;
+  private var mRadius;
 
   function initialize(orbitScaling, startDegree, totalOrbitDegree) {
     mStartDegree = startDegree;
@@ -56,13 +56,13 @@ class GoalIndicator {
     }
 
     dc.setColor(color, Color.BACKGROUND);
-    drawFullfilledArc(dc, fillLevel);
+    drawProgressArc(dc, fillLevel);
 
     dc.setColor(Color.INACTIVE, Color.BACKGROUND);
     drawRemainingArc(dc, fillLevel);
   }
 
-  function drawFullfilledArc(dc, fillLevel) {
+  function drawProgressArc(dc, fillLevel) {
     if (fillLevel > 0.0) {
       var endDegree = mStartDegree - mTotalOrbitDegree * fillLevel;
 
@@ -78,14 +78,16 @@ class GoalIndicator {
   }
 
   function drawRemainingArc(dc, fillLevel) {
-    var startDegree = mStartDegree - mTotalOrbitDegree * fillLevel;
-    var obj = dc.drawArc(
-      mWidth / 2.0, // x center of ring
-      mHeight / 2.0, // y center of ring
-      mRadius,
-      Graphics.ARC_CLOCKWISE,
-      startDegree,
-      mStartDegree - mTotalOrbitDegree
-    );
+    if (fillLevel < 1.0) {
+      var startDegree = mStartDegree - mTotalOrbitDegree * fillLevel;
+      var obj = dc.drawArc(
+        mWidth / 2.0, // x center of ring
+        mHeight / 2.0, // y center of ring
+        mRadius,
+        Graphics.ARC_CLOCKWISE,
+        startDegree,
+        mStartDegree - mTotalOrbitDegree
+      );
+    }
   }
 }
