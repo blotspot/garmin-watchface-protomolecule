@@ -40,7 +40,6 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // Update the view
   function onUpdate(dc) {
-    Log.debug("onUpdate()");
     updateDateAndTime(dc);
 
     if (dc has :clearClip) {
@@ -77,7 +76,6 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   function onPartialUpdate(dc) {
-    Log.debug("onPartialUpdate()");
     dc.clearClip();
     for (var i = 0; i < mDataFields.size(); i++) {
       mDataFields[i].draw(dc);
