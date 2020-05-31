@@ -19,6 +19,7 @@
       <listEntry value="1">@Strings.DataFieldBattery</listEntry>
       <listEntry value="2">@Strings.DataFieldCalories</listEntry>
       <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
     </settingConfig>
   </setting>
   
@@ -28,6 +29,7 @@
       <listEntry value="1">@Strings.DataFieldBattery</listEntry>
       <listEntry value="2">@Strings.DataFieldCalories</listEntry>
       <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
     </settingConfig>
   </setting>
   
@@ -37,6 +39,7 @@
       <listEntry value="1">@Strings.DataFieldBattery</listEntry>
       <listEntry value="2">@Strings.DataFieldCalories</listEntry>
       <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
     </settingConfig>
   </setting>
   
@@ -47,6 +50,7 @@
       <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
       <listEntry value="4">@Strings.DataFieldHeartRate</listEntry>
       <listEntry value="5">@Strings.DataFieldMessages</listEntry>
+      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
     </settingConfig>
   </setting>
   
@@ -57,6 +61,7 @@
       <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
       <listEntry value="4">@Strings.DataFieldHeartRate</listEntry>
       <listEntry value="5">@Strings.DataFieldMessages</listEntry>
+      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
     </settingConfig>
   </setting>
   
@@ -67,6 +72,7 @@
       <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
       <listEntry value="4">@Strings.DataFieldHeartRate</listEntry>
       <listEntry value="5">@Strings.DataFieldMessages</listEntry>
+      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
     </settingConfig>
   </setting>
 

@@ -23,4 +23,9 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     return [ new ProtomoleculeFaceView() ];
   }
 
+  // New app settings have been received so trigger a UI update
+  function onSettingsChanged() {
+    WatchUi.requestUpdate();
+  }
+
 }

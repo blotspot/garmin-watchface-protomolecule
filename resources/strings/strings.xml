@@ -23,4 +23,5 @@
   <string id="DataFieldActiveMinutes">Active Minutes</string>
   <string id="DataFieldHeartRate">Heartrate</string>
   <string id="DataFieldMessages">Notifications</string>
+  <string id="DataFieldFloorsUp">Floors Up</string>
 </strings>

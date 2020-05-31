@@ -21,7 +21,7 @@ module FieldId {
 
 module FieldType {
   enum {
-    STEPS, BATTERY, CALORIES, ACTIVE_MINUTES, HEART_RATE, NOTIFICATION
+    STEPS, BATTERY, CALORIES, ACTIVE_MINUTES, HEART_RATE, NOTIFICATION, FLOORS_UP
   }
 }
 
@@ -66,68 +66,86 @@ module DataFieldInfo {
     var info;
     switch(fieldType) {
       case FieldType.HEART_RATE:
-        return getHeartRate();
+        return getHeartRateInfo();
 
       case FieldType.CALORIES:
-        return getCalorieStats();
+        return getCalorieInfo();
 
       case FieldType.NOTIFICATION:
-        return getMessageCount();
+        return getNotificationInfo();
 
       case FieldType.STEPS:
-        return getStepStats();
+        return getStepInfo();
+
+      case FieldType.FLOORS_UP:
+        return getFloorsClimbedInfo();
 
       case FieldType.ACTIVE_MINUTES:
-        return getActiveMinutesStats();
+        return getActiveMinuteInfo();
 
       case FieldType.BATTERY:
-        return getBatteryStats();
+        return getBatteryInfo();
     }
   }
 
-  function getHeartRate() {
+  function getHeartRateInfo() {
     var activityInfo = Activity.getActivityInfo();
     var heartRate = activityInfo.currentHeartRate;
-    if (heartRate == null && ActivityMonitor has :getHeartRateHistory) {
-      var hrHistory = ActivityMonitor.getHeartRateHistory(1, true).next(); // Try to get latest historic entry
+    var icon = "p";
+    if (heartRate == null && ActivityMonitor has :getHeartRateInfoHistory) {
+      var hrHistory = ActivityMonitor.getHeartRateInfoHistory(1, true).next(); // Try to get latest historic entry
       if (hrHistory != null) {
+        icon = "P";
         heartRate = hrHistory.heartRate;
       }
     }
     if (heartRate == null || heartRate == ActivityMonitor.INVALID_HR_SAMPLE) {
       heartRate = 0;
+      icon = "P";
     }
 
-    return new DataFieldProperties(1, heartRate.format(Format.INT), 0);
+    return new DataFieldProperties(icon, heartRate.format(Format.INT), 0);
   }
 
-  function getCalorieStats() {
+  function getCalorieInfo() {
     var current = ActivityMonitor.getInfo().calories.toDouble();
 
-    return new DataFieldProperties(4, current.format(Format.INT), current / Application.getApp().getProperty("caloriesGoal"));
+    return new DataFieldProperties("C", current.format(Format.INT), current / Application.getApp().getProperty("caloriesGoal"));
   }
 
-  function getMessageCount() {
-    return new DataFieldProperties(5, System.getDeviceSettings().notificationCount.format(Format.INT), 0);
+  function getNotificationInfo() {
+    return new DataFieldProperties("N", System.getDeviceSettings().notificationCount.format(Format.INT), 0);
   }
 
-  function getBatteryStats() {
-    var current = System.getSystemStats().battery;
+  function getBatteryInfo() {
+    var stats = System.getSystemStats();
+    var current = stats.battery;
+    var icon = "B";
+    if (current < 10) { icon = "b"; }
+    if (stats.charging) { icon = "c"; }
 
-    return new DataFieldProperties(2, current.format(Format.FLOAT) + "%", current / 100);
+
+    return new DataFieldProperties(icon, current.format(Format.FLOAT) + "%", current / 100);
   }
 
-  function getStepStats() {
+  function getStepInfo() {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.steps.toDouble();
 
-    return new DataFieldProperties(6, current.format(Format.INT), current / activityInfo.stepGoal);
+    return new DataFieldProperties("S", current.format(Format.INT), current / activityInfo.stepGoal);
   }
 
-  function getActiveMinutesStats() {
+  function getFloorsClimbedInfo() {
+    var activityInfo = ActivityMonitor.getInfo();
+    var current = activityInfo.floorsClimbed.toDouble();
+
+    return new DataFieldProperties("U", current.format(Format.INT), current / activityInfo.floorsClimbedGoal);
+  }
+
+  function getActiveMinuteInfo() {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.activeMinutesWeek.total.toDouble();
 
-    return new DataFieldProperties(3, current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal);
+    return new DataFieldProperties("A", current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal);
   }
 }
