@@ -1,8 +1,6 @@
 using Toybox.Application;
 
 
-const SCALE_STROKE_THICKNESS = 0.006;
-
 class ProtomoleculeFaceApp extends Application.AppBase {
 
   var gIconSize;

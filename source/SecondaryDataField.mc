@@ -1,7 +1,7 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics;
 using Toybox.System;
-using Toybox.Application as App;
+using Toybox.Application;
 using Color;
 
 class SecondaryDataField extends Ui.Drawable {
@@ -13,53 +13,62 @@ class SecondaryDataField extends Ui.Drawable {
   private var mYPos;
   private var mXPos;
 
+  private var mTextFont;
+  private var mIconFont;
+
   function initialize(params) {
     Drawable.initialize(params);
 
-    mIconSize = App.getApp().gIconSize;
+    mIconSize = Application.getApp().gIconSize;
     mFieldId = params[:fieldId];
     mOffsetMod = params[:offsetModifier];
     mXPos = params[:relativeXPos] * System.getDeviceSettings().screenWidth;
     mYPos = 0.685 * System.getDeviceSettings().screenHeight;
+
+    mTextFont = Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont);
+    mIconFont = Ui.loadResource(Rez.Fonts.IconsFont);
   }
 
   function draw(dc) {
+    setClippingRegion(dc);
     var info = DataFieldInfo.getInfoForField(mFieldId);
-    var dimensions = getDimensions(dc, info);
-//    setClippingRegion(dc, dimensions);
 
     if (info.text.equals("0")) {
       dc.setColor(Color.INACTIVE, Color.BACKGROUND);
     } else {
       dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     }
-    var offset = dimensions[0] * mOffsetMod;
+    var fieldWidth = dc.getTextWidthInPixels(info.text, mTextFont) + mIconSize;
+    var offset = fieldWidth * mOffsetMod;
 
-    drawText(dc, info.icon, Rez.Fonts.IconsFont, mXPos - offset);
-    drawText(dc, info.text, Rez.Fonts.SecondaryIndicatorFont, mXPos - offset + mIconSize);
+    drawText(dc, info.icon, mIconFont, mXPos - offset);
+    drawText(dc, info.text, mTextFont, mXPos - offset + mIconSize);
   }
 
   function drawText(dc, text, font, xPos) {
     dc.drawText(
       xPos,
       mYPos,
-      Ui.loadResource(font),
+      font,
       text,
       Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
     );
   }
 
-  function setClippingRegion(dc, contentDimensions) {
+  function setClippingRegion(dc) {
+    var contentDimensions = getDimensions(dc);
+    dc.setColor(themeColor(mFieldId), Graphics.COLOR_BLACK);
     dc.setClip(
       mXPos - 1 - contentDimensions[0] * mOffsetMod,
       mYPos - 1 - contentDimensions[1] / 2,
       contentDimensions[0] + 1,
       contentDimensions[1] + 1
     );
+    dc.clear();
   }
 
-  function getDimensions(dc, info) {
-    var dim = dc.getTextDimensions(info.text, Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont));
+  function getDimensions(dc) {
+    var dim = dc.getTextDimensions("9999", mTextFont);
     dim[0] = dim[0] + mIconSize;
     if (dim[1] < mIconSize) {
       dim[1] = mIconSize;

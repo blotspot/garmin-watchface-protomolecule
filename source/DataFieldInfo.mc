@@ -91,10 +91,10 @@ module DataFieldInfo {
     if (heartRate == null && ActivityMonitor has :getHeartRateHistory) {
       var hrHistory = ActivityMonitor.getHeartRateHistory(1, true).next(); // Try to get latest historic entry
       if (hrHistory != null) {
-        heartRate = hrHistory.heartRate.format(Format.INT);
+        heartRate = hrHistory.heartRate;
       }
     }
-    if (heartRate == null) {
+    if (heartRate == null || heartRate == ActivityMonitor.INVALID_HR_SAMPLE) {
       heartRate = 0;
     }
 

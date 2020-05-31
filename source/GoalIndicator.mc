@@ -3,68 +3,45 @@ using Toybox.Graphics;
 using Toybox.System;
 using Toybox.Application as App;
 
-class GoalIndicator {
+class GoalIndicator extends Ui.Drawable {
 
-  static function drawOuterRing(dc, color, fillLevel) {
-    var ring = new GoalIndicator(
-      /* scaling */ 0.965,
-      /* startDegree */ 90,
-      /* totalOrbitDegree */ 360
-    );
-
-    ring.draw(dc, color, fillLevel);
-  }
-
-  static function drawRightRing(dc, color, fillLevel) {
-    var ring = new GoalIndicator(
-      /* scaling */ 0.9,
-      /* startDegree */ 82,
-      /* totalOrbitDegree */ 150
-    );
-
-    ring.draw(dc, color, fillLevel);
-  }
-
-  static function drawLeftRing(dc, color, fillLevel) {
-    var ring = new GoalIndicator(
-      /* scaling */ 0.9,
-      /* startDegree */ 248,
-      /* totalOrbitDegree */ 150
-    );
-
-    ring.draw(dc, color, fillLevel);
-  }
-
+  private var mFieldId;
   private var mStartDegree;
-  private var mTotalOrbitDegree;
+  private var mTotalDegree;
   private var mWidth;
   private var mHeight;
   private var mRadius;
 
-  function initialize(orbitScaling, startDegree, totalOrbitDegree) {
-    mStartDegree = startDegree;
-    mTotalOrbitDegree = totalOrbitDegree;
+  function initialize(params) {
+    Drawable.initialize(params);
+    mFieldId = params[:fieldId];
+    mStartDegree = params[:startDegree];
+    mTotalDegree = params[:totalDegree];
     mWidth = System.getDeviceSettings().screenWidth;
     mHeight = System.getDeviceSettings().screenHeight;
-    mRadius = mWidth / 2.0 * orbitScaling;
+    mRadius = mWidth / 2.0 * params[:scaling];
   }
 
-  function draw(dc, color, fillLevel) {
-    dc.setPenWidth(mWidth * SCALE_STROKE_THICKNESS);
-    if (fillLevel > 1.0) {
-      fillLevel = 1.0;
+  function draw(dc) {
+    if (dc has :clearClip) {
+      dc.clearClip();
+    }
+    dc.setPenWidth(mWidth > 390 ? 4 : 2);
+    var info = DataFieldInfo.getInfoForField(mFieldId);
+    if (info.progress > 1.0) {
+      info.progress = 1.0;
     }
 
-    dc.setColor(color, Color.BACKGROUND);
-    drawProgressArc(dc, fillLevel);
+    dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
+    drawProgressArc(dc, info.progress);
 
-    dc.setColor(Color.INACTIVE, Color.BACKGROUND);
-    drawRemainingArc(dc, fillLevel);
+//    dc.setColor(Color.INACTIVE, Color.BACKGROUND);
+//    drawRemainingArc(dc, fillLevel);
   }
 
   function drawProgressArc(dc, fillLevel) {
     if (fillLevel > 0.0) {
-      var endDegree = mStartDegree - mTotalOrbitDegree * fillLevel;
+      var endDegree = mStartDegree - mTotalDegree * fillLevel;
 
       var obj = dc.drawArc(
         mWidth / 2.0, // x center of ring
@@ -79,14 +56,14 @@ class GoalIndicator {
 
   function drawRemainingArc(dc, fillLevel) {
     if (fillLevel < 1.0) {
-      var startDegree = mStartDegree - mTotalOrbitDegree * fillLevel;
+      var startDegree = mStartDegree - mTotalDegree * fillLevel;
       var obj = dc.drawArc(
         mWidth / 2.0, // x center of ring
         mHeight / 2.0, // y center of ring
         mRadius,
         Graphics.ARC_CLOCKWISE,
         startDegree,
-        mStartDegree - mTotalOrbitDegree
+        mStartDegree - mTotalDegree
       );
     }
   }

@@ -1,4 +1,6 @@
 <properties>
+  <property id="devMode" type="boolean">true</property>
+  
   <property id="iconSize" type="number">16</property>
   <property id="theme" type="number">0</property>
   
