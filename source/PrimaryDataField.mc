@@ -4,85 +4,71 @@ using Toybox.System;
 using Toybox.Application;
 using Toybox.ActivityMonitor;
 
-class PrimaryDataField extends Ui.Drawable {
-
-  hidden var mFieldId;
+class PrimaryDataField extends DataFieldDrawable {
 
   hidden var mHeight;
   hidden var mXPos;
   hidden var mYPos;
-  hidden var mIconSize;
   hidden var mTextTop;
-  hidden var mIconPadding;
+
+  hidden var mTextFont;
+  hidden var mIconFont;
 
   function initialize(params) {
-    Drawable.initialize(params);
+    DataFieldDrawable.initialize(params);
     var device = System.getDeviceSettings();
-    mFieldId = params[:fieldId];
     mHeight = device.screenHeight;
     mXPos = params[:relativeXPos] * device.screenWidth;
     mYPos = params[:relativeYPos] * device.screenHeight;
-    mIconSize = Application.getApp().gIconSize;
 
     mTextTop = params[:textTop];
-    mIconPadding = getPadding(params[:iconPadding]);
+
+    mTextFont = Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont);
+    mIconFont = Ui.loadResource(Rez.Fonts.IconsFont);
   }
 
   function draw(dc) {
+    DataFieldDrawable.draw(dc);
+    update(dc);
+  }
+
+  function update(dc) {
     setClippingRegion(dc);
     dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
-    var info = DataFieldInfo.getInfoForField(mFieldId);
 
     if (mTextTop) {
-      drawText(dc, info.text, mYPos);
-      drawIcon(dc, info.icon, mYPos + (mIconSize + mIconPadding));
+      drawText(dc, mLastInfo.text, mYPos - 4, mTextFont);
+      drawText(dc, mLastInfo.icon, mYPos + (Application.getApp().gIconSize - 3), mIconFont);
     } else {
-      drawText(dc, info.text, mYPos + (mIconSize - mIconPadding));
-      drawIcon(dc, info.icon, mYPos);
+      drawText(dc, mLastInfo.text, mYPos + (Application.getApp().gIconSize - 3), mTextFont);
+      drawText(dc, mLastInfo.icon, mYPos, mIconFont);
     }
   }
 
-  hidden function drawIcon(dc, icon, yPos) {
-    dc.drawText(
-        mXPos,
-        yPos,
-        Ui.loadResource(Rez.Fonts.IconsFont),
-        icon,
-        Graphics.TEXT_JUSTIFY_CENTER
-    );
+  function partialUpdate(dc) {
+    drawPartialUpdate(dc, method(:update));
   }
 
-  hidden function drawText(dc, text, yPos) {
-    dc.drawText(
-        mXPos,
-        yPos,
-        Ui.loadResource(Rez.Fonts.PrimaryIndicatorFont),
-        text,
-        Graphics.TEXT_JUSTIFY_CENTER
-    );
+  hidden function drawText(dc, text, yPos, font) {
+    dc.drawText(mXPos, yPos, font, text, Graphics.TEXT_JUSTIFY_CENTER);
   }
-
-  hidden function getPadding(size) {
-    return (mHeight > AMOLED_DISPLAY_SIZE) ? size * 2 : size;
-  }
-
   hidden function setClippingRegion(dc) {
     dc.setColor(themeColor(mFieldId), Graphics.COLOR_BLACK);
     var contentDimensions = getDimensions(dc);
     dc.setClip(
-      mXPos - 1 - contentDimensions[0] / 2,
-      mYPos - 1,
-      contentDimensions[0] + 1,
-      contentDimensions[1] + 1
+      mXPos - contentDimensions[0] / 2,
+      mYPos,
+      contentDimensions[0],
+      contentDimensions[1] - 2
     );
     dc.clear();
   }
 
   hidden function getDimensions(dc) {
-    var dim = dc.getTextDimensions("00000", Ui.loadResource(Rez.Fonts.PrimaryIndicatorFont));
-    dim[1] = dim[1] + mIconPadding + mIconSize;
-    if (dim[0] < mIconSize) {
-      dim[0] = mIconSize;
+    var dim = dc.getTextDimensions("000000", mTextFont);
+    dim[1] = dim[1] + Application.getApp().gIconSize;
+    if (dim[0] < Application.getApp().gIconSize) {
+      dim[0] = Application.getApp().gIconSize;
     }
 
     return dim;

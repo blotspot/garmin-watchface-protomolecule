@@ -3,6 +3,6 @@
   <font id="HoursFont" filename="PM_90_bold.fnt" antialias="true" />
   <font id="MinutesFont" filename="PM_90_regular.fnt" antialias="true" />
   <font id="DateFont" filename="PM_20_medium.fnt" antialias="true" />
-  <font id="PrimaryIndicatorFont" filename="PM_20_bold.fnt" antialias="true" />
-  <font id="SecondaryIndicatorFont" filename="PM_20_regular.fnt" antialias="true" />
+  <font id="PrimaryIndicatorFont" filename="PM_20_medium.fnt" antialias="true" />
+  <font id="SecondaryIndicatorFont" filename="PM_20_medium.fnt" antialias="true" />
 </fonts>

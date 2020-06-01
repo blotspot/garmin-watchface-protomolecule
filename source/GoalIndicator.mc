@@ -1,20 +1,17 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics;
 using Toybox.System;
-using Toybox.Application as App;
 
-class GoalIndicator extends Ui.Drawable {
+class GoalIndicator extends DataFieldDrawable {
 
-  private var mFieldId;
-  private var mStartDegree;
-  private var mTotalDegree;
-  private var mWidth;
-  private var mHeight;
-  private var mRadius;
+  hidden var mStartDegree;
+  hidden var mTotalDegree;
+  hidden var mWidth;
+  hidden var mHeight;
+  hidden var mRadius;
 
   function initialize(params) {
-    Drawable.initialize(params);
-    mFieldId = params[:fieldId];
+    DataFieldDrawable.initialize(params);
     mStartDegree = params[:startDegree];
     mTotalDegree = params[:totalDegree];
     mWidth = System.getDeviceSettings().screenWidth;
@@ -23,23 +20,31 @@ class GoalIndicator extends Ui.Drawable {
   }
 
   function draw(dc) {
+    DataFieldDrawable.draw(dc);
+    update(dc);
+  }
+
+  function update(dc) {
     if (dc has :clearClip) {
       dc.clearClip();
     }
     dc.setPenWidth(mWidth > 390 ? 4 : 2);
-    var info = DataFieldInfo.getInfoForField(mFieldId);
-    if (info.progress > 1.0) {
-      info.progress = 1.0;
+    var mLastInfo = DataFieldInfo.getInfoForField(mFieldId);
+    if (mLastInfo.progress > 1.0) {
+      mLastInfo.progress = 1.0;
     }
 
     dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
-    drawProgressArc(dc, info.progress);
-
+    drawProgressArc(dc, mLastInfo.progress);
 //    dc.setColor(Color.INACTIVE, Color.BACKGROUND);
 //    drawRemainingArc(dc, fillLevel);
   }
 
-  function drawProgressArc(dc, fillLevel) {
+  function partialUpdate(dc) {
+    drawPartialUpdate(dc, method(:update));
+  }
+
+  hidden function drawProgressArc(dc, fillLevel) {
     if (fillLevel > 0.0) {
       var endDegree = mStartDegree - mTotalDegree * fillLevel;
 
@@ -54,7 +59,7 @@ class GoalIndicator extends Ui.Drawable {
     }
   }
 
-  function drawRemainingArc(dc, fillLevel) {
+  hidden function drawRemainingArc(dc, fillLevel) {
     if (fillLevel < 1.0) {
       var startDegree = mStartDegree - mTotalDegree * fillLevel;
       var obj = dc.drawArc(

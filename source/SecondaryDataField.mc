@@ -4,22 +4,19 @@ using Toybox.System;
 using Toybox.Application;
 using Color;
 
-class SecondaryDataField extends Ui.Drawable {
+class SecondaryDataField extends DataFieldDrawable {
 
-  private var mFieldId;
-  private var mOffsetMod;
+  hidden var mOffsetMod;
 
-  private var mIconSize;
-  private var mYPos;
-  private var mXPos;
+  hidden var mYPos;
+  hidden var mXPos;
 
-  private var mTextFont;
-  private var mIconFont;
+  hidden var mTextFont;
+  hidden var mIconFont;
 
   function initialize(params) {
-    Drawable.initialize(params);
+    DataFieldDrawable.initialize(params);
 
-    mIconSize = Application.getApp().gIconSize;
     mFieldId = params[:fieldId];
     mOffsetMod = params[:offsetModifier];
     mXPos = params[:relativeXPos] * System.getDeviceSettings().screenWidth;
@@ -30,19 +27,27 @@ class SecondaryDataField extends Ui.Drawable {
   }
 
   function draw(dc) {
-    setClippingRegion(dc);
-    var info = DataFieldInfo.getInfoForField(mFieldId);
+    DataFieldDrawable.draw(dc);
+    update(dc);
+  }
 
-    if (info.text.equals("0")) {
+  function update(dc) {
+    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, mTextFont) + Application.getApp().gIconSize;
+    var offset = fieldWidth * mOffsetMod;
+    setClippingRegion(dc, offset);
+
+    if (mLastInfo.text.equals("0")) {
       dc.setColor(Color.INACTIVE, Color.BACKGROUND);
     } else {
       dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     }
-    var fieldWidth = dc.getTextWidthInPixels(info.text, mTextFont) + mIconSize;
-    var offset = fieldWidth * mOffsetMod;
 
-    drawText(dc, info.icon, mIconFont, mXPos - offset);
-    drawText(dc, info.text, mTextFont, mXPos - offset + mIconSize);
+    drawText(dc, mLastInfo.icon, mIconFont, mXPos - offset);
+    drawText(dc, mLastInfo.text, mTextFont, mXPos - offset + Application.getApp().gIconSize);
+  }
+
+  function partialUpdate(dc) {
+    drawPartialUpdate(dc, method(:update));
   }
 
   function drawText(dc, text, font, xPos) {
@@ -55,23 +60,23 @@ class SecondaryDataField extends Ui.Drawable {
     );
   }
 
-  function setClippingRegion(dc) {
+  function setClippingRegion(dc, offset) {
     var contentDimensions = getDimensions(dc);
     dc.setColor(themeColor(mFieldId), Graphics.COLOR_BLACK);
     dc.setClip(
-      mXPos - 1 - contentDimensions[0] * mOffsetMod,
-      mYPos - 1 - contentDimensions[1] / 2,
-      contentDimensions[0] + 1,
-      contentDimensions[1] + 1
+      mXPos - offset,
+      mYPos + 3 - contentDimensions[1] / 2,
+      contentDimensions[0],
+      contentDimensions[1] - 2
     );
     dc.clear();
   }
 
   function getDimensions(dc) {
-    var dim = dc.getTextDimensions("9999", mTextFont);
-    dim[0] = dim[0] + mIconSize;
-    if (dim[1] < mIconSize) {
-      dim[1] = mIconSize;
+    var dim = dc.getTextDimensions("999", mTextFont);
+    dim[0] = dim[0] + Application.getApp().gIconSize;
+    if (dim[1] < Application.getApp().gIconSize) {
+      dim[1] = Application.getApp().gIconSize;
     }
 
     return dim;

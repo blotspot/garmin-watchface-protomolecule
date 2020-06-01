@@ -2,6 +2,7 @@ using Toybox.System;
 using Toybox.ActivityMonitor;
 using Toybox.Activity;
 using Toybox.Application;
+using Toybox.Time;
 
 module Format {
   const INT = "%i";
@@ -36,6 +37,13 @@ module DataFieldInfo {
       icon = _icon;
       text = _text;
       progress = _progress;
+    }
+
+    function equals(other) {
+      if (other != null && other instanceof DataFieldProperties) {
+        return other.icon.equals(icon) && other.text.equals(text) && other.progress == progress;
+      }
+      return false;
     }
 
   }
@@ -89,15 +97,18 @@ module DataFieldInfo {
   }
 
   function getHeartRateInfo() {
-    var activityInfo = Activity.getActivityInfo();
-    var heartRate = activityInfo.currentHeartRate;
+    var heartRate;
     var icon = "p";
-    if (heartRate == null && ActivityMonitor has :getHeartRateInfoHistory) {
-      var hrHistory = ActivityMonitor.getHeartRateInfoHistory(1, true).next(); // Try to get latest historic entry
+    if (ActivityMonitor has :getHeartRateInfoHistory) {
+      var hrHistory = ActivityMonitor.getHeartRateInfoHistory(new Time.Duration(60), true).next(); // Try to get latest entry from the last minute
       if (hrHistory != null) {
         icon = "P";
         heartRate = hrHistory.heartRate;
+      } else {
+        heartRate = Activity.getActivityInfo().currentHeartRate;
       }
+    } else {
+      heartRate = Activity.getActivityInfo().currentHeartRate;
     }
     if (heartRate == null || heartRate == ActivityMonitor.INVALID_HR_SAMPLE) {
       heartRate = 0;

@@ -5,8 +5,6 @@ using Toybox.Lang;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 
-const AMOLED_DISPLAY_SIZE = 360;
-
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   var mDataFields;
@@ -78,7 +76,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   function onPartialUpdate(dc) {
     dc.clearClip();
     for (var i = 0; i < mDataFields.size(); i++) {
-      mDataFields[i].draw(dc);
+      mDataFields[i].partialUpdate(dc);
     }
   }
 

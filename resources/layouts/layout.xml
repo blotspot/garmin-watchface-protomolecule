@@ -7,7 +7,6 @@
   <drawable id="BottomDataField" class="PrimaryDataField">
     <param name="fieldId">0</param>
     <param name="textTop">true</param>
-    <param name="iconPadding">2</param>
     <param name="relativeXPos">0.5</param>
     <param name="relativeYPos">0.794</param>
   </drawable>
@@ -21,7 +20,6 @@
   <drawable id="LeftDataField" class="PrimaryDataField">
     <param name="fieldId">1</param>
     <param name="textTop">false</param>
-    <param name="iconPadding">3</param>
     <param name="relativeXPos">0.37</param>
     <param name="relativeYPos">0.094</param>
   </drawable>
@@ -35,7 +33,6 @@
   <drawable id="RightDataField" class="PrimaryDataField">
     <param name="fieldId">2</param>
     <param name="textTop">false</param>
-    <param name="iconPadding">3</param>
     <param name="relativeXPos">0.63</param>
     <param name="relativeYPos">0.094</param>
   </drawable>
