@@ -2,10 +2,6 @@
     <iq:application entry="ProtomoleculeFaceApp" id="8b6f64a72cc74645891fce16c87b230a" launcherIcon="@Drawables.LauncherIcon" minSdkVersion="2.3.0" name="@Strings.AppName" type="watchface" version="1.0.0">
         <iq:products>
             <iq:product id="venu"/>
-            <iq:product id="vivoactive3"/>
-            <iq:product id="vivoactive3d"/>
-            <iq:product id="vivoactive3m"/>
-            <iq:product id="vivoactive3mlte"/>
             <iq:product id="vivoactive4"/>
             <iq:product id="vivoactive4s"/>
         </iq:products>
