@@ -54,7 +54,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     var hoursView = View.findDrawableById("Hours");
     var minutesView = View.findDrawableById("Minutes");
 
-    dateView.setText(Lang.format("$1$, $2$ $3$", [now.day_of_week, now.month, now.day]));
+    dateView.setText(Lang.format("$1$ $2$ $3$", [now.day_of_week, now.day.format("%02d"), now.month]));
     hoursView.setText(now.hour.format("%02d"));
     minutesView.setText(now.min.format("%02d"));
   }

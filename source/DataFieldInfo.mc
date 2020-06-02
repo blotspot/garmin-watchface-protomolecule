@@ -29,11 +29,13 @@ module FieldType {
 module DataFieldInfo {
 
   class DataFieldProperties {
+    var fieldType;
     var icon;
     var text;
     var progress;
 
-    function initialize(_icon, _text, _progress) {
+    function initialize(_fieldType, _icon, _text, _progress) {
+      fieldType = _fieldType;
       icon = _icon;
       text = _text;
       progress = _progress;
@@ -41,7 +43,7 @@ module DataFieldInfo {
 
     function equals(other) {
       if (other != null && other instanceof DataFieldProperties) {
-        return other.icon.equals(icon) && other.text.equals(text) && other.progress == progress;
+        return other.fieldType.equals(fieldType) && other.text.equals(text) && other.progress == progress;
       }
       return false;
     }
@@ -115,48 +117,48 @@ module DataFieldInfo {
       icon = "P";
     }
 
-    return new DataFieldProperties(icon, heartRate.format(Format.INT), 0);
+    return new DataFieldProperties(FieldType.HEART_RATE, icon, heartRate.format(Format.INT), 0);
   }
 
   function getCalorieInfo() {
     var current = ActivityMonitor.getInfo().calories.toDouble();
 
-    return new DataFieldProperties("C", current.format(Format.INT), current / Application.getApp().getProperty("caloriesGoal"));
+    return new DataFieldProperties(FieldType.CALORIES, "C", current.format(Format.INT), current / Application.getApp().getProperty("caloriesGoal"));
   }
 
   function getNotificationInfo() {
-    return new DataFieldProperties("N", System.getDeviceSettings().notificationCount.format(Format.INT), 0);
+    return new DataFieldProperties(FieldType.NOTIFICATION, "N", System.getDeviceSettings().notificationCount.format(Format.INT), 0);
   }
 
   function getBatteryInfo() {
     var stats = System.getSystemStats();
     var current = stats.battery;
-    var icon = "B";
-    if (current < 10) { icon = "b"; }
+    var icon = "b";
+    if (current < 10) { icon = "B"; }
     if (stats.charging) { icon = "c"; }
 
 
-    return new DataFieldProperties(icon, current.format(Format.FLOAT) + "%", current / 100);
+    return new DataFieldProperties(FieldType.BATTERY, icon, current.format(Format.FLOAT), current / 100);
   }
 
   function getStepInfo() {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.steps.toDouble();
 
-    return new DataFieldProperties("S", current.format(Format.INT), current / activityInfo.stepGoal);
+    return new DataFieldProperties(FieldType.STEPS, "S", current.format(Format.INT), current / activityInfo.stepGoal);
   }
 
   function getFloorsClimbedInfo() {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.floorsClimbed.toDouble();
 
-    return new DataFieldProperties("U", current.format(Format.INT), current / activityInfo.floorsClimbedGoal);
+    return new DataFieldProperties(FieldType.FLOORS_UP, "U", current.format(Format.INT), current / activityInfo.floorsClimbedGoal);
   }
 
   function getActiveMinuteInfo() {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.activeMinutesWeek.total.toDouble();
 
-    return new DataFieldProperties("A", current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal);
+    return new DataFieldProperties(FieldType.ACTIVE_MINUTES, "A", current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal);
   }
 }

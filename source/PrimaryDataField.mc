@@ -37,10 +37,10 @@ class PrimaryDataField extends DataFieldDrawable {
     dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
 
     if (mTextTop) {
-      drawText(dc, mLastInfo.text, mYPos - 4, mTextFont);
-      drawText(dc, mLastInfo.icon, mYPos + (Application.getApp().gIconSize - 3), mIconFont);
+      drawText(dc, mLastInfo.text, mYPos - 1, mTextFont);
+      drawText(dc, mLastInfo.icon, mYPos + Application.getApp().gIconSize, mIconFont);
     } else {
-      drawText(dc, mLastInfo.text, mYPos + (Application.getApp().gIconSize - 3), mTextFont);
+      drawText(dc, mLastInfo.text, mYPos + (Application.getApp().gIconSize - 4), mTextFont);
       drawText(dc, mLastInfo.icon, mYPos, mIconFont);
     }
   }

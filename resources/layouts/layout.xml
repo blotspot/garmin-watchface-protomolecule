@@ -3,18 +3,34 @@
   <label id="Hours" x="49%" y="48%" font="@Fonts.HoursFont" justification="Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
   <label id="Minutes" x="52%" y="48%" font="@Fonts.MinutesFont" justification="Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
 
+
+  <drawable id="SecondaryDataField1" class="SecondaryDataField">
+    <param name="fieldId">3</param>
+    <param name="offsetModifier">0</param>
+    <param name="relativeXPos">0.168</param>
+  </drawable>
+  <drawable id="SecondaryDataField2" class="SecondaryDataField">
+    <param name="fieldId">4</param>
+    <param name="offsetModifier">0.5</param>
+    <param name="relativeXPos">0.5</param>
+  </drawable>
+  <drawable id="SecondaryDataField3" class="SecondaryDataField">
+    <param name="fieldId">5</param>
+    <param name="offsetModifier">1</param>
+    <param name="relativeXPos">0.832</param>
+  </drawable>
   
   <drawable id="BottomDataField" class="PrimaryDataField">
     <param name="fieldId">0</param>
     <param name="textTop">true</param>
     <param name="relativeXPos">0.5</param>
-    <param name="relativeYPos">0.794</param>
+    <param name="relativeYPos">0.8</param>
   </drawable>
   <drawable id="OuterGoalIndicator" class="GoalIndicator">
     <param name="fieldId">0</param>
     <param name="startDegree">90</param>
     <param name="totalDegree">360</param>
-    <param name="scaling">0.965</param>
+    <param name="scaling">0.974</param>
   </drawable>
   
   <drawable id="LeftDataField" class="PrimaryDataField">
@@ -41,21 +57,5 @@
     <param name="startDegree">82</param>
     <param name="totalDegree">150</param>
     <param name="scaling">0.9</param>
-  </drawable>
-
-  <drawable id="SecondaryDataField1" class="SecondaryDataField">
-    <param name="fieldId">3</param>
-    <param name="offsetModifier">0</param>
-    <param name="relativeXPos">0.168</param>
-  </drawable>
-  <drawable id="SecondaryDataField2" class="SecondaryDataField">
-    <param name="fieldId">4</param>
-    <param name="offsetModifier">0.5</param>
-    <param name="relativeXPos">0.5</param>
-  </drawable>
-  <drawable id="SecondaryDataField3" class="SecondaryDataField">
-    <param name="fieldId">5</param>
-    <param name="offsetModifier">1</param>
-    <param name="relativeXPos">0.832</param>
   </drawable>
 </layout>

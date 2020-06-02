@@ -11,13 +11,13 @@ module Color {
   }
 
   const BACKGROUND = Graphics.COLOR_TRANSPARENT;
-  const INACTIVE = Graphics.COLOR_DK_GRAY;
+  const INACTIVE = Graphics.COLOR_LT_GRAY;
 
   const _COLORS = [
     /* EXPANSE */
     [
       Graphics.COLOR_YELLOW, // PRIMARY_BOTTOM
-      Graphics.COLOR_RED,    // PRIMARY_LEFT
+      Graphics.COLOR_ORANGE,    // PRIMARY_LEFT
       Graphics.COLOR_BLUE,   // PRIMARY_RIGHT
       Graphics.COLOR_WHITE,  // SECONDARY_1
       Graphics.COLOR_WHITE,  // SECONDARY_2
@@ -25,7 +25,7 @@ module Color {
     ],
     /* EARTH */
     [
-      Graphics.COLOR_DK_BLUE, // PRIMARY_BOTTOM
+      0x00FFFF, // PRIMARY_BOTTOM
       Graphics.COLOR_BLUE,    // PRIMARY_LEFT
       Graphics.COLOR_BLUE,    // PRIMARY_RIGHT
       Graphics.COLOR_WHITE,   // SECONDARY_1
@@ -34,16 +34,16 @@ module Color {
     ],
     /* MARS */
     [
-      Graphics.COLOR_DK_RED, // PRIMARY_BOTTOM
-      Graphics.COLOR_RED,    // PRIMARY_LEFT
-      Graphics.COLOR_RED,    // PRIMARY_RIGHT
+      0xFFFF00, // PRIMARY_BOTTOM
+      Graphics.COLOR_ORANGE,    // PRIMARY_LEFT
+      Graphics.COLOR_ORANGE,    // PRIMARY_RIGHT
       Graphics.COLOR_WHITE,  // SECONDARY_1
       Graphics.COLOR_WHITE,  // SECONDARY_2
       Graphics.COLOR_WHITE   // SECONDARY_3
     ],
     /* BELT */
     [
-      Graphics.COLOR_ORANGE, // PRIMARY_BOTTOM
+      0xAA55FF, // PRIMARY_BOTTOM
       Graphics.COLOR_YELLOW, // PRIMARY_LEFT
       Graphics.COLOR_YELLOW, // PRIMARY_RIGHT
       Graphics.COLOR_WHITE,  // SECONDARY_1
