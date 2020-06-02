@@ -30,7 +30,7 @@
     <param name="fieldId">0</param>
     <param name="startDegree">90</param>
     <param name="totalDegree">360</param>
-    <param name="scaling">0.974</param>
+    <param name="scaling">0.96</param>
   </drawable>
   
   <drawable id="LeftDataField" class="PrimaryDataField">
@@ -43,7 +43,7 @@
     <param name="fieldId">1</param>
     <param name="startDegree">248</param>
     <param name="totalDegree">150</param>
-    <param name="scaling">0.9</param>
+    <param name="scaling">0.89</param>
   </drawable>
   
   <drawable id="RightDataField" class="PrimaryDataField">
@@ -56,6 +56,6 @@
     <param name="fieldId">2</param>
     <param name="startDegree">82</param>
     <param name="totalDegree">150</param>
-    <param name="scaling">0.9</param>
+    <param name="scaling">0.89</param>
   </drawable>
 </layout>

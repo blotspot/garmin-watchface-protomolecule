@@ -7,6 +7,7 @@
   <string id="ThemeBelt">The Belt</string>
 
   <string id="SettingsThemeTitle">Choose Theme</string>
+  <string id="SettingsShowRemainingIndicator">Show Remaining Part of Indicator</string>
   <string id="SettingsCaloriesGoalTitle">Daily Calories Goal</string>
   
   <string id="SettingsPrimaryBottomTitle">Bottom DataField (Outer Indicator)</string>

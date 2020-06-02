@@ -100,11 +100,11 @@ module DataFieldInfo {
 
   function getHeartRateInfo() {
     var heartRate;
-    var icon = "p";
+    var icon = "P";
     if (ActivityMonitor has :getHeartRateInfoHistory) {
       var hrHistory = ActivityMonitor.getHeartRateInfoHistory(new Time.Duration(60), true).next(); // Try to get latest entry from the last minute
       if (hrHistory != null) {
-        icon = "P";
+        icon = "p";
         heartRate = hrHistory.heartRate;
       } else {
         heartRate = Activity.getActivityInfo().currentHeartRate;
@@ -114,7 +114,7 @@ module DataFieldInfo {
     }
     if (heartRate == null || heartRate == ActivityMonitor.INVALID_HR_SAMPLE) {
       heartRate = 0;
-      icon = "P";
+      icon = "p";
     }
 
     return new DataFieldProperties(FieldType.HEART_RATE, icon, heartRate.format(Format.INT), 0);
@@ -133,8 +133,8 @@ module DataFieldInfo {
   function getBatteryInfo() {
     var stats = System.getSystemStats();
     var current = stats.battery;
-    var icon = "b";
-    if (current < 10) { icon = "B"; }
+    var icon = "B";
+    if (current < 10) { icon = "b"; }
     if (stats.charging) { icon = "c"; }
 
 

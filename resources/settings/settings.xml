@@ -12,6 +12,10 @@
   <setting propertyKey="@Properties.caloriesGoal" title="@Strings.SettingsCaloriesGoalTitle">
     <settingConfig type="numeric" min="1" max="9999" required="true"/>
   </setting>
+
+  <setting propertyKey="@Properties.showRemainingIndicator" title="@Strings.SettingsShowRemainingIndicator">
+    <settingConfig type="boolean"/>
+  </setting>
   
   <setting propertyKey="@Properties.primaryDataFieldBottom" title="@Strings.SettingsPrimaryBottomTitle">
     <settingConfig type="list">
