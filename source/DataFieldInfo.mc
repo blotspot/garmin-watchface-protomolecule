@@ -53,22 +53,22 @@ module DataFieldInfo {
   function getInfoForField(fieldId) {
     switch(fieldId) {
       case FieldId.PRIMARY_BOTTOM:
-        return getInfoForType(Application.getApp().getProperty("primaryDataFieldBottom"));
+        return getInfoForType(Application.getApp().gPrimaryDataFieldBottom);
 
       case FieldId.PRIMARY_RIGHT:
-        return getInfoForType(Application.getApp().getProperty("primaryDataFieldRight"));
+        return getInfoForType(Application.getApp().gPrimaryDataFieldRight);
 
       case FieldId.PRIMARY_LEFT:
-        return getInfoForType(Application.getApp().getProperty("primaryDataFieldLeft"));
+        return getInfoForType(Application.getApp().gPrimaryDataFieldLeft);
 
       case FieldId.SECONDARY_1:
-        return getInfoForType(Application.getApp().getProperty("secondaryDataField1"));
+        return getInfoForType(Application.getApp().gSecondaryDataField1);
 
       case FieldId.SECONDARY_2:
-        return getInfoForType(Application.getApp().getProperty("secondaryDataField2"));
+        return getInfoForType(Application.getApp().gSecondaryDataField2);
 
       case FieldId.SECONDARY_3:
-        return getInfoForType(Application.getApp().getProperty("secondaryDataField3"));
+        return getInfoForType(Application.getApp().gSecondaryDataField3);
     }
   }
 
@@ -99,18 +99,15 @@ module DataFieldInfo {
   }
 
   function getHeartRateInfo() {
-    var heartRate;
+    var heartRate = Activity.getActivityInfo().currentHeartRate;
     var icon = "P";
-    if (ActivityMonitor has :getHeartRateInfoHistory) {
+    if (heartRate == null && ActivityMonitor has :getHeartRateInfoHistory) {
       var hrHistory = ActivityMonitor.getHeartRateInfoHistory(new Time.Duration(60), true).next(); // Try to get latest entry from the last minute
       if (hrHistory != null) {
-        icon = "p";
         heartRate = hrHistory.heartRate;
       } else {
         heartRate = Activity.getActivityInfo().currentHeartRate;
       }
-    } else {
-      heartRate = Activity.getActivityInfo().currentHeartRate;
     }
     if (heartRate == null || heartRate == ActivityMonitor.INVALID_HR_SAMPLE) {
       heartRate = 0;
@@ -123,7 +120,7 @@ module DataFieldInfo {
   function getCalorieInfo() {
     var current = ActivityMonitor.getInfo().calories.toDouble();
 
-    return new DataFieldProperties(FieldType.CALORIES, "C", current.format(Format.INT), current / Application.getApp().getProperty("caloriesGoal"));
+    return new DataFieldProperties(FieldType.CALORIES, "C", current.format(Format.INT), current / Application.getApp().gCaloriesGoal);
   }
 
   function getNotificationInfo() {

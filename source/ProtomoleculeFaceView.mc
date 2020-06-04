@@ -7,7 +7,7 @@ using Toybox.Time.Gregorian;
 
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
-  var mDataFields;
+//  var mDataFields;
 
   function initialize() {
     WatchFace.initialize();
@@ -17,17 +17,17 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   function onLayout(dc) {
     setLayout(Rez.Layouts.WatchFace(dc));
 
-    mDataFields = [
-      View.findDrawableById("BottomDataField"),
-      View.findDrawableById("OuterGoalIndicator"),
-      View.findDrawableById("LeftDataField"),
-      View.findDrawableById("LeftGoalIndicator"),
-      View.findDrawableById("RightDataField"),
-      View.findDrawableById("RightGoalIndicator"),
-      View.findDrawableById("SecondaryDataField1"),
-      View.findDrawableById("SecondaryDataField2"),
-      View.findDrawableById("SecondaryDataField3")
-    ];
+//    mDataFields = [
+//      View.findDrawableById("BottomDataField"),
+//      View.findDrawableById("OuterGoalIndicator"),
+//      View.findDrawableById("LeftDataField"),
+//      View.findDrawableById("LeftGoalIndicator"),
+//      View.findDrawableById("RightDataField"),
+//      View.findDrawableById("RightGoalIndicator"),
+//      View.findDrawableById("SecondaryDataField1"),
+//      View.findDrawableById("SecondaryDataField2"),
+//      View.findDrawableById("SecondaryDataField3")
+//    ];
   }
 
   // Called when this View is brought to the foreground. Restore
@@ -74,10 +74,11 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   function onPartialUpdate(dc) {
-    dc.clearClip();
-    for (var i = 0; i < mDataFields.size(); i++) {
-      mDataFields[i].partialUpdate(dc);
-    }
+    // too expensive
+//    dc.clearClip();
+//    for (var i = 0; i < mDataFields.size(); i++) {
+//      mDataFields[i].partialUpdate(dc);
+//    }
   }
 
 }

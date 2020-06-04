@@ -1,4 +1,5 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Application;
 using Toybox.Graphics;
 using Toybox.System;
 using Toybox.Math;
@@ -35,8 +36,10 @@ class GoalIndicator extends DataFieldDrawable {
       mLastInfo.progress = 1.0;
     }
 
-    dc.setColor(Graphics.COLOR_DK_GRAY, Color.BACKGROUND);
-    drawRemainingArc(dc, mLastInfo.progress, mLastInfo.fieldType == FieldType.BATTERY);
+    if (Application.getApp().gDrawRemainingIndicator) {
+      dc.setColor(Graphics.COLOR_DK_GRAY, Color.BACKGROUND);
+      drawRemainingArc(dc, mLastInfo.progress, mLastInfo.fieldType == FieldType.BATTERY);
+    }
 
     dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     drawProgressArc(dc, mLastInfo.progress, mLastInfo.fieldType == FieldType.BATTERY);
@@ -59,8 +62,9 @@ class GoalIndicator extends DataFieldDrawable {
         startDegree,
         endDegree
       );
-
-      drawEndpoint(dc, reverse ? startDegree : endDegree);
+      if (fillLevel < 1.0) {
+        drawEndpoint(dc, reverse ? startDegree : endDegree);
+      }
     }
   }
 

@@ -28,7 +28,7 @@
   </drawable>
   <drawable id="OuterGoalIndicator" class="GoalIndicator">
     <param name="fieldId">0</param>
-    <param name="startDegree">90</param>
+    <param name="startDegree">270</param>
     <param name="totalDegree">360</param>
     <param name="scaling">0.96</param>
   </drawable>
