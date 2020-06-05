@@ -25,9 +25,9 @@ module Color {
     ],
     /* EARTH */
     [
-      0x00FFFF, // PRIMARY_BOTTOM
-      Graphics.COLOR_BLUE,  // PRIMARY_LEFT
-      Graphics.COLOR_BLUE,  // PRIMARY_RIGHT
+      Graphics.COLOR_BLUE, // PRIMARY_BOTTOM
+      0x00AAAA,  // PRIMARY_LEFT
+      0x00AAAA,  // PRIMARY_RIGHT
       Graphics.COLOR_WHITE, // SECONDARY_1
       Graphics.COLOR_WHITE, // SECONDARY_2
       Graphics.COLOR_WHITE  // SECONDARY_3
@@ -43,9 +43,9 @@ module Color {
     ],
     /* BELT */
     [
-      0xFFFF00, // PRIMARY_BOTTOM
-      Graphics.COLOR_YELLOW, // PRIMARY_LEFT
-      Graphics.COLOR_YELLOW, // PRIMARY_RIGHT
+      Graphics.COLOR_YELLOW, // PRIMARY_BOTTOM
+      0xFFFF00, // PRIMARY_LEFT
+      0xFFFF00, // PRIMARY_RIGHT
       Graphics.COLOR_WHITE,  // SECONDARY_1
       Graphics.COLOR_WHITE,  // SECONDARY_2
       Graphics.COLOR_WHITE   // SECONDARY_3
