@@ -23,7 +23,7 @@ class PrimaryDataField extends DataFieldDrawable {
 
     mTextTop = params[:textTop];
 
-    mTextFont = Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont);
+    mTextFont = Ui.loadResource(Rez.Fonts.PrimaryIndicatorFont);
     mIconFont = Ui.loadResource(Rez.Fonts.IconsFont);
   }
 
@@ -52,6 +52,7 @@ class PrimaryDataField extends DataFieldDrawable {
   hidden function drawText(dc, text, yPos, font) {
     dc.drawText(mXPos, yPos, font, text, Graphics.TEXT_JUSTIFY_CENTER);
   }
+
   hidden function setClippingRegion(dc) {
     dc.setColor(themeColor(mFieldId), Graphics.COLOR_BLACK);
     var contentDimensions = getDimensions(dc);
@@ -65,7 +66,7 @@ class PrimaryDataField extends DataFieldDrawable {
   }
 
   hidden function getDimensions(dc) {
-    var dim = dc.getTextDimensions("000000", mTextFont);
+    var dim = dc.getTextDimensions(mLastInfo.text, mTextFont);
     dim[1] = dim[1] + Application.getApp().gIconSize;
     if (dim[0] < Application.getApp().gIconSize) {
       dim[0] = Application.getApp().gIconSize;

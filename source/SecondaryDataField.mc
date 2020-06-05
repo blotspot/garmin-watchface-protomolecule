@@ -73,7 +73,7 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function getDimensions(dc) {
-    var dim = dc.getTextDimensions("999", mTextFont);
+    var dim = dc.getTextDimensions(mLastInfo.text, mTextFont);
     dim[0] = dim[0] + Application.getApp().gIconSize;
     if (dim[1] < Application.getApp().gIconSize) {
       dim[1] = Application.getApp().gIconSize;

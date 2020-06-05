@@ -18,7 +18,7 @@ class DataFieldDrawable extends Ui.Drawable {
     var currentInfo = DataFieldInfo.getInfoForField(mFieldId);
     if (!currentInfo.equals(mLastInfo)) {
       mLastInfo = currentInfo;
-      drawCallback.invoke(dc); // invoke draw of child class
+      drawCallback.invoke(dc); // invoke update method of child class
     }
   }
 }
