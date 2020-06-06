@@ -12,8 +12,8 @@ module Format {
 module FieldId {
   enum {
     PRIMARY_BOTTOM,
-    PRIMARY_RIGHT,
     PRIMARY_LEFT,
+    PRIMARY_RIGHT,
     SECONDARY_1,
     SECONDARY_2,
     SECONDARY_3

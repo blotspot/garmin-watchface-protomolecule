@@ -34,26 +34,26 @@
   </drawable>
   
   <drawable id="LeftDataField" class="PrimaryDataField">
-    <param name="fieldId">2</param>
+    <param name="fieldId">1</param>
     <param name="textTop">false</param>
     <param name="relativeXPos">0.63</param>
     <param name="relativeYPos">0.094</param>
   </drawable>
   <drawable id="LeftGoalIndicator" class="GoalIndicator">
-    <param name="fieldId">2</param>
+    <param name="fieldId">1</param>
     <param name="startDegree">82</param>
     <param name="totalDegree">150</param>
     <param name="scaling">0.89</param>
   </drawable>
   
   <drawable id="RightDataField" class="PrimaryDataField">
-    <param name="fieldId">1</param>
+    <param name="fieldId">2</param>
     <param name="textTop">false</param>
     <param name="relativeXPos">0.37</param>
     <param name="relativeYPos">0.094</param>
   </drawable>
   <drawable id="RightGoalIndicator" class="GoalIndicator">
-    <param name="fieldId">1</param>
+    <param name="fieldId">2</param>
     <param name="startDegree">248</param>
     <param name="totalDegree">150</param>
     <param name="scaling">0.89</param>
