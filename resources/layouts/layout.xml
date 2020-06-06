@@ -1,8 +1,8 @@
 <layout id="WatchFace">
-  <label id="Date" x="center" y="31%" font="@Fonts.DateFont" justification="Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
-  <label id="Hours" x="49%" y="48%" font="@Fonts.HoursFont" justification="Graphics.TEXT_JUSTIFY_RIGHT|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
-  <label id="Minutes" x="52%" y="48%" font="@Fonts.MinutesFont" justification="Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER" color="Graphics.COLOR_WHITE" />
 
+  <drawable id="DateAndTime" class="DateAndTime">
+    <param name="burnInProtection">false</param>
+  </drawable>
 
   <drawable id="SecondaryDataField1" class="SecondaryDataField">
     <param name="fieldId">3</param>

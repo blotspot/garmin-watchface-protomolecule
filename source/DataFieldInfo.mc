@@ -16,7 +16,8 @@ module FieldId {
     PRIMARY_RIGHT,
     SECONDARY_1,
     SECONDARY_2,
-    SECONDARY_3
+    SECONDARY_3,
+    SIMPLE_BATTERY
   }
 }
 
@@ -69,6 +70,9 @@ module DataFieldInfo {
 
       case FieldId.SECONDARY_3:
         return getInfoForType(Application.getApp().gSecondaryDataField3);
+
+      case FieldId.SIMPLE_BATTERY:
+        return getInfoForType(FieldType.BATTERY);
     }
   }
 
@@ -105,8 +109,6 @@ module DataFieldInfo {
       var hrHistory = ActivityMonitor.getHeartRateInfoHistory(new Time.Duration(60), true).next(); // Try to get latest entry from the last minute
       if (hrHistory != null) {
         heartRate = hrHistory.heartRate;
-      } else {
-        heartRate = Activity.getActivityInfo().currentHeartRate;
       }
     }
     if (heartRate == null || heartRate == ActivityMonitor.INVALID_HR_SAMPLE) {
