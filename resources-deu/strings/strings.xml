@@ -1,0 +1,24 @@
+<strings>
+  <string id="ThemeEarth">Erde</string>
+  <string id="ThemeBelt">Der Gürtel</string>
+
+  <string id="SettingsThemeTitle">Wähle ein Design</string>
+  <string id="SettingsShowRemainingIndicator">Zeige den verbleibenden Teil des Indikators</string>
+  <string id="SettingsCaloriesGoalTitle">Tägliches Kalorienziel</string>
+  
+  <string id="SettingsPrimaryBottomTitle">Unteres Datenfeld (Äußerer Indikator)</string>
+  <string id="SettingsPrimaryLeftTitle">Linkes Datenfeld (Linker Indikator)</string>
+  <string id="SettingsPrimaryRightTitle">Rechtes Datenfeld (Rechter Indikator)</string>
+  
+  <string id="SettingsSecondary1Title">Datenfeld 1 (Links)</string>
+  <string id="SettingsSecondary2Title">Datenfeld 2 (Mitte)</string>
+  <string id="SettingsSecondary3Title">Datenfeld 3 (Rechts)</string>
+  
+  <string id="DataFieldSteps">Schritte</string>
+  <string id="DataFieldBattery">Batterie</string>
+  <string id="DataFieldCalories">Kalorien</string>
+  <string id="DataFieldActiveMinutes">Aktive Minuten</string>
+  <string id="DataFieldHeartRate">Herzfrequenz</string>
+  <string id="DataFieldMessages">Benachrichtigungen</string>
+  <string id="DataFieldFloorsUp">Treppenaufstieg</string>
+</strings>
