@@ -2,13 +2,13 @@
   <property id="devMode" type="boolean">true</property>
   
   <property id="iconSize" type="number">21</property>
-  <property id="theme" type="number">1</property>
+  <property id="theme" type="number">0</property>
   
   <property id="caloriesGoal" type="number">2000</property>
   
   <property id="primaryDataFieldBottom" type="number">0</property>
-  <property id="primaryDataFieldRight" type="number">1</property>
-  <property id="primaryDataFieldLeft" type="number">2</property>
+  <property id="primaryDataFieldRight" type="number">2</property>
+  <property id="primaryDataFieldLeft" type="number">1</property>
   
   <property id="secondaryDataField1" type="number">4</property>
   <property id="secondaryDataField2" type="number">5</property>
