@@ -16,6 +16,8 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   var gSecondaryDataField1;
   var gSecondaryDataField2;
   var gSecondaryDataField3;
+  var gSimpleLayoutDataFieldLeft;
+  var gSimpleLayoutDataFieldRight;
 
   function initialize() {
     AppBase.initialize();
@@ -38,6 +40,8 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     gSecondaryDataField1 = getProperty("secondaryDataField1");
     gSecondaryDataField2 = getProperty("secondaryDataField2");
     gSecondaryDataField3 = getProperty("secondaryDataField3");
+    gSimpleLayoutDataFieldLeft = getProperty("simpleDataFieldLeft");
+    gSimpleLayoutDataFieldRight = getProperty("simpleDataFieldRight");
   }
 
   // onStart() is called on application start up

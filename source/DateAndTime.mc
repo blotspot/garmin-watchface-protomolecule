@@ -6,7 +6,7 @@ using Toybox.Time.Gregorian;
 
 class DateAndTime extends Ui.Drawable {
 
-  var mBurnInProtection;
+  var mLowPowerMode;
 
   var mWidth;
   var mHeight;
@@ -19,7 +19,7 @@ class DateAndTime extends Ui.Drawable {
     Drawable.initialize(params);
     var device = System.getDeviceSettings();
 
-    mBurnInProtection = params[:burnInProtection] && device.requiresBurnInProtection;
+    mLowPowerMode = params[:lowPowerMode] && device.requiresBurnInProtection;
 
     mWidth = device.screenWidth;
     mHeight = device.screenHeight;
@@ -45,10 +45,10 @@ class DateAndTime extends Ui.Drawable {
 
     var minutesDim = dc.getTextDimensions(minutes, mMinFont);
     var minutesX = mWidth * 0.515;
-    var minutesY = mWidth * 0.48 - hoursDim[1] / 2.0;
+    var minutesY = mWidth * 0.48 - minutesDim[1] / 2.0;
 
     var offset = 0;
-    if (mBurnInProtection) {
+    if (mLowPowerMode) {
       offset = calculateOffset(now.min % 5, dateY, hoursY + hoursDim[1]);
     }
 
@@ -63,7 +63,7 @@ class DateAndTime extends Ui.Drawable {
     dc.drawText(minutesX, minutesY + offset, mMinFont, minutes, Graphics.TEXT_JUSTIFY_LEFT);
   }
 
-  function calculateOffset(multiplicator, startY, endY) {
+  hidden function calculateOffset(multiplicator, startY, endY) {
     var maxY = mHeight - endY;
     var minY = startY * -1;
     var window = maxY - minY;

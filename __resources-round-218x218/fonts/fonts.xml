@@ -2,7 +2,7 @@
   <font id="IconsFont" filename="icon_16.fnt" antialias="true" />
   <font id="HoursFont" filename="PM_90_bold.fnt" antialias="true" />
   <font id="MinutesFont" filename="PM_90_regular.fnt" antialias="true" />
-  <font id="DateFont" filename="PM_21_medium.fnt" antialias="true" />
+  <font id="DateFont" filename="PM_21_regular.fnt" antialias="true" />
   <font id="PrimaryIndicatorFont" filename="PM_21_medium.fnt" antialias="true" />
-  <font id="SecondaryIndicatorFont" filename="PM_21_medium.fnt" antialias="true" />
+  <font id="SecondaryIndicatorFont" filename="PM_21_regular.fnt" antialias="true" />
 </fonts>

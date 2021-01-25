@@ -7,6 +7,7 @@ using Color;
 class SecondaryDataField extends DataFieldDrawable {
 
   hidden var mOffsetMod;
+  hidden var mWidth;
 
   hidden var mYPos;
   hidden var mXPos;
@@ -24,6 +25,9 @@ class SecondaryDataField extends DataFieldDrawable {
 
     mTextFont = Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont);
     mIconFont = Ui.loadResource(Rez.Fonts.IconsFont);
+
+
+    mWidth = System.getDeviceSettings().screenWidth;
   }
 
   function draw(dc) {
@@ -34,6 +38,7 @@ class SecondaryDataField extends DataFieldDrawable {
   function update(dc) {
     var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, mTextFont) + Application.getApp().gIconSize;
     var offset = fieldWidth * mOffsetMod;
+    var penSize = mWidth >= AMOLED_DISPLAY_SIZE ? 4 : 2;
     setClippingRegion(dc, offset);
 
     if (mLastInfo.text.equals("0")) {
@@ -42,8 +47,8 @@ class SecondaryDataField extends DataFieldDrawable {
       dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     }
 
-    drawText(dc, mLastInfo.icon, mIconFont, mXPos - offset);
-    drawText(dc, mLastInfo.text, mTextFont, mXPos - offset + Application.getApp().gIconSize);
+    mLastInfo.icon.invoke(dc, mXPos - offset + (Application.getApp().gIconSize / 2.0), mYPos + 2, Application.getApp().gIconSize, penSize);
+    drawText(dc, mLastInfo.text, mTextFont, mXPos - offset + Application.getApp().gIconSize + 2);
   }
 
   function partialUpdate(dc) {
@@ -62,12 +67,12 @@ class SecondaryDataField extends DataFieldDrawable {
 
   function setClippingRegion(dc, offset) {
     var contentDimensions = getDimensions(dc);
-    dc.setColor(themeColor(mFieldId), Graphics.COLOR_BLACK);
+    dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     dc.setClip(
       mXPos - offset,
       mYPos + 3 - contentDimensions[1] / 2,
-      contentDimensions[0],
-      contentDimensions[1] - 2
+      contentDimensions[0] + 3,
+      contentDimensions[1]
     );
     dc.clear();
   }

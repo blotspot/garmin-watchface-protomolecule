@@ -1,7 +1,7 @@
 <layout id="WatchFace">
 
   <drawable id="DateAndTime" class="DateAndTime">
-    <param name="burnInProtection">false</param>
+    <param name="lowPowerMode">false</param>
   </drawable>
 
   <drawable id="SecondaryDataField1" class="SecondaryDataField">

@@ -35,13 +35,17 @@ class PrimaryDataField extends DataFieldDrawable {
   function update(dc) {
     setClippingRegion(dc);
     dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
+    var penSize = mHeight >= AMOLED_DISPLAY_SIZE ? 4 : 2;
+    var contentDimensions = getDimensions(dc);
 
     if (mTextTop) {
-      drawText(dc, mLastInfo.text, mYPos - 1, mTextFont);
-      drawText(dc, mLastInfo.icon, mYPos + Application.getApp().gIconSize, mIconFont);
+      drawText(dc, mLastInfo.text, mYPos - (Application.getApp().gIconSize / 3.0) + penSize, mTextFont);
+      mLastInfo.icon.invoke(dc, mXPos, mYPos + contentDimensions[1] - Application.getApp().gIconSize, Application.getApp().gIconSize, penSize);
+//      drawText(dc, mLastInfo.icon, mYPos + Application.getApp().gIconSize, mIconFont);
     } else {
-      drawText(dc, mLastInfo.text, mYPos + (Application.getApp().gIconSize - 4), mTextFont);
-      drawText(dc, mLastInfo.icon, mYPos, mIconFont);
+      mLastInfo.icon.invoke(dc, mXPos, mYPos + (Application.getApp().gIconSize / 2.0) + penSize, Application.getApp().gIconSize, penSize);
+      drawText(dc, mLastInfo.text, mYPos + Application.getApp().gIconSize, mTextFont);
+//      drawText(dc, mLastInfo.icon, mYPos, mIconFont);
     }
   }
 
@@ -60,14 +64,14 @@ class PrimaryDataField extends DataFieldDrawable {
       mXPos - contentDimensions[0] / 2,
       mYPos,
       contentDimensions[0],
-      contentDimensions[1] - 2
+      contentDimensions[1]
     );
     dc.clear();
   }
 
   hidden function getDimensions(dc) {
     var dim = dc.getTextDimensions(mLastInfo.text, mTextFont);
-    dim[1] = dim[1] + Application.getApp().gIconSize;
+    dim[1] = dim[1] + Application.getApp().gIconSize + 2;
     if (dim[0] < Application.getApp().gIconSize) {
       dim[0] = Application.getApp().gIconSize;
     }

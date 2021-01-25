@@ -1,5 +1,5 @@
 <layout id="SimpleWatchFace">
   <drawable id="DateAndTime" class="DateAndTime">
-    <param name="burnInProtection">true</param>
+    <param name="lowPowerMode">true</param>
   </drawable>
 </layout>

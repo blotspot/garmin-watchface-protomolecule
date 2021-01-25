@@ -30,6 +30,9 @@ class GoalIndicator extends DataFieldDrawable {
     if (dc has :clearClip) {
       dc.clearClip();
     }
+    if(dc has :setAntiAlias) {
+      dc.setAntiAlias(true);
+    }
     dc.setPenWidth(mWidth >= AMOLED_DISPLAY_SIZE ? 4 : 2);
     var mLastInfo = DataFieldInfo.getInfoForField(mFieldId);
     if (mLastInfo.progress > 1.0) {
@@ -43,6 +46,10 @@ class GoalIndicator extends DataFieldDrawable {
 
     dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     drawProgressArc(dc, mLastInfo.progress, mLastInfo.fieldType == FieldType.BATTERY);
+
+    if(dc has :setAntiAlias) {
+      dc.setAntiAlias(false);
+    }
   }
 
   function partialUpdate(dc) {
@@ -91,10 +98,10 @@ class GoalIndicator extends DataFieldDrawable {
     degree = Math.toRadians(degree);
     var x = mWidth / 2.0 + mRadius * Math.cos(degree);
     var y = mHeight - (mHeight / 2.0 + mRadius * Math.sin(degree));
-    dc.fillCircle(x, y, mWidth >= AMOLED_DISPLAY_SIZE ? 5 : 3);
+    dc.fillCircle(x, y, mWidth >= AMOLED_DISPLAY_SIZE ? 7 : 3.5);
 
     dc.setColor(Graphics.COLOR_WHITE, Color.BACKGROUND);
-    dc.fillCircle(x, y, mWidth >= AMOLED_DISPLAY_SIZE ? 3 : 2);
+    dc.fillCircle(x, y, mWidth >= AMOLED_DISPLAY_SIZE ? 5 : 2.5);
   }
 
   hidden function getFillDegree(fillLevel) {

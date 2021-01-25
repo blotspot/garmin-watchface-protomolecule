@@ -14,5 +14,8 @@
   <property id="secondaryDataField2" type="number">5</property>
   <property id="secondaryDataField3" type="number">3</property>
   
+  <property id="simpleDataFieldLeft" type="number">1</property>
+  <property id="simpleDataFieldRight" type="number">5</property>
+  
   <property id="showRemainingIndicator" type="boolean">false</property>
 </properties>
