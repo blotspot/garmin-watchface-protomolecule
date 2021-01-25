@@ -1,7 +1,7 @@
 using Toybox.System;
 using Toybox.Application;
 
-module Log {
+(:debug) module Log {
 
   function debug(string) {
     if (Application.getApp().gDevMode) {

@@ -39,11 +39,11 @@ class PrimaryDataField extends DataFieldDrawable {
     var contentDimensions = getDimensions(dc);
 
     if (mTextTop) {
-      drawText(dc, mLastInfo.text, mYPos - (Application.getApp().gIconSize / 3.0) + penSize, mTextFont);
+      drawText(dc, mLastInfo.text, mYPos - (Application.getApp().gIconSize / 3.0), mTextFont);
       mLastInfo.icon.invoke(dc, mXPos, mYPos + contentDimensions[1] - Application.getApp().gIconSize, Application.getApp().gIconSize, penSize);
 //      drawText(dc, mLastInfo.icon, mYPos + Application.getApp().gIconSize, mIconFont);
     } else {
-      mLastInfo.icon.invoke(dc, mXPos, mYPos + (Application.getApp().gIconSize / 2.0) + penSize, Application.getApp().gIconSize, penSize);
+      mLastInfo.icon.invoke(dc, mXPos, mYPos + (Application.getApp().gIconSize / 2.0), Application.getApp().gIconSize, penSize);
       drawText(dc, mLastInfo.text, mYPos + Application.getApp().gIconSize, mTextFont);
 //      drawText(dc, mLastInfo.icon, mYPos, mIconFont);
     }

@@ -58,7 +58,7 @@ class SecondaryDataField extends DataFieldDrawable {
   function drawText(dc, text, font, xPos) {
     dc.drawText(
       xPos,
-      mYPos,
+      mYPos + 1,
       font,
       text,
       Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
