@@ -39,7 +39,7 @@ class SecondaryDataField extends DataFieldDrawable {
     var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, mTextFont) + Application.getApp().gIconSize;
     var offset = fieldWidth * mOffsetMod;
     var penSize = mWidth >= AMOLED_DISPLAY_SIZE ? 4 : 2;
-    setClippingRegion(dc, offset);
+    setClippingRegion(dc, offset, penSize);
 
     if (mLastInfo.text.equals("0")) {
       dc.setColor(Color.INACTIVE, Color.BACKGROUND);
@@ -47,8 +47,8 @@ class SecondaryDataField extends DataFieldDrawable {
       dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     }
 
-    mLastInfo.icon.invoke(dc, mXPos - offset + (Application.getApp().gIconSize / 2.0), mYPos + 2, Application.getApp().gIconSize, penSize);
-    drawText(dc, mLastInfo.text, mTextFont, mXPos - offset + Application.getApp().gIconSize + 2);
+    mLastInfo.icon.invoke(dc, mXPos - offset + (Application.getApp().gIconSize / 2.0), mYPos, Application.getApp().gIconSize, penSize);
+    drawText(dc, mLastInfo.text, mTextFont, mXPos - offset + Application.getApp().gIconSize + penSize);
   }
 
   function partialUpdate(dc) {
@@ -58,21 +58,21 @@ class SecondaryDataField extends DataFieldDrawable {
   function drawText(dc, text, font, xPos) {
     dc.drawText(
       xPos,
-      mYPos + 1,
+      mYPos - 1,
       font,
       text,
       Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
     );
   }
 
-  function setClippingRegion(dc, offset) {
+  function setClippingRegion(dc, offset, penSize) {
     var contentDimensions = getDimensions(dc);
     dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     dc.setClip(
       mXPos - offset,
-      mYPos + 3 - contentDimensions[1] / 2,
-      contentDimensions[0] + 3,
-      contentDimensions[1]
+      mYPos - contentDimensions[1] / 2 - penSize / 2,
+      contentDimensions[0] + penSize,
+      contentDimensions[1] + penSize
     );
     dc.clear();
   }

@@ -33,14 +33,14 @@ class PrimaryDataField extends DataFieldDrawable {
   }
 
   function update(dc) {
-    setClippingRegion(dc);
-    dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     var penSize = mHeight >= AMOLED_DISPLAY_SIZE ? 4 : 2;
+    setClippingRegion(dc, penSize);
+    dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     var contentDimensions = getDimensions(dc);
 
     if (mTextTop) {
       drawText(dc, mLastInfo.text, mYPos - (Application.getApp().gIconSize / 3.0), mTextFont);
-      mLastInfo.icon.invoke(dc, mXPos, mYPos + contentDimensions[1] - Application.getApp().gIconSize, Application.getApp().gIconSize, penSize);
+      mLastInfo.icon.invoke(dc, mXPos, mYPos + contentDimensions[1] - Application.getApp().gIconSize + penSize, Application.getApp().gIconSize, penSize);
 //      drawText(dc, mLastInfo.icon, mYPos + Application.getApp().gIconSize, mIconFont);
     } else {
       mLastInfo.icon.invoke(dc, mXPos, mYPos + (Application.getApp().gIconSize / 2.0), Application.getApp().gIconSize, penSize);
@@ -57,14 +57,14 @@ class PrimaryDataField extends DataFieldDrawable {
     dc.drawText(mXPos, yPos, font, text, Graphics.TEXT_JUSTIFY_CENTER);
   }
 
-  hidden function setClippingRegion(dc) {
-    dc.setColor(themeColor(mFieldId), Graphics.COLOR_BLACK);
+  hidden function setClippingRegion(dc, penSize) {
+    dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     var contentDimensions = getDimensions(dc);
     dc.setClip(
-      mXPos - contentDimensions[0] / 2,
-      mYPos,
-      contentDimensions[0],
-      contentDimensions[1]
+      mXPos - contentDimensions[0] / 2 - penSize / 2,
+      mYPos - penSize / 2,
+      contentDimensions[0] + penSize,
+      contentDimensions[1] + penSize
     );
     dc.clear();
   }

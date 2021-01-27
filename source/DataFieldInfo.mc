@@ -134,12 +134,12 @@ module DataFieldInfo {
   }
 
   function getNotificationInfo() {
-    var notifications = System.getDeviceSettings().notificationCount.format(Format.INT);
-    var notifyFunc = new Lang.Method(DataFieldIcons, :drawNotificationActive);
-    if (notifications == 0) {
-      notifyFunc = new Lang.Method(DataFieldIcons, :drawNotificationInactive);
-    }
-    return new DataFieldProperties(FieldType.NOTIFICATION, notifyFunc, notifications, 0);
+    var notifications = System.getDeviceSettings().notificationCount;
+
+    var iconFunc = new Lang.Method(DataFieldIcons, :drawNotificationActive);
+    if (notifications == 0) { iconFunc = new Lang.Method(DataFieldIcons, :drawNotificationInactive); }
+
+    return new DataFieldProperties(FieldType.NOTIFICATION, iconFunc, notifications.format(Format.INT), 0);
   }
 
   function getBatteryInfo() {

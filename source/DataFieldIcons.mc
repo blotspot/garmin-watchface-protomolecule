@@ -22,8 +22,15 @@ module DataFieldIcons {
 
   function drawBatteryLow(dc, x, y, size, penSize) {
     setAntiAlias(dc);
-
-    drawBattery(dc, x, y, size, penSize);
+    dc.setPenWidth(penSize / 2);
+    var buffer = getBuffer(size);
+    var unfilledSize = size - penSize;
+    dc.drawLine(x + (unfilledSize / 2.0) - buffer, y, x - (buffer + penSize), y + unfilledSize / 2.0);
+    dc.drawLine(x - (buffer + penSize), y + unfilledSize / 2.0, x - buffer, y);
+    dc.drawLine(x - buffer, y, x - (unfilledSize / 2.0), y);
+    dc.drawLine(x - (unfilledSize / 2.0), y, x + penSize, y - (unfilledSize / 2.0));
+    dc.drawLine(x + penSize, y - (unfilledSize / 2.0), x, y);
+    dc.drawLine(x, y, x + (unfilledSize / 2.0) - buffer, y);
 
     unsetAntiAlias(dc);
   }
@@ -35,21 +42,51 @@ module DataFieldIcons {
 
     // arrow up
     dc.fillPolygon([
-      [x + size / 2.0, y - size / 4.0 - buffer],
-      [x + size / 6.0, y - size / 4.0 - buffer],
-      [x + size / 3.0, y - size / 2.0 - buffer]
+      [x + size / 2.0, y - size / 4.0 + buffer],
+      [x + size / 6.0, y - size / 4.0 + buffer],
+      [x + size / 3.0, y - size / 2.0 + buffer]
     ]);
     unsetAntiAlias(dc);
   }
 
   function drawSteps(dc, x, y, size, penSize) {
-    dc.drawText(
-      x,
-      y,
-      Ui.loadResource(Rez.Fonts.IconsFont),
-      "S",
-      Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
-    );
+    // dc.drawText(
+    //   x,
+    //   y,
+    //   Ui.loadResource(Rez.Fonts.IconsFont),
+    //   "S",
+    //   Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+    // );
+    setAntiAlias(dc);
+
+    var buffer = getBuffer(size);
+    var bodyWeight = penSize * 1.5;
+    var limbWeight = penSize;
+    var angleTan = Math.tan(Math.toRadians(20));
+
+    var pos1 = size / 3.0 + buffer;
+    dc.fillCircle(x + pos1 * angleTan, y - pos1, penSize);
+    
+    dc.setPenWidth(bodyWeight);
+    pos1 = size / 6.0;
+    dc.drawLine(x + pos1 * angleTan, y - pos1, x - pos1 * angleTan, y + pos1);
+
+    dc.setPenWidth(limbWeight);
+    var pos2 = size / 2.0;
+    // foot back
+    dc.drawLine(x - pos1 * angleTan, y + pos1, x - pos2 * angleTan, y + pos2);
+    dc.drawLine(x - pos1 * angleTan, y + pos1, x + size / 6.0, y + (size / 3.0));
+    dc.drawLine(x + size / 6.0, y + (size / 3.0), x + size / 6.0 + buffer, y + pos2);
+  
+    // arm back
+    dc.drawLine(x + pos1 * angleTan, y - pos1, x - (size / 4.0), y);
+    // dc.drawLine(x - (size / 6.0), y - buffer, x - (size / 4.0 + buffer), y);
+
+     // arm front
+    dc.drawLine(x + pos1 * angleTan, y - pos1, x + (size / 6.0), y);
+    dc.drawLine(x + (size / 6.0), y, x + size / 3.0, y + buffer);
+
+    unsetAntiAlias(dc);
   }
 
   function drawCalories(dc, x, y, size, penSize) {
@@ -104,7 +141,8 @@ module DataFieldIcons {
     var smallX = (x - size / 2.0) + size - (size / 2.0 + (radius + penSize / 2.0) * Math.cos(degree));
     var smallY = (y - size / 2.0) + size - (size / 2.0 + (radius + penSize / 2.0) * Math.sin(degree));
 
-    dc.drawCircle(smallX, smallY, (radius - buffer) / 2.0);
+    dc.setPenWidth(penSize / 2);
+     dc.drawCircle(smallX, smallY, (radius - buffer) / 2.0);
 
     unsetAntiAlias(dc);
   }
@@ -180,22 +218,22 @@ module DataFieldIcons {
     var buffer = getBuffer(size);
     var stairSize = Math.floor(size / 4.0);
 
-    dc.fillRoundedRectangle(x - stairSize * 2, y + stairSize, stairSize, stairSize, 1);
-    dc.fillRoundedRectangle(x - stairSize, y, stairSize, stairSize, 1);
-    dc.fillRoundedRectangle(x, y - stairSize, stairSize, stairSize, 1);
-    dc.fillRoundedRectangle(x + stairSize, y - stairSize * 2, stairSize, stairSize, 1);
+    dc.fillRoundedRectangle(x + stairSize, y + stairSize, stairSize, stairSize, 1);
+    dc.fillRoundedRectangle(x, y, stairSize, stairSize, 1);
+    dc.fillRoundedRectangle(x - stairSize, y - stairSize, stairSize, stairSize, 1);
+    dc.fillRoundedRectangle(x - stairSize * 2, y - stairSize * 2, stairSize, stairSize, 1);
 
     dc.fillPolygon([
-      [x + stairSize * 2 - buffer, y - stairSize * 2 + buffer], // rechts rand
-      [x + stairSize * 2, y - stairSize], // rechts unten
-      [x - stairSize, y + stairSize * 2], // links unten
-      [x - stairSize * 2 + buffer, y + stairSize * 2 - buffer], // links rand
+      [x - stairSize * 2 + buffer, y - stairSize * 2 + buffer], // rechts rand
+      [x - stairSize * 2, y - stairSize], // rechts unten
+      [x + stairSize, y + stairSize * 2], // links unten
+      [x + stairSize * 2 - buffer, y + stairSize * 2 - buffer], // links rand
     ]);
-    // arrow up
+    // arrow down
     dc.fillPolygon([
-      [x - size / 2.0, y - size / 2.0 + buffer],
-      [x - size / 6.0, y - size / 2.0 + buffer],
-      [x - size / 3.0, y - size / 4.0 + buffer]
+      [x + size / 2.0, y - size / 2.0 + buffer],
+      [x + size / 6.0, y - size / 2.0 + buffer],
+      [x + size / 3.0, y - size / 4.0 + buffer]
     ]);
 
     unsetAntiAlias(dc);

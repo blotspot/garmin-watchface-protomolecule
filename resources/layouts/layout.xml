@@ -22,9 +22,9 @@
   
   <drawable id="BottomDataField" class="PrimaryDataField">
     <param name="fieldId">0</param>
-    <param name="textTop">true</param>
+    <param name="textTop">false</param>
     <param name="relativeXPos">0.5</param>
-    <param name="relativeYPos">0.8</param>
+    <param name="relativeYPos">0.785</param>
   </drawable>
   <drawable id="OuterGoalIndicator" class="GoalIndicator">
     <param name="fieldId">0</param>
