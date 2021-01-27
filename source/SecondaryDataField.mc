@@ -1,13 +1,11 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics;
-using Toybox.System;
 using Toybox.Application;
 using Color;
 
 class SecondaryDataField extends DataFieldDrawable {
 
   hidden var mOffsetMod;
-  hidden var mWidth;
 
   hidden var mYPos;
   hidden var mXPos;
@@ -20,14 +18,11 @@ class SecondaryDataField extends DataFieldDrawable {
 
     mFieldId = params[:fieldId];
     mOffsetMod = params[:offsetModifier];
-    mXPos = params[:relativeXPos] * System.getDeviceSettings().screenWidth;
-    mYPos = 0.685 * System.getDeviceSettings().screenHeight;
+    mXPos = params[:relativeXPos] * app.gWidth;
+    mYPos = 0.685 * app.gHeight;
 
     mTextFont = Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont);
     mIconFont = Ui.loadResource(Rez.Fonts.IconsFont);
-
-
-    mWidth = System.getDeviceSettings().screenWidth;
   }
 
   function draw(dc) {
@@ -36,10 +31,9 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function update(dc) {
-    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, mTextFont) + Application.getApp().gIconSize;
+    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, mTextFont) + app.gIconSize;
     var offset = fieldWidth * mOffsetMod;
-    var penSize = mWidth >= AMOLED_DISPLAY_SIZE ? 4 : 2;
-    setClippingRegion(dc, offset, penSize);
+    setClippingRegion(dc, offset, app.gStrokeWidth);
 
     if (mLastInfo.text.equals("0")) {
       dc.setColor(Color.INACTIVE, Color.BACKGROUND);
@@ -47,8 +41,8 @@ class SecondaryDataField extends DataFieldDrawable {
       dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     }
 
-    mLastInfo.icon.invoke(dc, mXPos - offset + (Application.getApp().gIconSize / 2.0), mYPos, Application.getApp().gIconSize, penSize);
-    drawText(dc, mLastInfo.text, mTextFont, mXPos - offset + Application.getApp().gIconSize + penSize);
+    mLastInfo.icon.invoke(dc, mXPos - offset + (app.gIconSize / 2.0), mYPos, app.gIconSize, app.gStrokeWidth);
+    drawText(dc, mLastInfo.text, mTextFont, mXPos - offset + app.gIconSize + app.gStrokeWidth);
   }
 
   function partialUpdate(dc) {
@@ -79,9 +73,9 @@ class SecondaryDataField extends DataFieldDrawable {
 
   function getDimensions(dc) {
     var dim = dc.getTextDimensions(mLastInfo.text, mTextFont);
-    dim[0] = dim[0] + Application.getApp().gIconSize;
-    if (dim[1] < Application.getApp().gIconSize) {
-      dim[1] = Application.getApp().gIconSize;
+    dim[0] = dim[0] + app.gIconSize;
+    if (dim[1] < app.gIconSize) {
+      dim[1] = app.gIconSize;
     }
 
     return dim;

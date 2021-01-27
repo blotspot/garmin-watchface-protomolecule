@@ -1,11 +1,16 @@
 using Toybox.Application;
+using Toybox.Math;
+using Toybox.System;
 
 const AMOLED_DISPLAY_SIZE = 390;
 
 class ProtomoleculeFaceApp extends Application.AppBase {
 
   var gDevMode;
+  var gWidth;
+  var gHeight;
   var gIconSize;
+  var gStrokeWidth;
 
   var gTheme;
   var gCaloriesGoal;
@@ -25,8 +30,11 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   }
 
   function loadProperties() {
-    gIconSize = getProperty("iconSize");
     gDevMode = getProperty("devMode");
+    gWidth = System.getDeviceSettings().screenWidth;
+    gHeight = System.getDeviceSettings().screenHeight;
+    gIconSize = Math.round((gWidth + gHeight) / 2 / 12.4);
+    gStrokeWidth = Math.round((gWidth + gHeight) / 2 / 100);
     loadConfigurableProperties();
   }
 

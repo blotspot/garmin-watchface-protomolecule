@@ -1,5 +1,4 @@
 using Toybox.WatchUi as Ui;
-using Toybox.System;
 using Toybox.Math;
 using Toybox.Graphics;
 
@@ -50,13 +49,6 @@ module DataFieldIcons {
   }
 
   function drawSteps(dc, x, y, size, penSize) {
-    // dc.drawText(
-    //   x,
-    //   y,
-    //   Ui.loadResource(Rez.Fonts.IconsFont),
-    //   "S",
-    //   Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
-    // );
     setAntiAlias(dc);
 
     var buffer = getBuffer(size);
@@ -90,13 +82,21 @@ module DataFieldIcons {
   }
 
   function drawCalories(dc, x, y, size, penSize) {
-    dc.drawText(
-      x,
-      y,
-      Ui.loadResource(Rez.Fonts.IconsFont),
-      "C",
-      Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
-    );
+    setAntiAlias(dc);
+    dc.setPenWidth(penSize * 0.75);
+    
+    var buffer = getBuffer(size);
+    dc.drawEllipse(x, y, size / 2.0, size / 4.0);
+    dc.drawEllipse(x, y, size / 4.0, size / 2.0);
+    dc.fillCircle(x, y, penSize);
+    // dc.drawText(
+    //   x,
+    //   y,
+    //   Ui.loadResource(Rez.Fonts.IconsFont),
+    //   "C",
+    //   Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+    // );
+    unsetAntiAlias(dc);
   }
 
   function drawActiveMinutes(dc, x, y, size, penSize) {

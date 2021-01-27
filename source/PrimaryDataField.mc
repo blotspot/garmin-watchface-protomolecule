@@ -1,12 +1,9 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics;
-using Toybox.System;
-using Toybox.Application;
 using Toybox.ActivityMonitor;
 
 class PrimaryDataField extends DataFieldDrawable {
 
-  hidden var mHeight;
   hidden var mXPos;
   hidden var mYPos;
   hidden var mTextTop;
@@ -16,10 +13,9 @@ class PrimaryDataField extends DataFieldDrawable {
 
   function initialize(params) {
     DataFieldDrawable.initialize(params);
-    var device = System.getDeviceSettings();
-    mHeight = device.screenHeight;
-    mXPos = params[:relativeXPos] * device.screenWidth;
-    mYPos = params[:relativeYPos] * device.screenHeight;
+    
+    mXPos = params[:relativeXPos] * app.gWidth;
+    mYPos = params[:relativeYPos] * app.gHeight;
 
     mTextTop = params[:textTop];
 
@@ -33,18 +29,28 @@ class PrimaryDataField extends DataFieldDrawable {
   }
 
   function update(dc) {
-    var penSize = mHeight >= AMOLED_DISPLAY_SIZE ? 4 : 2;
-    setClippingRegion(dc, penSize);
+    setClippingRegion(dc, app.gStrokeWidth);
     dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
     var contentDimensions = getDimensions(dc);
 
     if (mTextTop) {
-      drawText(dc, mLastInfo.text, mYPos - (Application.getApp().gIconSize / 3.0), mTextFont);
-      mLastInfo.icon.invoke(dc, mXPos, mYPos + contentDimensions[1] - Application.getApp().gIconSize + penSize, Application.getApp().gIconSize, penSize);
-//      drawText(dc, mLastInfo.icon, mYPos + Application.getApp().gIconSize, mIconFont);
+      drawText(dc, mLastInfo.text, mYPos - (app.gIconSize / 3.0), mTextFont);
+      mLastInfo.icon.invoke(
+        dc,
+        mXPos, 
+        mYPos + contentDimensions[1] - app.gIconSize + app.gStrokeWidth,
+        app.gIconSize,
+        app.gStrokeWidth
+      );
     } else {
-      mLastInfo.icon.invoke(dc, mXPos, mYPos + (Application.getApp().gIconSize / 2.0), Application.getApp().gIconSize, penSize);
-      drawText(dc, mLastInfo.text, mYPos + Application.getApp().gIconSize, mTextFont);
+      mLastInfo.icon.invoke(
+        dc,
+        mXPos,
+        mYPos + (app.gIconSize / 2.0), 
+        app.gIconSize, 
+        app.gStrokeWidth
+      );
+      drawText(dc, mLastInfo.text, mYPos + app.gIconSize, mTextFont);
 //      drawText(dc, mLastInfo.icon, mYPos, mIconFont);
     }
   }
@@ -71,9 +77,9 @@ class PrimaryDataField extends DataFieldDrawable {
 
   hidden function getDimensions(dc) {
     var dim = dc.getTextDimensions(mLastInfo.text, mTextFont);
-    dim[1] = dim[1] + Application.getApp().gIconSize + 2;
-    if (dim[0] < Application.getApp().gIconSize) {
-      dim[0] = Application.getApp().gIconSize;
+    dim[1] = dim[1] + app.gIconSize + 2;
+    if (dim[0] < app.gIconSize) {
+      dim[0] = app.gIconSize;
     }
 
     return dim;
