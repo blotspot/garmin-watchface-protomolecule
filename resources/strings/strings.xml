@@ -25,4 +25,5 @@
   <string id="DataFieldHeartRate">Heartrate</string>
   <string id="DataFieldMessages">Notifications</string>
   <string id="DataFieldFloorsUp">Floors Up</string>
+  <string id="DataFieldFloorsDown">Floors Down</string>
 </strings>

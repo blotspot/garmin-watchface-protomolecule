@@ -25,7 +25,7 @@ module FieldId {
 
 module FieldType {
   enum {
-    STEPS, BATTERY, CALORIES, ACTIVE_MINUTES, HEART_RATE, NOTIFICATION, FLOORS_UP
+    STEPS, BATTERY, CALORIES, ACTIVE_MINUTES, HEART_RATE, NOTIFICATION, FLOORS_UP, FLOORS_DOWN
   }
 }
 
@@ -102,6 +102,9 @@ module DataFieldInfo {
       case FieldType.FLOORS_UP:
         return getFloorsClimbedInfo();
 
+      case FieldType.FLOORS_UP:
+        return getFloorsDescendInfo();
+
       case FieldType.ACTIVE_MINUTES:
         return getActiveMinuteInfo();
 
@@ -165,6 +168,13 @@ module DataFieldInfo {
     var current = activityInfo.floorsClimbed.toDouble();
 
     return new DataFieldProperties(FieldType.FLOORS_UP, new Lang.Method(DataFieldIcons, :drawFloorsUp), current.format(Format.INT), current / activityInfo.floorsClimbedGoal);
+  }
+
+  function getFloorsDescentInfo() {
+    var activityInfo = ActivityMonitor.getInfo();
+    var current = activityInfo.floorsDescended.toDouble();
+
+    return new DataFieldProperties(FieldType.FLOORS_UP, new Lang.Method(DataFieldIcons, :drawFloorsDown), current.format(Format.INT), current / activityInfo.floorsClimbedGoal);
   }
 
   function getActiveMinuteInfo() {
