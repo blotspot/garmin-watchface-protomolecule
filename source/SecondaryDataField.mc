@@ -11,7 +11,6 @@ class SecondaryDataField extends DataFieldDrawable {
   hidden var mXPos;
 
   hidden var mTextFont;
-  hidden var mIconFont;
 
   function initialize(params) {
     DataFieldDrawable.initialize(params);
@@ -22,7 +21,6 @@ class SecondaryDataField extends DataFieldDrawable {
     mYPos = 0.685 * app.gHeight;
 
     mTextFont = Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont);
-    mIconFont = Ui.loadResource(Rez.Fonts.IconsFont);
   }
 
   function draw(dc) {

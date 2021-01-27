@@ -89,13 +89,7 @@ module DataFieldIcons {
     dc.drawEllipse(x, y, size / 2.0, size / 4.0);
     dc.drawEllipse(x, y, size / 4.0, size / 2.0);
     dc.fillCircle(x, y, penSize);
-    // dc.drawText(
-    //   x,
-    //   y,
-    //   Ui.loadResource(Rez.Fonts.IconsFont),
-    //   "C",
-    //   Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
-    // );
+    
     unsetAntiAlias(dc);
   }
 

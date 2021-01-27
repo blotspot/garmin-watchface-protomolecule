@@ -2,8 +2,6 @@ using Toybox.Application;
 using Toybox.Math;
 using Toybox.System;
 
-const AMOLED_DISPLAY_SIZE = 390;
-
 class ProtomoleculeFaceApp extends Application.AppBase {
 
   var gDevMode;

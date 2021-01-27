@@ -9,7 +9,6 @@ class PrimaryDataField extends DataFieldDrawable {
   hidden var mTextTop;
 
   hidden var mTextFont;
-  hidden var mIconFont;
 
   function initialize(params) {
     DataFieldDrawable.initialize(params);
@@ -20,7 +19,6 @@ class PrimaryDataField extends DataFieldDrawable {
     mTextTop = params[:textTop];
 
     mTextFont = Ui.loadResource(Rez.Fonts.PrimaryIndicatorFont);
-    mIconFont = Ui.loadResource(Rez.Fonts.IconsFont);
   }
 
   function draw(dc) {
