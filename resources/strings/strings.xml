@@ -9,6 +9,7 @@
   <string id="SettingsThemeTitle">Choose Theme</string>
   <string id="SettingsShowRemainingIndicator">Show Remaining Part of Indicator</string>
   <string id="SettingsCaloriesGoalTitle">Daily Calories Goal</string>
+  <string id="SettingsBatteryThresholdTitle">Battery empty icon at %</string>
   
   <string id="SettingsPrimaryBottomTitle">Bottom DataField (Outer Indicator)</string>
   <string id="SettingsPrimaryRightTitle">Right DataField (Right Indicator)</string>

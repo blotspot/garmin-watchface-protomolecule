@@ -21,7 +21,7 @@ module DataFieldIcons {
 
   function drawBatteryLow(dc, x, y, size, penSize) {
     _setAntiAlias(dc);
-    dc.setPenWidth(penSize / 2);
+    dc.setPenWidth(penSize * 0.75);
     var buffer = _getBuffer(size);
     var unfilledSize = size - penSize;
     dc.drawLine(x + (unfilledSize / 2.0) - buffer, y, x - (buffer + penSize), y + unfilledSize / 2.0);
@@ -86,20 +86,21 @@ module DataFieldIcons {
     dc.setPenWidth(penSize * 0.75);
     
     var buffer = _getBuffer(size);
+    var radius = size - penSize -buffer;
     // first layer
-    var x1 = x - size / 2.0;
-    var x2 = x + size / 2.0;
-    var y1 = y - size / 2.0;
-    var y2 = y + size / 2.0;
-    dc.drawArc(x1, y1, size, Graphics.ARC_CLOCKWISE, 0, 270);
-    dc.drawArc(x2, y2, size, Graphics.ARC_CLOCKWISE, 180, 90);
-    // dc.fillCircle(x1 + size * Math.cos(Math.toRadians(10)), y1 + size * Math.sin(Math.toRadians(10)), penSize);
-    dc.fillCircle(x1 + size * Math.cos(Math.toRadians(80)), y1 + size * Math.sin(Math.toRadians(80)), penSize);
+    var x1 = x - radius / 2.0;
+    var x2 = x + radius / 2.0;
+    var y1 = y - radius / 2.0;
+    var y2 = y + radius / 2.0;
+    
+    dc.drawArc(x1, y1, radius, Graphics.ARC_CLOCKWISE, 0, 270);
+    dc.drawArc(x2, y2, radius, Graphics.ARC_CLOCKWISE, 180, 90);
+    dc.fillCircle(x1 + radius * Math.cos(Math.toRadians(80)), y1 + radius * Math.sin(Math.toRadians(80)), penSize);
 
     // second layer
-    dc.drawArc(x2, y1, size, Graphics.ARC_CLOCKWISE, 270, 180);
-    dc.drawArc(x1, y2, size, Graphics.ARC_CLOCKWISE, 90, 0);
-    dc.fillCircle(x1 + size * Math.cos(Math.toRadians(290)), y2 + size * Math.sin(Math.toRadians(290)), penSize);
+    dc.drawArc(x2, y1, radius, Graphics.ARC_CLOCKWISE, 270, 180);
+    dc.drawArc(x1, y2, radius, Graphics.ARC_CLOCKWISE, 90, 0);
+    dc.fillCircle(x1 + radius * Math.cos(Math.toRadians(290)), y2 + radius * Math.sin(Math.toRadians(290)), penSize);
 
     // core
     dc.fillCircle(x, y, penSize);
@@ -117,9 +118,6 @@ module DataFieldIcons {
     var radius = (size - penSize - buffer) / 2.0;
     dc.drawCircle(x, y, radius); // watch
 
-    dc.drawLine(x, y - (size * 0.2), x, y); // watch hand up
-    dc.drawLine(x, y, x + (size * 0.2), y); // watch hand right
-
     // watch button top
     dc.drawLine(x, y - radius - penSize, x, y - radius);
     dc.drawLine(x - buffer, y - radius - (penSize * 1.5), x + buffer, y - radius - (penSize * 1.5));
@@ -131,6 +129,10 @@ module DataFieldIcons {
     var buttonY1 = (y - size / 2.0) + size - (size / 2.0 + (radius + penSize / 2.0) * Math.sin(degree));
     var buttonY2 = (y - size / 2.0) + size - (size / 2.0 + radius * Math.sin(degree));
     dc.drawLine(buttonX1, buttonY1, buttonX2, buttonY2);
+
+    dc.setPenWidth(penSize * 0.75);
+    dc.drawLine(x, y - (size * 0.2), x, y); // watch hand up
+    dc.drawLine(x, y, x + (size * 0.2), y); // watch hand right
 
     _unsetAntiAlias(dc);
   }

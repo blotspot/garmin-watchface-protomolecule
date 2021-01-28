@@ -9,6 +9,7 @@
   <string id="SettingsThemeTitle">Wähle ein Design</string>
   <string id="SettingsShowRemainingIndicator">Zeige den verbleibenden Teil des Indikators</string>
   <string id="SettingsCaloriesGoalTitle">Tägliches Kalorienziel</string>
+  <string id="SettingsBatteryThresholdTitle">'Batterie leer' Icon bei %</string>
   
   <string id="SettingsPrimaryBottomTitle">Unteres Datenfeld (Äußerer Indikator)</string>
   <string id="SettingsPrimaryLeftTitle">Linkes Datenfeld (Linker Indikator)</string>
@@ -25,4 +26,5 @@
   <string id="DataFieldHeartRate">Herzfrequenz</string>
   <string id="DataFieldMessages">Benachrichtigungen</string>
   <string id="DataFieldFloorsUp">Treppenaufstieg</string>
+  <string id="DataFieldFloorsDown">Treppenabstieg</string>
 </strings>

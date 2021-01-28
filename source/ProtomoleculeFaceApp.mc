@@ -12,6 +12,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
 
   var gTheme;
   var gCaloriesGoal;
+  var gBatteryThreshold;
   var gDrawRemainingIndicator;
   var gPrimaryDataFieldBottom;
   var gPrimaryDataFieldRight;
@@ -39,6 +40,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   function loadConfigurableProperties() {
     gTheme = getProperty("theme");
     gCaloriesGoal = getProperty("caloriesGoal");
+    gBatteryThreshold = getProperty("batteryThreshold");
     gDrawRemainingIndicator = getProperty("showRemainingIndicator");
     gPrimaryDataFieldBottom = getProperty("primaryDataFieldBottom");
     gPrimaryDataFieldRight = getProperty("primaryDataFieldRight");

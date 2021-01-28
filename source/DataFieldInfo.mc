@@ -102,8 +102,8 @@ module DataFieldInfo {
       case FieldType.FLOORS_UP:
         return getFloorsClimbedInfo();
 
-      case FieldType.FLOORS_UP:
-        return getFloorsDescendInfo();
+      case FieldType.FLOORS_DOWN:
+        return getFloorsDescentInfo();
 
       case FieldType.ACTIVE_MINUTES:
         return getActiveMinuteInfo();
@@ -149,7 +149,7 @@ module DataFieldInfo {
     var stats = System.getSystemStats();
     var current = stats.battery;
     var iconFunc = new Lang.Method(DataFieldIcons, :drawBattery);
-    if (current < 10) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLow); }
+    if (current < Application.getApp().gBatteryThreshold) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLow); }
     if (stats.charging) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLoading); }
 
 
@@ -174,7 +174,7 @@ module DataFieldInfo {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.floorsDescended.toDouble();
 
-    return new DataFieldProperties(FieldType.FLOORS_UP, new Lang.Method(DataFieldIcons, :drawFloorsDown), current.format(Format.INT), current / activityInfo.floorsClimbedGoal);
+    return new DataFieldProperties(FieldType.FLOORS_DOWN, new Lang.Method(DataFieldIcons, :drawFloorsDown), current.format(Format.INT), current / activityInfo.floorsClimbedGoal);
   }
 
   function getActiveMinuteInfo() {
