@@ -65,6 +65,10 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     return [ new ProtomoleculeFaceView() ];
   }
 
+  // function getSettingsView() {
+  //   return [ new ProtomoleculeSettingsView() ]
+  // }
+
   // New app settings have been received so trigger a UI update
   function onSettingsChanged() {
     loadConfigurableProperties();

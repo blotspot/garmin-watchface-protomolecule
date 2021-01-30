@@ -28,7 +28,7 @@ class PrimaryDataField extends DataFieldDrawable {
 
   function update(dc) {
     setClippingRegion(dc, app.gStrokeWidth);
-    dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
+    dc.setColor(themeColor(mFieldId), Graphics.COLOR_TRANSPARENT);
     var contentDimensions = getDimensions(dc);
 
     if (mTextTop) {
@@ -62,7 +62,7 @@ class PrimaryDataField extends DataFieldDrawable {
   }
 
   hidden function setClippingRegion(dc, penSize) {
-    dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
+    dc.setColor(themeColor(mFieldId), Graphics.COLOR_TRANSPARENT);
     var contentDimensions = getDimensions(dc);
     dc.setClip(
       mXPos - contentDimensions[0] / 2 - penSize / 2,

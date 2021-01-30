@@ -13,8 +13,14 @@ module DataFieldIcons {
     _setAntiAlias(dc);
 
     var buffer = _getBuffer(size);
-    dc.fillPolygon([[x - buffer, y], [x + (size / 2.0) - buffer, y], [x - (buffer + penSize), y + (size / 2.0)]]);
-    dc.fillPolygon([[x + buffer, y], [x - (size / 2.0) + buffer, y], [x + (buffer + penSize), y - (size / 2.0)]]);
+    dc.fillPolygon([
+      [x + (size / 2.0) - buffer, y], // right outer edge
+      [x - (buffer + penSize), y + size / 2.0],  // bottom edge
+      [x - 1, y + buffer], // left  inner edge
+      [x - (size / 2.0) + buffer, y], // left edge
+      [x + buffer + penSize, y - size / 2.0], // top edge
+      [x + 1, y - buffer] // right inner edge
+    ]);
 
     _unsetAntiAlias(dc);
   }
@@ -25,11 +31,11 @@ module DataFieldIcons {
     var buffer = _getBuffer(size);
     var unfilledSize = size - penSize;
     dc.drawLine(x + (unfilledSize / 2.0) - buffer, y, x - (buffer + penSize), y + unfilledSize / 2.0);
-    dc.drawLine(x - (buffer + penSize), y + unfilledSize / 2.0, x - buffer, y);
-    dc.drawLine(x - buffer, y, x - (unfilledSize / 2.0), y);
-    dc.drawLine(x - (unfilledSize / 2.0), y, x + penSize, y - (unfilledSize / 2.0));
-    dc.drawLine(x + penSize, y - (unfilledSize / 2.0), x, y);
-    dc.drawLine(x, y, x + (unfilledSize / 2.0) - buffer, y);
+    dc.drawLine(x - (buffer + penSize), y + unfilledSize / 2.0, x - 1, y + buffer);
+    dc.drawLine(x - 1, y + buffer, x - (unfilledSize / 2.0) + buffer, y);
+    dc.drawLine(x - (unfilledSize / 2.0) + buffer, y, x + penSize, y - (unfilledSize / 2.0));
+    dc.drawLine(x + penSize, y - (unfilledSize / 2.0), x + 1, y - buffer);
+    dc.drawLine(x + 1, y - buffer, x + (unfilledSize / 2.0) - buffer, y);
 
     _unsetAntiAlias(dc);
   }
@@ -52,7 +58,7 @@ module DataFieldIcons {
     _setAntiAlias(dc);
 
     var buffer = _getBuffer(size);
-    var bodyWeight = penSize * 1.5;
+    var bodyWeight = penSize * 1.8;
     var limbWeight = penSize;
     var angleTan = Math.tan(Math.toRadians(20));
 

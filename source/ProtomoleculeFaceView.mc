@@ -1,10 +1,9 @@
-using Toybox.WatchUi;
+using Toybox.WatchUi as Ui;
 using Toybox.Graphics;
 using Toybox.System;
 
-class ProtomoleculeFaceView extends WatchUi.WatchFace {
+class ProtomoleculeFaceView extends Ui.WatchFace {
 
-//  var mDataFields;
   var mEnterSleep = false;
 
   function initialize() {
@@ -24,9 +23,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // Update the view
   function onUpdate(dc) {
-    if (dc has :clearClip) {
-      dc.clearClip();
-    }
+    clearClip(dc);
     // Call the parent onUpdate function to redraw the layout
     if (requiresBurnInProtection()) {
       setLayout(mEnterSleep ? Rez.Layouts.SimpleWatchFace(dc) : Rez.Layouts.WatchFace(dc));
@@ -42,7 +39,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // The user has just looked at their watch. Timers and animations may be started here.
   function onExitSleep() {
-    if(requiresBurnInProtection()) {
+    if (requiresBurnInProtection()) {
       mEnterSleep = false;
       WatchUi.requestUpdate();
     }
@@ -50,7 +47,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // Terminate any active timers and prepare for slow updates.
   function onEnterSleep() {
-    if(requiresBurnInProtection()) {
+    if (requiresBurnInProtection()) {
       mEnterSleep = true;
       WatchUi.requestUpdate();
     }
@@ -63,6 +60,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // too expensive
   function onPartialUpdate(dc) {
+    // View.onPartialUpdate(dc);
   }
 
 }

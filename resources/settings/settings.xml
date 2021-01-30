@@ -6,6 +6,8 @@
       <listEntry value="1">@Strings.ThemeEarth</listEntry>
       <listEntry value="2">@Strings.ThemeMars</listEntry>
       <listEntry value="3">@Strings.ThemeBelt</listEntry>
+      <listEntry value="4">@Strings.ThemeExpanseLight</listEntry>
+      <listEntry value="5">@Strings.ThemeEarthLight</listEntry>
     </settingConfig>
   </setting>
 

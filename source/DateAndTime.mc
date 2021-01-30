@@ -1,4 +1,5 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Application;
 using Toybox.Graphics;
 using Toybox.Lang;
 using Toybox.Time;
@@ -8,8 +9,7 @@ class DateAndTime extends Ui.Drawable {
 
   var mLowPowerMode;
 
-  var mWidth;
-  var mHeight;
+  var app;
 
   var mDateFont;
   var mHoursFont;
@@ -21,8 +21,7 @@ class DateAndTime extends Ui.Drawable {
 
     mLowPowerMode = params[:lowPowerMode] && device.requiresBurnInProtection;
 
-    mWidth = device.screenWidth;
-    mHeight = device.screenHeight;
+    app = Application.getApp();
 
     mDateFont = Ui.loadResource(Rez.Fonts.DateFont);
     mHoursFont = Ui.loadResource(Rez.Fonts.HoursFont);
@@ -36,23 +35,23 @@ class DateAndTime extends Ui.Drawable {
     var minutes = now.min.format("%02d");
 
     var dateDim = dc.getTextDimensions(date, mDateFont);
-    var dateX = mWidth * 0.5;
-    var dateY = mHeight * 0.31 - dateDim[1] / 2.0;
+    var dateX = app.gWidth * 0.5;
+    var dateY = app.gHeight * 0.31 - dateDim[1] / 2.0;
 
     var hoursDim = dc.getTextDimensions(hours, mHoursFont);
-    var hoursX = mWidth * 0.485;
-    var hoursY = mWidth * 0.48 - hoursDim[1] / 2.0;
+    var hoursX = app.gWidth * 0.485;
+    var hoursY = app.gWidth * 0.48 - hoursDim[1] / 2.0;
 
     var minutesDim = dc.getTextDimensions(minutes, mMinFont);
-    var minutesX = mWidth * 0.515;
-    var minutesY = mWidth * 0.48 - minutesDim[1] / 2.0;
+    var minutesX = app.gWidth * 0.515;
+    var minutesY = app.gWidth * 0.48 - minutesDim[1] / 2.0;
 
     var offset = 0;
     if (mLowPowerMode) {
       offset = calculateOffset(now.min % 5, dateY, hoursY + hoursDim[1]);
     }
 
-    dc.setColor(Graphics.COLOR_WHITE, Color.BACKGROUND);
+    dc.setColor((mLowPowerMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND)), Graphics.COLOR_TRANSPARENT);
     // Date
     dc.drawText(dateX, dateY + offset, mDateFont, date, Graphics.TEXT_JUSTIFY_CENTER);
 
@@ -64,7 +63,7 @@ class DateAndTime extends Ui.Drawable {
   }
 
   hidden function calculateOffset(multiplicator, startY, endY) {
-    var maxY = mHeight - endY;
+    var maxY = app.gHeight - endY;
     var minY = startY * -1;
     var window = maxY - minY;
     var offset = (window * 0.2) * multiplicator + window * 0.1;

@@ -1,4 +1,5 @@
 <layout id="WatchFace">
+	<drawable id="Background" class="Background"/>
 
   <drawable id="DateAndTime" class="DateAndTime">
     <param name="lowPowerMode">false</param>

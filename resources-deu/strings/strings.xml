@@ -2,14 +2,16 @@
   <string id="AppName">Protomolecule Watch Face</string>
 
   <string id="ThemeExpanse">Expanse</string>
-  <string id="ThemeEarth">Erde</string>
-  <string id="ThemeMars">Mars</string>
-  <string id="ThemeBelt">Der Gürtel</string>
+  <string id="ThemeEarth">UN</string>
+  <string id="ThemeMars">MCR</string>
+  <string id="ThemeBelt">OPA</string>
+  <string id="ThemeExpanseLight">Expanse (Light)</string>
+  <string id="ThemeEarthLight">UN (Light)</string>
 
   <string id="SettingsThemeTitle">Wähle ein Design</string>
   <string id="SettingsShowRemainingIndicator">Zeige den verbleibenden Teil des Indikators</string>
   <string id="SettingsCaloriesGoalTitle">Tägliches Kalorienziel</string>
-  <string id="SettingsBatteryThresholdTitle">'Batterie leer' Icon bei %</string>
+  <string id="SettingsBatteryThresholdTitle">'Batteriestand kritisch' Icon bei %</string>
   
   <string id="SettingsPrimaryBottomTitle">Unteres Datenfeld (Äußerer Indikator)</string>
   <string id="SettingsPrimaryLeftTitle">Linkes Datenfeld (Linker Indikator)</string>
@@ -19,12 +21,12 @@
   <string id="SettingsSecondary2Title">Datenfeld 2 (Mitte)</string>
   <string id="SettingsSecondary3Title">Datenfeld 3 (Rechts)</string>
   
-  <string id="DataFieldSteps">Schritte</string>
-  <string id="DataFieldBattery">Batterie</string>
+  <string id="DataFieldSteps">tägliche Schritte</string>
+  <string id="DataFieldBattery">Batteriestand</string>
   <string id="DataFieldCalories">Kalorien</string>
   <string id="DataFieldActiveMinutes">Aktive Minuten</string>
   <string id="DataFieldHeartRate">Herzfrequenz</string>
   <string id="DataFieldMessages">Benachrichtigungen</string>
-  <string id="DataFieldFloorsUp">Treppenaufstieg</string>
-  <string id="DataFieldFloorsDown">Treppenabstieg</string>
+  <string id="DataFieldFloorsUp">Stockwerke hoch</string>
+  <string id="DataFieldFloorsDown">Stockwerke runter</string>
 </strings>

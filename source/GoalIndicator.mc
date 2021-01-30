@@ -21,12 +21,8 @@ class GoalIndicator extends DataFieldDrawable {
   }
 
   function update(dc) {
-    if (dc has :clearClip) {
-      dc.clearClip();
-    }
-    if(dc has :setAntiAlias) {
-      dc.setAntiAlias(true);
-    }
+    clearClip(dc);
+    setAntiAlias(dc, true);
     dc.setPenWidth(app.gStrokeWidth);
     var mLastInfo = DataFieldInfo.getInfoForField(mFieldId);
     if (mLastInfo.progress > 1.0) {
@@ -34,16 +30,14 @@ class GoalIndicator extends DataFieldDrawable {
     }
 
     if (app.gDrawRemainingIndicator) {
-      dc.setColor(Graphics.COLOR_DK_GRAY, Color.BACKGROUND);
+      dc.setColor(themeColor(Color.INACTIVE), Graphics.COLOR_TRANSPARENT);
       drawRemainingArc(dc, mLastInfo.progress, mLastInfo.fieldType == FieldType.BATTERY);
     }
 
-    dc.setColor(themeColor(mFieldId), Color.BACKGROUND);
+    dc.setColor(themeColor(mFieldId), Graphics.COLOR_TRANSPARENT);
     drawProgressArc(dc, mLastInfo.progress, mLastInfo.fieldType == FieldType.BATTERY);
 
-    if(dc has :setAntiAlias) {
-      dc.setAntiAlias(false);
-    }
+    setAntiAlias(dc, false);
   }
 
   function partialUpdate(dc) {
@@ -94,7 +88,7 @@ class GoalIndicator extends DataFieldDrawable {
     var y = app.gHeight - (app.gHeight / 2.0 + mRadius * Math.sin(degree));
     dc.fillCircle(x, y, app.gStrokeWidth + app.gStrokeWidth * 0.75);
 
-    dc.setColor(Graphics.COLOR_WHITE, Color.BACKGROUND);
+    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     dc.fillCircle(x, y, app.gStrokeWidth + app.gStrokeWidth * 0.25);
   }
 

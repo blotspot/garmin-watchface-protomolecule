@@ -2,9 +2,11 @@
   <string id="AppName">Protomolecule Watch Face</string>
 
   <string id="ThemeExpanse">Expanse</string>
-  <string id="ThemeEarth">Earth</string>
-  <string id="ThemeMars">Mars</string>
-  <string id="ThemeBelt">The Belt</string>
+  <string id="ThemeEarth">UN</string>
+  <string id="ThemeMars">MCR</string>
+  <string id="ThemeBelt">OPA</string>
+  <string id="ThemeExpanseLight">Expanse (Light)</string>
+  <string id="ThemeEarthLight">UN (Light)</string>
 
   <string id="SettingsThemeTitle">Choose Theme</string>
   <string id="SettingsShowRemainingIndicator">Show Remaining Part of Indicator</string>
