@@ -13,9 +13,8 @@ class PrimaryDataField extends DataFieldDrawable {
   function initialize(params) {
     DataFieldDrawable.initialize(params);
     
-    mXPos = params[:relativeXPos] * app.gWidth;
-    mYPos = params[:relativeYPos] * app.gHeight;
-
+    mXPos = params[:xPos];
+    mYPos = params[:yPos];
     mTextTop = params[:textTop];
 
     mTextFont = Ui.loadResource(Rez.Fonts.PrimaryIndicatorFont);

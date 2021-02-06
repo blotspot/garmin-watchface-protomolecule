@@ -4,9 +4,6 @@ using Toybox.System;
 
 class ProtomoleculeFaceApp extends Application.AppBase {
 
-  var gDevMode;
-  var gWidth;
-  var gHeight;
   var gIconSize;
   var gStrokeWidth;
 
@@ -29,11 +26,10 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   }
 
   function loadProperties() {
-    gDevMode = getProperty("devMode");
-    gWidth = System.getDeviceSettings().screenWidth;
-    gHeight = System.getDeviceSettings().screenHeight;
-    gIconSize = Math.round((gWidth + gHeight) / 2 / 12.4);
-    gStrokeWidth = Math.round((gWidth + gHeight) / 2 / 100);
+    var width = System.getDeviceSettings().screenWidth;
+    var height = System.getDeviceSettings().screenHeight;
+    gIconSize = Math.round((width + height) / 2 / 12.4);
+    gStrokeWidth = Math.round((width + height) / 2 / 100);
     loadConfigurableProperties();
   }
 

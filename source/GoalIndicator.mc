@@ -1,6 +1,6 @@
-using Toybox.WatchUi as Ui;
 using Toybox.Graphics;
 using Toybox.Math;
+using Toybox.WatchUi as Ui;
 
 class GoalIndicator extends DataFieldDrawable {
 
@@ -10,9 +10,10 @@ class GoalIndicator extends DataFieldDrawable {
 
   function initialize(params) {
     DataFieldDrawable.initialize(params);
+    
     mStartDegree = params[:startDegree];
     mTotalDegree = params[:totalDegree];
-    mRadius = app.gWidth / 2.0 * params[:scaling];
+    mRadius = params[:radius];
   }
 
   function draw(dc) {
@@ -50,8 +51,8 @@ class GoalIndicator extends DataFieldDrawable {
       var endDegree = reverse ? mStartDegree - mTotalDegree : mStartDegree - getFillDegree(fillLevel);
 
       dc.drawArc(
-        app.gWidth / 2.0, // x center of ring
-        app.gHeight / 2.0, // y center of ring
+        dc.getWidth() / 2.0, // x center of ring
+        dc.getHeight() / 2.0, // y center of ring
         mRadius,
         Graphics.ARC_CLOCKWISE,
         startDegree,
@@ -72,8 +73,8 @@ class GoalIndicator extends DataFieldDrawable {
       }
 
       dc.drawArc(
-        gWidth / 2.0, // x center of ring
-        gHeight / 2.0, // y center of ring
+        dc.getWidth() / 2.0, // x center of ring
+        dc.getHeight() / 2.0, // y center of ring
         mRadius,
         Graphics.ARC_CLOCKWISE,
         startDegree,
@@ -84,8 +85,8 @@ class GoalIndicator extends DataFieldDrawable {
 
   hidden function drawEndpoint(dc, degree) {
     degree = Math.toRadians(degree);
-    var x = app.gWidth / 2.0 + mRadius * Math.cos(degree);
-    var y = app.gHeight - (app.gHeight / 2.0 + mRadius * Math.sin(degree));
+    var x = dc.getWidth() / 2.0 + mRadius * Math.cos(degree);
+    var y = dc.getHeight() - (dc.getHeight() / 2.0 + mRadius * Math.sin(degree));
     dc.fillCircle(x, y, app.gStrokeWidth + app.gStrokeWidth * 0.75);
 
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);

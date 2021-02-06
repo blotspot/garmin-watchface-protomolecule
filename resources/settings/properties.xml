@@ -1,6 +1,4 @@
-<properties>
-  <property id="devMode" type="boolean">true</property>
-  
+<properties>  
   <property id="theme" type="number">0</property>
   
   <property id="caloriesGoal" type="number">2000</property>
@@ -17,5 +15,5 @@
   <property id="simpleDataFieldLeft" type="number">1</property>
   <property id="simpleDataFieldRight" type="number">5</property>
   
-  <property id="showRemainingIndicator" type="boolean">false</property>
+  <property id="showRemainingIndicator" type="boolean">true</property>
 </properties>

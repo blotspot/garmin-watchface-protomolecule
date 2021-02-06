@@ -8,55 +8,58 @@
   <drawable id="SecondaryDataField1" class="SecondaryDataField">
     <param name="fieldId">3</param>
     <param name="offsetModifier">0</param>
-    <param name="relativeXPos">0.168</param>
+    <param name="xPos">0.168 * dc.getWidth()</param>
+    <param name="yPos">0.685 * dc.getHeight()</param>
   </drawable>
   <drawable id="SecondaryDataField2" class="SecondaryDataField">
     <param name="fieldId">4</param>
     <param name="offsetModifier">0.5</param>
-    <param name="relativeXPos">0.5</param>
+    <param name="xPos">0.5 * dc.getWidth()</param>
+    <param name="yPos">0.685 * dc.getHeight()</param>
   </drawable>
   <drawable id="SecondaryDataField3" class="SecondaryDataField">
     <param name="fieldId">5</param>
     <param name="offsetModifier">1</param>
-    <param name="relativeXPos">0.832</param>
+    <param name="xPos">0.832 * dc.getWidth()</param>
+    <param name="yPos">0.685 * dc.getHeight()</param>
   </drawable>
   
   <drawable id="BottomDataField" class="PrimaryDataField">
     <param name="fieldId">0</param>
     <param name="textTop">false</param>
-    <param name="relativeXPos">0.5</param>
-    <param name="relativeYPos">0.785</param>
+    <param name="xPos">0.5 * dc.getWidth()</param>
+    <param name="yPos">0.785 * dc.getHeight()</param>
   </drawable>
   <drawable id="OuterGoalIndicator" class="GoalIndicator">
     <param name="fieldId">0</param>
     <param name="startDegree">270</param>
     <param name="totalDegree">360</param>
-    <param name="scaling">0.96</param>
+    <param name="radius">dc.getWidth() / 2.0 * 0.96</param>
   </drawable>
   
   <drawable id="LeftDataField" class="PrimaryDataField">
     <param name="fieldId">1</param>
     <param name="textTop">false</param>
-    <param name="relativeXPos">0.37</param>
-    <param name="relativeYPos">0.094</param>
+    <param name="xPos">0.37 * dc.getWidth()</param>
+    <param name="yPos">0.094 * dc.getHeight()</param>
   </drawable>
   <drawable id="LeftGoalIndicator" class="GoalIndicator">
     <param name="fieldId">1</param>
     <param name="startDegree">248</param>
     <param name="totalDegree">150</param>
-    <param name="scaling">0.89</param>
+    <param name="radius">dc.getWidth() / 2.0 * 0.89</param>
   </drawable>
   
   <drawable id="RightDataField" class="PrimaryDataField">
     <param name="fieldId">2</param>
     <param name="textTop">false</param>
-    <param name="relativeXPos">0.63</param>
-    <param name="relativeYPos">0.094</param>
+    <param name="xPos">0.63 * dc.getWidth()</param>
+    <param name="yPos">0.094 * dc.getHeight()</param>
   </drawable>
   <drawable id="RightGoalIndicator" class="GoalIndicator">
     <param name="fieldId">2</param>
     <param name="startDegree">82</param>
     <param name="totalDegree">150</param>
-    <param name="scaling">0.89</param>
+    <param name="radius">dc.getWidth() / 2.0 * 0.89</param>
   </drawable>
 </layout>

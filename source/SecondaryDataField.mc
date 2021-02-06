@@ -17,8 +17,8 @@ class SecondaryDataField extends DataFieldDrawable {
 
     mFieldId = params[:fieldId];
     mOffsetMod = params[:offsetModifier];
-    mXPos = params[:relativeXPos] * app.gWidth;
-    mYPos = 0.685 * app.gHeight;
+    mXPos = params[:xPos];
+    mYPos = params[:yPos];
 
     mTextFont = Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont);
   }

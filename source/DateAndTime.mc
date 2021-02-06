@@ -9,8 +9,6 @@ class DateAndTime extends Ui.Drawable {
 
   var mLowPowerMode;
 
-  var app;
-
   var mDateFont;
   var mHoursFont;
   var mMinFont;
@@ -20,8 +18,6 @@ class DateAndTime extends Ui.Drawable {
     var device = System.getDeviceSettings();
 
     mLowPowerMode = params[:lowPowerMode] && device.requiresBurnInProtection;
-
-    app = Application.getApp();
 
     mDateFont = Ui.loadResource(Rez.Fonts.DateFont);
     mHoursFont = Ui.loadResource(Rez.Fonts.HoursFont);
@@ -35,16 +31,16 @@ class DateAndTime extends Ui.Drawable {
     var minutes = now.min.format("%02d");
 
     var dateDim = dc.getTextDimensions(date, mDateFont);
-    var dateX = app.gWidth * 0.5;
-    var dateY = app.gHeight * 0.31 - dateDim[1] / 2.0;
+    var dateX = dc.getWidth() * 0.5;
+    var dateY = dc.getHeight() * 0.31 - dateDim[1] / 2.0;
 
     var hoursDim = dc.getTextDimensions(hours, mHoursFont);
-    var hoursX = app.gWidth * 0.485;
-    var hoursY = app.gWidth * 0.48 - hoursDim[1] / 2.0;
+    var hoursX = dc.getWidth() * 0.485;
+    var hoursY = dc.getWidth() * 0.48 - hoursDim[1] / 2.0;
 
     var minutesDim = dc.getTextDimensions(minutes, mMinFont);
-    var minutesX = app.gWidth * 0.515;
-    var minutesY = app.gWidth * 0.48 - minutesDim[1] / 2.0;
+    var minutesX = dc.getWidth() * 0.515;
+    var minutesY = dc.getWidth() * 0.48 - minutesDim[1] / 2.0;
 
     var offset = 0;
     if (mLowPowerMode) {
@@ -63,7 +59,7 @@ class DateAndTime extends Ui.Drawable {
   }
 
   hidden function calculateOffset(multiplicator, startY, endY) {
-    var maxY = app.gHeight - endY;
+    var maxY = dc.getHeight() - endY;
     var minY = startY * -1;
     var window = maxY - minY;
     var offset = (window * 0.2) * multiplicator + window * 0.1;

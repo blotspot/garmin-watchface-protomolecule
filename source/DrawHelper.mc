@@ -16,9 +16,9 @@ module Color {
   const _COLORS = [
     /* EXPANSE */
     [
-      0xFFAA55, // PRIMARY_BOTTOM
-      0xFF5555,    // PRIMARY_LEFT
-      0x55AAFF,   // PRIMARY_RIGHT
+      Graphics.COLOR_YELLOW, // PRIMARY_BOTTOM
+      Graphics.COLOR_RED,    // PRIMARY_LEFT
+      Graphics.COLOR_BLUE,   // PRIMARY_RIGHT
       Graphics.COLOR_WHITE,  // SECONDARY_ACTIVE
       Graphics.COLOR_LT_GRAY,// SECONDARY_INACTIVE
       Graphics.COLOR_BLACK,  // BACKGROUND
