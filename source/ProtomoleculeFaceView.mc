@@ -12,7 +12,7 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
 
   // Load your resources here
   function onLayout(dc) {
-    setLayout(Rez.Layouts.WatchFace(dc));
+    setLayout(Rez.Layouts.WatchFaceAlt(dc));
   }
 
   // Called when this View is brought to the foreground. Restore
@@ -26,7 +26,7 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
     clearClip(dc);
     // Call the parent onUpdate function to redraw the layout
     if (requiresBurnInProtection()) {
-      setLayout(mEnterSleep ? Rez.Layouts.SimpleWatchFace(dc) : Rez.Layouts.WatchFace(dc));
+      setLayout(mEnterSleep ? Rez.Layouts.SimpleWatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc));
     }
     View.onUpdate(dc);
   }

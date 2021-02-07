@@ -4,16 +4,13 @@
   <property id="caloriesGoal" type="number">2000</property>
   <property id="batteryThreshold" type="number">20</property>
   
-  <property id="primaryDataFieldBottom" type="number">0</property>
-  <property id="primaryDataFieldRight" type="number">2</property>
-  <property id="primaryDataFieldLeft" type="number">1</property>
+  <property id="noProgressDataField1" type="number">5</property>
+  <property id="noProgressDataField2" type="number">6</property>
+  <property id="noProgressDataField3" type="number">4</property>
   
-  <property id="secondaryDataField1" type="number">4</property>
-  <property id="secondaryDataField2" type="number">5</property>
-  <property id="secondaryDataField3" type="number">3</property>
-  
-  <property id="simpleDataFieldLeft" type="number">1</property>
-  <property id="simpleDataFieldRight" type="number">5</property>
-  
-  <property id="showRemainingIndicator" type="boolean">true</property>
+  <property id="outerDataField" type="number">2</property>
+  <property id="upperDataField1" type="number">1</property>
+  <property id="upperDataField2" type="number">3</property>
+  <property id="lowerDataField1" type="number">7</property>
+  <property id="lowerDataField2" type="number">0</property>
 </properties>

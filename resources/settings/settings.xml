@@ -18,74 +18,100 @@
   <setting propertyKey="@Properties.batteryThreshold" title="@Strings.SettingsBatteryThresholdTitle">
     <settingConfig type="numeric" min="1" max="100" required="true"/>
   </setting>
-
-  <setting propertyKey="@Properties.showRemainingIndicator" title="@Strings.SettingsShowRemainingIndicator">
-    <settingConfig type="boolean"/>
-  </setting>
   
-  <setting propertyKey="@Properties.primaryDataFieldBottom" title="@Strings.SettingsPrimaryBottomTitle">
+  <setting propertyKey="@Properties.outerDataField" title="@Strings.SettingsOuterTitle">
     <settingConfig type="list">
-      <listEntry value="0">@Strings.DataFieldSteps</listEntry>
-      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
-      <listEntry value="2">@Strings.DataFieldCalories</listEntry>
-      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
-      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
-      <listEntry value="7">@Strings.DataFieldFloorsDown</listEntry>
+      <listEntry value="0">@Strings.NoDataField</listEntry>
+      <listEntry value="1">@Strings.DataFieldSteps</listEntry>
+      <listEntry value="2">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="3">@Strings.DataFieldCalories</listEntry>
+      <listEntry value="4">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
+      <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
     </settingConfig>
   </setting>
   
-  <setting propertyKey="@Properties.primaryDataFieldRight" title="@Strings.SettingsPrimaryRightTitle">
+  <setting propertyKey="@Properties.upperDataField1" title="@Strings.SettingsUpper1Title">
     <settingConfig type="list">
-      <listEntry value="0">@Strings.DataFieldSteps</listEntry>
-      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
-      <listEntry value="2">@Strings.DataFieldCalories</listEntry>
-      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
-      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
-      <listEntry value="7">@Strings.DataFieldFloorsDown</listEntry>
+      <listEntry value="0">@Strings.NoDataField</listEntry>
+      <listEntry value="1">@Strings.DataFieldSteps</listEntry>
+      <listEntry value="2">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="3">@Strings.DataFieldCalories</listEntry>
+      <listEntry value="4">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
+      <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
     </settingConfig>
   </setting>
   
-  <setting propertyKey="@Properties.primaryDataFieldLeft" title="@Strings.SettingsPrimaryLeftTitle">
+  <setting propertyKey="@Properties.upperDataField2" title="@Strings.SettingsUpper2Title">
     <settingConfig type="list">
-      <listEntry value="0">@Strings.DataFieldSteps</listEntry>
-      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
-      <listEntry value="2">@Strings.DataFieldCalories</listEntry>
-      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
-      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
-      <listEntry value="7">@Strings.DataFieldFloorsDown</listEntry>
+      <listEntry value="0">@Strings.NoDataField</listEntry>
+      <listEntry value="1">@Strings.DataFieldSteps</listEntry>
+      <listEntry value="2">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="3">@Strings.DataFieldCalories</listEntry>
+      <listEntry value="4">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
+      <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
     </settingConfig>
   </setting>
   
-  <setting propertyKey="@Properties.secondaryDataField1" title="@Strings.SettingsSecondary1Title">
+  <setting propertyKey="@Properties.noProgressDataField1" title="@Strings.SettingsSecondary1Title">
     <settingConfig type="list">
-      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
-      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
-      <listEntry value="4">@Strings.DataFieldHeartRate</listEntry>
-      <listEntry value="5">@Strings.DataFieldMessages</listEntry>
-      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
-      <listEntry value="7">@Strings.DataFieldFloorsDown</listEntry>
+      <listEntry value="0">@Strings.NoDataField</listEntry>
+      <listEntry value="2">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="4">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="5">@Strings.DataFieldHeartRate</listEntry>
+      <listEntry value="6">@Strings.DataFieldMessages</listEntry>
+      <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
+      <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
     </settingConfig>
   </setting>
   
-  <setting propertyKey="@Properties.secondaryDataField2" title="@Strings.SettingsSecondary2Title">
+  <setting propertyKey="@Properties.noProgressDataField2" title="@Strings.SettingsSecondary2Title">
     <settingConfig type="list">
-      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
-      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
-      <listEntry value="4">@Strings.DataFieldHeartRate</listEntry>
-      <listEntry value="5">@Strings.DataFieldMessages</listEntry>
-      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
-      <listEntry value="7">@Strings.DataFieldFloorsDown</listEntry>
+      <listEntry value="0">@Strings.NoDataField</listEntry>
+      <listEntry value="2">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="4">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="5">@Strings.DataFieldHeartRate</listEntry>
+      <listEntry value="6">@Strings.DataFieldMessages</listEntry>
+      <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
+      <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
     </settingConfig>
   </setting>
   
-  <setting propertyKey="@Properties.secondaryDataField3" title="@Strings.SettingsSecondary3Title">
+  <setting propertyKey="@Properties.noProgressDataField3" title="@Strings.SettingsSecondary3Title">
     <settingConfig type="list">
-      <listEntry value="1">@Strings.DataFieldBattery</listEntry>
-      <listEntry value="3">@Strings.DataFieldActiveMinutes</listEntry>
-      <listEntry value="4">@Strings.DataFieldHeartRate</listEntry>
-      <listEntry value="5">@Strings.DataFieldMessages</listEntry>
-      <listEntry value="6">@Strings.DataFieldFloorsUp</listEntry>
-      <listEntry value="7">@Strings.DataFieldFloorsDown</listEntry>
+      <listEntry value="0">@Strings.NoDataField</listEntry>
+      <listEntry value="2">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="4">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="5">@Strings.DataFieldHeartRate</listEntry>
+      <listEntry value="6">@Strings.DataFieldMessages</listEntry>
+      <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
+      <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
+    </settingConfig>
+  </setting>
+  
+  <setting propertyKey="@Properties.lowerDataField1" title="@Strings.SettingsLower1Title">
+    <settingConfig type="list">
+      <listEntry value="0">@Strings.NoDataField</listEntry>
+      <listEntry value="1">@Strings.DataFieldSteps</listEntry>
+      <listEntry value="2">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="3">@Strings.DataFieldCalories</listEntry>
+      <listEntry value="4">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
+      <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
+    </settingConfig>
+  </setting>
+  
+  <setting propertyKey="@Properties.lowerDataField2" title="@Strings.SettingsLower2Title">
+    <settingConfig type="list">
+      <listEntry value="0">@Strings.NoDataField</listEntry>
+      <listEntry value="1">@Strings.DataFieldSteps</listEntry>
+      <listEntry value="2">@Strings.DataFieldBattery</listEntry>
+      <listEntry value="3">@Strings.DataFieldCalories</listEntry>
+      <listEntry value="4">@Strings.DataFieldActiveMinutes</listEntry>
+      <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
+      <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
     </settingConfig>
   </setting>
 

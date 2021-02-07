@@ -13,14 +13,17 @@
   <string id="SettingsCaloriesGoalTitle">Tägliches Kalorienziel</string>
   <string id="SettingsBatteryThresholdTitle">'Batteriestand kritisch' Icon bei %</string>
   
-  <string id="SettingsPrimaryBottomTitle">Unteres Datenfeld (Äußerer Indikator)</string>
-  <string id="SettingsPrimaryLeftTitle">Linkes Datenfeld (Linker Indikator)</string>
-  <string id="SettingsPrimaryRightTitle">Rechtes Datenfeld (Rechter Indikator)</string>
+  <string id="SettingsOuterTitle">Äußers Datenfeld (Ohne Icon)</string>
+  <string id="SettingsUpper1Title">Oberes Datenfeld 1 (Links)</string>
+  <string id="SettingsUpper2Title">Oberes Datenfeld 2 (Rechts)</string>
+  <string id="SettingsLower1Title">Unteres Datenfeld 1 (Links)</string>
+  <string id="SettingsLower2Title">Unteres Datenfeld 2 (Rechts)</string>
   
   <string id="SettingsSecondary1Title">Datenfeld 1 (Links)</string>
   <string id="SettingsSecondary2Title">Datenfeld 2 (Mitte)</string>
   <string id="SettingsSecondary3Title">Datenfeld 3 (Rechts)</string>
   
+  <string id="NoDataField">Leer</string>
   <string id="DataFieldSteps">tägliche Schritte</string>
   <string id="DataFieldBattery">Batteriestand</string>
   <string id="DataFieldCalories">Kalorien</string>

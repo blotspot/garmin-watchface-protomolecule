@@ -1,8 +1,9 @@
-using Toybox.System;
-using Toybox.ActivityMonitor;
 using Toybox.Activity;
+using Toybox.ActivityMonitor;
 using Toybox.Application;
-using Toybox.Lang as Lang;
+using Toybox.BluetoothLowEnergy;
+using Toybox.Lang;
+using Toybox.System;
 using Toybox.Time;
 
 module Format {
@@ -12,12 +13,14 @@ module Format {
 
 module FieldId {
   enum {
-    PRIMARY_BOTTOM,
-    PRIMARY_LEFT,
-    PRIMARY_RIGHT,
-    SECONDARY_1,
-    SECONDARY_2,
-    SECONDARY_3,
+    NO_PROGRESS_1,
+    NO_PROGRESS_2,
+    NO_PROGRESS_3,
+    OUTER,
+    UPPER_1,
+    UPPER_2,
+    LOWER_1,
+    LOWER_2,
     SIMPLE_LEFT,
     SIMPLE_RIGHT
   }
@@ -25,7 +28,7 @@ module FieldId {
 
 module FieldType {
   enum {
-    STEPS, BATTERY, CALORIES, ACTIVE_MINUTES, HEART_RATE, NOTIFICATION, FLOORS_UP, FLOORS_DOWN
+    NOTHING, STEPS, BATTERY, CALORIES, ACTIVE_MINUTES, HEART_RATE, NOTIFICATION, FLOORS_UP, FLOORS_DOWN, ALARMS, BLUETOOTH
   }
 }
 
@@ -54,63 +57,50 @@ module DataFieldInfo {
   }
 
   function getInfoForField(fieldId) {
-    switch(fieldId) {
-      case FieldId.PRIMARY_BOTTOM:
-        return getInfoForType(Application.getApp().gPrimaryDataFieldBottom);
-
-      case FieldId.PRIMARY_RIGHT:
-        return getInfoForType(Application.getApp().gPrimaryDataFieldRight);
-
-      case FieldId.PRIMARY_LEFT:
-        return getInfoForType(Application.getApp().gPrimaryDataFieldLeft);
-
-      case FieldId.SECONDARY_1:
-        return getInfoForType(Application.getApp().gSecondaryDataField1);
-
-      case FieldId.SECONDARY_2:
-        return getInfoForType(Application.getApp().gSecondaryDataField2);
-
-      case FieldId.SECONDARY_3:
-        return getInfoForType(Application.getApp().gSecondaryDataField3);
-
-      case FieldId.SIMPLE_LEFT:
-        return getInfoForType(Application.getApp().gSimpleLayoutDataFieldLeft);
-
-      case FieldId.SIMPLE_RIGHT:
-        return getInfoForType(Application.getApp().gSimpleLayoutDataFieldRight);
-
-      default:
-        return null;
+    if (fieldId == FieldId.NO_PROGRESS_1) {
+      return getInfoForType(Application.getApp().gNoProgressDataField1);
+    } else if (fieldId == FieldId.NO_PROGRESS_2) {
+      return getInfoForType(Application.getApp().gNoProgressDataField2);
+    } else if (fieldId == FieldId.NO_PROGRESS_3) {
+      return getInfoForType(Application.getApp().gNoProgressDataField3);
+    } else if (fieldId == FieldId.OUTER) {
+      return getInfoForType(Application.getApp().gOuterDataField);
+    } else if (fieldId == FieldId.UPPER_1) {
+      return getInfoForType(Application.getApp().gUpperDataField1);
+    } else if (fieldId == FieldId.UPPER_2) {
+      return getInfoForType(Application.getApp().gUpperDataField2);
+    } else if (fieldId == FieldId.LOWER_1) {
+      return getInfoForType(Application.getApp().gLowerDataField1);
+    } else if (fieldId == FieldId.LOWER_2) {
+      return getInfoForType(Application.getApp().gLowerDataField2);
     }
+
+    return null;
   }
 
   function getInfoForType(fieldType) {
-    var info;
-    switch(fieldType) {
-      case FieldType.HEART_RATE:
-        return getHeartRateInfo();
-
-      case FieldType.CALORIES:
-        return getCalorieInfo();
-
-      case FieldType.NOTIFICATION:
-        return getNotificationInfo();
-
-      case FieldType.STEPS:
-        return getStepInfo();
-
-      case FieldType.FLOORS_UP:
-        return getFloorsClimbedInfo();
-
-      case FieldType.FLOORS_DOWN:
-        return getFloorsDescentInfo();
-
-      case FieldType.ACTIVE_MINUTES:
-        return getActiveMinuteInfo();
-
-      case FieldType.BATTERY:
-        return getBatteryInfo();
-    }
+    if (fieldType == FieldType.HEART_RATE) {
+      return getHeartRateInfo();
+    } else if (fieldType == FieldType.CALORIES) {
+      return getCalorieInfo();
+    } else if (fieldType == FieldType.NOTIFICATION) {
+      return getNotificationInfo();
+    } else if (fieldType == FieldType.STEPS) {
+      return getStepInfo();
+    } else if (fieldType == FieldType.FLOORS_UP) {
+      return getFloorsClimbedInfo();
+    } else if (fieldType == FieldType.FLOORS_DOWN) {
+      return getFloorsDescentInfo();
+    } else if (fieldType == FieldType.ACTIVE_MINUTES) {
+      return getActiveMinuteInfo();
+    } else if (fieldType == FieldType.BATTERY) {
+      return getBatteryInfo();
+    } else if (fieldType == FieldType.BLUETOOTH) {
+      return getBluetoothInfo();
+    } else if (fieldType == FieldType.ALARMS) {
+      return getAlarmsInfo();
+    } 
+    return null;
   }
 
   function getHeartRateInfo() {
@@ -182,5 +172,22 @@ module DataFieldInfo {
     var current = activityInfo.activeMinutesWeek.total.toDouble();
 
     return new DataFieldProperties(FieldType.ACTIVE_MINUTES, new Lang.Method(DataFieldIcons, :drawActiveMinutes), current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal);
+  }
+
+  function getBluetoothInfo() {
+    var iconFunc;
+    if (System.getDeviceSettings().phoneConnected) {
+      iconFunc = new Lang.Method(DataFieldIcons, :drawBluetoothConnection);
+    } else {
+      iconFunc = new Lang.Method(DataFieldIcons, :drawNoBluetoothConnection);
+    }
+
+    return new DataFieldProperties(FieldType.BLUETOOTH, iconFunc, "", 0);
+  }
+
+  function getAlarmsInfo() {
+    var alarmCount = System.getDeviceSettings().alarmCount;
+
+    return new DataFieldProperties(FieldType.ALARMS, new Lang.Method(DataFieldIcons, :drawActiveMinutes), alarmCount.format(Format.INT), 0);
   }
 }

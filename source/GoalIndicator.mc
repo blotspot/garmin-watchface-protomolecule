@@ -18,7 +18,9 @@ class GoalIndicator extends DataFieldDrawable {
 
   function draw(dc) {
     DataFieldDrawable.draw(dc);
-    update(dc);
+    if (mLastInfo != null) {
+      update(dc);
+    }
   }
 
   function update(dc) {

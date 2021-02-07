@@ -11,14 +11,14 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   var gCaloriesGoal;
   var gBatteryThreshold;
   var gDrawRemainingIndicator;
-  var gPrimaryDataFieldBottom;
-  var gPrimaryDataFieldRight;
-  var gPrimaryDataFieldLeft;
-  var gSecondaryDataField1;
-  var gSecondaryDataField2;
-  var gSecondaryDataField3;
-  var gSimpleLayoutDataFieldLeft;
-  var gSimpleLayoutDataFieldRight;
+  var gNoProgressDataField1;
+  var gNoProgressDataField2;
+  var gNoProgressDataField3;
+  var gOuterDataField;
+  var gUpperDataField1;
+  var gUpperDataField2;
+  var gLowerDataField1;
+  var gLowerDataField2;
 
   function initialize() {
     AppBase.initialize();
@@ -37,15 +37,14 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     gTheme = getProperty("theme");
     gCaloriesGoal = getProperty("caloriesGoal");
     gBatteryThreshold = getProperty("batteryThreshold");
-    gDrawRemainingIndicator = getProperty("showRemainingIndicator");
-    gPrimaryDataFieldBottom = getProperty("primaryDataFieldBottom");
-    gPrimaryDataFieldRight = getProperty("primaryDataFieldRight");
-    gPrimaryDataFieldLeft = getProperty("primaryDataFieldLeft");
-    gSecondaryDataField1 = getProperty("secondaryDataField1");
-    gSecondaryDataField2 = getProperty("secondaryDataField2");
-    gSecondaryDataField3 = getProperty("secondaryDataField3");
-    gSimpleLayoutDataFieldLeft = getProperty("simpleDataFieldLeft");
-    gSimpleLayoutDataFieldRight = getProperty("simpleDataFieldRight");
+    gNoProgressDataField1 = getProperty("noProgressDataField1");
+    gNoProgressDataField2 = getProperty("noProgressDataField2");
+    gNoProgressDataField3 = getProperty("noProgressDataField3");
+    gOuterDataField = getProperty("outerDataField");
+    gUpperDataField1 = getProperty("upperDataField1");
+    gUpperDataField2 = getProperty("upperDataField2");
+    gLowerDataField1 = getProperty("lowerDataField1");
+    gLowerDataField2 = getProperty("lowerDataField2");
   }
 
   // onStart() is called on application start up

@@ -13,14 +13,17 @@
   <string id="SettingsCaloriesGoalTitle">Daily Calories Goal</string>
   <string id="SettingsBatteryThresholdTitle">Battery empty icon at %</string>
   
-  <string id="SettingsPrimaryBottomTitle">Bottom DataField (Outer Indicator)</string>
-  <string id="SettingsPrimaryRightTitle">Right DataField (Right Indicator)</string>
-  <string id="SettingsPrimaryLeftTitle">Left DataField (Left Indicator)</string>
+  <string id="SettingsOuterTitle">Outer DataField (Progress Arc)</string>
+  <string id="SettingsUpper1Title">Upper DataField 1 (Left)</string>
+  <string id="SettingsUpper2Title">Upper DataField 2 (Right)</string>
+  <string id="SettingsLower1Title">Lower DataField 1 (Left)</string>
+  <string id="SettingsLower2Title">Lower DataField 2 (Right)</string>
   
   <string id="SettingsSecondary1Title">Sedondary DataField 1 (Left)</string>
   <string id="SettingsSecondary2Title">Sedondary DataField 2 (Middle)</string>
   <string id="SettingsSecondary3Title">Sedondary DataField 3 (Right)</string>
   
+  <string id="NoDataField">Nothing</string>
   <string id="DataFieldSteps">Steps</string>
   <string id="DataFieldBattery">Battery</string>
   <string id="DataFieldCalories">Calories</string>
