@@ -12,6 +12,7 @@
   <string id="SettingsShowRemainingIndicator">Show Remaining Part of Indicator</string>
   <string id="SettingsCaloriesGoalTitle">Daily Calories Goal</string>
   <string id="SettingsBatteryThresholdTitle">Battery empty icon at %</string>
+  <string id="SettingsActiveHeartrateTitle">Update Heartrate every 10 seconds</string>
   
   <string id="SettingsOuterTitle">Outer DataField (Progress Arc)</string>
   <string id="SettingsUpper1Title">Upper DataField 1 (Left)</string>

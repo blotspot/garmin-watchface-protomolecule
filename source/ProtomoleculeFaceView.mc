@@ -1,10 +1,23 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Application;
 using Toybox.Graphics;
 using Toybox.System;
 
 class ProtomoleculeFaceView extends Ui.WatchFace {
 
   var mEnterSleep = false;
+
+  hidden var mOuterRing;
+  hidden var mUpperRing1;
+  hidden var mUpperRing2;
+  hidden var mLowerRing1;
+  hidden var mLowerRing2;
+  hidden var mNoProgress1;
+  hidden var mNoProgress2;
+  hidden var mNoProgress3;
+
+  hidden var mActiveHeartrateField;
+  hidden var mActiveHeartrateCounter = 0;
 
   function initialize() {
     WatchFace.initialize();
@@ -13,6 +26,14 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
   // Load your resources here
   function onLayout(dc) {
     setLayout(Rez.Layouts.WatchFaceAlt(dc));
+    mOuterRing = findDrawableById("OuterDataField");
+    mUpperRing1 = findDrawableById("UpperDataField1");
+    mUpperRing2 = findDrawableById("UpperDataField2");
+    mLowerRing1 = findDrawableById("LowerDataField1");
+    mLowerRing2 = findDrawableById("LowerDataField2");
+    mNoProgress1 = findDrawableById("NoProgressDataField1");
+    mNoProgress2 = findDrawableById("NoProgressDataField2");
+    mNoProgress3 = findDrawableById("NoProgressDataField3");
   }
 
   // Called when this View is brought to the foreground. Restore
@@ -28,6 +49,21 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
     if (requiresBurnInProtection()) {
       setLayout(mEnterSleep ? Rez.Layouts.SimpleWatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc));
     }
+
+    if (Application.getApp().gActiveHeartrate) {
+      if (Application.getApp().gNoProgressDataField1 == FieldType.HEART_RATE) {
+        mActiveHeartrateField = mNoProgress1;
+      } else if (Application.getApp().gNoProgressDataField2 == FieldType.HEART_RATE) {
+        mActiveHeartrateField = mNoProgress2;
+      } else if (Application.getApp().gNoProgressDataField3 == FieldType.HEART_RATE) {
+        mActiveHeartrateField = mNoProgress3;
+      } else {
+        mActiveHeartrateField = null;
+      }
+    } else {
+      mActiveHeartrateField = null;
+    }
+
     View.onUpdate(dc);
   }
 
@@ -60,7 +96,21 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
 
   // too expensive
   function onPartialUpdate(dc) {
-    // View.onPartialUpdate(dc);
+    if (mActiveHeartrateField != null) {
+      mActiveHeartrateCounter += 1; 
+      if (mActiveHeartrateCounter % 10 == 0) {
+        mActiveHeartrateField.draw(dc);
+        mActiveHeartrateCounter = 0;
+      }
+    }
+  }
+
+  function updateHeartrate(dc) {
+
+  }
+
+  function updateSeconds(dc) {
+
   }
 
 }

@@ -10,8 +10,6 @@ class SecondaryDataField extends DataFieldDrawable {
   hidden var mYPos;
   hidden var mXPos;
 
-  hidden var mTextFont;
-
   function initialize(params) {
     DataFieldDrawable.initialize(params);
 
@@ -19,8 +17,6 @@ class SecondaryDataField extends DataFieldDrawable {
     mOffsetMod = params[:offsetModifier];
     mXPos = params[:xPos];
     mYPos = params[:yPos];
-
-    mTextFont = Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont);
   }
 
   function draw(dc) {
@@ -31,7 +27,7 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function update(dc) {
-    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, mTextFont) + app.gIconSize;
+    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, app.gTextFont) + app.gIconSize;
     var offset = fieldWidth * mOffsetMod;
     setClippingRegion(dc, offset, app.gStrokeWidth);
 
@@ -41,8 +37,8 @@ class SecondaryDataField extends DataFieldDrawable {
       dc.setColor(themeColor(Color.SECONDARY_ACTIVE), Graphics.COLOR_TRANSPARENT);
     }
 
-    mLastInfo.icon.invoke(dc, mXPos - offset + (app.gIconSize / 2.0), mYPos, app.gIconSize, app.gStrokeWidth);
-    drawText(dc, mLastInfo.text, mTextFont, mXPos - offset + app.gIconSize + app.gStrokeWidth);
+    mLastInfo.icon.invoke(dc, mXPos - offset + (app.gIconSize / 2.0), mYPos, app.gIconSize, app.gStrokeWidth, mLastInfo.text);
+    drawText(dc, mLastInfo.text, app.gTextFont, mXPos - offset + app.gIconSize + app.gStrokeWidth);
   }
 
   function partialUpdate(dc) {
@@ -61,7 +57,7 @@ class SecondaryDataField extends DataFieldDrawable {
 
   function setClippingRegion(dc, offset, penSize) {
     var contentDimensions = getDimensions(dc);
-    dc.setColor(themeColor(mFieldId), Graphics.COLOR_TRANSPARENT);
+    dc.setColor(themeColor(mFieldId), themeColor(Color.BACKGROUND));
     dc.setClip(
       mXPos - offset,
       mYPos - contentDimensions[1] / 2 - penSize / 2,
@@ -72,7 +68,7 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function getDimensions(dc) {
-    var dim = dc.getTextDimensions(mLastInfo.text, mTextFont);
+    var dim = dc.getTextDimensions(mLastInfo.text, app.gTextFont);
     dim[0] = dim[0] + app.gIconSize;
     if (dim[1] < app.gIconSize) {
       dim[1] = app.gIconSize;

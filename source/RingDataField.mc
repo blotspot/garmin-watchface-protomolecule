@@ -28,20 +28,25 @@ class RingDataField extends DataFieldDrawable {
   function update(dc) {
     setClippingRegion(dc, app.gStrokeWidth);
     setAntiAlias(dc, true);
-    dc.setPenWidth(app.gStrokeWidth * 2);
+    dc.setPenWidth(app.gStrokeWidth * 1.5);
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
     }
     drawProgressArc(dc, mLastInfo.progress);
 
     if (mShowIcon) {
-      dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
+      if (mLastInfo.progress == 0) {
+        dc.setColor(themeColor(Color.SECONDARY_INACTIVE), Graphics.COLOR_TRANSPARENT);
+      } else {
+        dc.setColor(themeColor(Color.SECONDARY_ACTIVE), Graphics.COLOR_TRANSPARENT);
+      }
       mLastInfo.icon.invoke(
         dc,
         mCenterXPos,
         mCenterYPos, 
         app.gIconSize, 
-        app.gStrokeWidth
+        app.gStrokeWidth,
+        mLastInfo.text
       );
     }
 

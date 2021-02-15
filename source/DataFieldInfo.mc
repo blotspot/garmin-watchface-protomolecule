@@ -5,6 +5,7 @@ using Toybox.BluetoothLowEnergy;
 using Toybox.Lang;
 using Toybox.System;
 using Toybox.Time;
+using Toybox.Time.Gregorian;
 
 module Format {
   const INT = "%i";
@@ -28,7 +29,7 @@ module FieldId {
 
 module FieldType {
   enum {
-    NOTHING, STEPS, BATTERY, CALORIES, ACTIVE_MINUTES, HEART_RATE, NOTIFICATION, FLOORS_UP, FLOORS_DOWN, ALARMS, BLUETOOTH
+    NOTHING, STEPS, BATTERY, CALORIES, ACTIVE_MINUTES, HEART_RATE, NOTIFICATION, FLOORS_UP, FLOORS_DOWN, BLUETOOTH, ALARMS, SECONDS
   }
 }
 
@@ -99,7 +100,9 @@ module DataFieldInfo {
       return getBluetoothInfo();
     } else if (fieldType == FieldType.ALARMS) {
       return getAlarmsInfo();
-    } 
+    } else if (fieldType == FieldType.SECONDS) {
+      return getSecondsInfo();
+    }
     return null;
   }
 
@@ -188,7 +191,17 @@ module DataFieldInfo {
 
   function getAlarmsInfo() {
     var alarmCount = System.getDeviceSettings().alarmCount;
+    var iconFunc = new Lang.Method(DataFieldIcons, :drawAlarms);
+    if (alarmCount == 0) {
+      iconFunc = new Lang.Method(DataFieldIcons, :drawNoAlarms);
+    }
 
-    return new DataFieldProperties(FieldType.ALARMS, new Lang.Method(DataFieldIcons, :drawAlarms), alarmCount.format(Format.INT), 0);
+    return new DataFieldProperties(FieldType.ALARMS, iconFunc, alarmCount.format(Format.INT), 0);
+  }
+
+  function getSecondsInfo() {
+    var now = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+    var seconds = now.sec;
+    return new DataFieldProperties(FieldType.SECONDS, new Lang.Method(DataFieldIcons, :drawSeconds), seconds.format(Format.INT), seconds / 60.0);
   }
 }

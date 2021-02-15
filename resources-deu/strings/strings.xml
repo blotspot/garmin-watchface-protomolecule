@@ -12,6 +12,7 @@
   <string id="SettingsShowRemainingIndicator">Zeige den verbleibenden Teil des Indikators</string>
   <string id="SettingsCaloriesGoalTitle">Tägliches Kalorienziel</string>
   <string id="SettingsBatteryThresholdTitle">'Batteriestand kritisch' Icon bei %</string>
+  <string id="SettingsActiveHeartrateTitle">Herzfrequenz öfter aktualisieren</string>
   
   <string id="SettingsOuterTitle">Äußers Datenfeld (Ohne Icon)</string>
   <string id="SettingsUpper1Title">Oberes Datenfeld 1 (Links)</string>

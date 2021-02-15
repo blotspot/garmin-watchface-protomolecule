@@ -11,6 +11,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   var gTheme;
   var gCaloriesGoal;
   var gBatteryThreshold;
+  var gActiveHeartrate;
   var gDrawRemainingIndicator;
   var gNoProgressDataField1;
   var gNoProgressDataField2;
@@ -22,6 +23,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   var gLowerDataField2;
 
   var gIconsFont;
+  var gTextFont;
 
   function initialize() {
     AppBase.initialize();
@@ -34,6 +36,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     gIconSize = Math.round((width + height) / 2 / 12.4);
     gStrokeWidth = Math.round((width + height) / 2 / 100);
     gIconsFont = Ui.loadResource(Rez.Fonts.IconsFont);
+    gTextFont = Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont);
     loadConfigurableProperties();
   }
 
@@ -41,6 +44,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     gTheme = getProperty("theme");
     gCaloriesGoal = getProperty("caloriesGoal");
     gBatteryThreshold = getProperty("batteryThreshold");
+    gActiveHeartrate = getProperty("activeHeartrate");
     gNoProgressDataField1 = getProperty("noProgressDataField1");
     gNoProgressDataField2 = getProperty("noProgressDataField2");
     gNoProgressDataField3 = getProperty("noProgressDataField3");
