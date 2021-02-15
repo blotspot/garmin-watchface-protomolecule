@@ -1,6 +1,7 @@
 using Toybox.Application;
 using Toybox.Math;
 using Toybox.System;
+using Toybox.WatchUi as Ui;
 
 class ProtomoleculeFaceApp extends Application.AppBase {
 
@@ -20,6 +21,8 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   var gLowerDataField1;
   var gLowerDataField2;
 
+  var gIconsFont;
+
   function initialize() {
     AppBase.initialize();
     loadProperties();
@@ -30,6 +33,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     var height = System.getDeviceSettings().screenHeight;
     gIconSize = Math.round((width + height) / 2 / 12.4);
     gStrokeWidth = Math.round((width + height) / 2 / 100);
+    gIconsFont = Ui.loadResource(Rez.Fonts.IconsFont);
     loadConfigurableProperties();
   }
 

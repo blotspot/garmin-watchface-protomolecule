@@ -32,4 +32,6 @@
   <string id="DataFieldMessages">Benachrichtigungen</string>
   <string id="DataFieldFloorsUp">Stockwerke hoch</string>
   <string id="DataFieldFloorsDown">Stockwerke runter</string>
+  <string id="DataFieldBluetooth">Bluetooth</string>
+  <string id="DataFieldAlarms">Wecker</string>
 </strings>

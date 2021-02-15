@@ -32,4 +32,6 @@
   <string id="DataFieldMessages">Notifications</string>
   <string id="DataFieldFloorsUp">Floors Up</string>
   <string id="DataFieldFloorsDown">Floors Down</string>
+  <string id="DataFieldBluetooth">Bluetooth</string>
+  <string id="DataFieldAlarms">Alarms</string>
 </strings>

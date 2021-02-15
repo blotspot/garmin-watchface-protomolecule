@@ -114,7 +114,7 @@ module DataFieldInfo {
     }
     if (heartRate == null || heartRate == ActivityMonitor.INVALID_HR_SAMPLE) {
       heartRate = 0;
-      icon = new Lang.Method(DataFieldIcons, :drawHeartRate);
+      icon = new Lang.Method(DataFieldIcons, :drawNoHeartRate);
     }
 
     return new DataFieldProperties(FieldType.HEART_RATE, icon, heartRate.format(Format.INT), 0);
@@ -139,6 +139,7 @@ module DataFieldInfo {
     var stats = System.getSystemStats();
     var current = stats.battery;
     var iconFunc = new Lang.Method(DataFieldIcons, :drawBattery);
+    if (current >= 90) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryFull); }
     if (current < Application.getApp().gBatteryThreshold) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLow); }
     if (stats.charging) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLoading); }
 
@@ -182,12 +183,12 @@ module DataFieldInfo {
       iconFunc = new Lang.Method(DataFieldIcons, :drawNoBluetoothConnection);
     }
 
-    return new DataFieldProperties(FieldType.BLUETOOTH, iconFunc, "", 0);
+    return new DataFieldProperties(FieldType.BLUETOOTH, iconFunc, " ", 0);
   }
 
   function getAlarmsInfo() {
     var alarmCount = System.getDeviceSettings().alarmCount;
 
-    return new DataFieldProperties(FieldType.ALARMS, new Lang.Method(DataFieldIcons, :drawActiveMinutes), alarmCount.format(Format.INT), 0);
+    return new DataFieldProperties(FieldType.ALARMS, new Lang.Method(DataFieldIcons, :drawAlarms), alarmCount.format(Format.INT), 0);
   }
 }
