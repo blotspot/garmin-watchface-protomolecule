@@ -1,12 +1,17 @@
 using Toybox.Application;
+using Toybox.Background;
 using Toybox.Math;
 using Toybox.System;
+using Toybox.Time.Gregorian;
+using Toybox.UserProfile;
 using Toybox.WatchUi as Ui;
 
+(:background)
 class ProtomoleculeFaceApp extends Application.AppBase {
 
   var gIconSize;
   var gStrokeWidth;
+  var gIsSleepTime = false;
 
   var gTheme;
   var gCaloriesGoal;
@@ -35,9 +40,23 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     var height = System.getDeviceSettings().screenHeight;
     gIconSize = Math.round((width + height) / 2 / 12.4);
     gStrokeWidth = Math.round((width + height) / 2 / 100);
-    gIconsFont = Ui.loadResource(Rez.Fonts.IconsFont);
-    gTextFont = Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont);
     loadConfigurableProperties();
+  }
+
+  function getIconsFont() {
+    if (gIconsFont == null) {
+      gIconsFont = Ui.loadResource(Rez.Fonts.IconsFont);
+    }
+
+    return gIconsFont;
+  }
+
+  function getTextFont() {
+    if (gTextFont == null) {
+      gTextFont = Ui.loadResource(Rez.Fonts.SecondaryIndicatorFont);
+    }
+
+    return gTextFont;
   }
 
   function loadConfigurableProperties() {
@@ -55,6 +74,26 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     gLowerDataField2 = getProperty("lowerDataField2");
   }
 
+  function determineSleepTime() {
+    var profile = UserProfile.getProfile();
+    var oneDay = Gregorian.duration({:days => 1});
+    Log.debug("current " + oneDay.value());
+    Log.debug("sleep " + profile.sleepTime.value());
+    Log.debug("wake " + profile.wakeTime.value());
+    gIsSleepTime = oneDay.greaterThan(profile.sleepTime) && oneDay.greaterThan(profile.wakeTime);
+    if (profile.wakeTime.greaterThan(profile.sleepTime) || profile.wakeTime.compare(profile.sleepTime) == 0) {
+      gIsSleepTime = !gIsSleepTime;
+    }
+    Log.debug("sleepTime " + gIsSleepTime);
+  }
+
+  function initBackground() {
+    if (System has :ServiceDelegate) {     
+      Background.registerForSleepEvent();
+      Background.registerForWakeEvent();
+    }
+  }
+
   // onStart() is called on application start up
   function onStart(state) {
   }
@@ -65,7 +104,13 @@ class ProtomoleculeFaceApp extends Application.AppBase {
 
   // Return the initial view of your application here
   function getInitialView() {
+    initBackground();
+    determineSleepTime();
     return [ new ProtomoleculeFaceView() ];
+  }
+
+  function getServiceDelegate() {
+    return [ new SleepModeServiceDelegate() ];
   }
 
   // function getSettingsView() {
@@ -75,6 +120,12 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   // New app settings have been received so trigger a UI update
   function onSettingsChanged() {
     loadConfigurableProperties();
+    WatchUi.requestUpdate();
+  }
+
+  function onBackgroundData(data) {
+    Log.debug("background data recieved: "+data);
+    gIsSleepTime = data;
     WatchUi.requestUpdate();
   }
 

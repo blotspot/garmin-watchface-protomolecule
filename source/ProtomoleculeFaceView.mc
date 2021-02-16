@@ -6,7 +6,7 @@ using Toybox.System;
 class ProtomoleculeFaceView extends Ui.WatchFace {
 
   var mEnterSleep = false;
-
+  var mLastUpdateSleepTime = false; 
   hidden var mOuterRing;
   hidden var mUpperRing1;
   hidden var mUpperRing2;
@@ -19,6 +19,8 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
   hidden var mActiveHeartrateField;
   hidden var mActiveHeartrateCounter = 0;
 
+  hidden var mSettings;
+
   function initialize() {
     WatchFace.initialize();
   }
@@ -26,14 +28,7 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
   // Load your resources here
   function onLayout(dc) {
     setLayout(Rez.Layouts.WatchFaceAlt(dc));
-    mOuterRing = findDrawableById("OuterDataField");
-    mUpperRing1 = findDrawableById("UpperDataField1");
-    mUpperRing2 = findDrawableById("UpperDataField2");
-    mLowerRing1 = findDrawableById("LowerDataField1");
-    mLowerRing2 = findDrawableById("LowerDataField2");
-    mNoProgress1 = findDrawableById("NoProgressDataField1");
-    mNoProgress2 = findDrawableById("NoProgressDataField2");
-    mNoProgress3 = findDrawableById("NoProgressDataField3");
+    getDrawableDataFields();
   }
 
   // Called when this View is brought to the foreground. Restore
@@ -47,7 +42,12 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
     clearClip(dc);
     // Call the parent onUpdate function to redraw the layout
     if (requiresBurnInProtection()) {
-      setLayout(mEnterSleep ? Rez.Layouts.SimpleWatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc));
+      setLayout((mEnterSleep) ? Rez.Layouts.SimpleWatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc));
+    } else {
+      if (mLastUpdateSleepTime != Application.getApp().gIsSleepTime) {
+        setLayout((Application.getApp().gIsSleepTime) ? Rez.Layouts.WatchFaceSleep(dc) : Rez.Layouts.WatchFaceAlt(dc));
+        mLastUpdateSleepTime = Application.getApp().gIsSleepTime;
+      }
     }
 
     if (Application.getApp().gActiveHeartrate) {
@@ -89,13 +89,15 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
     }
   }
 
-  function requiresBurnInProtection() {
-    var settings = System.getDeviceSettings();
-    return settings has :requiresBurnInProtection && settings.requiresBurnInProtection;
-  }
-
   // too expensive
   function onPartialUpdate(dc) {
+    Log.debug("partialUpdate: " + (!Application.getApp().gIsSleepTime));
+    if (!Application.getApp().gIsSleepTime) {
+      updateHeartrate(dc);
+    }
+  }
+
+  function updateHeartrate(dc) {
     if (mActiveHeartrateField != null) {
       mActiveHeartrateCounter += 1; 
       if (mActiveHeartrateCounter % 10 == 0) {
@@ -105,12 +107,25 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
     }
   }
 
-  function updateHeartrate(dc) {
-
+  hidden function _settings() {
+    if (mSettings == null) {
+      mSettings = System.getDeviceSettings();
+    }
+    return mSettings;
   }
 
-  function updateSeconds(dc) {
-
+  hidden function requiresBurnInProtection() {
+    return _settings() has :requiresBurnInProtection && _settings().requiresBurnInProtection;
   }
 
+  hidden function getDrawableDataFields() {
+    mOuterRing = findDrawableById("OuterDataField");
+    mUpperRing1 = findDrawableById("UpperDataField1");
+    mUpperRing2 = findDrawableById("UpperDataField2");
+    mLowerRing1 = findDrawableById("LowerDataField1");
+    mLowerRing2 = findDrawableById("LowerDataField2");
+    mNoProgress1 = findDrawableById("NoProgressDataField1");
+    mNoProgress2 = findDrawableById("NoProgressDataField2");
+    mNoProgress3 = findDrawableById("NoProgressDataField3");
+  }
 }

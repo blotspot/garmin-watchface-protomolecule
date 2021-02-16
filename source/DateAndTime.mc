@@ -36,11 +36,11 @@ class DateAndTime extends Ui.Drawable {
 
     var hoursDim = dc.getTextDimensions(hours, mHoursFont);
     var hoursX = dc.getWidth() * 0.485;
-    var hoursY = dc.getWidth() * 0.48 - hoursDim[1] / 2.0;
+    var hoursY = dc.getHeight() * 0.48 - hoursDim[1] / 2.0;
 
     var minutesDim = dc.getTextDimensions(minutes, mMinFont);
     var minutesX = dc.getWidth() * 0.515;
-    var minutesY = dc.getWidth() * 0.48 - minutesDim[1] / 2.0;
+    var minutesY = dc.getHeight() * 0.48 - minutesDim[1] / 2.0;
 
     var offset = 0;
     if (mLowPowerMode) {
@@ -48,12 +48,11 @@ class DateAndTime extends Ui.Drawable {
     }
 
     dc.setColor((mLowPowerMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND)), Graphics.COLOR_TRANSPARENT);
+    
     // Date
     dc.drawText(dateX, dateY + offset, mDateFont, date, Graphics.TEXT_JUSTIFY_CENTER);
-
     // Hours
     dc.drawText(hoursX, hoursY + offset, mHoursFont, hours, Graphics.TEXT_JUSTIFY_RIGHT);
-
     // Minutes
     dc.drawText(minutesX, minutesY + offset, mMinFont, minutes, Graphics.TEXT_JUSTIFY_LEFT);
   }

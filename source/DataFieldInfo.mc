@@ -22,8 +22,10 @@ module FieldId {
     UPPER_2,
     LOWER_1,
     LOWER_2,
-    SIMPLE_LEFT,
-    SIMPLE_RIGHT
+    SLEEP_BATTERY,
+    SLEEP_HR,
+    SLEEP_ALARMS,
+    SLEEP_NOTIFY
   }
 }
 
@@ -74,6 +76,14 @@ module DataFieldInfo {
       return getInfoForType(Application.getApp().gLowerDataField1);
     } else if (fieldId == FieldId.LOWER_2) {
       return getInfoForType(Application.getApp().gLowerDataField2);
+    } else if (fieldId == FieldId.SLEEP_HR) {
+      return getHeartRateInfo();
+    } else if (fieldId == FieldId.SLEEP_NOTIFY) {
+      return getNotificationInfo();
+    } else if (fieldId == FieldId.SLEEP_ALARMS) {
+      return getAlarmsInfo();
+    } else if (fieldId == FieldId.SLEEP_BATTERY) {
+      return getBatteryInfo();
     }
 
     return null;

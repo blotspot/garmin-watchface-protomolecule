@@ -27,18 +27,16 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function update(dc) {
-    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, app.gTextFont) + app.gIconSize;
+    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, app.getTextFont()) + app.gIconSize;
     var offset = fieldWidth * mOffsetMod;
     setClippingRegion(dc, offset, app.gStrokeWidth);
 
     if (mLastInfo.text.equals("0")) {
       dc.setColor(themeColor(Color.SECONDARY_INACTIVE), Graphics.COLOR_TRANSPARENT);
-    } else {
-      dc.setColor(themeColor(Color.SECONDARY_ACTIVE), Graphics.COLOR_TRANSPARENT);
     }
 
     mLastInfo.icon.invoke(dc, mXPos - offset + (app.gIconSize / 2.0), mYPos, app.gIconSize, app.gStrokeWidth, mLastInfo.text);
-    drawText(dc, mLastInfo.text, app.gTextFont, mXPos - offset + app.gIconSize + app.gStrokeWidth);
+    drawText(dc, mLastInfo.text, app.getTextFont(), mXPos - offset + app.gIconSize + app.gStrokeWidth);
   }
 
   function partialUpdate(dc) {
@@ -57,7 +55,7 @@ class SecondaryDataField extends DataFieldDrawable {
 
   function setClippingRegion(dc, offset, penSize) {
     var contentDimensions = getDimensions(dc);
-    dc.setColor(themeColor(mFieldId), themeColor(Color.BACKGROUND));
+    dc.setColor(themeColor(Color.SECONDARY_ACTIVE), themeColor(Color.BACKGROUND));
     dc.setClip(
       mXPos - offset,
       mYPos - contentDimensions[1] / 2 - penSize / 2,
@@ -68,7 +66,7 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function getDimensions(dc) {
-    var dim = dc.getTextDimensions(mLastInfo.text, app.gTextFont);
+    var dim = dc.getTextDimensions("000", app.getTextFont());
     dim[0] = dim[0] + app.gIconSize;
     if (dim[1] < app.gIconSize) {
       dim[1] = app.gIconSize;

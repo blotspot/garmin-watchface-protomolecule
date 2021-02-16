@@ -35,9 +35,9 @@ module Color {
       Graphics.COLOR_LT_GRAY, // SECONDARY_INACTIVE
       Graphics.COLOR_DK_BLUE, // OUTER
       Graphics.COLOR_BLUE, // UPPER_1
-      0x0055AA, // UPPER_2
-      0x00AAAA, // LOWER_1
-      0x005555, // LOWER_2
+      Graphics.COLOR_BLUE, // UPPER_2
+      Graphics.COLOR_BLUE, // LOWER_1
+      Graphics.COLOR_BLUE, // LOWER_2
       Graphics.COLOR_BLACK,   // BACKGROUND
       Graphics.COLOR_WHITE,   // FOREGROUND
       Graphics.COLOR_DK_GRAY  // INACTIVE
@@ -46,11 +46,11 @@ module Color {
     [
       Graphics.COLOR_WHITE,  // SECONDARY_ACTIVE
       Graphics.COLOR_LT_GRAY,// SECONDARY_INACTIVE
-      Graphics.COLOR_DK_RED, // OUTER
-      Graphics.COLOR_YELLOW, // UPPER_1
+      Graphics.COLOR_RED, // OUTER
+      Graphics.COLOR_ORANGE, // UPPER_1
       Graphics.COLOR_ORANGE, // UPPER_2
       Graphics.COLOR_ORANGE, // LOWER_1
-      Graphics.COLOR_RED,    // LOWER_2
+      Graphics.COLOR_ORANGE,    // LOWER_2
       Graphics.COLOR_BLACK,  // BACKGROUND
       Graphics.COLOR_WHITE,  // FOREGROUND
       Graphics.COLOR_DK_GRAY // INACTIVE
@@ -62,8 +62,8 @@ module Color {
       Graphics.COLOR_ORANGE, // OUTER
       Graphics.COLOR_YELLOW, // UPPER_1
       Graphics.COLOR_YELLOW, // UPPER_2
-      0xFFFF00, // LOWER_1
-      0xFFFF00, // LOWER_2
+      Graphics.COLOR_YELLOW, // LOWER_1
+      Graphics.COLOR_YELLOW, // LOWER_2
       Graphics.COLOR_BLACK,  // BACKGROUND
       Graphics.COLOR_WHITE,  // FOREGROUND
       Graphics.COLOR_DK_GRAY // INACTIVE
@@ -74,9 +74,9 @@ module Color {
       Graphics.COLOR_TRANSPARENT,  // SECONDARY_INACTIVE
       Graphics.COLOR_YELLOW, // OUTER
       Graphics.COLOR_BLUE,    // UPPER_1
-      Graphics.COLOR_DK_BLUE, // UPPER_2
+      Graphics.COLOR_BLUE, // UPPER_2
       Graphics.COLOR_RED,     // LOWER_1
-      Graphics.COLOR_DK_RED,  // LOWER_2
+      Graphics.COLOR_RED,  // LOWER_2
       Graphics.COLOR_WHITE,   // BACKGROUND
       Graphics.COLOR_BLACK,   // FOREGROUND
       Graphics.COLOR_LT_GRAY  // INACTIVE
@@ -87,9 +87,9 @@ module Color {
       Graphics.COLOR_TRANSPARENT, // SECONDARY_INACTIVE
       Graphics.COLOR_DK_BLUE, // OUTER
       Graphics.COLOR_BLUE, // UPPER_1
-      0x0055AA, // UPPER_2
-      0x00AAAA, // LOWER_1
-      0x005555, // LOWER_2
+      Graphics.COLOR_BLUE, // UPPER_2
+      Graphics.COLOR_BLUE, // LOWER_1
+      Graphics.COLOR_BLUE, // LOWER_2
       Graphics.COLOR_WHITE,   // BACKGROUND
       Graphics.COLOR_BLACK,   // FOREGROUND
       Graphics.COLOR_LT_GRAY  // INACTIVE

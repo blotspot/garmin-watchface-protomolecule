@@ -82,12 +82,12 @@ module DataFieldIcons {
 
   function drawSeconds(dc, x, y, size, penSize, value) {
     dc.setColor(themeColor(Color.SECONDARY_ACTIVE), Graphics.COLOR_TRANSPARENT);
-    var font = Application.getApp().gTextFont;
+    var font = Application.getApp().getTextFont();
     dc.drawText(x, y - (size * 0.1), font, value, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
   }
 
   function textIcon(dc, x, y, string) {
-    var font = Application.getApp().gIconsFont;
+    var font = Application.getApp().getIconsFont();
     dc.drawText(x, y, font, string, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
   }
   

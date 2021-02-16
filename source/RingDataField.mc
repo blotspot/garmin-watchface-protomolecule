@@ -86,7 +86,7 @@ class RingDataField extends DataFieldDrawable {
   }
 
   hidden function getForeground() {
-    if (mFieldId == FieldId.OUTER) {
+    if (mFieldId == FieldId.OUTER || mFieldId == FieldId.SLEEP_BATTERY) {
       return themeColor(Color.OUTER);
     } else if (mFieldId == FieldId.UPPER_1) {
       return themeColor(Color.UPPER_1);
