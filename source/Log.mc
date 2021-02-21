@@ -7,3 +7,8 @@ using Toybox.Application;
     System.println("debug :: " + string);
   }
 }
+
+(:release) module Log {
+
+  function debug(string) {}
+}

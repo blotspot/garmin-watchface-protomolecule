@@ -91,7 +91,6 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
 
   // too expensive
   function onPartialUpdate(dc) {
-    Log.debug("partialUpdate: " + (!Application.getApp().gIsSleepTime));
     if (!Application.getApp().gIsSleepTime) {
       updateHeartrate(dc);
     }

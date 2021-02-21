@@ -2,6 +2,7 @@ using Toybox.Application;
 using Toybox.Background;
 using Toybox.Math;
 using Toybox.System;
+using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.UserProfile;
 using Toybox.WatchUi as Ui;
@@ -76,15 +77,21 @@ class ProtomoleculeFaceApp extends Application.AppBase {
 
   function determineSleepTime() {
     var profile = UserProfile.getProfile();
-    var oneDay = Gregorian.duration({:days => 1});
-    Log.debug("current " + oneDay.value());
-    Log.debug("sleep " + profile.sleepTime.value());
+    var current = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+    current = new Time.Duration(current.hour * 3600 + current.min * 60);
+
+    Log.debug("current " + current.value());
     Log.debug("wake " + profile.wakeTime.value());
-    gIsSleepTime = oneDay.greaterThan(profile.sleepTime) && oneDay.greaterThan(profile.wakeTime);
-    if (profile.wakeTime.greaterThan(profile.sleepTime) || profile.wakeTime.compare(profile.sleepTime) == 0) {
-      gIsSleepTime = !gIsSleepTime;
+    Log.debug("sleep " + profile.sleepTime.value());
+    if (profile.wakeTime.lessThan(profile.sleepTime)) {
+      gIsSleepTime = current.greaterThan(profile.sleepTime) || current.lessThan(profile.wakeTime);
+    } else if (profile.wakeTime.greaterThan(profile.sleepTime)) {
+      gIsSleepTime = current.greaterThan(profile.sleepTime) && current.lessThan(profile.wakeTime);
+    } else {
+      gIsSleepTime = false;
     }
     Log.debug("sleepTime " + gIsSleepTime);
+
   }
 
   function initBackground() {
@@ -120,12 +127,13 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   // New app settings have been received so trigger a UI update
   function onSettingsChanged() {
     loadConfigurableProperties();
+    determineSleepTime();
     WatchUi.requestUpdate();
   }
 
   function onBackgroundData(data) {
-    Log.debug("background data recieved: "+data);
     gIsSleepTime = data;
+    Log.debug("sleepTime " + gIsSleepTime);
     WatchUi.requestUpdate();
   }
 

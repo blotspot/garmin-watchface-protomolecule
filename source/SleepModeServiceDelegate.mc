@@ -10,12 +10,10 @@ class SleepModeServiceDelegate extends System.ServiceDelegate {
   }
 
   function onSleepTime() {
-    System.println("sleep event triggered");
     Background.exit(true);
   }
 
   function onWakeTime() {
-    System.println("wake event triggered");
     Background.exit(false);
   }
 }
