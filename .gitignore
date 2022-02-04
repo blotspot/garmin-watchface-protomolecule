@@ -3,3 +3,4 @@
 /bin
 *.iml
 *.code-workspace
+.vscode
