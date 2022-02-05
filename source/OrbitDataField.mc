@@ -2,7 +2,7 @@ using Toybox.Graphics;
 using Toybox.Math;
 using Toybox.WatchUi as Ui;
 
-class GoalIndicator extends DataFieldDrawable {
+class OrbitDataField extends DataFieldDrawable {
 
   hidden var mXPos;
   hidden var mYPos;
@@ -143,7 +143,7 @@ class GoalIndicator extends DataFieldDrawable {
   hidden function setClippingRegion(dc, penSize) {
     dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     
-    dc.clearClip();
+    clearClip(dc);
   }
 
   hidden function getForeground() {

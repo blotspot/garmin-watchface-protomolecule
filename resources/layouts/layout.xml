@@ -24,7 +24,7 @@
     <param name="yPos">0.685 * dc.getHeight()</param>
   </drawable>
 
-  <drawable id="OuterDataField" class="GoalIndicator">
+  <drawable id="OuterDataField" class="OrbitDataField">
     <param name="fieldId">FieldId.OUTER</param>
     <param name="textTop">false</param>
     <param name="xPos">0.5 * dc.getWidth()</param>
@@ -34,7 +34,7 @@
     <param name="radius">dc.getWidth() / 2.0 * 0.96</param>
   </drawable>
 
-  <drawable id="UpperDataField1" class="GoalIndicator">
+  <drawable id="UpperDataField1" class="OrbitDataField">
     <param name="fieldId">FieldId.UPPER_1</param>
     <param name="textTop">false</param>
     <param name="xPos">0.37 * dc.getWidth()</param>
@@ -44,7 +44,7 @@
     <param name="radius">dc.getWidth() / 2.0 * 0.89</param>
   </drawable>
 
-  <drawable id="UpperDataField2" class="GoalIndicator">
+  <drawable id="UpperDataField2" class="OrbitDataField">
     <param name="fieldId">FieldId.UPPER_2</param>
     <param name="textTop">false</param>
     <param name="xPos">0.63 * dc.getWidth()</param>

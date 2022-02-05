@@ -1,5 +1,12 @@
 <settings>
 
+  <setting propertyKey="@Properties.layout" title="@Strings.SettingsLayoutTitle">
+    <settingConfig type="list">
+      <listEntry value="0">@Strings.LayoutOrbit</listEntry>
+      <listEntry value="1">@Strings.LayoutCircles</listEntry>
+    </settingConfig>
+  </setting>
+
   <setting propertyKey="@Properties.theme" title="@Strings.SettingsThemeTitle">
     <settingConfig type="list">
       <listEntry value="0">@Strings.ThemeExpanse</listEntry>

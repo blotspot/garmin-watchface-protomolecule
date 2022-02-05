@@ -1,4 +1,5 @@
 <properties>  
+  <property id="layout" type="number">0</property>
   <property id="theme" type="number">0</property>
   
   <property id="caloriesGoal" type="number">2000</property>

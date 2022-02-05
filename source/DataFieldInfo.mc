@@ -12,6 +12,13 @@ module Format {
   const FLOAT = "%2.0d";
 }
 
+module LayoutId {
+  enum {
+    ORBIT,
+    CIRCLES
+  }
+}
+
 module FieldId {
   enum {
     NO_PROGRESS_1,

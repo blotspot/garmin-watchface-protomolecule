@@ -21,12 +21,15 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
 
   hidden var mSettings;
 
+  hidden var mLastLayout;
+
   function initialize() {
     WatchFace.initialize();
   }
 
   function chooseLayout(dc) {
-    return ((true) ? Rez.Layouts.WatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc));
+    mLastLayout = Application.getApp().gLayout;
+    return ((mLastLayout == LayoutId.ORBIT) ? Rez.Layouts.WatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc));
   }
 
   // Load your resources here
@@ -49,8 +52,12 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
       setLayout((mEnterSleep) ? Rez.Layouts.SimpleWatchFace(dc) : chooseLayout(dc));
     } else {
       if (mLastUpdateSleepTime != Application.getApp().gIsSleepTime) {
-        setLayout((Application.getApp().gIsSleepTime) ? Rez.Layouts.WatchFaceSleep(dc) : Rez.Layouts.WatchFaceAlt(dc));
+        setLayout((Application.getApp().gIsSleepTime) ? Rez.Layouts.WatchFaceSleep(dc) : chooseLayout(dc));
         mLastUpdateSleepTime = Application.getApp().gIsSleepTime;
+      } else {
+          if (Application.getApp().gLayout != mLastLayout) {
+            setLayout(chooseLayout(dc));
+          }
       }
     }
 
@@ -93,7 +100,7 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
     }
   }
 
-  // too expensive
+  // too expensive?
   function onPartialUpdate(dc) {
     if (!Application.getApp().gIsSleepTime) {
       updateHeartrate(dc);

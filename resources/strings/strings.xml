@@ -1,6 +1,9 @@
 <strings>
   <string id="AppName">Protomolecule Watch Face</string>
 
+  <string id="LayoutOrbit">Orbit (6 Data Fields)</string>
+  <string id="LayoutCircles">Circles (7 Data Fields)</string>
+
   <string id="ThemeExpanse">Expanse</string>
   <string id="ThemeEarth">UN</string>
   <string id="ThemeMars">MCR</string>
@@ -8,6 +11,7 @@
   <string id="ThemeExpanseLight">Expanse (Light)</string>
   <string id="ThemeEarthLight">UN (Light)</string>
 
+  <string id="SettingsLayoutTitle">Choose Layout</string>
   <string id="SettingsThemeTitle">Choose Theme</string>
   <string id="SettingsShowRemainingIndicator">Show Remaining Part of Indicator</string>
   <string id="SettingsCaloriesGoalTitle">Daily Calories Goal</string>

@@ -14,6 +14,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   var gStrokeWidth;
   var gIsSleepTime = false;
 
+  var gLayout;
   var gTheme;
   var gCaloriesGoal;
   var gBatteryThreshold;
@@ -66,6 +67,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   }
 
   function loadConfigurableProperties() {
+    gLayout = getProperty("layout");
     gTheme = getProperty("theme");
     gCaloriesGoal = getProperty("caloriesGoal");
     gBatteryThreshold = getProperty("batteryThreshold");

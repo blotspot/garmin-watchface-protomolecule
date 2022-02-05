@@ -1,6 +1,9 @@
 <strings>
   <string id="AppName">Protomolecule Watch Face</string>
 
+  <string id="LayoutOrbit">Orbit (6 Datenfelder)</string>
+  <string id="LayoutCircles">Kreise (7 Datenfelder)</string>
+
   <string id="ThemeExpanse">Expanse</string>
   <string id="ThemeEarth">UN</string>
   <string id="ThemeMars">MCR</string>
@@ -8,10 +11,11 @@
   <string id="ThemeExpanseLight">Expanse (Light)</string>
   <string id="ThemeEarthLight">UN (Light)</string>
 
+  <string id="SettingsLayoutTitle">Wähle ein Layout</string>
   <string id="SettingsThemeTitle">Wähle ein Design</string>
   <string id="SettingsShowRemainingIndicator">Zeige den verbleibenden Teil des Indikators</string>
   <string id="SettingsCaloriesGoalTitle">Tägliches Kalorienziel</string>
-  <string id="SettingsBatteryThresholdTitle">'Batteriestand kritisch' Icon bei %</string>
+  <string id="SettingsBatteryThresholdTitle">'Batterie leer' Icon bei %</string>
   <string id="SettingsActiveHeartrateTitle">Herzfrequenz öfter aktualisieren</string>
   
   <string id="SettingsOuterTitle">Äußers Datenfeld (Ohne Icon)</string>
