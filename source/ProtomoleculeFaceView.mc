@@ -25,9 +25,13 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
     WatchFace.initialize();
   }
 
+  function chooseLayout(dc) {
+    return ((true) ? Rez.Layouts.WatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc));
+  }
+
   // Load your resources here
   function onLayout(dc) {
-    setLayout(Rez.Layouts.WatchFaceAlt(dc));
+    setLayout(chooseLayout(dc));
     getDrawableDataFields();
   }
 
@@ -42,7 +46,7 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
     clearClip(dc);
     // Call the parent onUpdate function to redraw the layout
     if (requiresBurnInProtection()) {
-      setLayout((mEnterSleep) ? Rez.Layouts.SimpleWatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc));
+      setLayout((mEnterSleep) ? Rez.Layouts.SimpleWatchFace(dc) : chooseLayout(dc));
     } else {
       if (mLastUpdateSleepTime != Application.getApp().gIsSleepTime) {
         setLayout((Application.getApp().gIsSleepTime) ? Rez.Layouts.WatchFaceSleep(dc) : Rez.Layouts.WatchFaceAlt(dc));

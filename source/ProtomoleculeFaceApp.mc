@@ -31,6 +31,9 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   var gIconsFont;
   var gTextFont;
 
+  var gCenterXPos;
+  var gCenterYPos;
+
   function initialize() {
     AppBase.initialize();
     loadProperties();
@@ -41,6 +44,8 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     var height = System.getDeviceSettings().screenHeight;
     gIconSize = Math.round((width + height) / 2 / 12.4);
     gStrokeWidth = Math.round((width + height) / 2 / 100);
+    gCenterXPos = width / 2.0;
+    gCenterYPos = height / 2.0;
     loadConfigurableProperties();
   }
 

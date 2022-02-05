@@ -1,0 +1,56 @@
+<layout id="WatchFace">
+	<drawable id="Background" class="Background"/>
+
+  <drawable id="DateAndTime" class="DateAndTime">
+    <param name="lowPowerMode">false</param>
+  </drawable>
+
+  <drawable id="NoProgressDataField1" class="SecondaryDataField">
+    <param name="fieldId">FieldId.NO_PROGRESS_1</param>
+    <param name="offsetModifier">0</param>
+    <param name="xPos">0.168 * dc.getWidth()</param>
+    <param name="yPos">0.685 * dc.getHeight()</param>
+  </drawable>
+  <drawable id="NoProgressDataField2" class="SecondaryDataField">
+    <param name="fieldId">FieldId.NO_PROGRESS_2</param>
+    <param name="offsetModifier">0.5</param>
+    <param name="xPos">0.5 * dc.getWidth()</param>
+    <param name="yPos">0.685 * dc.getHeight()</param>
+  </drawable>
+  <drawable id="NoProgressDataField3" class="SecondaryDataField">
+    <param name="fieldId">FieldId.NO_PROGRESS_3</param>
+    <param name="offsetModifier">1</param>
+    <param name="xPos">0.832 * dc.getWidth()</param>
+    <param name="yPos">0.685 * dc.getHeight()</param>
+  </drawable>
+
+  <drawable id="OuterDataField" class="GoalIndicator">
+    <param name="fieldId">FieldId.OUTER</param>
+    <param name="textTop">false</param>
+    <param name="xPos">0.5 * dc.getWidth()</param>
+    <param name="yPos">0.785 * dc.getHeight()</param>
+    <param name="startDegree">270</param>
+    <param name="totalDegree">360</param>
+    <param name="radius">dc.getWidth() / 2.0 * 0.96</param>
+  </drawable>
+
+  <drawable id="UpperDataField1" class="GoalIndicator">
+    <param name="fieldId">FieldId.UPPER_1</param>
+    <param name="textTop">false</param>
+    <param name="xPos">0.37 * dc.getWidth()</param>
+    <param name="yPos">0.094 * dc.getHeight()</param>
+    <param name="startDegree">248</param>
+    <param name="totalDegree">150</param>
+    <param name="radius">dc.getWidth() / 2.0 * 0.89</param>
+  </drawable>
+
+  <drawable id="UpperDataField2" class="GoalIndicator">
+    <param name="fieldId">FieldId.UPPER_2</param>
+    <param name="textTop">false</param>
+    <param name="xPos">0.63 * dc.getWidth()</param>
+    <param name="yPos">0.094 * dc.getHeight()</param>
+    <param name="startDegree">82</param>
+    <param name="totalDegree">150</param>
+    <param name="radius">dc.getWidth() / 2.0 * 0.89</param>
+  </drawable>
+</layout> 
