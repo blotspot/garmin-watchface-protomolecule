@@ -24,6 +24,9 @@ module FieldId {
     NO_PROGRESS_1,
     NO_PROGRESS_2,
     NO_PROGRESS_3,
+    ORBIT_OUTER,
+    ORBIT_LEFT,
+    ORBIT_RIGHT,
     OUTER,
     UPPER_1,
     UPPER_2,
@@ -73,11 +76,11 @@ module DataFieldInfo {
       return getInfoForType(Application.getApp().gNoProgressDataField2);
     } else if (fieldId == FieldId.NO_PROGRESS_3) {
       return getInfoForType(Application.getApp().gNoProgressDataField3);
-    } else if (fieldId == FieldId.OUTER) {
+    } else if (fieldId == FieldId.OUTER || fieldId == FieldId.ORBIT_OUTER) {
       return getInfoForType(Application.getApp().gOuterDataField);
-    } else if (fieldId == FieldId.UPPER_1) {
+    } else if (fieldId == FieldId.UPPER_1 || fieldId == FieldId.ORBIT_LEFT) {
       return getInfoForType(Application.getApp().gUpperDataField1);
-    } else if (fieldId == FieldId.UPPER_2) {
+    } else if (fieldId == FieldId.UPPER_2 || fieldId == FieldId.ORBIT_RIGHT) {
       return getInfoForType(Application.getApp().gUpperDataField2);
     } else if (fieldId == FieldId.LOWER_1) {
       return getInfoForType(Application.getApp().gLowerDataField1);

@@ -5,13 +5,11 @@ using Toybox.System;
 
 class ProtomoleculeFaceView extends Ui.WatchFace {
 
-  var mEnterSleep = false;
+  var mLowPowerMode = false;
+  var mLastUpdateLowPowerMode = false;
   var mLastUpdateSleepTime = false; 
-  hidden var mOuterRing;
-  hidden var mUpperRing1;
-  hidden var mUpperRing2;
-  hidden var mLowerRing1;
-  hidden var mLowerRing2;
+  hidden var mLastLayout;
+  
   hidden var mNoProgress1;
   hidden var mNoProgress2;
   hidden var mNoProgress3;
@@ -21,20 +19,71 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
 
   hidden var mSettings;
 
-  hidden var mLastLayout;
-
   function initialize() {
     WatchFace.initialize();
   }
 
-  function chooseLayout(dc) {
+  function chooseLayout(dc, onLayoutCall) {
+    // onLayout
+    if (onLayoutCall) {
+      if (requiresBurnInProtection() && mLowPowerMode) {
+        Log.debug("set burn-in protection layout");
+        return Rez.Layouts.SimpleWatchFace(dc);
+      } else if (Application.getApp().gIsSleepTime) {
+        Log.debug("set sleep time layout");
+        return Rez.Layouts.WatchFaceSleep(dc);
+      } else {
+        Log.debug("set default layout");
+        return defaultLayout(dc);
+      }
+    }
+    // enter / exit low power mode triggered
+    if (requiresBurnInProtection() && mLastUpdateLowPowerMode != mLowPowerMode) {
+      Log.debug("burn-in protection layout switch");
+      return burnInProtectionLayout(dc);
+    }
+    // sleep / wake time event triggered
+    if (!mLowPowerMode && mLastUpdateSleepTime != Application.getApp().gIsSleepTime) {
+      Log.debug("sleep time layout switch");
+      return sleepTimeLayout(dc);
+    }
+    // Layout switch trigered
+    if (!mLowPowerMode && !Application.getApp().gIsSleepTime && mLastLayout != Application.getApp().gLayout) {
+      Log.debug("default layout switch");
+      return defaultLayout(dc);
+    }
+    Log.debug("no layout switch triggered");
+    return null;
+  }
+
+  hidden function defaultLayout(dc) {
     mLastLayout = Application.getApp().gLayout;
-    return ((mLastLayout == LayoutId.ORBIT) ? Rez.Layouts.WatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc));
+    return (mLastLayout == LayoutId.ORBIT) ? Rez. Layouts.WatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc);
+  }
+
+  hidden function sleepTimeLayout(dc) {
+    mLastUpdateSleepTime = Application.getApp().gIsSleepTime;
+    if (mLastUpdateSleepTime) {
+      return Rez.Layouts.WatchFaceSleep(dc);
+    } else {
+      return defaultLayout(dc);
+    }
+  }
+
+  hidden function burnInProtectionLayout(dc) {
+    mLastUpdateLowPowerMode = mLowPowerMode;
+    if (mLowPowerMode) {
+      return Rez.Layouts.SimpleWatchFace(dc);
+    }
+    if (Application.getApp().gIsSleepTime) {
+      return sleepTimeLayout(dc);
+    }
+    return defaultLayout(dc);
   }
 
   // Load your resources here
   function onLayout(dc) {
-    setLayout(chooseLayout(dc));
+    setLayout(chooseLayout(dc, true));
     getDrawableDataFields();
   }
 
@@ -48,17 +97,9 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
   function onUpdate(dc) {
     clearClip(dc);
     // Call the parent onUpdate function to redraw the layout
-    if (requiresBurnInProtection()) {
-      setLayout((mEnterSleep) ? Rez.Layouts.SimpleWatchFace(dc) : chooseLayout(dc));
-    } else {
-      if (mLastUpdateSleepTime != Application.getApp().gIsSleepTime) {
-        setLayout((Application.getApp().gIsSleepTime) ? Rez.Layouts.WatchFaceSleep(dc) : chooseLayout(dc));
-        mLastUpdateSleepTime = Application.getApp().gIsSleepTime;
-      } else {
-          if (Application.getApp().gLayout != mLastLayout) {
-            setLayout(chooseLayout(dc));
-          }
-      }
+    var layout = chooseLayout(dc, false);
+    if (layout != null) {
+      setLayout(layout);
     }
 
     if (Application.getApp().gActiveHeartrate) {
@@ -87,7 +128,7 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
   // The user has just looked at their watch. Timers and animations may be started here.
   function onExitSleep() {
     if (requiresBurnInProtection()) {
-      mEnterSleep = false;
+      mLowPowerMode = false;
       WatchUi.requestUpdate();
     }
   }
@@ -95,14 +136,14 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
   // Terminate any active timers and prepare for slow updates.
   function onEnterSleep() {
     if (requiresBurnInProtection()) {
-      mEnterSleep = true;
+      mLowPowerMode = true;
       WatchUi.requestUpdate();
     }
   }
 
   // too expensive?
   function onPartialUpdate(dc) {
-    if (!Application.getApp().gIsSleepTime) {
+    if (!mLastUpdateSleepTime) {
       updateHeartrate(dc);
     }
   }
@@ -129,11 +170,6 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
   }
 
   hidden function getDrawableDataFields() {
-    mOuterRing = findDrawableById("OuterDataField");
-    mUpperRing1 = findDrawableById("UpperDataField1");
-    mUpperRing2 = findDrawableById("UpperDataField2");
-    mLowerRing1 = findDrawableById("LowerDataField1");
-    mLowerRing2 = findDrawableById("LowerDataField2");
     mNoProgress1 = findDrawableById("NoProgressDataField1");
     mNoProgress2 = findDrawableById("NoProgressDataField2");
     mNoProgress3 = findDrawableById("NoProgressDataField3");

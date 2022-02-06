@@ -44,7 +44,7 @@ class DateAndTime extends Ui.Drawable {
 
     var offset = 0;
     if (mLowPowerMode) {
-      offset = calculateOffset(now.min % 5, dateY, hoursY + hoursDim[1]);
+      offset = calculateOffset(dc, now.min % 5, dateY, hoursY + hoursDim[1]);
     }
 
     dc.setColor((mLowPowerMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND)), Graphics.COLOR_TRANSPARENT);
@@ -57,7 +57,7 @@ class DateAndTime extends Ui.Drawable {
     dc.drawText(minutesX, minutesY + offset, mMinFont, minutes, Graphics.TEXT_JUSTIFY_LEFT);
   }
 
-  hidden function calculateOffset(multiplicator, startY, endY) {
+  hidden function calculateOffset(dc, multiplicator, startY, endY) {
     var maxY = dc.getHeight() - endY;
     var minY = startY * -1;
     var window = maxY - minY;

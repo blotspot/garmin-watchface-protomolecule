@@ -4,9 +4,6 @@ using Toybox.WatchUi as Ui;
 
 class OrbitDataField extends DataFieldDrawable {
 
-  hidden var mXPos;
-  hidden var mYPos;
-  hidden var mTextTop;
   hidden var mStartDegree;
   hidden var mTotalDegree;
   hidden var mRadius;
@@ -14,9 +11,6 @@ class OrbitDataField extends DataFieldDrawable {
   function initialize(params) {
     DataFieldDrawable.initialize(params);
 
-    mXPos = params[:xPos];
-    mYPos = params[:yPos];
-    mTextTop = params[:textTop];
     mStartDegree = params[:startDegree];
     mTotalDegree = params[:totalDegree];
     mRadius = params[:radius];
@@ -36,16 +30,10 @@ class OrbitDataField extends DataFieldDrawable {
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
     }
-
-    if (true /* app.gDrawRemainingIndicator */) {
-      dc.setColor(themeColor(Color.INACTIVE), Graphics.COLOR_TRANSPARENT);
-      drawRemainingArc(dc, mLastInfo.progress, mLastInfo.fieldType == FieldType.BATTERY);
-    }
-
-    dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
+    // draw remaining arc first so it wont overdraw our endpoint
+    drawRemainingArc(dc, mLastInfo.progress, mLastInfo.fieldType == FieldType.BATTERY);
     drawProgressArc(dc, mLastInfo.progress, mLastInfo.fieldType == FieldType.BATTERY);
-    
-    drawText(dc);
+    drawIcon(dc);
 
     setAntiAlias(dc, false);
   }
@@ -55,6 +43,7 @@ class OrbitDataField extends DataFieldDrawable {
   }
 
   hidden function drawProgressArc(dc, fillLevel, reverse) {
+    dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     if (fillLevel > 0.0) {
       var startDegree = reverse ? mStartDegree - mTotalDegree + getFillDegree(fillLevel) : mStartDegree;
       var endDegree = reverse ? mStartDegree - mTotalDegree : mStartDegree - getFillDegree(fillLevel);
@@ -75,6 +64,7 @@ class OrbitDataField extends DataFieldDrawable {
 
   hidden function drawRemainingArc(dc, fillLevel, reverse) {
     if (fillLevel < 1.0) {
+      dc.setColor(themeColor(Color.INACTIVE), Graphics.COLOR_TRANSPARENT);
       var startDegree = reverse ? mStartDegree : mStartDegree - getFillDegree(fillLevel);
       var endDegree = mStartDegree - mTotalDegree;
       if (reverse) {
@@ -102,16 +92,16 @@ class OrbitDataField extends DataFieldDrawable {
     dc.fillCircle(x, y, app.gStrokeWidth + app.gStrokeWidth * 0.25);
   }
 
-  hidden function drawText(dc) {
+  hidden function drawIcon(dc) {
     if (mLastInfo.progress == 0) {
-      dc.setColor(themeColor(Color.SECONDARY_INACTIVE), Graphics.COLOR_TRANSPARENT);
+      dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
     } else {
       dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     }
-    var xPos = (mFieldId == FieldId.UPPER_1) ? getX(dc, mStartDegree - mTotalDegree) - (app.gIconSize / 2) : getX(dc, mStartDegree) + (app.gIconSize / 2);
-    var yPos = ((mFieldId == FieldId.UPPER_1) ? getY(dc, mStartDegree - mTotalDegree) : getY(dc, mStartDegree)) + app.gIconSize;
+    var xPos = (mFieldId == FieldId.ORBIT_LEFT) ? getX(dc, mStartDegree - mTotalDegree) - (app.gIconSize / 2) : getX(dc, mStartDegree) + (app.gIconSize / 2);
+    var yPos = ((mFieldId == FieldId.ORBIT_LEFT) ? getY(dc, mStartDegree - mTotalDegree) : getY(dc, mStartDegree)) + app.gIconSize;
 
-    if (mFieldId == FieldId.OUTER) {
+    if (mFieldId == FieldId.ORBIT_OUTER) {
       xPos = app.gCenterXPos;
       yPos = app.gCenterYPos + mRadius - app.gIconSize; 
     }
@@ -147,12 +137,12 @@ class OrbitDataField extends DataFieldDrawable {
   }
 
   hidden function getForeground() {
-    if (mFieldId == FieldId.OUTER || mFieldId == FieldId.SLEEP_BATTERY) {
-      return themeColor(Color.OUTER);
-    } else if (mFieldId == FieldId.UPPER_1) {
-      return themeColor(Color.UPPER_1);
-    } else if (mFieldId == FieldId.UPPER_2) {
-      return themeColor(Color.LOWER_1);  // UPPER 1 and 2 have the same color so we use th lower one
+    if (mFieldId == FieldId.ORBIT_OUTER) {
+      return themeColor(Color.PRIMARY);
+    } else if (mFieldId == FieldId.ORBIT_LEFT) {
+      return themeColor(Color.SECONDARY_1);
+    } else if (mFieldId == FieldId.ORBIT_RIGHT) {
+      return themeColor(Color.SECONDARY_2);
     }
     return themeColor(Color.FOREGROUND);
   }

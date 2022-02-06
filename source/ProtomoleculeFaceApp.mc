@@ -75,11 +75,11 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     gNoProgressDataField1 = getProperty("noProgressDataField1");
     gNoProgressDataField2 = getProperty("noProgressDataField2");
     gNoProgressDataField3 = getProperty("noProgressDataField3");
-    gOuterDataField = getProperty("outerDataField");
-    gUpperDataField1 = getProperty("upperDataField1");
-    gUpperDataField2 = getProperty("upperDataField2");
-    gLowerDataField1 = getProperty("lowerDataField1");
-    gLowerDataField2 = getProperty("lowerDataField2");
+    gOuterDataField = (gLayout == 0) ? getProperty("outerOrbitDataField") : getProperty("outerDataField");
+    gUpperDataField1 = (gLayout == 0) ? getProperty("leftOrbitDataField") : getProperty("upperDataField1");
+    gUpperDataField2 = (gLayout == 0) ? getProperty("rightOrbitDataField") :  getProperty("upperDataField2");
+    gLowerDataField1 = (gLayout == 0) ? null : getProperty("lowerDataField1");
+    gLowerDataField2 = (gLayout == 0) ? null : getProperty("lowerDataField2");
   }
 
   function determineSleepTime() {

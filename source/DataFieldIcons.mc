@@ -64,7 +64,7 @@ module DataFieldIcons {
   }
 
   function drawBluetoothConnection(dc, x, y, size, penSize, value) {
-    dc.setColor(themeColor(Color.SECONDARY_ACTIVE), Graphics.COLOR_TRANSPARENT);
+    dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
     textIcon(dc, x, y, "b");
   }
 
@@ -81,7 +81,7 @@ module DataFieldIcons {
   }
 
   function drawSeconds(dc, x, y, size, penSize, value) {
-    dc.setColor(themeColor(Color.SECONDARY_ACTIVE), Graphics.COLOR_TRANSPARENT);
+    dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
     var font = Application.getApp().getTextFont();
     dc.drawText(x, y - (size * 0.1), font, value, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
   }

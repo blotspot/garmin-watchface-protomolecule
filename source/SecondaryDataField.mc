@@ -32,7 +32,7 @@ class SecondaryDataField extends DataFieldDrawable {
     setClippingRegion(dc, offset, app.gStrokeWidth);
 
     if (mLastInfo.text.equals("0")) {
-      dc.setColor(themeColor(Color.SECONDARY_INACTIVE), Graphics.COLOR_TRANSPARENT);
+      dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
     }
 
     mLastInfo.icon.invoke(dc, mXPos - offset + (app.gIconSize / 2.0), mYPos, app.gIconSize, app.gStrokeWidth, mLastInfo.text);
@@ -55,7 +55,7 @@ class SecondaryDataField extends DataFieldDrawable {
 
   function setClippingRegion(dc, offset, penSize) {
     var contentDimensions = getDimensions(dc);
-    dc.setColor(themeColor(Color.SECONDARY_ACTIVE), themeColor(Color.BACKGROUND));
+    dc.setColor(themeColor(Color.TEXT_ACTIVE), themeColor(Color.BACKGROUND));
     dc.setClip(
       mXPos - offset,
       mYPos - contentDimensions[1] / 2 - penSize / 2,

@@ -2,14 +2,14 @@
   <string id="AppName">Protomolecule Watch Face</string>
 
   <string id="LayoutOrbit">Orbit (6 Datenfelder)</string>
-  <string id="LayoutCircles">Kreise (7 Datenfelder)</string>
+  <string id="LayoutCircles">Kreise (8 Datenfelder)</string>
 
   <string id="ThemeExpanse">Expanse</string>
   <string id="ThemeEarth">UN</string>
   <string id="ThemeMars">MCR</string>
   <string id="ThemeBelt">Belt</string>
-  <string id="ThemeExpanseLight">Expanse (Light)</string>
-  <string id="ThemeEarthLight">UN (Light)</string>
+  <string id="ThemeExpanseLight">Expanse (Hell)</string>
+  <string id="ThemeEarthLight">UN (Hell)</string>
 
   <string id="SettingsLayoutTitle">Wähle ein Layout</string>
   <string id="SettingsThemeTitle">Wähle ein Design</string>
@@ -18,11 +18,15 @@
   <string id="SettingsBatteryThresholdTitle">'Batterie leer' Icon bei %</string>
   <string id="SettingsActiveHeartrateTitle">Herzfrequenz öfter aktualisieren</string>
   
-  <string id="SettingsOuterTitle">Äußers Datenfeld (Ohne Icon)</string>
-  <string id="SettingsUpper1Title">Oberes Datenfeld 1 (Links)</string>
-  <string id="SettingsUpper2Title">Oberes Datenfeld 2 (Rechts)</string>
-  <string id="SettingsLower1Title">Unteres Datenfeld 1 (Links)</string>
-  <string id="SettingsLower2Title">Unteres Datenfeld 2 (Rechts)</string>
+  <string id="SettingsOuterOrbitTitle">[Orbit] Äußeres Datenfeld</string>
+  <string id="SettingsLeftOrbitTitle">[Orbit] Linkes Datenfeld</string>
+  <string id="SettingsRightOrbitTitle">[Orbit] Rechtes Datenfeld</string>
+
+  <string id="SettingsOuterTitle">[Kreise] Äußers Datenfeld (Ohne Icon)</string>
+  <string id="SettingsUpper1Title">[Kreise] Datenfeld oben links</string>
+  <string id="SettingsUpper2Title">[Kreise] Datenfeld oben rechts</string>
+  <string id="SettingsLower1Title">[Kreise] Datenfeld unten links</string>
+  <string id="SettingsLower2Title">[Kreise] Datenfeld unten rechts</string>
   
   <string id="SettingsSecondary1Title">Datenfeld 1 (Links)</string>
   <string id="SettingsSecondary2Title">Datenfeld 2 (Mitte)</string>

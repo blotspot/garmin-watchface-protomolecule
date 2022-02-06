@@ -36,9 +36,9 @@ class RingDataField extends DataFieldDrawable {
 
     if (mShowIcon) {
       if (mLastInfo.progress == 0) {
-        dc.setColor(themeColor(Color.SECONDARY_INACTIVE), Graphics.COLOR_TRANSPARENT);
+        dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
       } else {
-        dc.setColor(themeColor(Color.SECONDARY_ACTIVE), Graphics.COLOR_TRANSPARENT);
+        dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
       }
       mLastInfo.icon.invoke(
         dc,
@@ -87,15 +87,15 @@ class RingDataField extends DataFieldDrawable {
 
   hidden function getForeground() {
     if (mFieldId == FieldId.OUTER || mFieldId == FieldId.SLEEP_BATTERY) {
-      return themeColor(Color.OUTER);
+      return themeColor(Color.PRIMARY);
     } else if (mFieldId == FieldId.UPPER_1) {
-      return themeColor(Color.UPPER_1);
+      return themeColor(Color.SECONDARY_1);
     } else if (mFieldId == FieldId.UPPER_2) {
-      return themeColor(Color.UPPER_2);
+      return themeColor(Color.SECONDARY_1);
     } else if (mFieldId == FieldId.LOWER_1) {
-      return themeColor(Color.LOWER_1);
+      return themeColor(Color.SECONDARY_2);
     } else if (mFieldId == FieldId.LOWER_2) {
-      return themeColor(Color.LOWER_2);
+      return themeColor(Color.SECONDARY_2);
     }
     return themeColor(Color.FOREGROUND);
   }
