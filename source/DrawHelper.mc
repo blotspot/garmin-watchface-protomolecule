@@ -29,7 +29,7 @@ module Color {
     [
       Graphics.COLOR_WHITE,   // TEXT_ACTIVE
       Graphics.COLOR_LT_GRAY, // TEXT_INACTIVE
-      Graphics.COLOR_DK_BLUE, // PRIMARY
+      0x0055aa,               // PRIMARY
       Graphics.COLOR_BLUE,    // SECONDARY_1
       Graphics.COLOR_BLUE,    // SECONDARY_2
       Graphics.COLOR_BLACK,   // BACKGROUND
@@ -51,9 +51,9 @@ module Color {
     [
       Graphics.COLOR_WHITE,  // TEXT_ACTIVE
       Graphics.COLOR_LT_GRAY,// TEXT_INACTIVE
-      Graphics.COLOR_ORANGE, // PRIMARY
-      Graphics.COLOR_YELLOW, // SECONDARY_1
-      Graphics.COLOR_YELLOW, // SECONDARY_2
+      Graphics.COLOR_YELLOW, // PRIMARY
+      0xffff00,              // SECONDARY_1
+      0xffff00,              // SECONDARY_2
       Graphics.COLOR_BLACK,  // BACKGROUND
       Graphics.COLOR_WHITE,  // FOREGROUND
       Graphics.COLOR_DK_GRAY // INACTIVE
