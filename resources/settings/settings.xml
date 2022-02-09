@@ -22,12 +22,20 @@
     <settingConfig type="numeric" min="1" max="9999" required="true"/>
   </setting>
 
+  <setting propertyKey="@Properties.sleepTimeLayout" title="@Strings.SettingsSleepTimeLayoutActiveTitle">
+    <settingConfig type="boolean" required="true"/>
+  </setting>
+
   <setting propertyKey="@Properties.activeHeartrate" title="@Strings.SettingsActiveHeartrateTitle">
     <settingConfig type="boolean" required="true"/>
   </setting>
 
   <setting propertyKey="@Properties.batteryThreshold" title="@Strings.SettingsBatteryThresholdTitle">
     <settingConfig type="numeric" min="1" max="100" required="true"/>
+  </setting>
+
+  <setting propertyKey="@Properties.showOrbitIndicatorText" title="@Strings.SettingsOrbitIndicatorTextTitle">
+    <settingConfig type="boolean" required="true"/>
   </setting>
   
   <setting propertyKey="@Properties.outerOrbitDataField" title="@Strings.SettingsOuterOrbitTitle">

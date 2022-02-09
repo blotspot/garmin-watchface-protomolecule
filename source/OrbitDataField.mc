@@ -103,7 +103,7 @@ class OrbitDataField extends DataFieldDrawable {
 
     if (mFieldId == FieldId.ORBIT_OUTER) {
       xPos = app.gCenterXPos;
-      yPos = app.gCenterYPos + mRadius - app.gIconSize; 
+      yPos = app.gCenterYPos + mRadius - app.gIconSize * (app.gShowOrbitIndicatorText ? 2 : 1); 
     }
 
     mLastInfo.icon.invoke(
@@ -114,6 +114,16 @@ class OrbitDataField extends DataFieldDrawable {
       app.gStrokeWidth,
       mLastInfo.text
     );
+    if (app.gShowOrbitIndicatorText) {
+      yPos += app.gIconSize;
+      dc.drawText(
+        xPos,
+        yPos - 1,
+        app.getTextFont(),
+        mLastInfo.text,
+        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+      );
+    }
   }
 
   hidden function getX(dc, degree) {

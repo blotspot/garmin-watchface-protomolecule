@@ -16,8 +16,10 @@
   <string id="SettingsShowRemainingIndicator">Show Remaining Part of Indicator</string>
   <string id="SettingsCaloriesGoalTitle">Daily Calories Goal</string>
   <string id="SettingsBatteryThresholdTitle">Battery empty icon at %</string>
+  <string id="SettingsSleepTimeLayoutActiveTitle">Fixed Layout during Sleep Time</string>
   <string id="SettingsActiveHeartrateTitle">Update Heartrate every 10 seconds</string>
   
+  <string id="SettingsOrbitIndicatorTextTitle">[Orbit] Show Text for primary DataFields</string>
   <string id="SettingsOuterOrbitTitle">[Orbit] Outer DataField</string>
   <string id="SettingsLeftOrbitTitle">[Orbit] Left DataField</string>
   <string id="SettingsRightOrbitTitle">[Orbit] Right DataField</string>

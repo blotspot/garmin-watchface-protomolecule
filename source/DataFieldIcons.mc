@@ -12,19 +12,19 @@ module DataFieldIcons {
   //! value   => value of data field
 
   function drawBattery(dc, x, y, size, penSize, value) {
-    textIcon(dc, x, y, "m");
+    textIcon(dc, x, y + (size * 0.1), "m");
   }
 
   function drawBatteryFull(dc, x, y, size, penSize, value) {
-    textIcon(dc, x, y, "h");
+    textIcon(dc, x, y + (size * 0.1), "h");
   }
 
   function drawBatteryLow(dc, x, y, size, penSize, value) {
-    textIcon(dc, x, y, "k");
+    textIcon(dc, x, y + (size * 0.1), "k");
   }
 
   function drawBatteryLoading(dc, x, y, size, penSize, value) {
-    textIcon(dc, x, y, "l");
+    textIcon(dc, x, y + (size * 0.1), "l");
   }
 
   function drawSteps(dc, x, y, size, penSize, value) {

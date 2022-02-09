@@ -5,6 +5,8 @@
   <property id="caloriesGoal" type="number">2000</property>
   <property id="batteryThreshold" type="number">20</property>
   <property id="activeHeartrate" type="boolean">true</property>
+  <property id="sleepTimeLayout" type="boolean">false</property>
+  <property id="showOrbitIndicatorText" type="boolean">true</property>
   
   <property id="noProgressDataField1" type="number">5</property>
   <property id="noProgressDataField2" type="number">6</property>

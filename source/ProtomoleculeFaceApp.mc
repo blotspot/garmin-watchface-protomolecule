@@ -19,6 +19,8 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   var gCaloriesGoal;
   var gBatteryThreshold;
   var gActiveHeartrate;
+  var gSleepLayoutActive;
+  var gShowOrbitIndicatorText;
   var gDrawRemainingIndicator;
   var gNoProgressDataField1;
   var gNoProgressDataField2;
@@ -72,6 +74,8 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     gCaloriesGoal = getProperty("caloriesGoal");
     gBatteryThreshold = getProperty("batteryThreshold");
     gActiveHeartrate = getProperty("activeHeartrate");
+    gShowOrbitIndicatorText = getProperty("showOrbitIndicatorText");
+    gSleepLayoutActive = getProperty("sleepTimeLayout");
     gNoProgressDataField1 = getProperty("noProgressDataField1");
     gNoProgressDataField2 = getProperty("noProgressDataField2");
     gNoProgressDataField3 = getProperty("noProgressDataField3");
@@ -87,18 +91,14 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     var current = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
     current = new Time.Duration(current.hour * 3600 + current.min * 60);
 
-    Log.debug("current " + current.value());
-    Log.debug("wake " + profile.wakeTime.value());
-    Log.debug("sleep " + profile.sleepTime.value());
     if (profile.wakeTime.lessThan(profile.sleepTime)) {
-      gIsSleepTime = current.greaterThan(profile.sleepTime) || current.lessThan(profile.wakeTime);
+      gIsSleepTime = gSleepLayoutActive && (current.greaterThan(profile.sleepTime) || current.lessThan(profile.wakeTime));
     } else if (profile.wakeTime.greaterThan(profile.sleepTime)) {
-      gIsSleepTime = current.greaterThan(profile.sleepTime) && current.lessThan(profile.wakeTime);
+      gIsSleepTime = gSleepLayoutActive && current.greaterThan(profile.sleepTime) && current.lessThan(profile.wakeTime);
     } else {
       gIsSleepTime = false;
     }
     Log.debug("sleepTime " + gIsSleepTime);
-
   }
 
   function initBackground() {
@@ -139,7 +139,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   }
 
   function onBackgroundData(data) {
-    gIsSleepTime = data;
+    gIsSleepTime = gSleepLayoutActive && data;
     Log.debug("sleepTime " + gIsSleepTime);
     WatchUi.requestUpdate();
   }
