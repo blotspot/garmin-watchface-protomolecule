@@ -13,6 +13,7 @@
 
   <string id="SettingsLayoutTitle">Choose Layout</string>
   <string id="SettingsThemeTitle">Choose Theme</string>
+  <string id="SettingsShowMeridiemTitle">Show AM / PM on 12-Hour Time</string>
   <string id="SettingsShowRemainingIndicator">Show Remaining Part of Indicator</string>
   <string id="SettingsCaloriesGoalTitle">Daily Calories Goal</string>
   <string id="SettingsBatteryThresholdTitle">Battery empty icon at %</string>

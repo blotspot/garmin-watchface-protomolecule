@@ -21,6 +21,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   var gActiveHeartrate;
   var gSleepLayoutActive;
   var gShowOrbitIndicatorText;
+  var gShowMeridiemText;
   var gDrawRemainingIndicator;
   var gNoProgressDataField1;
   var gNoProgressDataField2;
@@ -75,6 +76,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     gBatteryThreshold = getProperty("batteryThreshold");
     gActiveHeartrate = getProperty("activeHeartrate");
     gShowOrbitIndicatorText = getProperty("showOrbitIndicatorText");
+    gShowMeridiemText = getProperty("showMeridiemText");
     gSleepLayoutActive = getProperty("sleepTimeLayout");
     gNoProgressDataField1 = getProperty("noProgressDataField1");
     gNoProgressDataField2 = getProperty("noProgressDataField2");
