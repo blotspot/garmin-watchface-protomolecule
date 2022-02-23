@@ -2,6 +2,8 @@
 
 A Watchface for Garmin Smartwatches. The date and time and all numbers are based on the "broken" letters used in the television show The Expanse.
 
+Can now be found in the Garmin store: https://apps.garmin.com/en-US/apps/d9f524cc-b8e3-41df-b0d3-967b1743d165 
+
 ### Different Designs
 
 * **Orbit** - Three Indicators that show the progress towards a certain goal
