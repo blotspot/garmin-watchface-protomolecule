@@ -13,6 +13,7 @@
 
   <string id="SettingsLayoutTitle">Wähle ein Layout</string>
   <string id="SettingsThemeTitle">Wähle ein Design</string>
+  <string id="SettingsShowMeridiemTitle">Zeige AM / PM bei 12-Stunden Zeit</string>
   <string id="SettingsShowRemainingIndicator">Zeige den verbleibenden Teil des Indikators</string>
   <string id="SettingsCaloriesGoalTitle">Tägliches Kalorienziel</string>
   <string id="SettingsBatteryThresholdTitle">'Batterie leer' Icon bei %</string>

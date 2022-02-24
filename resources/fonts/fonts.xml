@@ -5,4 +5,5 @@
   <font id="DateFont" filename="PM_23_regular.fnt" antialias="true"/>
   <font id="PrimaryIndicatorFont" filename="PM_23_medium.fnt" antialias="true"/>
   <font id="SecondaryIndicatorFont" filename="PM_23_regular.fnt" antialias="true"/>
+  <font id="MeridiemFont" filename="PM_21_medium.fnt" antialias="true"/>
 </fonts>
