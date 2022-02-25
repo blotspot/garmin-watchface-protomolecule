@@ -20,9 +20,9 @@
     <settingConfig type="numeric" min="1" max="9999" required="true"/>
   </setting>
 
- <!-- <setting propertyKey="@Properties.showMeridiemText" title="@Strings.SettingsShowMeridiemTitle">
+ <setting propertyKey="@Properties.showMeridiemText" title="@Strings.SettingsShowMeridiemTitle">
     <settingConfig type="boolean" required="true"/>
-  </setting> -->
+  </setting>
 
   <setting propertyKey="@Properties.sleepTimeLayout" title="@Strings.SettingsSleepTimeLayoutActiveTitle">
     <settingConfig type="boolean" required="true"/>

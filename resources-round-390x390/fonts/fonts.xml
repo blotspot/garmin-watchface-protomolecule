@@ -3,6 +3,7 @@
   <font id="HoursFont" filename="PM_161_bold.fnt" antialias="true"/>
   <font id="MinutesFont" filename="PM_161_regular.fnt" antialias="true"/>
   <font id="DateFont" filename="PM_36_regular.fnt" antialias="true"/>
-  <font id="PrimaryIndicatorFont" filename="PM_36_medium.fnt" antialias="true"/>
-  <font id="SecondaryIndicatorFont" filename="PM_36_regular.fnt" antialias="true"/>
+  <font id="PrimaryIndicatorFont" filename="PM_36_medium.fnt" filter="1234567890 " antialias="true"/>
+  <font id="SecondaryIndicatorFont" filename="PM_36_regular.fnt" filter="1234567890 " antialias="true"/>
+  <font id="MeridiemFont" filename="PM_23_regular.fnt" filter="pma" antialias="true"/>
 </fonts>

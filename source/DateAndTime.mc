@@ -71,7 +71,7 @@ class DateAndTime extends Ui.Drawable {
     dc.drawText(minutesX, minutesY, mMinFont, minutes, Graphics.TEXT_JUSTIFY_LEFT);
 
     if (is12Hour && Application.getApp().gShowMeridiemText) {
-      dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
+      dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
       var meridiem = (now.hour < 12) ? "am" : "pm";
       var meridiemDim = dc.getTextDimensions(meridiem, mMeridiemFont);
       var x = minutesDim[0] + minutesX;
