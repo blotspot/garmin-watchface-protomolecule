@@ -19,6 +19,7 @@
   <string id="SettingsBatteryThresholdTitle">Battery empty icon at %</string>
   <string id="SettingsSleepTimeLayoutActiveTitle">Fixed Layout during Sleep Time</string>
   <string id="SettingsActiveHeartrateTitle">Update Heartrate every 10 seconds</string>
+  <string id="SettingsUseSystemFontTitle">Use system font for date line (includes all special characters)</string>
   
   <string id="SettingsOrbitIndicatorTextTitle">[Orbit] Show Text for primary DataFields</string>
   <string id="SettingsOuterOrbitTitle">[Orbit] Outer DataField</string>
@@ -46,4 +47,25 @@
   <string id="DataFieldFloorsDown">Floors Down</string>
   <string id="DataFieldBluetooth">Bluetooth</string>
   <string id="DataFieldAlarms">Alarms</string>
+
+  <string id="DateMonth1">Jan</string>
+  <string id="DateMonth2">Feb</string>
+  <string id="DateMonth3">Mar</string>
+  <string id="DateMonth4">Apr</string>
+  <string id="DateMonth5">May</string>
+  <string id="DateMonth6">Jun</string>
+  <string id="DateMonth7">Jul</string>
+  <string id="DateMonth8">Aug</string>
+  <string id="DateMonth9">Sept</string>
+  <string id="DateMonth10">Oct</string>
+  <string id="DateMonth11">Nov</string>
+  <string id="DateMonth12">Dec</string>
+
+  <string id="DateWeek1">Sun</string>
+  <string id="DateWeek2">Mon</string>
+  <string id="DateWeek3">Tue</string>
+  <string id="DateWeek4">Wed</string>
+  <string id="DateWeek5">Thu</string>
+  <string id="DateWeek6">Fri</string>
+  <string id="DateWeek7">Sat</string>
 </strings>

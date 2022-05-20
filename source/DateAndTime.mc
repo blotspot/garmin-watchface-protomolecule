@@ -15,31 +15,53 @@ class DateAndTime extends Ui.Drawable {
   var mHoursFont;
   var mMeridiemFont;
 
+  var DayOfWeek = [];
+  var Months = [];
+
+  var app;
+
   function initialize(params) {
     Drawable.initialize(params);
 
+    app = Application.getApp();
     mLowPowerMode = params[:lowPowerMode] && System.getDeviceSettings().requiresBurnInProtection;
 
     mMinFont = Ui.loadResource(Rez.Fonts.MinutesFont);
     mDateFont = Ui.loadResource(Rez.Fonts.DateFont);
     mHoursFont = Ui.loadResource(Rez.Fonts.HoursFont);
     mMeridiemFont = Ui.loadResource(Rez.Fonts.MeridiemFont);
+
+    Months = [
+      Ui.loadResource(Rez.Strings.DateMonth1),
+      Ui.loadResource(Rez.Strings.DateMonth2),
+      Ui.loadResource(Rez.Strings.DateMonth3),
+      Ui.loadResource(Rez.Strings.DateMonth4),
+      Ui.loadResource(Rez.Strings.DateMonth5),
+      Ui.loadResource(Rez.Strings.DateMonth6),
+      Ui.loadResource(Rez.Strings.DateMonth7),
+      Ui.loadResource(Rez.Strings.DateMonth8),
+      Ui.loadResource(Rez.Strings.DateMonth9),
+      Ui.loadResource(Rez.Strings.DateMonth10),
+      Ui.loadResource(Rez.Strings.DateMonth11),
+      Ui.loadResource(Rez.Strings.DateMonth12)
+    ];
+
+    DayOfWeek = [
+      Ui.loadResource(Rez.Strings.DateWeek1),
+      Ui.loadResource(Rez.Strings.DateWeek2),
+      Ui.loadResource(Rez.Strings.DateWeek3),
+      Ui.loadResource(Rez.Strings.DateWeek4),
+      Ui.loadResource(Rez.Strings.DateWeek5),
+      Ui.loadResource(Rez.Strings.DateWeek6),
+      Ui.loadResource(Rez.Strings.DateWeek7)
+    ];
   }
 
   function draw(dc) {
     var is12Hour = !System.getDeviceSettings().is24Hour;
-    var now = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-    var date = Lang.format("$1$ $2$ $3$", [now.day_of_week, now.day.format("%02d"), now.month]);
-    var hours = now.hour;
-    if (is12Hour) {
-      if (hours == 0) {
-        hours = 12;
-      }
-      if (hours > 12) {
-        hours -= 12;
-      }
-    }
-    hours = hours.format("%02d");
+    var now = Gregorian.info(Time.now(), app.gUseSystemFontForDate ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
+    var date = getDateLine(now);
+    var hours = getHours(now, is12Hour);
     var minutes = now.min.format("%02d");
 
     var dateDim = dc.getTextDimensions(date, mDateFont);
@@ -64,7 +86,7 @@ class DateAndTime extends Ui.Drawable {
     dc.setColor((mLowPowerMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND)), Graphics.COLOR_TRANSPARENT);
     
     // Date
-    dc.drawText(dateX, dateY, mDateFont, date, Graphics.TEXT_JUSTIFY_CENTER);
+    dc.drawText(dateX, dateY, app.gUseSystemFontForDate ? Graphics.FONT_TINY : mDateFont, date, Graphics.TEXT_JUSTIFY_CENTER);
     // Hours
     dc.drawText(hoursX, hoursY, mHoursFont, hours, Graphics.TEXT_JUSTIFY_RIGHT);
     // Minutes
@@ -78,6 +100,27 @@ class DateAndTime extends Ui.Drawable {
       var y = dc.getHeight() * 0.48 - meridiemDim[1] / 2.0;
       dc.drawText(x, y, mMeridiemFont, meridiem, Graphics.TEXT_JUSTIFY_LEFT);
     }
+  }
+
+  hidden function getDateLine(now) {
+    if (app.gUseSystemFontForDate) {
+      return Lang.format("$1$ $2$ $3$", [now.day_of_week, now.day.format("%02d"), now.month]);
+    } else {
+      return Lang.format("$1$ $2$ $3$", [DayOfWeek[now.day_of_week - 1], now.day.format("%02d"), Months[now.month - 1]]);
+    }
+  }
+
+  hidden function getHours(now, is12Hour) {
+    var hours = now.hour;
+    if (is12Hour) {
+      if (hours == 0) {
+        hours = 12;
+      }
+      if (hours > 12) {
+        hours -= 12;
+      }
+    }
+    return hours.format("%02d");
   }
 
   hidden function calculateOffset(dc, multiplicator, startY, endY) {

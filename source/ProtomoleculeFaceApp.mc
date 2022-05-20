@@ -23,6 +23,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   var gShowOrbitIndicatorText;
   var gShowMeridiemText;
   var gDrawRemainingIndicator;
+  var gUseSystemFontForDate;
   var gNoProgressDataField1;
   var gNoProgressDataField2;
   var gNoProgressDataField3;
@@ -78,6 +79,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     gShowOrbitIndicatorText = getProperty("showOrbitIndicatorText");
     gShowMeridiemText = getProperty("showMeridiemText");
     gSleepLayoutActive = getProperty("sleepTimeLayout");
+    gUseSystemFontForDate = getProperty("useSystemFontForDate");
     gNoProgressDataField1 = getProperty("noProgressDataField1");
     gNoProgressDataField2 = getProperty("noProgressDataField2");
     gNoProgressDataField3 = getProperty("noProgressDataField3");

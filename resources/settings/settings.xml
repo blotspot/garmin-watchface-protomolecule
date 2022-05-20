@@ -24,6 +24,10 @@
     <settingConfig type="boolean" required="true"/>
   </setting>
 
+ <setting propertyKey="@Properties.useSystemFontForDate" title="@Strings.SettingsUseSystemFontTitle">
+    <settingConfig type="boolean" required="true"/>
+  </setting>
+
   <setting propertyKey="@Properties.sleepTimeLayout" title="@Strings.SettingsSleepTimeLayoutActiveTitle">
     <settingConfig type="boolean" required="true"/>
   </setting>
