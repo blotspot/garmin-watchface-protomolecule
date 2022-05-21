@@ -29,7 +29,7 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
       if (requiresBurnInProtection() && mLowPowerMode) {
         Log.debug("set burn-in protection layout");
         return Rez.Layouts.SimpleWatchFace(dc);
-      } else if (Application.getApp().gIsSleepTime) {
+      } else if (Settings.isSleepTime) {
         Log.debug("set sleep time layout");
         return Rez.Layouts.WatchFaceSleep(dc);
       } else {
@@ -43,12 +43,12 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
       return burnInProtectionLayout(dc);
     }
     // sleep / wake time event triggered
-    if (!mLowPowerMode && mLastUpdateSleepTime != Application.getApp().gIsSleepTime) {
+    if (!mLowPowerMode && mLastUpdateSleepTime != Settings.isSleepTime) {
       Log.debug("sleep time layout switch");
       return sleepTimeLayout(dc);
     }
     // Layout switch trigered
-    if (!mLowPowerMode && !Application.getApp().gIsSleepTime && mLastLayout != Application.getApp().gLayout) {
+    if (!mLowPowerMode && !Settings.isSleepTime && mLastLayout != Settings.get(:layout)) {
       Log.debug("default layout switch");
       return defaultLayout(dc);
     }
@@ -57,12 +57,12 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
   }
 
   hidden function defaultLayout(dc) {
-    mLastLayout = Application.getApp().gLayout;
-    return (mLastLayout == LayoutId.ORBIT) ? Rez. Layouts.WatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc);
+    mLastLayout = Settings.get(:layout);
+    return (mLastLayout == LayoutId.ORBIT) ? Rez.Layouts.WatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc);
   }
 
   hidden function sleepTimeLayout(dc) {
-    mLastUpdateSleepTime = Application.getApp().gIsSleepTime;
+    mLastUpdateSleepTime = Settings.isSleepTime;
     if (mLastUpdateSleepTime) {
       return Rez.Layouts.WatchFaceSleep(dc);
     } else {
@@ -75,7 +75,7 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
     if (mLowPowerMode) {
       return Rez.Layouts.SimpleWatchFace(dc);
     }
-    if (Application.getApp().gIsSleepTime) {
+    if (Settings.isSleepTime) {
       return sleepTimeLayout(dc);
     }
     return defaultLayout(dc);
@@ -102,12 +102,12 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
       setLayout(layout);
     }
 
-    if (Application.getApp().gActiveHeartrate) {
-      if (Application.getApp().gNoProgressDataField1 == FieldType.HEART_RATE) {
+    if (Settings.get(:activeHeartrate)) {
+      if (Settings.dataField(:middle1) == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress1;
-      } else if (Application.getApp().gNoProgressDataField2 == FieldType.HEART_RATE) {
+      } else if (Settings.dataField(:middle2) == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress2;
-      } else if (Application.getApp().gNoProgressDataField3 == FieldType.HEART_RATE) {
+      } else if (Settings.dataField(:middle3) == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress3;
       } else {
         mActiveHeartrateField = null;

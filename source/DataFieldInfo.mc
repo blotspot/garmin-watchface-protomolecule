@@ -71,21 +71,21 @@ module DataFieldInfo {
 
   function getInfoForField(fieldId) {
     if (fieldId == FieldId.NO_PROGRESS_1) {
-      return getInfoForType(Application.getApp().gNoProgressDataField1);
+      return getInfoForType(Settings.dataField(:middle1));
     } else if (fieldId == FieldId.NO_PROGRESS_2) {
-      return getInfoForType(Application.getApp().gNoProgressDataField2);
+      return getInfoForType(Settings.dataField(:middle2));
     } else if (fieldId == FieldId.NO_PROGRESS_3) {
-      return getInfoForType(Application.getApp().gNoProgressDataField3);
+      return getInfoForType(Settings.dataField(:middle3));
     } else if (fieldId == FieldId.OUTER || fieldId == FieldId.ORBIT_OUTER) {
-      return getInfoForType(Application.getApp().gOuterDataField);
+      return getInfoForType(Settings.dataField(:outer));
     } else if (fieldId == FieldId.UPPER_1 || fieldId == FieldId.ORBIT_LEFT) {
-      return getInfoForType(Application.getApp().gUpperDataField1);
+      return getInfoForType(Settings.dataField(:upper1));
     } else if (fieldId == FieldId.UPPER_2 || fieldId == FieldId.ORBIT_RIGHT) {
-      return getInfoForType(Application.getApp().gUpperDataField2);
+      return getInfoForType(Settings.dataField(:upper2));
     } else if (fieldId == FieldId.LOWER_1) {
-      return getInfoForType(Application.getApp().gLowerDataField1);
+      return getInfoForType(Settings.dataField(:lower1));
     } else if (fieldId == FieldId.LOWER_2) {
-      return getInfoForType(Application.getApp().gLowerDataField2);
+      return getInfoForType(Settings.dataField(:lower2));
     } else if (fieldId == FieldId.SLEEP_HR) {
       return getHeartRateInfo();
     } else if (fieldId == FieldId.SLEEP_NOTIFY) {
@@ -146,7 +146,7 @@ module DataFieldInfo {
   function getCalorieInfo() {
     var current = ActivityMonitor.getInfo().calories.toDouble();
 
-    return new DataFieldProperties(FieldType.CALORIES, new Lang.Method(DataFieldIcons, :drawCalories), current.format(Format.INT), current / Application.getApp().gCaloriesGoal);
+    return new DataFieldProperties(FieldType.CALORIES, new Lang.Method(DataFieldIcons, :drawCalories), current.format(Format.INT), current / Settings.get(:caloriesGoal));
   }
 
   function getNotificationInfo() {
@@ -163,7 +163,7 @@ module DataFieldInfo {
     var current = stats.battery;
     var iconFunc = new Lang.Method(DataFieldIcons, :drawBattery);
     if (current >= 90) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryFull); }
-    if (current < Application.getApp().gBatteryThreshold) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLow); }
+    if (current < Settings.get(:batteryThreshold)) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLow); }
     if (stats.charging) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLoading); }
 
 

@@ -84,7 +84,7 @@ module Color {
 }
 
 function themeColor(sectionId) {
-  return Color._COLORS[Application.getApp().gTheme][sectionId];
+  return Color._COLORS[Settings.get(:theme)][sectionId];
 }
 
 function setAntiAlias(dc, enabled) {

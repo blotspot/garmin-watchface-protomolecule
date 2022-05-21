@@ -27,16 +27,16 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function update(dc) {
-    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, app.getTextFont()) + app.gIconSize;
+    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.textFont()) + Settings.get(:iconSize);
     var offset = fieldWidth * mOffsetMod;
-    setClippingRegion(dc, offset, app.gStrokeWidth);
+    setClippingRegion(dc, offset, Settings.get(:strokeWidth));
 
     if (mLastInfo.text.equals("0")) {
       dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
     }
 
-    mLastInfo.icon.invoke(dc, mXPos - offset + (app.gIconSize / 2.0), mYPos, app.gIconSize, app.gStrokeWidth, mLastInfo.text);
-    drawText(dc, mLastInfo.text, app.getTextFont(), mXPos - offset + app.gIconSize + app.gStrokeWidth);
+    mLastInfo.icon.invoke(dc, mXPos - offset + (Settings.get(:iconSize) / 2.0), mYPos, Settings.get(:iconSize), Settings.get(:strokeWidth), mLastInfo.text);
+    drawText(dc, mLastInfo.text, Settings.textFont(), mXPos - offset + Settings.get(:iconSize) + Settings.get(:strokeWidth));
   }
 
   function partialUpdate(dc) {
@@ -66,10 +66,10 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function getDimensions(dc) {
-    var dim = dc.getTextDimensions("000", app.getTextFont());
-    dim[0] = dim[0] + app.gIconSize;
-    if (dim[1] < app.gIconSize) {
-      dim[1] = app.gIconSize;
+    var dim = dc.getTextDimensions("000", Settings.textFont());
+    dim[0] = dim[0] + Settings.get(:iconSize);
+    if (dim[1] < Settings.get(:iconSize)) {
+      dim[1] = Settings.get(:iconSize);
     }
 
     return dim;

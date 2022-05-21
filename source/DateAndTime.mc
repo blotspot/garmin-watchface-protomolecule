@@ -18,12 +18,9 @@ class DateAndTime extends Ui.Drawable {
   var DayOfWeek = [];
   var Months = [];
 
-  var app;
-
   function initialize(params) {
     Drawable.initialize(params);
 
-    app = Application.getApp();
     mLowPowerMode = params[:lowPowerMode] && System.getDeviceSettings().requiresBurnInProtection;
 
     mMinFont = Ui.loadResource(Rez.Fonts.MinutesFont);
@@ -59,7 +56,7 @@ class DateAndTime extends Ui.Drawable {
 
   function draw(dc) {
     var is12Hour = !System.getDeviceSettings().is24Hour;
-    var now = Gregorian.info(Time.now(), app.gUseSystemFontForDate ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
+    var now = Gregorian.info(Time.now(), Settings.get(:useSystemFontForDate) ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
     var date = getDateLine(now);
     var hours = getHours(now, is12Hour);
     var minutes = now.min.format("%02d");
@@ -86,13 +83,13 @@ class DateAndTime extends Ui.Drawable {
     dc.setColor((mLowPowerMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND)), Graphics.COLOR_TRANSPARENT);
     
     // Date
-    dc.drawText(dateX, dateY, app.gUseSystemFontForDate ? Graphics.FONT_TINY : mDateFont, date, Graphics.TEXT_JUSTIFY_CENTER);
+    dc.drawText(dateX, dateY, Settings.get(:useSystemFontForDate) ? Graphics.FONT_TINY : mDateFont, date, Graphics.TEXT_JUSTIFY_CENTER);
     // Hours
     dc.drawText(hoursX, hoursY, mHoursFont, hours, Graphics.TEXT_JUSTIFY_RIGHT);
     // Minutes
     dc.drawText(minutesX, minutesY, mMinFont, minutes, Graphics.TEXT_JUSTIFY_LEFT);
 
-    if (is12Hour && Application.getApp().gShowMeridiemText) {
+    if (is12Hour && Settings.get(:showMeridiemText)) {
       dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
       var meridiem = (now.hour < 12) ? "am" : "pm";
       var meridiemDim = dc.getTextDimensions(meridiem, mMeridiemFont);
@@ -103,7 +100,7 @@ class DateAndTime extends Ui.Drawable {
   }
 
   hidden function getDateLine(now) {
-    if (app.gUseSystemFontForDate) {
+    if (Settings.get(:useSystemFontForDate)) {
       return Lang.format("$1$ $2$ $3$", [now.day_of_week, now.day.format("%02d"), now.month]);
     } else {
       return Lang.format("$1$ $2$ $3$", [DayOfWeek[now.day_of_week - 1], now.day.format("%02d"), Months[now.month - 1]]);
