@@ -48,7 +48,6 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   function getInitialView() {
     Settings.initSettings();
     initBackground();
-    determineSleepTime();
     return [ new ProtomoleculeFaceView() ];
   }
 
@@ -63,7 +62,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   // New app settings have been received so trigger a UI update
   function onSettingsChanged() {
     Settings.loadProperties();
-    determineSleepTime();
+    Settings.determineSleepTime();
     WatchUi.requestUpdate();
   }
 

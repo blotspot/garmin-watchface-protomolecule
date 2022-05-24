@@ -11,13 +11,13 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
     
     Menu2.addItem(menuItem("layout", 
       WatchUi.loadResource(Rez.Strings.SettingsLayoutTitle), 
-      getLayoutSubLabel()));
+      getLayoutString(Settings.get("layout"))));
  
     Menu2.addItem(menuItem("layoutSettings", WatchUi.loadResource(Rez.Strings.SettingsLayoutSettingsTitle), null));
 
     Menu2.addItem(menuItem("theme", 
       WatchUi.loadResource(Rez.Strings.SettingsThemeTitle), 
-      getThemeSubLabel()));
+      getThemeString(Settings.get("theme"))));
 
     Menu2.addItem(toggleItem("activeHeartrate", 
       WatchUi.loadResource(Rez.Strings.ToggleMenuActiveHeartrateLabel), 
@@ -45,33 +45,31 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   }
 
   function onSelect(item) {
-    var layout = Settings.get("layout");
-    Log.debug("item " + item.getId());
-    if (item.getId().equals("layoutSettings")) {
-      if (layout == LayoutId.ORBIT) {
+    var layoutId = Settings.get("layout");
+
+    if (item.getId().equals("layoutSettings")) {             
+      if (layoutId == LayoutId.ORBIT) {
         pushOrbitSubMenu(); return;
       } else {
         pushCirclesSubMenu(); return;
       }
     }
     if (item.getId().equals("layout")) {
-      pushLayoutOptionsMenu(item);
-      return;
+      pushLayoutOptionsMenu(item); return;
     }
     if (item.getId().equals("theme")) {
-      pushThemeOptionsMenu(item);
-      return;
+      pushThemeOptionsMenu(item); return;
     }
     if ("middle1middle2middle3".find(item.getId()) != null) {
       pushClockDatafieldOptionsMenu(item); return;
     }
-    if (layout == LayoutId.ORBIT && "outerupper1upper2".find(item.getId()) != null) {
+    if (layoutId == LayoutId.ORBIT && "outerupper1upper2".find(item.getId()) != null) {
       pushOrbitDatafieldOptionsMenu(item); return;
     }
-    if (layout == LayoutId.CIRCLES && "lower1lower2upper1upper2".find(item.getId()) != null) {
+    if (layoutId == LayoutId.CIRCLES && "lower1lower2upper1upper2".find(item.getId()) != null) {
       pushInnerCirclesDatafieldOptionsMenu(item); return;
     }
-    if (layout == LayoutId.CIRCLES && "outer".equals(item.getId())) {
+    if (layoutId == LayoutId.CIRCLES && "outer".equals(item.getId())) {
       pushOuterCirclesDatafieldOptionsMenu(item); return;
     }
     if (item instanceof ToggleMenuItem) {
@@ -82,70 +80,70 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
 
   hidden function pushThemeOptionsMenu(parent) {
     var menu = new WatchUi.Menu2({ :title => WatchUi.loadResource(Rez.Strings.SettingsChooseThemeTitle) });
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.ThemeExpanse), 0));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.ThemeEarth), 1));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.ThemeMars), 2));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.ThemeBelt), 3));
+    menu.addItem(optionItem(getThemeString(0), 0));
+    menu.addItem(optionItem(getThemeString(1), 1));
+    menu.addItem(optionItem(getThemeString(2), 2));
+    menu.addItem(optionItem(getThemeString(3), 3));
     
     WatchUi.pushView(menu, new OptionsItemDelegate(parent, false), WatchUi.SLIDE_LEFT);
   }
 
   hidden function pushLayoutOptionsMenu(parent) {
     var menu = new WatchUi.Menu2({ :title => WatchUi.loadResource(Rez.Strings.SettingsChooseLayoutTitle) });
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.LayoutOrbitItem), 0));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.LayoutCirclesItem), 1));
+    menu.addItem(optionItem(getLayoutString(0), 0));
+    menu.addItem(optionItem(getLayoutString(1), 1));
     
     WatchUi.pushView(menu, new OptionsItemDelegate(parent, false), WatchUi.SLIDE_LEFT);
   }
 
   hidden function pushOrbitDatafieldOptionsMenu(parent) {
     var menu = new WatchUi.Menu2({ :title => parent.getLabel() });
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.NoDataField), 0));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldSteps), 1));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldBattery), 2));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldCalories), 3));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldActiveMinutes), 4));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldFloorsUp), 7));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldFloorsDown), 8));
+    menu.addItem(optionItem(getDataFieldString(0), 0));
+    menu.addItem(optionItem(getDataFieldString(1), 1));
+    menu.addItem(optionItem(getDataFieldString(2), 2));
+    menu.addItem(optionItem(getDataFieldString(3), 3));
+    menu.addItem(optionItem(getDataFieldString(4), 4));
+    menu.addItem(optionItem(getDataFieldString(7), 7));
+    menu.addItem(optionItem(getDataFieldString(8), 8));
 
     WatchUi.pushView(menu, new OptionsItemDelegate(parent, true), WatchUi.SLIDE_LEFT);
   }
   
   hidden function pushInnerCirclesDatafieldOptionsMenu(parent) {
     var menu = new WatchUi.Menu2({ :title => parent.getLabel() });
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.NoDataField), 0));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldSteps), 1));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldBattery), 2));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldCalories), 3));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldActiveMinutes), 4));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldFloorsUp), 7));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldFloorsDown), 8));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldBluetooth), 9));
+    menu.addItem(optionItem(getDataFieldString(0), 0));
+    menu.addItem(optionItem(getDataFieldString(1), 1));
+    menu.addItem(optionItem(getDataFieldString(2), 2));
+    menu.addItem(optionItem(getDataFieldString(3), 3));
+    menu.addItem(optionItem(getDataFieldString(4), 4));
+    menu.addItem(optionItem(getDataFieldString(7), 7));
+    menu.addItem(optionItem(getDataFieldString(8), 8));
+    menu.addItem(optionItem(getDataFieldString(9), 9));
 
     WatchUi.pushView(menu, new OptionsItemDelegate(parent, true), WatchUi.SLIDE_LEFT);
   }
   
   hidden function pushOuterCirclesDatafieldOptionsMenu(parent) {
     var menu = new WatchUi.Menu2({ :title => parent.getLabel() });
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.NoDataField), 0));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldSteps), 1));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldBattery), 2));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldCalories), 3));
+    menu.addItem(optionItem(getDataFieldString(0), 0));
+    menu.addItem(optionItem(getDataFieldString(1), 1));
+    menu.addItem(optionItem(getDataFieldString(2), 2));
+    menu.addItem(optionItem(getDataFieldString(3), 3));
 
     WatchUi.pushView(menu, new OptionsItemDelegate(parent, true), WatchUi.SLIDE_LEFT);
   }
   
   hidden function pushClockDatafieldOptionsMenu(parent) {
     var menu = new WatchUi.Menu2({ :title => parent.getLabel() });
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.NoDataField), 0));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldBattery), 2));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldActiveMinutes), 4));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldHeartRate), 5));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldMessages), 6));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldFloorsUp), 7));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldFloorsDown), 8));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldBluetooth), 9));
-    menu.addItem(optionItem(WatchUi.loadResource(Rez.Strings.DataFieldAlarms), 10));
+    menu.addItem(optionItem(getDataFieldString(0), 0));
+    menu.addItem(optionItem(getDataFieldString(2), 2));
+    menu.addItem(optionItem(getDataFieldString(4), 4));
+    menu.addItem(optionItem(getDataFieldString(5), 5));
+    menu.addItem(optionItem(getDataFieldString(6), 6));
+    menu.addItem(optionItem(getDataFieldString(7), 7));
+    menu.addItem(optionItem(getDataFieldString(8), 8));
+    menu.addItem(optionItem(getDataFieldString(9), 9));
+    menu.addItem(optionItem(getDataFieldString(10), 10));
 
     WatchUi.pushView(menu, new OptionsItemDelegate(parent, true), WatchUi.SLIDE_LEFT);
   }
@@ -158,22 +156,22 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
       WatchUi.loadResource(Rez.Strings.ToggleMenuShowIndicatorTextDisabled)));
     menu.addItem(menuItem("upper1", 
       WatchUi.loadResource(Rez.Strings.SettingsLeftOrbitTitle), 
-      getDataFieldSubLabel("upper1")));
+      getDataFieldString(Settings.dataField("upper1"))));
     menu.addItem(menuItem("upper2", 
       WatchUi.loadResource(Rez.Strings.SettingsRightOrbitTitle), 
-      getDataFieldSubLabel("upper2")));
+      getDataFieldString(Settings.dataField("upper2"))));
     menu.addItem(menuItem("outer", 
       WatchUi.loadResource(Rez.Strings.SettingsOuterOrbitTitle), 
-      getDataFieldSubLabel("outer")));
+      getDataFieldString(Settings.dataField("outer"))));
     menu.addItem(menuItem("middle1", 
       WatchUi.loadResource(Rez.Strings.SettingsSecondary1Title), 
-      getDataFieldSubLabel("middle1")));
+      getDataFieldString(Settings.dataField("middle1"))));
     menu.addItem(menuItem("middle2", 
       WatchUi.loadResource(Rez.Strings.SettingsSecondary2Title), 
-      getDataFieldSubLabel("middle2")));
+      getDataFieldString(Settings.dataField("middle2"))));
     menu.addItem(menuItem("middle3", 
       WatchUi.loadResource(Rez.Strings.SettingsSecondary3Title), 
-      getDataFieldSubLabel("middle3")));
+      getDataFieldString(Settings.dataField("middle3"))));
 
     WatchUi.pushView(menu, new ProtomoleculeSettingsDelegate(), WatchUi.SLIDE_LEFT);
   }
@@ -182,28 +180,28 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     var menu = new WatchUi.Menu2({ :title => WatchUi.loadResource(Rez.Strings.SettingsCirclesLayoutGroupTitle) });
     menu.addItem(menuItem("upper1", 
       WatchUi.loadResource(Rez.Strings.SettingsUpper1Title), 
-      getDataFieldSubLabel("upper1")));
+      getDataFieldString(Settings.dataField("upper1"))));
     menu.addItem(menuItem("upper2", 
       WatchUi.loadResource(Rez.Strings.SettingsUpper2Title), 
-      getDataFieldSubLabel("upper2")));
+      getDataFieldString(Settings.dataField("upper2"))));
     menu.addItem(menuItem("lower1", 
       WatchUi.loadResource(Rez.Strings.SettingsLower1Title), 
-      getDataFieldSubLabel("lower1")));
+      getDataFieldString(Settings.dataField("lower1"))));
     menu.addItem(menuItem("lower2", 
       WatchUi.loadResource(Rez.Strings.SettingsLower2Title), 
-      getDataFieldSubLabel("lower2")));
+      getDataFieldString(Settings.dataField("lower2"))));
     menu.addItem(menuItem("outer", 
       WatchUi.loadResource(Rez.Strings.SettingsOuterTitle), 
-      getDataFieldSubLabel("outer")));
+      getDataFieldString(Settings.dataField("outer"))));
     menu.addItem(menuItem("middle1", 
       WatchUi.loadResource(Rez.Strings.SettingsSecondary1Title), 
-      getDataFieldSubLabel("middle1")));
+      getDataFieldString(Settings.dataField("middle1"))));
     menu.addItem(menuItem("middle2", 
       WatchUi.loadResource(Rez.Strings.SettingsSecondary2Title), 
-      getDataFieldSubLabel("middle2")));
+      getDataFieldString(Settings.dataField("middle2"))));
     menu.addItem(menuItem("middle3", 
       WatchUi.loadResource(Rez.Strings.SettingsSecondary3Title), 
-      getDataFieldSubLabel("middle3")));
+      getDataFieldString(Settings.dataField("middle3"))));
     
     WatchUi.pushView(menu, new ProtomoleculeSettingsDelegate(), WatchUi.SLIDE_LEFT);
   }
@@ -251,51 +249,49 @@ function optionItem(label, value) {
   return new WatchUi.MenuItem(label, null, value, null);
 }
 
-function getThemeSubLabel() {
-  var theme = Settings.get("theme");
-  if (theme == 0) {
-    return WatchUi.loadResource(Rez.Strings.ThemeExpanse);
-  } else if (theme == 1) {
-    return WatchUi.loadResource(Rez.Strings.ThemeEarth);
-  } else if (theme == 2) {
-    return WatchUi.loadResource(Rez.Strings.ThemeMars);
-  } else {
-    return WatchUi.loadResource(Rez.Strings.ThemeBelt);
+var _themeStrings = null;
+
+function getThemeString(themeId) {
+  if (_themeStrings == null) {
+    _themeStrings = [
+      WatchUi.loadResource(Rez.Strings.ThemeExpanse),
+      WatchUi.loadResource(Rez.Strings.ThemeEarth),
+      WatchUi.loadResource(Rez.Strings.ThemeMars),
+      WatchUi.loadResource(Rez.Strings.ThemeBelt)
+    ];
   }
+  return _themeStrings[themeId];
 }
 
-function getLayoutSubLabel() {
-  var layout = Settings.get("layout");
-  if (layout == LayoutId.ORBIT) {
-    return WatchUi.loadResource(Rez.Strings.LayoutOrbitItem);
-  } else {
-    return WatchUi.loadResource(Rez.Strings.LayoutCirclesItem);
+var _layoutStrings = null;
+
+function getLayoutString(layoutId) {
+  if (_layoutStrings == null) {
+    _layoutStrings = [
+      WatchUi.loadResource(Rez.Strings.LayoutOrbitItem),
+      WatchUi.loadResource(Rez.Strings.LayoutCirclesItem)
+    ];
   }
+  return _layoutStrings[layoutId];
 }
 
-function getDataFieldSubLabel(dfId) {
-  var dfValue = Settings.dataField(dfId);
-  if (dfValue == 0) {
-    return WatchUi.loadResource(Rez.Strings.NoDataField);
-  } else if (dfValue == 1) {
-    return WatchUi.loadResource(Rez.Strings.DataFieldSteps);
-  } else if (dfValue == 2) {
-    return WatchUi.loadResource(Rez.Strings.DataFieldBattery);
-  } else if (dfValue == 3) {
-    return WatchUi.loadResource(Rez.Strings.DataFieldCalories);
-  } else if (dfValue == 4) {
-    return WatchUi.loadResource(Rez.Strings.DataFieldActiveMinutes);
-  } else if (dfValue == 5) {
-    return WatchUi.loadResource(Rez.Strings.DataFieldHeartRate);
-  } else if (dfValue == 6) {
-    return WatchUi.loadResource(Rez.Strings.DataFieldMessages);
-  } else if (dfValue == 7) {
-    return WatchUi.loadResource(Rez.Strings.DataFieldFloorsUp);
-  } else if (dfValue == 8) {
-    return WatchUi.loadResource(Rez.Strings.DataFieldFloorsDown);
-  } else if (dfValue == 9) {
-    return WatchUi.loadResource(Rez.Strings.DataFieldBluetooth);
-  } else {
-    return WatchUi.loadResource(Rez.Strings.DataFieldAlarms);
+var _dataFieldStrings = null;
+
+function getDataFieldString(dfValue) {
+  if (_dataFieldStrings == null) {
+    _dataFieldStrings = [
+      WatchUi.loadResource(Rez.Strings.NoDataField),
+      WatchUi.loadResource(Rez.Strings.DataFieldSteps),
+      WatchUi.loadResource(Rez.Strings.DataFieldBattery),
+      WatchUi.loadResource(Rez.Strings.DataFieldCalories),
+      WatchUi.loadResource(Rez.Strings.DataFieldActiveMinutes),
+      WatchUi.loadResource(Rez.Strings.DataFieldHeartRate),
+      WatchUi.loadResource(Rez.Strings.DataFieldMessages),
+      WatchUi.loadResource(Rez.Strings.DataFieldFloorsUp),
+      WatchUi.loadResource(Rez.Strings.DataFieldFloorsDown),
+      WatchUi.loadResource(Rez.Strings.DataFieldBluetooth),
+      WatchUi.loadResource(Rez.Strings.DataFieldAlarms)
+    ];
   }
+  return _dataFieldStrings[dfValue];
 }

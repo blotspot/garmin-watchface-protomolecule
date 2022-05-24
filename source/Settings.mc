@@ -1,6 +1,9 @@
 using Toybox.Application.Properties;
 using Toybox.Math;
 using Toybox.System;
+using Toybox.Time;
+using Toybox.Time.Gregorian;
+using Toybox.UserProfile;
 using Toybox.WatchUi;
 
 module Settings {
@@ -11,6 +14,12 @@ module Settings {
   function set(key, value) {
     Properties.setValue(key, value);
     _settings[key] = value;
+    if (key.equals("layout")) {
+      loadDataFields();
+    }
+    if (key.equals("sleepLayoutActive")) {
+      determineSleepTime();
+    }
   }
 
   function dataField(key) {
@@ -18,40 +27,40 @@ module Settings {
   }
 
   function setDataField(key, value) {
-    if (key == "middle1") {
+    if (key.equals("middle1")) {
       Properties.setValue("noProgressDataField1", value);
     }
-    if (key == "middle2") {
+    if (key.equals("middle2")) {
       Properties.setValue("noProgressDataField2", value);
     }
-    if (key == "middle3") {
+    if (key.equals("middle3")) {
       Properties.setValue("noProgressDataField3", value);
     }
-    if (key == "outer") {
+    if (key.equals("outer")) {
       if (_settings["layout"] == LayoutId.ORBIT) {
         Properties.setValue("outerOrbitDataField", value);
       } else {
         Properties.setValue("outerDataField", value);
       }
     }
-    if (key == "upper1") {
+    if (key.equals("upper1")) {
       if (_settings["layout"] == LayoutId.ORBIT) {
         Properties.setValue("leftOrbitDataField", value);
       } else {
         Properties.setValue("upperDataField1", value);
       }
     }
-    if (key == "upper2") {
+    if (key.equals("upper2")) {
       if (_settings["layout"] == LayoutId.ORBIT) {
         Properties.setValue("rightOrbitDataField", value);
       } else {
         Properties.setValue("upperDataField2", value);
       }
     }
-    if (key == "lower1" && _settings["layout"] == LayoutId.ORBIT) {
+    if (key.equals("lower1") && _settings["layout"] == LayoutId.CIRCLES) {
       Properties.setValue("lowerDataField1", value);
     }
-    if (key == "lower2" && _settings["layout"] == LayoutId.ORBIT) {
+    if (key.equals("lower2") && _settings["layout"] == LayoutId.CIRCLES) {
       Properties.setValue("lowerDataField2", value);
     }
 
@@ -84,6 +93,7 @@ module Settings {
     _settings["centerYPos"] = height / 2.0;
     
     loadProperties();
+    determineSleepTime();
   }
 
   function loadProperties() {
@@ -100,12 +110,33 @@ module Settings {
     _dataField["middle1"] = Properties.getValue("noProgressDataField1");
     _dataField["middle2"] = Properties.getValue("noProgressDataField2");
     _dataField["middle3"] = Properties.getValue("noProgressDataField3");
+    
+    loadDataFields();
+  }
+
+  function loadDataFields() {
     _dataField["outer"] = (_settings["layout"] == LayoutId.ORBIT) ? Properties.getValue("outerOrbitDataField") : Properties.getValue("outerDataField");
     _dataField["upper1"] = (_settings["layout"] == LayoutId.ORBIT) ? Properties.getValue("leftOrbitDataField") : Properties.getValue("upperDataField1");
     _dataField["upper2"] = (_settings["layout"] == LayoutId.ORBIT) ? Properties.getValue("rightOrbitDataField") : Properties.getValue("upperDataField2");
     _dataField["lower1"] = (_settings["layout"] == LayoutId.ORBIT) ? null : Properties.getValue("lowerDataField1");
     _dataField["lower2"] = (_settings["layout"] == LayoutId.ORBIT) ? null : Properties.getValue("lowerDataField2");
   }
+
+  function determineSleepTime() {
+    var profile = UserProfile.getProfile();
+    var current = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+    current = new Time.Duration(current.hour * 3600 + current.min * 60);
+
+    if (profile.wakeTime.lessThan(profile.sleepTime)) {
+      Settings.isSleepTime = (Settings.get("sleepLayoutActive") && (current.greaterThan(profile.sleepTime) || current.lessThan(profile.wakeTime)));
+    } else if (profile.wakeTime.greaterThan(profile.sleepTime)) {
+      Settings.isSleepTime = Settings.get("sleepLayoutActive") && current.greaterThan(profile.sleepTime) && current.lessThan(profile.wakeTime);
+    } else {
+      Settings.isSleepTime = false;
+    }
+    Log.debug("sleepTime " + Settings.isSleepTime);
+  }
+
 
   var isSleepTime = false;
 
