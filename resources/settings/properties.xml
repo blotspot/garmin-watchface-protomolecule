@@ -5,7 +5,7 @@
   <property id="caloriesGoal" type="number">2000</property>
   <property id="batteryThreshold" type="number">20</property>
   <property id="activeHeartrate" type="boolean">true</property>
-  <property id="sleepTimeLayout" type="boolean">false</property>
+  <property id="sleepLayoutActive" type="boolean">false</property>
   <property id="showOrbitIndicatorText" type="boolean">true</property>
   <property id="showMeridiemText" type="boolean">true</property>
   <property id="useSystemFontForDate" type="boolean">false</property>

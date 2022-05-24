@@ -24,9 +24,9 @@ class OrbitDataField extends DataFieldDrawable {
   }
 
   function update(dc) {
-    setClippingRegion(dc, Settings.get(:strokeWidth));
+    setClippingRegion(dc, Settings.get("strokeWidth"));
     setAntiAlias(dc, true);
-    dc.setPenWidth(Settings.get(:strokeWidth));
+    dc.setPenWidth(Settings.get("strokeWidth"));
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
     }
@@ -49,8 +49,8 @@ class OrbitDataField extends DataFieldDrawable {
       var endDegree = reverse ? mStartDegree - mTotalDegree : mStartDegree - getFillDegree(fillLevel);
 
       dc.drawArc(
-        Settings.get(:centerXPos),
-        Settings.get(:centerYPos),
+        Settings.get("centerXPos"),
+        Settings.get("centerYPos"),
         mRadius,
         Graphics.ARC_CLOCKWISE,
         startDegree,
@@ -72,8 +72,8 @@ class OrbitDataField extends DataFieldDrawable {
       }
 
       dc.drawArc(
-        Settings.get(:centerXPos),
-        Settings.get(:centerYPos),
+        Settings.get("centerXPos"),
+        Settings.get("centerYPos"),
         mRadius,
         Graphics.ARC_CLOCKWISE,
         startDegree,
@@ -86,10 +86,10 @@ class OrbitDataField extends DataFieldDrawable {
     var x = getX(dc, degree);
     var y = getY(dc, degree);
     // draw outer colored circle
-    dc.fillCircle(x, y, Settings.get(:strokeWidth) + Settings.get(:strokeWidth) * 0.75);
+    dc.fillCircle(x, y, Settings.get("strokeWidth") + Settings.get("strokeWidth") * 0.75);
     // draw inner white circle
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-    dc.fillCircle(x, y, Settings.get(:strokeWidth) + Settings.get(:strokeWidth) * 0.25);
+    dc.fillCircle(x, y, Settings.get("strokeWidth") + Settings.get("strokeWidth") * 0.25);
   }
 
   hidden function drawIcon(dc) {
@@ -98,25 +98,24 @@ class OrbitDataField extends DataFieldDrawable {
     } else {
       dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     }
-    var xPos = (mFieldId == FieldId.ORBIT_LEFT) ? getX(dc, mStartDegree - mTotalDegree) - (Settings.get(:iconSize) / 2) : getX(dc, mStartDegree) + (Settings.get(:iconSize) / 2);
-    var yPos = ((mFieldId == FieldId.ORBIT_LEFT) ? getY(dc, mStartDegree - mTotalDegree) : getY(dc, mStartDegree)) + Settings.get(:iconSize);
+    var xPos = (mFieldId == FieldId.ORBIT_LEFT) ? getX(dc, mStartDegree - mTotalDegree) - (Settings.get("iconSize") / 2) : getX(dc, mStartDegree) + (Settings.get("iconSize") / 2);
+    var yPos = ((mFieldId == FieldId.ORBIT_LEFT) ? getY(dc, mStartDegree - mTotalDegree) : getY(dc, mStartDegree)) + Settings.get("iconSize");
 
     if (mFieldId == FieldId.ORBIT_OUTER) {
-      xPos = Settings.get(:centerXPos);
-      yPos = Settings.get(:centerYPos) + mRadius - Settings.get(:iconSize) * (Settings.get(:showOrbitIndicatorText) ? 2 : 1); 
+      xPos = Settings.get("centerXPos");
+      yPos = Settings.get("centerYPos") + mRadius - Settings.get("iconSize") * (Settings.get("showOrbitIndicatorText") ? 2 : 1); 
     }
 
     mLastInfo.icon.invoke(
       dc,
       xPos,
       yPos, 
-      Settings.get(:iconSize), 
-      Settings.get(:strokeWidth),
+      Settings.get("iconSize"), 
+      Settings.get("strokeWidth"),
       mLastInfo.text
     );
-    Log.debug("showOrbitIndicatorText: "+ Settings.get(:showOrbitIndicatorText));
-    if (Settings.get(:showOrbitIndicatorText)) {
-      yPos += Settings.get(:iconSize);
+    if (Settings.get("showOrbitIndicatorText")) {
+      yPos += Settings.get("iconSize");
       dc.drawText(
         xPos,
         yPos - 1,
@@ -129,12 +128,12 @@ class OrbitDataField extends DataFieldDrawable {
 
   hidden function getX(dc, degree) {
     degree = Math.toRadians(degree);
-    return Settings.get(:centerXPos) + mRadius * Math.cos(degree);
+    return Settings.get("centerXPos") + mRadius * Math.cos(degree);
   }
 
   hidden function getY(dc, degree) {
     degree = Math.toRadians(degree);
-    return dc.getHeight() - (Settings.get(:centerYPos) + mRadius * Math.sin(degree));
+    return dc.getHeight() - (Settings.get("centerYPos") + mRadius * Math.sin(degree));
   }
 
   hidden function getFillDegree(fillLevel) {

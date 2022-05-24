@@ -27,16 +27,16 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function update(dc) {
-    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.textFont()) + Settings.get(:iconSize);
+    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.textFont()) + Settings.get("iconSize");
     var offset = fieldWidth * mOffsetMod;
-    setClippingRegion(dc, offset, Settings.get(:strokeWidth));
+    setClippingRegion(dc, offset, Settings.get("strokeWidth"));
 
     if (mLastInfo.text.equals("0")) {
       dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
     }
 
-    mLastInfo.icon.invoke(dc, mXPos - offset + (Settings.get(:iconSize) / 2.0), mYPos, Settings.get(:iconSize), Settings.get(:strokeWidth), mLastInfo.text);
-    drawText(dc, mLastInfo.text, Settings.textFont(), mXPos - offset + Settings.get(:iconSize) + Settings.get(:strokeWidth));
+    mLastInfo.icon.invoke(dc, mXPos - offset + (Settings.get("iconSize") / 2.0), mYPos, Settings.get("iconSize"), Settings.get("strokeWidth"), mLastInfo.text);
+    drawText(dc, mLastInfo.text, Settings.textFont(), mXPos - offset + Settings.get("iconSize") + Settings.get("strokeWidth"));
   }
 
   function partialUpdate(dc) {
@@ -67,9 +67,9 @@ class SecondaryDataField extends DataFieldDrawable {
 
   function getDimensions(dc) {
     var dim = dc.getTextDimensions("000", Settings.textFont());
-    dim[0] = dim[0] + Settings.get(:iconSize);
-    if (dim[1] < Settings.get(:iconSize)) {
-      dim[1] = Settings.get(:iconSize);
+    dim[0] = dim[0] + Settings.get("iconSize");
+    if (dim[1] < Settings.get("iconSize")) {
+      dim[1] = Settings.get("iconSize");
     }
 
     return dim;
