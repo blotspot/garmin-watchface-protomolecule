@@ -1,9 +1,9 @@
-using Toybox.WatchUi as Ui;
+using Toybox.WatchUi;
 using Toybox.Application;
 using Toybox.Graphics;
 using Toybox.System;
 
-class ProtomoleculeFaceView extends Ui.WatchFace {
+class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   var mLowPowerMode = false;
   var mLastUpdateLowPowerMode = false;
@@ -103,11 +103,11 @@ class ProtomoleculeFaceView extends Ui.WatchFace {
     }
 
     if (Settings.get("activeHeartrate")) {
-      if (Settings.dataField("middle1") == FieldType.HEART_RATE) {
+      if (Settings.get("middle1") == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress1;
-      } else if (Settings.dataField("middle2") == FieldType.HEART_RATE) {
+      } else if (Settings.get("middle2") == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress2;
-      } else if (Settings.dataField("middle3") == FieldType.HEART_RATE) {
+      } else if (Settings.get("middle3") == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress3;
       } else {
         mActiveHeartrateField = null;

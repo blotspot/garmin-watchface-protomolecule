@@ -6,7 +6,7 @@ using Toybox.System;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.UserProfile;
-using Toybox.WatchUi as Ui;
+using Toybox.WatchUi;
 
 (:background)
 class ProtomoleculeFaceApp extends Application.AppBase {

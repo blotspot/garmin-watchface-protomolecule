@@ -1,6 +1,6 @@
 using Toybox.Graphics;
 using Toybox.Math;
-using Toybox.WatchUi as Ui;
+using Toybox.WatchUi;
 
 class OrbitDataField extends DataFieldDrawable {
 

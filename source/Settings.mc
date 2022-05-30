@@ -7,80 +7,78 @@ using Toybox.UserProfile;
 using Toybox.WatchUi;
 
 module Settings {
+
   function get(key) {
     return _settings[key];
   }
 
   function set(key, value) {
-    Properties.setValue(key, value);
     _settings[key] = value;
-    if (key.equals("layout")) {
-      loadDataFields();
-    }
-    if (key.equals("sleepLayoutActive")) {
-      determineSleepTime();
-    }
-  }
+    if (!setDataField(key, value)) {
+      Properties.setValue(key, value);
 
-  function dataField(key) {
-    return _dataField[key];
+      if (key.equals("layout")) {
+        loadDataFields();
+      }
+      if (key.equals("sleepLayoutActive")) {
+        determineSleepTime();
+      }
+    }
   }
 
   function setDataField(key, value) {
     if (key.equals("middle1")) {
-      Properties.setValue("noProgressDataField1", value);
+      Properties.setValue("noProgressDataField1", value); return true;
     }
     if (key.equals("middle2")) {
-      Properties.setValue("noProgressDataField2", value);
+      Properties.setValue("noProgressDataField2", value); return true;
     }
     if (key.equals("middle3")) {
-      Properties.setValue("noProgressDataField3", value);
+      Properties.setValue("noProgressDataField3", value); return true;
     }
     if (key.equals("outer")) {
       if (_settings["layout"] == LayoutId.ORBIT) {
-        Properties.setValue("outerOrbitDataField", value);
+        Properties.setValue("outerOrbitDataField", value); return true;
       } else {
-        Properties.setValue("outerDataField", value);
+        Properties.setValue("outerDataField", value); return true;
       }
     }
     if (key.equals("upper1")) {
       if (_settings["layout"] == LayoutId.ORBIT) {
-        Properties.setValue("leftOrbitDataField", value);
+        Properties.setValue("leftOrbitDataField", value); return true;
       } else {
-        Properties.setValue("upperDataField1", value);
+        Properties.setValue("upperDataField1", value); return true;
       }
     }
     if (key.equals("upper2")) {
       if (_settings["layout"] == LayoutId.ORBIT) {
-        Properties.setValue("rightOrbitDataField", value);
+        Properties.setValue("rightOrbitDataField", value); return true;
       } else {
-        Properties.setValue("upperDataField2", value);
+        Properties.setValue("upperDataField2", value); return true;
       }
     }
     if (key.equals("lower1") && _settings["layout"] == LayoutId.CIRCLES) {
-      Properties.setValue("lowerDataField1", value);
+      Properties.setValue("lowerDataField1", value); return true;
     }
     if (key.equals("lower2") && _settings["layout"] == LayoutId.CIRCLES) {
-      Properties.setValue("lowerDataField2", value);
+      Properties.setValue("lowerDataField2", value); return true;
     }
-
-    _dataField[key] = value;
+    return false;
   }
 
   function iconFont() {
-    if (_font[:icons] == null) {
-      _font[:icons] = WatchUi.loadResource(Rez.Fonts.IconsFont);
-    }
-
-    return _font[:icons];
+    return resource(Rez.Fonts.IconsFont);
   }
 
   function textFont() {
-    if (_font[:text] == null) {
-      _font[:text] = WatchUi.loadResource(Rez.Fonts.SecondaryIndicatorFont);
-    }
+    return resource(Rez.Fonts.SecondaryIndicatorFont);
+  }
 
-    return _font[:text];
+  function resource(resourceId) {
+    if (_resources[resourceId] == null) {
+      _resources[resourceId] = WatchUi.loadResource(resourceId);
+    }
+    return _resources[resourceId];
   }
 
   function initSettings() {
@@ -107,19 +105,22 @@ module Settings {
     _settings["sleepLayoutActive"] = Properties.getValue("sleepLayoutActive");
     _settings["useSystemFontForDate"] = Properties.getValue("useSystemFontForDate");
     
-    _dataField["middle1"] = Properties.getValue("noProgressDataField1");
-    _dataField["middle2"] = Properties.getValue("noProgressDataField2");
-    _dataField["middle3"] = Properties.getValue("noProgressDataField3");
+    _settings["middle1"] = Properties.getValue("noProgressDataField1");
+    _settings["middle2"] = Properties.getValue("noProgressDataField2");
+    _settings["middle3"] = Properties.getValue("noProgressDataField3");
     
     loadDataFields();
   }
 
   function loadDataFields() {
-    _dataField["outer"] = (_settings["layout"] == LayoutId.ORBIT) ? Properties.getValue("outerOrbitDataField") : Properties.getValue("outerDataField");
-    _dataField["upper1"] = (_settings["layout"] == LayoutId.ORBIT) ? Properties.getValue("leftOrbitDataField") : Properties.getValue("upperDataField1");
-    _dataField["upper2"] = (_settings["layout"] == LayoutId.ORBIT) ? Properties.getValue("rightOrbitDataField") : Properties.getValue("upperDataField2");
-    _dataField["lower1"] = (_settings["layout"] == LayoutId.ORBIT) ? null : Properties.getValue("lowerDataField1");
-    _dataField["lower2"] = (_settings["layout"] == LayoutId.ORBIT) ? null : Properties.getValue("lowerDataField2");
+    _settings["outer"] = (_settings["layout"] == LayoutId.ORBIT) ? Properties.getValue("outerOrbitDataField") : Properties.getValue("outerDataField");
+    _settings["upper1"] = (_settings["layout"] == LayoutId.ORBIT) ? Properties.getValue("leftOrbitDataField") : Properties.getValue("upperDataField1");
+    _settings["upper2"] = (_settings["layout"] == LayoutId.ORBIT) ? Properties.getValue("rightOrbitDataField") : Properties.getValue("upperDataField2");
+    
+    if (_settings["layout"] == LayoutId.CIRCLES) {
+      _settings["lower1"] = Properties.getValue("lowerDataField1");
+      _settings["lower2"] = Properties.getValue("lowerDataField2");
+    }
   }
 
   function determineSleepTime() {
@@ -137,38 +138,8 @@ module Settings {
     Log.debug("sleepTime " + Settings.isSleepTime);
   }
 
-
   var isSleepTime = false;
 
-  var _dataField = {
-    "middle1" => null, 
-    "middle2" => null,
-    "middle3" => null,
-    "outer" => null,
-    "upper1" => null,
-    "upper2" => null,
-    "lower1" => null,
-    "lower2" => null
-  };
-
-  var _settings = {
-    "iconSize" => null,
-    "strokeWidth" => null,
-    "centerXPos" => null,
-    "centerYPos" => null,
-    "layout" => null,
-    "theme" => null,
-    "caloriesGoal" => 0,
-    "batteryThreshold" => 0,
-    "activeHeartrate" => false,
-    "showOrbitIndicatorText" => false,
-    "showMeridiemText" => false,
-    "sleepLayoutActive" => false,
-    "useSystemFontForDate" => false
-  };
-
-  var _font = {
-    :icons => null,
-    :text => null
-  };
+  var _settings = {};
+  var _resources = {};
 }

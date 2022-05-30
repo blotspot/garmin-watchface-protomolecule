@@ -1,4 +1,4 @@
-using Toybox.WatchUi as Ui;
+using Toybox.WatchUi;
 using Toybox.Application;
 using Toybox.Graphics;
 using Toybox.Lang;
@@ -6,7 +6,7 @@ using Toybox.System;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 
-class DateAndTime extends Ui.Drawable {
+class DateAndTime extends WatchUi.Drawable {
 
   var mLowPowerMode;
 
@@ -23,34 +23,34 @@ class DateAndTime extends Ui.Drawable {
 
     mLowPowerMode = params[:lowPowerMode] && System.getDeviceSettings().requiresBurnInProtection;
 
-    mMinFont = Ui.loadResource(Rez.Fonts.MinutesFont);
-    mDateFont = Ui.loadResource(Rez.Fonts.DateFont);
-    mHoursFont = Ui.loadResource(Rez.Fonts.HoursFont);
-    mMeridiemFont = Ui.loadResource(Rez.Fonts.MeridiemFont);
+    mMinFont = Settings.resource(Rez.Fonts.MinutesFont);
+    mDateFont = Settings.resource(Rez.Fonts.DateFont);
+    mHoursFont = Settings.resource(Rez.Fonts.HoursFont);
+    mMeridiemFont = Settings.resource(Rez.Fonts.MeridiemFont);
 
     Months = [
-      Ui.loadResource(Rez.Strings.DateMonth1),
-      Ui.loadResource(Rez.Strings.DateMonth2),
-      Ui.loadResource(Rez.Strings.DateMonth3),
-      Ui.loadResource(Rez.Strings.DateMonth4),
-      Ui.loadResource(Rez.Strings.DateMonth5),
-      Ui.loadResource(Rez.Strings.DateMonth6),
-      Ui.loadResource(Rez.Strings.DateMonth7),
-      Ui.loadResource(Rez.Strings.DateMonth8),
-      Ui.loadResource(Rez.Strings.DateMonth9),
-      Ui.loadResource(Rez.Strings.DateMonth10),
-      Ui.loadResource(Rez.Strings.DateMonth11),
-      Ui.loadResource(Rez.Strings.DateMonth12)
+      Settings.resource(Rez.Strings.DateMonth1),
+      Settings.resource(Rez.Strings.DateMonth2),
+      Settings.resource(Rez.Strings.DateMonth3),
+      Settings.resource(Rez.Strings.DateMonth4),
+      Settings.resource(Rez.Strings.DateMonth5),
+      Settings.resource(Rez.Strings.DateMonth6),
+      Settings.resource(Rez.Strings.DateMonth7),
+      Settings.resource(Rez.Strings.DateMonth8),
+      Settings.resource(Rez.Strings.DateMonth9),
+      Settings.resource(Rez.Strings.DateMonth10),
+      Settings.resource(Rez.Strings.DateMonth11),
+      Settings.resource(Rez.Strings.DateMonth12)
     ];
 
     DayOfWeek = [
-      Ui.loadResource(Rez.Strings.DateWeek1),
-      Ui.loadResource(Rez.Strings.DateWeek2),
-      Ui.loadResource(Rez.Strings.DateWeek3),
-      Ui.loadResource(Rez.Strings.DateWeek4),
-      Ui.loadResource(Rez.Strings.DateWeek5),
-      Ui.loadResource(Rez.Strings.DateWeek6),
-      Ui.loadResource(Rez.Strings.DateWeek7)
+      Settings.resource(Rez.Strings.DateWeek1),
+      Settings.resource(Rez.Strings.DateWeek2),
+      Settings.resource(Rez.Strings.DateWeek3),
+      Settings.resource(Rez.Strings.DateWeek4),
+      Settings.resource(Rez.Strings.DateWeek5),
+      Settings.resource(Rez.Strings.DateWeek6),
+      Settings.resource(Rez.Strings.DateWeek7)
     ];
   }
 
