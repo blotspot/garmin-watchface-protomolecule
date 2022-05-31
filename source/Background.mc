@@ -1,7 +1,7 @@
-using Toybox.WatchUi as Ui;
+using Toybox.WatchUi;
 using Toybox.Graphics;
 
-class Background extends Ui.Drawable {
+class Background extends WatchUi.Drawable {
 
   function initialize(params) {
 		Drawable.initialize(params);

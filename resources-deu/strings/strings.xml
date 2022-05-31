@@ -1,8 +1,12 @@
 <strings>
-  <string id="AppName">Protomolecule Watch Face</string>
+  <string id="AppName">Protomolecule WatchFace</string>
 
   <string id="LayoutOrbit">Orbit (6 Datenfelder)</string>
+  <string id="LayoutOrbitItem">Orbit</string>
+  <string id="LayoutOrbitItemSub">6 Datenfelder</string>
   <string id="LayoutCircles">Kreise (8 Datenfelder)</string>
+  <string id="LayoutCirclesItem">Kreise</string>
+  <string id="LayoutCirclesItemSub">8 Datenfelder</string>
 
   <string id="ThemeExpanse">Expanse</string>
   <string id="ThemeEarth">UN</string>
@@ -11,8 +15,11 @@
   <string id="ThemeExpanseLight">Expanse (Hell)</string>
   <string id="ThemeEarthLight">UN (Hell)</string>
 
-  <string id="SettingsLayoutTitle">Wähle ein Layout</string>
-  <string id="SettingsThemeTitle">Wähle ein Design</string>
+  <string id="GenericSettingsGroupTitle">Allgemeine Einstellungen</string>
+  <string id="SettingsLayoutTitle">Layout</string>
+  <string id="SettingsChooseLayoutTitle">Wähle Layout</string>
+  <string id="SettingsThemeTitle">Design</string>
+  <string id="SettingsChooseThemeTitle">Wähle Design</string>
   <string id="SettingsShowMeridiemTitle">Zeige AM / PM bei 12-Stunden Zeit</string>
   <string id="SettingsShowRemainingIndicator">Zeige den verbleibenden Teil des Indikators</string>
   <string id="SettingsCaloriesGoalTitle">Tägliches Kalorienziel</string>
@@ -21,20 +28,41 @@
   <string id="SettingsActiveHeartrateTitle">Herzfrequenz öfter aktualisieren</string>
   <string id="SettingsUseSystemFontTitle">Nutze Systemfont für Datumszeile</string>
   
-  <string id="SettingsOrbitIndicatorTextTitle">[Orbit] Zeige Text bei den pimären Indikatoren</string>
-  <string id="SettingsOuterOrbitTitle">[Orbit] Äußeres Datenfeld</string>
-  <string id="SettingsLeftOrbitTitle">[Orbit] Linkes Datenfeld</string>
-  <string id="SettingsRightOrbitTitle">[Orbit] Rechtes Datenfeld</string>
+  <string id="SettingsMenuLabel">Einstellungen</string>
+  <string id="ToggleMenuShowIndicatorTextLabel">Indikator Info</string>
+  <string id="ToggleMenuShowIndicatorTextEnabled">Icon und Text</string>
+  <string id="ToggleMenuShowIndicatorTextDisabled">Nur Icon</string>
+  <string id="ToggleMenuSystemFontLabel">Datumsfont</string>
+  <string id="ToggleMenuSystemFontEnabled">System</string>
+  <string id="ToggleMenuSystemFontDisabled">WatchFace</string>
+  <string id="ToggleMenuActiveHeartrateLabel">HF aktualisieren</string>
+  <string id="ToggleMenuActiveHeartrateEnabled">10 Sek</string>
+  <string id="ToggleMenuActiveHeartrateDisabled">1 Min</string>
+  <string id="ToggleMenuRemainingArcLabel">Indikator</string>
+  <string id="ToggleMenuRemainingArcEnabled">Komplett</string>
+  <string id="ToggleMenuRemainingArcDisabled">Nur fertigen Teil</string>
+  <string id="ToggleMenuShowAmPmLabel">Zeige AM / PM</string>
+  <string id="ToggleMenuSleepTimeLayoutLabel">Nacht Layout</string>
+  <string id="ToggleMenuEnabled">An</string>
+  <string id="ToggleMenuDisabled">Aus</string>
 
-  <string id="SettingsOuterTitle">[Kreise] Äußers Datenfeld (Ohne Icon)</string>
-  <string id="SettingsUpper1Title">[Kreise] Datenfeld oben links</string>
-  <string id="SettingsUpper2Title">[Kreise] Datenfeld oben rechts</string>
-  <string id="SettingsLower1Title">[Kreise] Datenfeld unten links</string>
-  <string id="SettingsLower2Title">[Kreise] Datenfeld unten rechts</string>
+  <string id="SettingsLayoutSettingsTitle">Layout Einstellungen</string>
+  <string id="SettingsOrbitLayoutGroupTitle">Orbit Layout Einstellungen</string>
+  <string id="SettingsOrbitIndicatorTextTitle">Zeige Text bei den pimären Indikatoren</string>
+  <string id="SettingsOuterOrbitTitle">Äußeres Datenfeld</string>
+  <string id="SettingsLeftOrbitTitle">Linkes Datenfeld</string>
+  <string id="SettingsRightOrbitTitle">Rechtes Datenfeld</string>
+
+  <string id="SettingsCirclesLayoutGroupTitle">Kreise Datenfeld Einstellungen</string>
+  <string id="SettingsOuterTitle">DF außen</string>
+  <string id="SettingsUpper1Title">DF oben links</string>
+  <string id="SettingsUpper2Title">DF oben rechts</string>
+  <string id="SettingsLower1Title">DF unten links</string>
+  <string id="SettingsLower2Title">DF unten rechts</string>
   
-  <string id="SettingsSecondary1Title">Datenfeld 1 (Links)</string>
-  <string id="SettingsSecondary2Title">Datenfeld 2 (Mitte)</string>
-  <string id="SettingsSecondary3Title">Datenfeld 3 (Rechts)</string>
+  <string id="SettingsSecondary1Title">DF Uhr links</string>
+  <string id="SettingsSecondary2Title">DF Uhr mitte</string>
+  <string id="SettingsSecondary3Title">DF Uhr rechts</string>
   
   <string id="NoDataField">Leer</string>
   <string id="DataFieldSteps">tägliche Schritte</string>
