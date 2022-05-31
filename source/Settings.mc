@@ -66,14 +66,6 @@ module Settings {
     return false;
   }
 
-  function iconFont() {
-    return resource(Rez.Fonts.IconsFont);
-  }
-
-  function textFont() {
-    return resource(Rez.Fonts.SecondaryIndicatorFont);
-  }
-
   function resource(resourceId) {
     if (_resources[resourceId] == null) {
       _resources[resourceId] = WatchUi.loadResource(resourceId);

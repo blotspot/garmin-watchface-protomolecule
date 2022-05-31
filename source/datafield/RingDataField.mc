@@ -3,19 +3,15 @@ using Toybox.Math;
 using Toybox.WatchUi;
 
 class RingDataField extends DataFieldDrawable {
-
-  hidden var mCenterXPos;
-  hidden var mCenterYPos;
   hidden var mShowIcon;
   hidden var mRadius;
 
   function initialize(params) {
     DataFieldDrawable.initialize(params);
-    
-    mCenterXPos = params[:centerXPos];
-    mCenterYPos = params[:centerYPos];
     mShowIcon = params[:showIcon];
     mRadius = params[:radius];
+    locX = params[:x];
+    locY = params[:y];
   }
 
   function draw(dc) {
@@ -42,8 +38,8 @@ class RingDataField extends DataFieldDrawable {
       }
       mLastInfo.icon.invoke(
         dc,
-        mCenterXPos,
-        mCenterYPos, 
+        locX,
+        locY, 
         Settings.get("iconSize"), 
         Settings.get("strokeWidth"),
         mLastInfo.text
@@ -63,8 +59,8 @@ class RingDataField extends DataFieldDrawable {
       var endDegree = startDegree - 360 * fillLevel;
 
       dc.drawArc(
-        mCenterXPos, // x center of ring
-        mCenterYPos, // y center of ring
+        locX, // x center of ring
+        locY, // y center of ring
         mRadius,
         Graphics.ARC_CLOCKWISE,
         startDegree,
@@ -77,8 +73,8 @@ class RingDataField extends DataFieldDrawable {
     dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     
     dc.setClip(
-      mCenterXPos - (mRadius + penSize),
-      mCenterYPos - (mRadius + penSize),
+      locX - (mRadius + penSize),
+      locY - (mRadius + penSize),
       (mRadius + penSize * 2) * 2,
       (mRadius + penSize * 2) * 2
     );

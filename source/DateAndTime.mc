@@ -10,11 +10,6 @@ class DateAndTime extends WatchUi.Drawable {
 
   var mLowPowerMode;
 
-  var mMinFont;
-  var mDateFont;
-  var mHoursFont;
-  var mMeridiemFont;
-
   var DayOfWeek = [];
   var Months = [];
 
@@ -23,34 +18,29 @@ class DateAndTime extends WatchUi.Drawable {
 
     mLowPowerMode = params[:lowPowerMode] && System.getDeviceSettings().requiresBurnInProtection;
 
-    mMinFont = Settings.resource(Rez.Fonts.MinutesFont);
-    mDateFont = Settings.resource(Rez.Fonts.DateFont);
-    mHoursFont = Settings.resource(Rez.Fonts.HoursFont);
-    mMeridiemFont = Settings.resource(Rez.Fonts.MeridiemFont);
-
     Months = [
-      Settings.resource(Rez.Strings.DateMonth1),
-      Settings.resource(Rez.Strings.DateMonth2),
-      Settings.resource(Rez.Strings.DateMonth3),
-      Settings.resource(Rez.Strings.DateMonth4),
-      Settings.resource(Rez.Strings.DateMonth5),
-      Settings.resource(Rez.Strings.DateMonth6),
-      Settings.resource(Rez.Strings.DateMonth7),
-      Settings.resource(Rez.Strings.DateMonth8),
-      Settings.resource(Rez.Strings.DateMonth9),
-      Settings.resource(Rez.Strings.DateMonth10),
-      Settings.resource(Rez.Strings.DateMonth11),
-      Settings.resource(Rez.Strings.DateMonth12)
+      Rez.Strings.DateMonth1,
+      Rez.Strings.DateMonth2,
+      Rez.Strings.DateMonth3,
+      Rez.Strings.DateMonth4,
+      Rez.Strings.DateMonth5,
+      Rez.Strings.DateMonth6,
+      Rez.Strings.DateMonth7,
+      Rez.Strings.DateMonth8,
+      Rez.Strings.DateMonth9,
+      Rez.Strings.DateMonth10,
+      Rez.Strings.DateMonth11,
+      Rez.Strings.DateMonth12
     ];
 
     DayOfWeek = [
-      Settings.resource(Rez.Strings.DateWeek1),
-      Settings.resource(Rez.Strings.DateWeek2),
-      Settings.resource(Rez.Strings.DateWeek3),
-      Settings.resource(Rez.Strings.DateWeek4),
-      Settings.resource(Rez.Strings.DateWeek5),
-      Settings.resource(Rez.Strings.DateWeek6),
-      Settings.resource(Rez.Strings.DateWeek7)
+      Rez.Strings.DateWeek1,
+      Rez.Strings.DateWeek2,
+      Rez.Strings.DateWeek3,
+      Rez.Strings.DateWeek4,
+      Rez.Strings.DateWeek5,
+      Rez.Strings.DateWeek6,
+      Rez.Strings.DateWeek7
     ];
   }
 
@@ -61,15 +51,15 @@ class DateAndTime extends WatchUi.Drawable {
     var hours = getHours(now, is12Hour);
     var minutes = now.min.format("%02d");
 
-    var dateDim = dc.getTextDimensions(date, mDateFont);
+    var dateDim = dc.getTextDimensions(date, Settings.resource(Rez.Fonts.DateFont));
     var dateX = dc.getWidth() * 0.5;
     var dateY = dc.getHeight() * 0.31 - dateDim[1] / 2.0;
 
-    var hoursDim = dc.getTextDimensions(hours, mHoursFont);
+    var hoursDim = dc.getTextDimensions(hours, Settings.resource(Rez.Fonts.HoursFont));
     var hoursX = dc.getWidth() * 0.485;
     var hoursY = dc.getHeight() * 0.48 - hoursDim[1] / 2.0;
 
-    var minutesDim = dc.getTextDimensions(minutes, mMinFont);
+    var minutesDim = dc.getTextDimensions(minutes, Settings.resource(Rez.Fonts.MinutesFont));
     var minutesX = dc.getWidth() * 0.515;
     var minutesY = dc.getHeight() * 0.48 - minutesDim[1] / 2.0;
 
@@ -83,19 +73,19 @@ class DateAndTime extends WatchUi.Drawable {
     dc.setColor((mLowPowerMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND)), Graphics.COLOR_TRANSPARENT);
     
     // Date
-    dc.drawText(dateX, dateY, Settings.get("useSystemFontForDate") ? Graphics.FONT_TINY : mDateFont, date, Graphics.TEXT_JUSTIFY_CENTER);
+    dc.drawText(dateX, dateY, Settings.get("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont), date, Graphics.TEXT_JUSTIFY_CENTER);
     // Hours
-    dc.drawText(hoursX, hoursY, mHoursFont, hours, Graphics.TEXT_JUSTIFY_RIGHT);
+    dc.drawText(hoursX, hoursY, Settings.resource(Rez.Fonts.HoursFont), hours, Graphics.TEXT_JUSTIFY_RIGHT);
     // Minutes
-    dc.drawText(minutesX, minutesY, mMinFont, minutes, Graphics.TEXT_JUSTIFY_LEFT);
+    dc.drawText(minutesX, minutesY, Settings.resource(Rez.Fonts.MinutesFont), minutes, Graphics.TEXT_JUSTIFY_LEFT);
 
     if (is12Hour && Settings.get("showMeridiemText")) {
       dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
       var meridiem = (now.hour < 12) ? "am" : "pm";
-      var meridiemDim = dc.getTextDimensions(meridiem, mMeridiemFont);
+      var meridiemDim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
       var x = minutesDim[0] + minutesX;
       var y = dc.getHeight() * 0.48 - meridiemDim[1] / 2.0;
-      dc.drawText(x, y, mMeridiemFont, meridiem, Graphics.TEXT_JUSTIFY_LEFT);
+      dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, Graphics.TEXT_JUSTIFY_LEFT);
     }
   }
 
@@ -103,7 +93,10 @@ class DateAndTime extends WatchUi.Drawable {
     if (Settings.get("useSystemFontForDate")) {
       return Lang.format("$1$ $2$ $3$", [now.day_of_week, now.day.format("%02d"), now.month]);
     } else {
-      return Lang.format("$1$ $2$ $3$", [DayOfWeek[now.day_of_week - 1], now.day.format("%02d"), Months[now.month - 1]]);
+      return Lang.format(
+        "$1$ $2$ $3$", 
+        [ Settings.resource(DayOfWeek[now.day_of_week - 1]), now.day.format("%02d"), Settings.resource(Months[now.month - 1]) ]
+      );
     }
   }
 

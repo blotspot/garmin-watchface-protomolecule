@@ -7,16 +7,13 @@ class SecondaryDataField extends DataFieldDrawable {
 
   hidden var mOffsetMod;
 
-  hidden var mYPos;
-  hidden var mXPos;
-
   function initialize(params) {
     DataFieldDrawable.initialize(params);
 
     mFieldId = params[:fieldId];
     mOffsetMod = params[:offsetModifier];
-    mXPos = params[:xPos];
-    mYPos = params[:yPos];
+    locX = params[:x];
+    locY = params[:y];
   }
 
   function draw(dc) {
@@ -27,7 +24,7 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function update(dc) {
-    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.textFont()) + Settings.get("iconSize");
+    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont)) + Settings.get("iconSize");
     var offset = fieldWidth * mOffsetMod;
     setClippingRegion(dc, offset, Settings.get("strokeWidth"));
 
@@ -35,8 +32,8 @@ class SecondaryDataField extends DataFieldDrawable {
       dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
     }
 
-    mLastInfo.icon.invoke(dc, mXPos - offset + (Settings.get("iconSize") / 2.0), mYPos, Settings.get("iconSize"), Settings.get("strokeWidth"), mLastInfo.text);
-    drawText(dc, mLastInfo.text, Settings.textFont(), mXPos - offset + Settings.get("iconSize") + Settings.get("strokeWidth"));
+    mLastInfo.icon.invoke(dc, locX - offset + (Settings.get("iconSize") / 2.0), locY, Settings.get("iconSize"), Settings.get("strokeWidth"), mLastInfo.text);
+    drawText(dc, mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), locX - offset + Settings.get("iconSize") + Settings.get("strokeWidth"));
   }
 
   function partialUpdate(dc) {
@@ -46,7 +43,7 @@ class SecondaryDataField extends DataFieldDrawable {
   function drawText(dc, text, font, xPos) {
     dc.drawText(
       xPos,
-      mYPos - 1,
+      locY - 1,
       font,
       text,
       Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
@@ -57,8 +54,8 @@ class SecondaryDataField extends DataFieldDrawable {
     var contentDimensions = getDimensions(dc);
     dc.setColor(themeColor(Color.TEXT_ACTIVE), themeColor(Color.BACKGROUND));
     dc.setClip(
-      mXPos - offset,
-      mYPos - contentDimensions[1] / 2 - penSize / 2,
+      locX - offset,
+      locY - contentDimensions[1] / 2 - penSize / 2,
       contentDimensions[0] + penSize,
       contentDimensions[1] + penSize
     );
@@ -66,7 +63,7 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function getDimensions(dc) {
-    var dim = dc.getTextDimensions("000", Settings.textFont());
+    var dim = dc.getTextDimensions("000", Settings.resource(Rez.Fonts.SecondaryIndicatorFont));
     dim[0] = dim[0] + Settings.get("iconSize");
     if (dim[1] < Settings.get("iconSize")) {
       dim[1] = Settings.get("iconSize");

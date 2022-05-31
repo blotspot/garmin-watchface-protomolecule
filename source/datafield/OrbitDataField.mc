@@ -98,28 +98,28 @@ class OrbitDataField extends DataFieldDrawable {
     } else {
       dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     }
-    var xPos = (mFieldId == FieldId.ORBIT_LEFT) ? getX(dc, mStartDegree - mTotalDegree) - (Settings.get("iconSize") / 2) : getX(dc, mStartDegree) + (Settings.get("iconSize") / 2);
-    var yPos = ((mFieldId == FieldId.ORBIT_LEFT) ? getY(dc, mStartDegree - mTotalDegree) : getY(dc, mStartDegree)) + Settings.get("iconSize");
+    var x = (mFieldId == FieldId.ORBIT_LEFT) ? getX(dc, mStartDegree - mTotalDegree) - (Settings.get("iconSize") / 2) : getX(dc, mStartDegree) + (Settings.get("iconSize") / 2);
+    var y = ((mFieldId == FieldId.ORBIT_LEFT) ? getY(dc, mStartDegree - mTotalDegree) : getY(dc, mStartDegree)) + Settings.get("iconSize");
 
     if (mFieldId == FieldId.ORBIT_OUTER) {
-      xPos = Settings.get("centerXPos");
-      yPos = Settings.get("centerYPos") + mRadius - Settings.get("iconSize") * (Settings.get("showOrbitIndicatorText") ? 2 : 1); 
+      x = Settings.get("centerXPos");
+      y = Settings.get("centerYPos") + mRadius - Settings.get("iconSize") * (Settings.get("showOrbitIndicatorText") ? 2 : 1); 
     }
 
     mLastInfo.icon.invoke(
       dc,
-      xPos,
-      yPos, 
+      x,
+      y, 
       Settings.get("iconSize"), 
       Settings.get("strokeWidth"),
       mLastInfo.text
     );
     if (Settings.get("showOrbitIndicatorText")) {
-      yPos += Settings.get("iconSize");
+      y += Settings.get("iconSize");
       dc.drawText(
-        xPos,
-        yPos - 1,
-        Settings.textFont(),
+        x,
+        y - 1,
+        Settings.resource(Rez.Fonts.SecondaryIndicatorFont),
         mLastInfo.text,
         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
       );

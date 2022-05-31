@@ -8,59 +8,59 @@
   <drawable id="NoProgressDataField1" class="SecondaryDataField">
     <param name="fieldId">FieldId.NO_PROGRESS_1</param>
     <param name="offsetModifier">0</param>
-    <param name="xPos">0.168 * dc.getWidth()</param>
-    <param name="yPos">0.685 * dc.getHeight()</param>
+    <param name="x">0.168 * dc.getWidth()</param>
+    <param name="y">0.685 * dc.getHeight()</param>
   </drawable>
   <drawable id="NoProgressDataField2" class="SecondaryDataField">
     <param name="fieldId">FieldId.NO_PROGRESS_2</param>
     <param name="offsetModifier">0.5</param>
-    <param name="xPos">0.5 * dc.getWidth()</param>
-    <param name="yPos">0.685 * dc.getHeight()</param>
+    <param name="x">0.5 * dc.getWidth()</param>
+    <param name="y">0.685 * dc.getHeight()</param>
   </drawable>
   <drawable id="NoProgressDataField3" class="SecondaryDataField">
     <param name="fieldId">FieldId.NO_PROGRESS_3</param>
     <param name="offsetModifier">1</param>
-    <param name="xPos">0.832 * dc.getWidth()</param>
-    <param name="yPos">0.685 * dc.getHeight()</param>
+    <param name="x">0.832 * dc.getWidth()</param>
+    <param name="y">0.685 * dc.getHeight()</param>
   </drawable>
   
   <drawable id="OuterDataField" class="RingDataField">
     <param name="fieldId">FieldId.OUTER</param>
     <param name="showIcon">false</param>
-    <param name="centerXPos">0.5 * dc.getWidth()</param>
-    <param name="centerYPos">0.5 * dc.getHeight()</param>
+    <param name="x">0.5 * dc.getWidth()</param>
+    <param name="y">0.5 * dc.getHeight()</param>
     <param name="radius">0.5 * dc.getWidth() - dc.getWidth() * 0.01</param>
   </drawable>
   
   <drawable id="UpperDataField1" class="RingDataField">
     <param name="fieldId">FieldId.UPPER_1</param>
     <param name="showIcon">true</param>
-    <param name="centerXPos">0.385 * dc.getWidth()</param>
-    <param name="centerYPos">0.165 * dc.getHeight()</param>
+    <param name="x">0.385 * dc.getWidth()</param>
+    <param name="y">0.165 * dc.getHeight()</param>
     <param name="radius">dc.getWidth() / 12.4</param>
   </drawable>
   
   <drawable id="UpperDataField2" class="RingDataField">
     <param name="fieldId">FieldId.UPPER_2</param>
     <param name="showIcon">true</param>
-    <param name="centerXPos">0.615 * dc.getWidth()</param>
-    <param name="centerYPos">0.165 * dc.getHeight()</param>
+    <param name="x">0.615 * dc.getWidth()</param>
+    <param name="y">0.165 * dc.getHeight()</param>
     <param name="radius">dc.getWidth() / 12.4</param>
   </drawable>
   
   <drawable id="LowerDataField1" class="RingDataField">
     <param name="fieldId">FieldId.LOWER_1</param>
     <param name="showIcon">true</param>
-    <param name="centerXPos">0.385 * dc.getWidth()</param>
-    <param name="centerYPos">0.835 * dc.getHeight()</param>
+    <param name="x">0.385 * dc.getWidth()</param>
+    <param name="y">0.835 * dc.getHeight()</param>
     <param name="radius">dc.getWidth() / 12.4</param>
   </drawable>
   
   <drawable id="LowerDataField2" class="RingDataField">
     <param name="fieldId">FieldId.LOWER_2</param>
     <param name="showIcon">true</param>
-    <param name="centerXPos">0.615 * dc.getWidth()</param>
-    <param name="centerYPos">0.835 * dc.getHeight()</param>
+    <param name="x">0.615 * dc.getWidth()</param>
+    <param name="y">0.835 * dc.getHeight()</param>
     <param name="radius">dc.getWidth() / 12.4</param>
   </drawable>
 </layout>
