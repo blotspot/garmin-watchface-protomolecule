@@ -96,6 +96,7 @@ module Settings {
     _settings["showMeridiemText"] = Properties.getValue("showMeridiemText");
     _settings["sleepLayoutActive"] = Properties.getValue("sleepLayoutActive");
     _settings["useSystemFontForDate"] = Properties.getValue("useSystemFontForDate");
+    _settings["showSeconds"] = Properties.getValue("showSeconds");
     
     _settings["middle1"] = Properties.getValue("noProgressDataField1");
     _settings["middle2"] = Properties.getValue("noProgressDataField2");
@@ -135,3 +136,18 @@ module Settings {
   var _settings = {};
   var _resources = {};
 }
+
+var DataField = [
+    Rez.Strings.NoDataField,
+    Rez.Strings.DataFieldSteps,
+    Rez.Strings.DataFieldBattery,
+    Rez.Strings.DataFieldCalories,
+    Rez.Strings.DataFieldActiveMinutes,
+    Rez.Strings.DataFieldHeartRate,
+    Rez.Strings.DataFieldMessages,
+    Rez.Strings.DataFieldFloorsUp,
+    Rez.Strings.DataFieldFloorsDown,
+    Rez.Strings.DataFieldBluetooth,
+    Rez.Strings.DataFieldAlarms,
+    Rez.Strings.DataFieldBodyBattery
+  ];

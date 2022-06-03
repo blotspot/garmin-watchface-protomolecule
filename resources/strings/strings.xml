@@ -20,6 +20,7 @@
   <string id="SettingsLayoutTitle">Layout</string>
   <string id="SettingsChooseThemeTitle">Choose Theme</string>
   <string id="SettingsThemeTitle">Theme</string>
+  <string id="SettingsShowSecondsTitle">Show Seconds</string>
   <string id="SettingsShowMeridiemTitle">Show AM / PM on 12-Hour Time</string>
   <string id="SettingsShowRemainingIndicator">Show Remaining Part of Indicator</string>
   <string id="SettingsCaloriesGoalTitle">Daily Calories Goal</string>
@@ -75,6 +76,8 @@
   <string id="DataFieldFloorsDown">Floors Down</string>
   <string id="DataFieldBluetooth">Bluetooth</string>
   <string id="DataFieldAlarms">Alarms</string>
+  <string id="DataFieldSeconds">Seconds</string>
+  <string id="DataFieldBodyBattery">Body Battery</string>
 
   <string id="DateMonth1">Jan</string>
   <string id="DateMonth2">Feb</string>

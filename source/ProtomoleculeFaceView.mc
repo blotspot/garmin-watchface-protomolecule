@@ -13,6 +13,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   hidden var mNoProgress1;
   hidden var mNoProgress2;
   hidden var mNoProgress3;
+  hidden var mSecondsDrawable;
 
   hidden var mActiveHeartrateField;
   hidden var mActiveHeartrateCounter = 0;
@@ -52,7 +53,6 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       Log.debug("default layout switch");
       return defaultLayout(dc);
     }
-    Log.debug("no layout switch triggered");
     return null;
   }
 
@@ -146,13 +146,16 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     if (!mLastUpdateSleepTime) {
       updateHeartrate(dc);
     }
+    if (!mLowPowerMode && Settings.get("showSeconds") && mSecondsDrawable != null) {
+      mSecondsDrawable.partialUpdate(dc);
+    }
   }
 
   function updateHeartrate(dc) {
     if (mActiveHeartrateField != null) {
       mActiveHeartrateCounter += 1; 
       if (mActiveHeartrateCounter % 10 == 0) {
-        mActiveHeartrateField.draw(dc);
+        mActiveHeartrateField.partialUpdate(dc);
         mActiveHeartrateCounter = 0;
       }
     }
@@ -173,5 +176,6 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     mNoProgress1 = findDrawableById("NoProgressDataField1");
     mNoProgress2 = findDrawableById("NoProgressDataField2");
     mNoProgress3 = findDrawableById("NoProgressDataField3");
+    mSecondsDrawable = findDrawableById("DateAndTime");
   }
 }

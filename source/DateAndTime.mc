@@ -6,15 +6,18 @@ using Toybox.System;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 
-class DateAndTime extends WatchUi.Drawable {
+class DateAndTime extends DataFieldDrawable {
 
   var mLowPowerMode;
+  var mSecX;
+  var mSecY;
 
   var DayOfWeek = [];
   var Months = [];
 
   function initialize(params) {
-    Drawable.initialize(params);
+    params[:fieldId] = FieldId.DATE_AND_TIME;
+    DataFieldDrawable.initialize(params);
 
     mLowPowerMode = params[:lowPowerMode] && System.getDeviceSettings().requiresBurnInProtection;
 
@@ -63,8 +66,11 @@ class DateAndTime extends WatchUi.Drawable {
     var minutesX = dc.getWidth() * 0.515;
     var minutesY = dc.getHeight() * 0.48 - minutesDim[1] / 2.0;
 
+    mSecX = minutesDim[0] + minutesX;
+
+    var offset = 0;
     if (mLowPowerMode) {
-      var offset = calculateOffset(dc, now.min % 5, dateY, hoursY + hoursDim[1]);
+      offset = calculateOffset(dc, now.min % 5, dateY, hoursY + hoursDim[1]);
       dateY += offset;
       hoursY += offset;
       minutesY += offset;
@@ -80,13 +86,31 @@ class DateAndTime extends WatchUi.Drawable {
     dc.drawText(minutesX, minutesY, Settings.resource(Rez.Fonts.MinutesFont), minutes, Graphics.TEXT_JUSTIFY_LEFT);
 
     if (is12Hour && Settings.get("showMeridiemText")) {
-      dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
       var meridiem = (now.hour < 12) ? "am" : "pm";
       var meridiemDim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
       var x = minutesDim[0] + minutesX;
-      var y = dc.getHeight() * 0.48 - meridiemDim[1] / 2.0;
+      var y = dc.getHeight() * 0.48 - meridiemDim[1] / 2.0 + offset;
       dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, Graphics.TEXT_JUSTIFY_LEFT);
     }
+    if (!mLowPowerMode && Settings.get("showSeconds")) {
+      DataFieldDrawable.draw(dc);
+      updateSeconds(dc);
+    }
+  }
+
+  function partialUpdate(dc) {
+    drawPartialUpdate(dc, method(:updateSeconds));
+  }
+
+  function updateSeconds(dc) {
+    var dim = dc.getTextDimensions("00", Settings.resource(Rez.Fonts.MeridiemFont));
+    var y = dc.getHeight() * 0.48 + dim[1] / 2.0;
+    dc.setColor(themeColor(Color.FOREGROUND), themeColor(Color.BACKGROUND));
+    dc.setClip(mSecX, y, dim[0], dim[1]);
+    dc.clear();
+    dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
+    
+    dc.drawText(mSecX + dim[0], y, Settings.resource(Rez.Fonts.MeridiemFont), mLastInfo.text, Graphics.TEXT_JUSTIFY_RIGHT);
   }
 
   hidden function getDateLine(now) {

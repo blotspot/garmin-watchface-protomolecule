@@ -20,6 +20,7 @@
   <string id="SettingsChooseLayoutTitle">Wähle Layout</string>
   <string id="SettingsThemeTitle">Design</string>
   <string id="SettingsChooseThemeTitle">Wähle Design</string>
+  <string id="SettingsShowSecondsTitle">Zeige Sekunden</string>
   <string id="SettingsShowMeridiemTitle">Zeige AM / PM bei 12-Stunden Zeit</string>
   <string id="SettingsShowRemainingIndicator">Zeige den verbleibenden Teil des Indikators</string>
   <string id="SettingsCaloriesGoalTitle">Tägliches Kalorienziel</string>
@@ -75,6 +76,8 @@
   <string id="DataFieldFloorsDown">Stockwerke runter</string>
   <string id="DataFieldBluetooth">Bluetooth</string>
   <string id="DataFieldAlarms">Wecker</string>
+  <string id="DataFieldSeconds">Sekunden</string>
+  <string id="DataFieldBodyBattery">Body Batterie</string>
 
   <string id="DateMonth1">Jan</string>
   <string id="DateMonth2">Feb</string>

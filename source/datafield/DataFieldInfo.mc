@@ -3,6 +3,7 @@ using Toybox.ActivityMonitor;
 using Toybox.Application;
 using Toybox.BluetoothLowEnergy;
 using Toybox.Lang;
+using Toybox.SensorHistory;
 using Toybox.System;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
@@ -35,13 +36,14 @@ module FieldId {
     SLEEP_BATTERY,
     SLEEP_HR,
     SLEEP_ALARMS,
-    SLEEP_NOTIFY
+    SLEEP_NOTIFY,
+    DATE_AND_TIME
   }
 }
 
 module FieldType {
   enum {
-    NOTHING, STEPS, BATTERY, CALORIES, ACTIVE_MINUTES, HEART_RATE, NOTIFICATION, FLOORS_UP, FLOORS_DOWN, BLUETOOTH, ALARMS, SECONDS
+    NOTHING, STEPS, BATTERY, CALORIES, ACTIVE_MINUTES, HEART_RATE, NOTIFICATION, FLOORS_UP, FLOORS_DOWN, BLUETOOTH, ALARMS, BODY_BATTERY, SECONDS
   }
 }
 
@@ -69,7 +71,7 @@ module DataFieldInfo {
 
   }
 
-  function getInfoForField(fieldId) {
+  function getInfoForField(fieldId) as DataFieldProperties {
     if (fieldId == FieldId.NO_PROGRESS_1) {
       return getInfoForType(Settings.get("middle1"));
     } else if (fieldId == FieldId.NO_PROGRESS_2) {
@@ -94,12 +96,14 @@ module DataFieldInfo {
       return getAlarmsInfo();
     } else if (fieldId == FieldId.SLEEP_BATTERY) {
       return getBatteryInfo();
+    } else if (fieldId == FieldId.DATE_AND_TIME) {
+      return getSecondsInfo();
     }
 
     return null;
   }
 
-  function getInfoForType(fieldType) {
+  function getInfoForType(fieldType) as DataFieldProperties {
     if (fieldType == FieldType.HEART_RATE) {
       return getHeartRateInfo();
     } else if (fieldType == FieldType.CALORIES) {
@@ -120,13 +124,14 @@ module DataFieldInfo {
       return getBluetoothInfo();
     } else if (fieldType == FieldType.ALARMS) {
       return getAlarmsInfo();
-    } else if (fieldType == FieldType.SECONDS) {
-      return getSecondsInfo();
+    } else if (fieldType == FieldType.BODY_BATTERY) {
+      Log.debug("Body Battery");
+      return getBodyBatteryInfo();
     }
     return null;
   }
 
-  function getHeartRateInfo() {
+  function getHeartRateInfo() as DataFieldProperties {
     var heartRate = Activity.getActivityInfo().currentHeartRate;
     var icon = new Lang.Method(DataFieldIcons, :drawHeartRate);
     if (heartRate == null && ActivityMonitor has :getHeartRateInfoHistory) {
@@ -149,7 +154,7 @@ module DataFieldInfo {
     return new DataFieldProperties(FieldType.CALORIES, new Lang.Method(DataFieldIcons, :drawCalories), current.format(Format.INT), current / Settings.get("caloriesGoal"));
   }
 
-  function getNotificationInfo() {
+  function getNotificationInfo() as DataFieldProperties {
     var notifications = System.getDeviceSettings().notificationCount;
 
     var iconFunc = new Lang.Method(DataFieldIcons, :drawNotificationActive);
@@ -158,7 +163,7 @@ module DataFieldInfo {
     return new DataFieldProperties(FieldType.NOTIFICATION, iconFunc, notifications.format(Format.INT), 0);
   }
 
-  function getBatteryInfo() {
+  function getBatteryInfo() as DataFieldProperties {
     var stats = System.getSystemStats();
     var current = stats.battery;
     var iconFunc = new Lang.Method(DataFieldIcons, :drawBattery);
@@ -170,35 +175,35 @@ module DataFieldInfo {
     return new DataFieldProperties(FieldType.BATTERY, iconFunc, current.format(Format.FLOAT), current / 100);
   }
 
-  function getStepInfo() {
+  function getStepInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.steps.toDouble();
 
     return new DataFieldProperties(FieldType.STEPS, new Lang.Method(DataFieldIcons, :drawSteps), current.format(Format.INT), current / activityInfo.stepGoal);
   }
 
-  function getFloorsClimbedInfo() {
+  function getFloorsClimbedInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.floorsClimbed.toDouble();
 
     return new DataFieldProperties(FieldType.FLOORS_UP, new Lang.Method(DataFieldIcons, :drawFloorsUp), current.format(Format.INT), current / activityInfo.floorsClimbedGoal);
   }
 
-  function getFloorsDescentInfo() {
+  function getFloorsDescentInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.floorsDescended.toDouble();
 
     return new DataFieldProperties(FieldType.FLOORS_DOWN, new Lang.Method(DataFieldIcons, :drawFloorsDown), current.format(Format.INT), current / activityInfo.floorsClimbedGoal);
   }
 
-  function getActiveMinuteInfo() {
+  function getActiveMinuteInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.activeMinutesWeek.total.toDouble();
 
     return new DataFieldProperties(FieldType.ACTIVE_MINUTES, new Lang.Method(DataFieldIcons, :drawActiveMinutes), current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal);
   }
 
-  function getBluetoothInfo() {
+  function getBluetoothInfo() as DataFieldProperties {
     var iconFunc;
     if (System.getDeviceSettings().phoneConnected) {
       iconFunc = new Lang.Method(DataFieldIcons, :drawBluetoothConnection);
@@ -209,7 +214,7 @@ module DataFieldInfo {
     return new DataFieldProperties(FieldType.BLUETOOTH, iconFunc, " ", 0);
   }
 
-  function getAlarmsInfo() {
+  function getAlarmsInfo() as DataFieldProperties {
     var alarmCount = System.getDeviceSettings().alarmCount;
     var iconFunc = new Lang.Method(DataFieldIcons, :drawAlarms);
     if (alarmCount == 0) {
@@ -219,9 +224,32 @@ module DataFieldInfo {
     return new DataFieldProperties(FieldType.ALARMS, iconFunc, alarmCount.format(Format.INT), 0);
   }
 
-  function getSecondsInfo() {
+  function getSecondsInfo() as DataFieldProperties {
     var now = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
     var seconds = now.sec;
-    return new DataFieldProperties(FieldType.SECONDS, new Lang.Method(DataFieldIcons, :drawSeconds), seconds.format(Format.INT), seconds / 60.0);
+    return new DataFieldProperties(FieldType.SECONDS, null, seconds.format(Format.INT), seconds / 60.0);
+  }
+
+  function getBodyBatteryInfo() as DataFieldProperties {
+    var bodyBattery = null;
+    
+    if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getBodyBatteryHistory)) {
+      Log.debug("hasSensorHistory");
+      var iter = SensorHistory.getBodyBatteryHistory({:period => 1});
+      if (iter != null) {
+        bodyBattery = iter.next();
+      }
+    }
+    if (bodyBattery == null) {
+      bodyBattery = 0;
+    } else {
+      bodyBattery = bodyBattery.data;
+    }
+    var fId = FieldType.BODY_BATTERY;
+    var iconCallback = new Lang.Method(DataFieldIcons, :drawBodyBattery);
+    var bbFmt = bodyBattery.format(Format.INT);
+    var progress = bodyBattery / 100.0;
+    Log.debug("new DataFieldProperties("+fId+", "+iconCallback+", "+bbFmt+", "+progress+")");
+    return new DataFieldProperties(fId, iconCallback, bbFmt, progress);
   }
 }

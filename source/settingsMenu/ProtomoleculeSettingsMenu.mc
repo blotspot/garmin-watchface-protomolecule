@@ -17,6 +17,10 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
       Settings.resource(Rez.Strings.ToggleMenuActiveHeartrateLabel), 
       Settings.resource(Rez.Strings.ToggleMenuActiveHeartrateEnabled), 
       Settings.resource(Rez.Strings.ToggleMenuActiveHeartrateDisabled)));
+    Menu2.addItem(toggleItem("showSeconds", 
+      Settings.resource(Rez.Strings.SettingsShowSecondsTitle), 
+      Settings.resource(Rez.Strings.ToggleMenuEnabled), 
+      Settings.resource(Rez.Strings.ToggleMenuDisabled)));
     Menu2.addItem(toggleItem("showMeridiemText", 
       Settings.resource(Rez.Strings.ToggleMenuShowAmPmLabel), 
       Settings.resource(Rez.Strings.ToggleMenuEnabled), 
@@ -120,10 +124,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   }
 
   hidden function pushOrbitDatafieldOptionsMenu(parent) {
-    var holder = new FixedValuesFactory([ 
-      getDataFieldString(0), getDataFieldString(1), getDataFieldString(2), getDataFieldString(3),
-      getDataFieldString(4), getDataFieldString(7), getDataFieldString(8)
-    ], parent.getId(), {});
+    var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 11], parent.getId(), {});
     WatchUi.pushView(
       new OptionsMenu(holder, { :title => parent.getLabel() }), 
       new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT
@@ -131,11 +132,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   }
   
   hidden function pushInnerCirclesDatafieldOptionsMenu(parent) {
-    var holder = new FixedValuesFactory([ 
-      getDataFieldString(0), getDataFieldString(1), getDataFieldString(2),
-      getDataFieldString(3), getDataFieldString(4), getDataFieldString(7),
-      getDataFieldString(8), getDataFieldString(9)
-    ], parent.getId(), {});
+    var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 9, 11], parent.getId(), {});
     WatchUi.pushView(
       new OptionsMenu(holder, { :title => parent.getLabel() }), 
       new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT
@@ -143,9 +140,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   }
   
   hidden function pushOuterCirclesDatafieldOptionsMenu(parent) {
-    var holder = new FixedValuesFactory([ 
-      getDataFieldString(0), getDataFieldString(1), getDataFieldString(2), getDataFieldString(3)
-    ], parent.getId(), {});
+    var holder = new DataFieldFactory([0, 1, 2, 3, 11], parent.getId(), {});
     WatchUi.pushView(
       new OptionsMenu(holder, { :title => parent.getLabel() }), 
       new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT
@@ -153,11 +148,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   }
   
   hidden function pushClockDatafieldOptionsMenu(parent) {
-    var holder = new FixedValuesFactory([ 
-      getDataFieldString(0), getDataFieldString(2), getDataFieldString(4), getDataFieldString(5),
-      getDataFieldString(6), getDataFieldString(7), getDataFieldString(8), getDataFieldString(9),
-      getDataFieldString(10)
-    ], parent.getId(), {});
+    var holder = new DataFieldFactory([0, 2, 4, 5, 6, 7, 8, 9, 10, 11], parent.getId(), {});
     WatchUi.pushView(
       new OptionsMenu(holder, { :title => parent.getLabel() }), 
       new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT
@@ -262,23 +253,6 @@ function getLayoutString(layoutId) {
   return Settings.resource(_layout[layoutId]);
 }
 
-var _dataField = null;
-
 function getDataFieldString(dfValue) {
-  if (_dataField == null) {
-    _dataField = [
-      Rez.Strings.NoDataField,
-      Rez.Strings.DataFieldSteps,
-      Rez.Strings.DataFieldBattery,
-      Rez.Strings.DataFieldCalories,
-      Rez.Strings.DataFieldActiveMinutes,
-      Rez.Strings.DataFieldHeartRate,
-      Rez.Strings.DataFieldMessages,
-      Rez.Strings.DataFieldFloorsUp,
-      Rez.Strings.DataFieldFloorsDown,
-      Rez.Strings.DataFieldBluetooth,
-      Rez.Strings.DataFieldAlarms
-    ];
-  }
-  return Settings.resource(_dataField[dfValue]);
+  return Settings.resource(DataField[dfValue]);
 }

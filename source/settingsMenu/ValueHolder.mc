@@ -105,6 +105,39 @@ class FixedValuesFactory extends ValueHolder {
   }
 }
 
+class DataFieldFactory extends ValueHolder {
+  hidden var mValues;
+  
+  function initialize(values, settingsId, options) {
+    mValues = values;
+    mCurrentSelection = getIndex(Settings.get(settingsId));
+    
+    if (options == null) {
+      options = {};
+    }
+    options[:size] = method(:getSize);
+    options[:index] = method(:getIndex);
+    options[:textValue] = method(:getTextValue);
+    options[:settingsValue] = method(:getSettingsValue);
+    ValueHolder.initialize(settingsId, options);
+  }
+
+  protected function getTextValue(index) {
+    return Settings.resource(DataField[mValues[index]]);
+  }
+
+  function getSettingsValue(index) {
+    return mValues[index];
+  }
+
+  function getIndex(value) {
+    return mValues.indexOf(value);
+  }
+
+  function getSize() {
+    return mValues.size();
+  }
+}
 
 class NumberFactory extends ValueHolder {
   hidden var mStart;

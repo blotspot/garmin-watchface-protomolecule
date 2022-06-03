@@ -82,8 +82,11 @@ module DataFieldIcons {
 
   function drawSeconds(dc, x, y, size, penSize, value) {
     dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
-    var font = Settings.resource(Rez.Fonts.SecondaryIndicatorFont);
-    dc.drawText(x, y - (size * 0.1), font, value, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+    dc.drawText(x, y - (size * 0.1), Settings.resource(Rez.Fonts.MeridiemFont), value, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+  }
+
+  function drawBodyBattery(dc, x, y, size, penSize, value) {
+    textIcon(dc, x, y, "y"); // Todo: add
   }
 
   function textIcon(dc, x, y, string) {
