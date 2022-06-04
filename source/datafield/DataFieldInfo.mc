@@ -125,7 +125,6 @@ module DataFieldInfo {
     } else if (fieldType == FieldType.ALARMS) {
       return getAlarmsInfo();
     } else if (fieldType == FieldType.BODY_BATTERY) {
-      Log.debug("Body Battery");
       return getBodyBatteryInfo();
     }
     return null;
@@ -234,7 +233,6 @@ module DataFieldInfo {
     var bodyBattery = null;
     
     if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getBodyBatteryHistory)) {
-      Log.debug("hasSensorHistory");
       var iter = SensorHistory.getBodyBatteryHistory({:period => 1});
       if (iter != null) {
         bodyBattery = iter.next();
@@ -249,7 +247,7 @@ module DataFieldInfo {
     var iconCallback = new Lang.Method(DataFieldIcons, :drawBodyBattery);
     var bbFmt = bodyBattery.format(Format.INT);
     var progress = bodyBattery / 100.0;
-    Log.debug("new DataFieldProperties("+fId+", "+iconCallback+", "+bbFmt+", "+progress+")");
+    
     return new DataFieldProperties(fId, iconCallback, bbFmt, progress);
   }
 }
