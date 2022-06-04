@@ -9,7 +9,7 @@
   <property id="showOrbitIndicatorText" type="boolean">true</property>
   <property id="showMeridiemText" type="boolean">true</property>
   <property id="useSystemFontForDate" type="boolean">false</property>
-  <property id="showSeconds" type="boolean">true</property>
+  <property id="showSeconds" type="boolean">false</property>
   
   <property id="noProgressDataField1" type="number">5</property>
   <property id="noProgressDataField2" type="number">6</property>
