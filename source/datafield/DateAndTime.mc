@@ -8,7 +8,7 @@ using Toybox.Time.Gregorian;
 
 class DateAndTime extends DataFieldDrawable {
 
-  var mLowPowerMode;
+  var mBurnInProtectionMode;
   var mSecX;
   var mSecY;
 
@@ -19,7 +19,7 @@ class DateAndTime extends DataFieldDrawable {
     params[:fieldId] = FieldId.DATE_AND_TIME;
     DataFieldDrawable.initialize(params);
 
-    mLowPowerMode = params[:lowPowerMode] && System.getDeviceSettings().requiresBurnInProtection;
+    mBurnInProtectionMode = params[:burnInProtectionMode] && System.getDeviceSettings().requiresBurnInProtection;
 
     Months = [
       Rez.Strings.DateMonth1,
@@ -69,14 +69,14 @@ class DateAndTime extends DataFieldDrawable {
     mSecX = minutesDim[0] + minutesX;
 
     var offset = 0;
-    if (mLowPowerMode) {
+    if (mBurnInProtectionMode) {
       offset = calculateOffset(dc, now.min % 5, dateY, hoursY + hoursDim[1]);
       dateY += offset;
       hoursY += offset;
       minutesY += offset;
     }
 
-    dc.setColor((mLowPowerMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND)), Graphics.COLOR_TRANSPARENT);
+    dc.setColor((mBurnInProtectionMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND)), Graphics.COLOR_TRANSPARENT);
     
     // Date
     dc.drawText(dateX, dateY, Settings.get("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont), date, Graphics.TEXT_JUSTIFY_CENTER);
@@ -89,10 +89,10 @@ class DateAndTime extends DataFieldDrawable {
       var meridiem = (now.hour < 12) ? "am" : "pm";
       var meridiemDim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
       var x = minutesDim[0] + minutesX;
-      var y = dc.getHeight() * 0.47 - meridiemDim[1] * (mLowPowerMode || !Settings.get("showSeconds") ? 0 : 0.5) + offset;
+      var y = dc.getHeight() * 0.47 - meridiemDim[1] * (mBurnInProtectionMode || !Settings.get("showSeconds") ? 0 : 0.5) + offset;
       dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, Graphics.TEXT_JUSTIFY_LEFT);
     }
-    if (!mLowPowerMode && Settings.get("showSeconds")) {
+    if (!mBurnInProtectionMode && Settings.get("showSeconds")) {
       DataFieldDrawable.draw(dc);
       updateSeconds(dc);
     }
@@ -103,10 +103,10 @@ class DateAndTime extends DataFieldDrawable {
   }
 
   function updateSeconds(dc) {
-    var dim = dc.getTextDimensions("AM", Settings.resource(Rez.Fonts.MeridiemFont));
+    var dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont));
     var y = dc.getHeight() * 0.47 + dim[1] * (System.getDeviceSettings().is24Hour || !Settings.get("showMeridiemText") ? 0 : 0.5);
     dc.setColor(themeColor(Color.FOREGROUND), themeColor(Color.BACKGROUND));
-    dc.setClip(mSecX, y, dim[0], dim[1]);
+    dc.setClip(mSecX, y, dim[0] + 1, dim[1]);
     dc.clear();
     dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
     

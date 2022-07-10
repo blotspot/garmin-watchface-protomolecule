@@ -5,7 +5,7 @@ using Toybox.System;
 
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
-  var mLowPowerMode = false;
+  var mBurnInProtectionMode = false;
   var mLastUpdateLowPowerMode = false;
   var mLastUpdateSleepTime = false; 
   hidden var mLastLayout;
@@ -27,7 +27,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   function chooseLayout(dc, onLayoutCall) {
     // onLayout
     if (onLayoutCall) {
-      if (requiresBurnInProtection() && mLowPowerMode) {
+      if (requiresBurnInProtection() && mBurnInProtectionMode) {
         Log.debug("set burn-in protection layout");
         return Rez.Layouts.SimpleWatchFace(dc);
       } else if (Settings.isSleepTime) {
@@ -39,17 +39,17 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       }
     }
     // enter / exit low power mode triggered
-    if (requiresBurnInProtection() && mLastUpdateLowPowerMode != mLowPowerMode) {
+    if (requiresBurnInProtection() && mLastUpdateLowPowerMode != mBurnInProtectionMode) {
       Log.debug("burn-in protection layout switch");
       return burnInProtectionLayout(dc);
     }
     // sleep / wake time event triggered
-    if (!mLowPowerMode && mLastUpdateSleepTime != Settings.isSleepTime) {
+    if (!mBurnInProtectionMode && mLastUpdateSleepTime != Settings.isSleepTime) {
       Log.debug("sleep time layout switch");
       return sleepTimeLayout(dc);
     }
     // Layout switch trigered
-    if (!mLowPowerMode && !Settings.isSleepTime && mLastLayout != Settings.get("layout")) {
+    if (!mBurnInProtectionMode && !Settings.isSleepTime && mLastLayout != Settings.get("layout")) {
       Log.debug("default layout switch");
       return defaultLayout(dc);
     }
@@ -71,8 +71,8 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   hidden function burnInProtectionLayout(dc) {
-    mLastUpdateLowPowerMode = mLowPowerMode;
-    if (mLowPowerMode) {
+    mLastUpdateLowPowerMode = mBurnInProtectionMode;
+    if (mBurnInProtectionMode) {
       return Rez.Layouts.SimpleWatchFace(dc);
     }
     if (Settings.isSleepTime) {
@@ -128,17 +128,19 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // The user has just looked at their watch. Timers and animations may be started here.
   function onExitSleep() {
     if (requiresBurnInProtection()) {
-      mLowPowerMode = false;
+      mBurnInProtectionMode = false;
       WatchUi.requestUpdate();
     }
+    Settings.lowPowerMode = false;
   }
 
   // Terminate any active timers and prepare for slow updates.
   function onEnterSleep() {
     if (requiresBurnInProtection()) {
-      mLowPowerMode = true;
+      mBurnInProtectionMode = true;
       WatchUi.requestUpdate();
     }
+    Settings.lowPowerMode = false;
   }
 
   // too expensive?
@@ -146,7 +148,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     if (!mLastUpdateSleepTime) {
       updateHeartrate(dc);
     }
-    if (!mLowPowerMode && Settings.get("showSeconds") && mSecondsDrawable != null) {
+    if (!mBurnInProtectionMode && Settings.get("showSeconds") && mSecondsDrawable != null) {
       mSecondsDrawable.partialUpdate(dc);
     }
   }

@@ -2,7 +2,7 @@
 	<drawable id="Background" class="Background"/>
 
   <drawable id="DateAndTime" class="DateAndTime">
-    <param name="lowPowerMode">false</param>
+    <param name="burnInProtectionMode">false</param>
   </drawable>
 
   <drawable id="NoProgressDataField1" class="SecondaryDataField">

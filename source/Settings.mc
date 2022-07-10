@@ -1,4 +1,5 @@
 using Toybox.Application.Properties;
+using Toybox.Lang;
 using Toybox.Math;
 using Toybox.System;
 using Toybox.Time;
@@ -86,17 +87,33 @@ module Settings {
     determineSleepTime();
   }
 
+  function setAsBoolean(settingsId, defaultValue as Lang.Boolean) {
+    var value = Properties.getValue(settingsId);
+    if (value == null || !(value instanceof Lang.Boolean)) {
+      value = defaultValue;
+    }
+    _settings[settingsId] = value;
+  }
+
+  function setAsNumber(settingsId, defaultValue as Lang.Number) {
+    var value = Properties.getValue(settingsId);
+    if (value == null || !(value instanceof Lang.Number)) {
+      value = defaultValue;
+    }
+    _settings[settingsId] = value;
+  }
+
   function loadProperties() {
-    _settings["layout"] = Properties.getValue("layout");
-    _settings["theme"] = Properties.getValue("theme");
-    _settings["caloriesGoal"] = Properties.getValue("caloriesGoal");
-    _settings["batteryThreshold"] = Properties.getValue("batteryThreshold");
-    _settings["activeHeartrate"] = Properties.getValue("activeHeartrate");
-    _settings["showOrbitIndicatorText"] = Properties.getValue("showOrbitIndicatorText");
-    _settings["showMeridiemText"] = Properties.getValue("showMeridiemText");
-    _settings["sleepLayoutActive"] = Properties.getValue("sleepLayoutActive");
-    _settings["useSystemFontForDate"] = Properties.getValue("useSystemFontForDate");
-    _settings["showSeconds"] = Properties.getValue("showSeconds");
+    setAsNumber("layout", 0);
+    setAsNumber("theme", 0);
+    setAsNumber("caloriesGoal", 2000);
+    setAsNumber("batteryThreshold", 20);
+    setAsBoolean("activeHeartrate", false);
+    setAsBoolean("showOrbitIndicatorText", false);
+    setAsBoolean("showMeridiemText", false);
+    setAsBoolean("sleepLayoutActive", false);
+    setAsBoolean("useSystemFontForDate", false);
+    setAsBoolean("showSeconds", false);
     
     _settings["middle1"] = Properties.getValue("noProgressDataField1");
     _settings["middle2"] = Properties.getValue("noProgressDataField2");
@@ -114,6 +131,21 @@ module Settings {
       _settings["lower1"] = Properties.getValue("lowerDataField1");
       _settings["lower2"] = Properties.getValue("lowerDataField2");
     }
+
+    DataField =  [
+      Rez.Strings.NoDataField,
+      Rez.Strings.DataFieldSteps,
+      Rez.Strings.DataFieldBattery,
+      Rez.Strings.DataFieldCalories,
+      Rez.Strings.DataFieldActiveMinutes,
+      Rez.Strings.DataFieldHeartRate,
+      Rez.Strings.DataFieldMessages,
+      Rez.Strings.DataFieldFloorsUp,
+      Rez.Strings.DataFieldFloorsDown,
+      Rez.Strings.DataFieldBluetooth,
+      Rez.Strings.DataFieldAlarms,
+      Rez.Strings.DataFieldBodyBattery
+    ];
   }
 
   function determineSleepTime() {
@@ -122,32 +154,19 @@ module Settings {
     current = new Time.Duration(current.hour * 3600 + current.min * 60);
 
     if (profile.wakeTime.lessThan(profile.sleepTime)) {
-      Settings.isSleepTime = (Settings.get("sleepLayoutActive") && (current.greaterThan(profile.sleepTime) || current.lessThan(profile.wakeTime)));
+      Settings.isSleepTime = (get("sleepLayoutActive") && (current.greaterThan(profile.sleepTime) || current.lessThan(profile.wakeTime)));
     } else if (profile.wakeTime.greaterThan(profile.sleepTime)) {
-      Settings.isSleepTime = Settings.get("sleepLayoutActive") && current.greaterThan(profile.sleepTime) && current.lessThan(profile.wakeTime);
+      Settings.isSleepTime = get("sleepLayoutActive") && current.greaterThan(profile.sleepTime) && current.lessThan(profile.wakeTime);
     } else {
       Settings.isSleepTime = false;
     }
-    Log.debug("sleepTime " + Settings.isSleepTime);
   }
 
+  var lowPowerMode = false;
   var isSleepTime = false;
 
   var _settings = {};
   var _resources = {};
 }
 
-var DataField = [
-    Rez.Strings.NoDataField,
-    Rez.Strings.DataFieldSteps,
-    Rez.Strings.DataFieldBattery,
-    Rez.Strings.DataFieldCalories,
-    Rez.Strings.DataFieldActiveMinutes,
-    Rez.Strings.DataFieldHeartRate,
-    Rez.Strings.DataFieldMessages,
-    Rez.Strings.DataFieldFloorsUp,
-    Rez.Strings.DataFieldFloorsDown,
-    Rez.Strings.DataFieldBluetooth,
-    Rez.Strings.DataFieldAlarms,
-    Rez.Strings.DataFieldBodyBattery
-  ];
+var DataField = [];

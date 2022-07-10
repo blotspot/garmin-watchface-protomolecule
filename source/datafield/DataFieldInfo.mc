@@ -224,9 +224,13 @@ module DataFieldInfo {
   }
 
   function getSecondsInfo() as DataFieldProperties {
-    var now = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-    var seconds = now.sec;
-    return new DataFieldProperties(FieldType.SECONDS, null, seconds.format(Format.INT), seconds / 60.0);
+    if (!Settings.lowPowerMode) {
+      var now = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+      var seconds = now.sec;
+      return new DataFieldProperties(FieldType.SECONDS, null, seconds.format(Format.INT), seconds / 60.0);
+    } else {
+      return new DataFieldProperties(FieldType.SECONDS, null, "", 0);
+    }
   }
 
   function getBodyBatteryInfo() as DataFieldProperties {
