@@ -49,17 +49,17 @@
   
   <string id="SettingsLayoutSettingsTitle">Layout Settings</string>
   <string id="SettingsOrbitLayoutGroupTitle">Orbit Layout Settings</string>
-  <string id="SettingsOrbitIndicatorTextTitle">Show Text for primary DataFields</string>
-  <string id="SettingsOuterOrbitTitle">Outer Indicator</string>
-  <string id="SettingsLeftOrbitTitle">Left Indicator</string>
-  <string id="SettingsRightOrbitTitle">Right Indicator</string>
+  <string id="SettingsOrbitIndicatorTextTitle">[Orbit] Show Text for primary DataFields</string>
+  <string id="SettingsOuterOrbitTitle">[Orbit] Outer Indicator</string>
+  <string id="SettingsLeftOrbitTitle">[Orbit] Left Indicator</string>
+  <string id="SettingsRightOrbitTitle">[Orbit] Right Indicator</string>
   
   <string id="SettingsCirclesLayoutGroupTitle">Circles Layout Settings</string>
-  <string id="SettingsOuterTitle">Outer Indicator</string>
-  <string id="SettingsUpper1Title">Upper Left Indicator</string>
-  <string id="SettingsUpper2Title">Upper Right Indicator</string>
-  <string id="SettingsLower1Title">Lower Left Indicator</string>
-  <string id="SettingsLower2Title">Lower Right Indicator</string>
+  <string id="SettingsOuterTitle">[Circles] Outer Indicator</string>
+  <string id="SettingsUpper1Title">[Circles] Upper Left Indicator</string>
+  <string id="SettingsUpper2Title">[Circles] Upper Right Indicator</string>
+  <string id="SettingsLower1Title">[Circles] Lower Left Indicator</string>
+  <string id="SettingsLower2Title">[Circles] Lower Right Indicator</string>
   
   <string id="SettingsSecondary1Title">DF Clock Left</string>
   <string id="SettingsSecondary2Title">DF Clock Middle</string>
