@@ -162,13 +162,13 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
       Settings.resource(Rez.Strings.ToggleMenuShowIndicatorTextEnabled), 
       Settings.resource(Rez.Strings.ToggleMenuShowIndicatorTextDisabled)));
     menu.addItem(menuItem("upper1", 
-      Settings.resource(Rez.Strings.SettingsLeftOrbitTitle), 
+      Settings.resource(Rez.Strings.ODSettingsLeftOrbitTitle), 
       getDataFieldString(Settings.get("upper1"))));
     menu.addItem(menuItem("upper2", 
-      Settings.resource(Rez.Strings.SettingsRightOrbitTitle), 
+      Settings.resource(Rez.Strings.ODSettingsRightOrbitTitle), 
       getDataFieldString(Settings.get("upper2"))));
     menu.addItem(menuItem("outer", 
-      Settings.resource(Rez.Strings.SettingsOuterOrbitTitle), 
+      Settings.resource(Rez.Strings.ODSettingsOuterOrbitTitle), 
       getDataFieldString(Settings.get("outer"))));
     menu.addItem(menuItem("middle1", 
       Settings.resource(Rez.Strings.SettingsSecondary1Title), 
@@ -186,19 +186,19 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   hidden function pushCirclesSubMenu() {
     var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsCirclesLayoutGroupTitle) });
     menu.addItem(menuItem("upper1", 
-      Settings.resource(Rez.Strings.SettingsUpper1Title), 
+      Settings.resource(Rez.Strings.ODSettingsUpper1Title), 
       getDataFieldString(Settings.get("upper1"))));
     menu.addItem(menuItem("upper2", 
-      Settings.resource(Rez.Strings.SettingsUpper2Title), 
+      Settings.resource(Rez.Strings.ODSettingsUpper2Title), 
       getDataFieldString(Settings.get("upper2"))));
     menu.addItem(menuItem("lower1", 
-      Settings.resource(Rez.Strings.SettingsLower1Title), 
+      Settings.resource(Rez.Strings.ODSettingsLower1Title), 
       getDataFieldString(Settings.get("lower1"))));
     menu.addItem(menuItem("lower2", 
-      Settings.resource(Rez.Strings.SettingsLower2Title), 
+      Settings.resource(Rez.Strings.ODSettingsLower2Title), 
       getDataFieldString(Settings.get("lower2"))));
     menu.addItem(menuItem("outer", 
-      Settings.resource(Rez.Strings.SettingsOuterTitle), 
+      Settings.resource(Rez.Strings.ODSettingsOuterTitle), 
       getDataFieldString(Settings.get("outer"))));
     menu.addItem(menuItem("middle1", 
       Settings.resource(Rez.Strings.SettingsSecondary1Title), 
@@ -253,6 +253,6 @@ function getLayoutString(layoutId) {
   return Settings.resource(_layout[layoutId]);
 }
 
-function getDataFieldString(dfValue) {
-  return Settings.resource(DataField[dfValue]);
+function getDataFieldString(dfId) {
+  return Settings.resource(DataFieldRez[dfId]);
 }

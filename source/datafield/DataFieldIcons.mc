@@ -86,7 +86,7 @@ module DataFieldIcons {
   }
 
   function drawBodyBattery(dc, x, y, size, penSize, value) {
-    textIcon(dc, x, y, "y"); // Todo: add
+    textIcon(dc, x, y, "y");
   }
 
   function textIcon(dc, x, y, string) {

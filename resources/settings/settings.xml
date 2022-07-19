@@ -54,7 +54,7 @@
       <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
       <listEntry value="9">@Strings.DataFieldBluetooth</listEntry>
       <listEntry value="10">@Strings.DataFieldAlarms</listEntry>
-      <listEntry value="12">@Strings.DataFieldBodyBattery</listEntry>
+      <listEntry value="11">@Strings.DataFieldBodyBattery</listEntry>
     </settingConfig>
   </setting>
   
@@ -69,7 +69,7 @@
       <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
       <listEntry value="9">@Strings.DataFieldBluetooth</listEntry>
       <listEntry value="10">@Strings.DataFieldAlarms</listEntry>
-      <listEntry value="12">@Strings.DataFieldBodyBattery</listEntry>
+      <listEntry value="11">@Strings.DataFieldBodyBattery</listEntry>
     </settingConfig>
   </setting>
   
@@ -84,7 +84,7 @@
       <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
       <listEntry value="9">@Strings.DataFieldBluetooth</listEntry>
       <listEntry value="10">@Strings.DataFieldAlarms</listEntry>
-      <listEntry value="12">@Strings.DataFieldBodyBattery</listEntry>
+      <listEntry value="11">@Strings.DataFieldBodyBattery</listEntry>
     </settingConfig>
   </setting>
   <setting propertyKey="@Properties.showOrbitIndicatorText" title="@Strings.SettingsOrbitIndicatorTextTitle">
@@ -100,7 +100,7 @@
       <listEntry value="4">@Strings.DataFieldActiveMinutes</listEntry>
       <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
       <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
-      <listEntry value="12">@Strings.DataFieldBodyBattery</listEntry>
+      <listEntry value="11">@Strings.DataFieldBodyBattery</listEntry>
     </settingConfig>
   </setting>
   
@@ -113,7 +113,7 @@
       <listEntry value="4">@Strings.DataFieldActiveMinutes</listEntry>
       <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
       <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
-      <listEntry value="12">@Strings.DataFieldBodyBattery</listEntry>
+      <listEntry value="11">@Strings.DataFieldBodyBattery</listEntry>
     </settingConfig>
   </setting>
   
@@ -126,7 +126,7 @@
       <listEntry value="4">@Strings.DataFieldActiveMinutes</listEntry>
       <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
       <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
-      <listEntry value="12">@Strings.DataFieldBodyBattery</listEntry>
+      <listEntry value="11">@Strings.DataFieldBodyBattery</listEntry>
     </settingConfig>
   </setting>
   
@@ -136,7 +136,7 @@
       <listEntry value="1">@Strings.DataFieldSteps</listEntry>
       <listEntry value="2">@Strings.DataFieldBattery</listEntry>
       <listEntry value="3">@Strings.DataFieldCalories</listEntry>
-      <listEntry value="12">@Strings.DataFieldBodyBattery</listEntry>
+      <listEntry value="11">@Strings.DataFieldBodyBattery</listEntry>
     </settingConfig>
   </setting>
   
@@ -150,7 +150,7 @@
       <listEntry value="9">@Strings.DataFieldBluetooth</listEntry>
       <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
       <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
-      <listEntry value="12">@Strings.DataFieldBodyBattery</listEntry>
+      <listEntry value="11">@Strings.DataFieldBodyBattery</listEntry>
     </settingConfig>
   </setting>
   
@@ -164,7 +164,7 @@
       <listEntry value="9">@Strings.DataFieldBluetooth</listEntry>
       <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
       <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
-      <listEntry value="12">@Strings.DataFieldBodyBattery</listEntry>
+      <listEntry value="11">@Strings.DataFieldBodyBattery</listEntry>
     </settingConfig>
   </setting>
   
@@ -178,7 +178,7 @@
       <listEntry value="9">@Strings.DataFieldBluetooth</listEntry>
       <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
       <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
-      <listEntry value="12">@Strings.DataFieldBodyBattery</listEntry>
+      <listEntry value="11">@Strings.DataFieldBodyBattery</listEntry>
     </settingConfig>
   </setting>
   
@@ -192,7 +192,7 @@
       <listEntry value="9">@Strings.DataFieldBluetooth</listEntry>
       <listEntry value="7">@Strings.DataFieldFloorsUp</listEntry>
       <listEntry value="8">@Strings.DataFieldFloorsDown</listEntry>
-      <listEntry value="12">@Strings.DataFieldBodyBattery</listEntry>
+      <listEntry value="11">@Strings.DataFieldBodyBattery</listEntry>
     </settingConfig>
   </setting>
 </settings>

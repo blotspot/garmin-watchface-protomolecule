@@ -123,7 +123,7 @@ class DataFieldFactory extends ValueHolder {
   }
 
   protected function getTextValue(index) {
-    return Settings.resource(DataField[mValues[index]]);
+    return Settings.resource(DataFieldRez[mValues[index]]);
   }
 
   function getSettingsValue(index) {

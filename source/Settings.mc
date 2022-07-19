@@ -85,6 +85,21 @@ module Settings {
     
     loadProperties();
     determineSleepTime();
+
+    DataFieldRez = [
+      Rez.Strings.NoDataField,
+      Rez.Strings.DataFieldSteps,
+      Rez.Strings.DataFieldBattery,
+      Rez.Strings.DataFieldCalories,
+      Rez.Strings.DataFieldActiveMinutes,
+      Rez.Strings.DataFieldHeartRate,
+      Rez.Strings.DataFieldMessages,
+      Rez.Strings.DataFieldFloorsUp,
+      Rez.Strings.DataFieldFloorsDown,
+      Rez.Strings.DataFieldBluetooth,
+      Rez.Strings.DataFieldAlarms,
+      Rez.Strings.DataFieldBodyBattery
+    ];
   }
 
   function setAsBoolean(settingsId, defaultValue as Lang.Boolean) {
@@ -131,21 +146,6 @@ module Settings {
       _settings["lower1"] = Properties.getValue("lowerDataField1");
       _settings["lower2"] = Properties.getValue("lowerDataField2");
     }
-
-    DataField =  [
-      Rez.Strings.NoDataField,
-      Rez.Strings.DataFieldSteps,
-      Rez.Strings.DataFieldBattery,
-      Rez.Strings.DataFieldCalories,
-      Rez.Strings.DataFieldActiveMinutes,
-      Rez.Strings.DataFieldHeartRate,
-      Rez.Strings.DataFieldMessages,
-      Rez.Strings.DataFieldFloorsUp,
-      Rez.Strings.DataFieldFloorsDown,
-      Rez.Strings.DataFieldBluetooth,
-      Rez.Strings.DataFieldAlarms,
-      Rez.Strings.DataFieldBodyBattery
-    ];
   }
 
   function determineSleepTime() {
@@ -169,4 +169,4 @@ module Settings {
   var _resources = {};
 }
 
-var DataField = [];
+var DataFieldRez = [];

@@ -31,8 +31,8 @@ class OrbitDataField extends DataFieldDrawable {
       mLastInfo.progress = 1.0;
     }
     // draw remaining arc first so it wont overdraw our endpoint
-    drawRemainingArc(dc, mLastInfo.progress, mLastInfo.fieldType == FieldType.BATTERY);
-    drawProgressArc(dc, mLastInfo.progress, mLastInfo.fieldType == FieldType.BATTERY);
+    drawRemainingArc(dc, mLastInfo.progress, mLastInfo.reverse);
+    drawProgressArc(dc, mLastInfo.progress, mLastInfo.reverse);
     drawIcon(dc);
 
     setAntiAlias(dc, false);

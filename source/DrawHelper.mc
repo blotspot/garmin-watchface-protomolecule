@@ -2,16 +2,14 @@ using Toybox.Graphics;
 using Toybox.Application;
 
 module Color {
-  enum {
-    TEXT_ACTIVE,
-    TEXT_INACTIVE,
-    PRIMARY,
-    SECONDARY_1,
-    SECONDARY_2,
-    BACKGROUND,
-    FOREGROUND,
-    INACTIVE
-  }
+  const TEXT_ACTIVE = 0;
+  const TEXT_INACTIVE = 1;
+  const PRIMARY = 2;
+  const SECONDARY_1 = 3;
+  const SECONDARY_2 = 4;
+  const BACKGROUND = 5;
+  const FOREGROUND = 6;
+  const INACTIVE = 7;
 
   const _COLORS = [
     /* EXPANSE */

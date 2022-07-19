@@ -14,37 +14,43 @@ module Format {
 }
 
 module LayoutId {
-  enum {
-    ORBIT,
-    CIRCLES
-  }
+  const ORBIT = 0;
+  const CIRCLES = 1;
 }
 
 module FieldId {
-  enum {
-    NO_PROGRESS_1,
-    NO_PROGRESS_2,
-    NO_PROGRESS_3,
-    ORBIT_OUTER,
-    ORBIT_LEFT,
-    ORBIT_RIGHT,
-    OUTER,
-    UPPER_1,
-    UPPER_2,
-    LOWER_1,
-    LOWER_2,
-    SLEEP_BATTERY,
-    SLEEP_HR,
-    SLEEP_ALARMS,
-    SLEEP_NOTIFY,
-    DATE_AND_TIME
-  }
+  const NO_PROGRESS_1 = 0;
+  const NO_PROGRESS_2 = 1;
+  const NO_PROGRESS_3 = 2;
+  const ORBIT_OUTER = 3;
+  const ORBIT_LEFT = 4;
+  const ORBIT_RIGHT = 5;
+  const OUTER = 6;
+  const UPPER_1 = 7;
+  const UPPER_2 = 8;
+  const LOWER_1 = 9;
+  const LOWER_2 = 10;
+  const SLEEP_BATTERY = 11;
+  const SLEEP_HR = 12;
+  const SLEEP_ALARMS = 13;
+  const SLEEP_NOTIFY = 14;
+  const DATE_AND_TIME = 15;
 }
 
 module FieldType {
-  enum {
-    NOTHING, STEPS, BATTERY, CALORIES, ACTIVE_MINUTES, HEART_RATE, NOTIFICATION, FLOORS_UP, FLOORS_DOWN, BLUETOOTH, ALARMS, BODY_BATTERY, SECONDS
-  }
+  const NOTHING = 0;
+  const STEPS = 1;
+  const BATTERY = 2;
+  const CALORIES = 3;
+  const ACTIVE_MINUTES = 4;
+  const HEART_RATE = 5;
+  const NOTIFICATION = 6;
+  const FLOORS_UP = 7;
+  const FLOORS_DOWN = 8;
+  const BLUETOOTH = 9;
+  const ALARMS = 10;
+  const BODY_BATTERY = 11;
+  const SECONDS = 12;
 }
 
 module DataFieldInfo {
@@ -54,17 +60,19 @@ module DataFieldInfo {
     var icon;
     var text;
     var progress;
+    var reverse;
 
-    function initialize(_fieldType, _icon, _text, _progress) {
+    function initialize(_fieldType, _icon, _text, _progress, _reverse) {
       fieldType = _fieldType;
       icon = _icon;
       text = _text;
       progress = _progress;
+      reverse = _reverse;
     }
 
     function equals(other) {
       if (other != null && other instanceof DataFieldProperties) {
-        return other.fieldType.equals(fieldType) && other.text.equals(text) && other.progress == progress;
+        return other.fieldType == fieldType && other.text.equals(text) && other.progress == progress;
       }
       return false;
     }
@@ -144,13 +152,17 @@ module DataFieldInfo {
       icon = new Lang.Method(DataFieldIcons, :drawNoHeartRate);
     }
 
-    return new DataFieldProperties(FieldType.HEART_RATE, icon, heartRate.format(Format.INT), 0);
+    return new DataFieldProperties(FieldType.HEART_RATE, icon, heartRate.format(Format.INT), 0, false);
   }
 
   function getCalorieInfo() {
     var current = ActivityMonitor.getInfo().calories.toDouble();
 
-    return new DataFieldProperties(FieldType.CALORIES, new Lang.Method(DataFieldIcons, :drawCalories), current.format(Format.INT), current / Settings.get("caloriesGoal"));
+    return new DataFieldProperties(FieldType.CALORIES, 
+      new Lang.Method(DataFieldIcons, :drawCalories), 
+      current.format(Format.INT), 
+      current / Settings.get("caloriesGoal"), 
+      false);
   }
 
   function getNotificationInfo() as DataFieldProperties {
@@ -159,7 +171,7 @@ module DataFieldInfo {
     var iconFunc = new Lang.Method(DataFieldIcons, :drawNotificationActive);
     if (notifications == 0) { iconFunc = new Lang.Method(DataFieldIcons, :drawNotificationInactive); }
 
-    return new DataFieldProperties(FieldType.NOTIFICATION, iconFunc, notifications.format(Format.INT), 0);
+    return new DataFieldProperties(FieldType.NOTIFICATION, iconFunc, notifications.format(Format.INT), 0, false);
   }
 
   function getBatteryInfo() as DataFieldProperties {
@@ -171,35 +183,47 @@ module DataFieldInfo {
     if (stats.charging) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLoading); }
 
 
-    return new DataFieldProperties(FieldType.BATTERY, iconFunc, current.format(Format.FLOAT), current / 100);
+    return new DataFieldProperties(FieldType.BATTERY, iconFunc, current.format(Format.FLOAT), current / 100, true);
   }
 
   function getStepInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.steps.toDouble();
 
-    return new DataFieldProperties(FieldType.STEPS, new Lang.Method(DataFieldIcons, :drawSteps), current.format(Format.INT), current / activityInfo.stepGoal);
+    return new DataFieldProperties(FieldType.STEPS, new Lang.Method(DataFieldIcons, :drawSteps), current.format(Format.INT), current / activityInfo.stepGoal, false);
   }
 
   function getFloorsClimbedInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.floorsClimbed.toDouble();
 
-    return new DataFieldProperties(FieldType.FLOORS_UP, new Lang.Method(DataFieldIcons, :drawFloorsUp), current.format(Format.INT), current / activityInfo.floorsClimbedGoal);
+    return new DataFieldProperties(FieldType.FLOORS_UP, 
+      new Lang.Method(DataFieldIcons, :drawFloorsUp), 
+      current.format(Format.INT), 
+      current / activityInfo.floorsClimbedGoal,
+      false);
   }
 
   function getFloorsDescentInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.floorsDescended.toDouble();
 
-    return new DataFieldProperties(FieldType.FLOORS_DOWN, new Lang.Method(DataFieldIcons, :drawFloorsDown), current.format(Format.INT), current / activityInfo.floorsClimbedGoal);
+    return new DataFieldProperties(FieldType.FLOORS_DOWN, 
+      new Lang.Method(DataFieldIcons, :drawFloorsDown), 
+      current.format(Format.INT),
+      current / activityInfo.floorsClimbedGoal, 
+      false);
   }
 
   function getActiveMinuteInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.activeMinutesWeek.total.toDouble();
 
-    return new DataFieldProperties(FieldType.ACTIVE_MINUTES, new Lang.Method(DataFieldIcons, :drawActiveMinutes), current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal);
+    return new DataFieldProperties(FieldType.ACTIVE_MINUTES, 
+      new Lang.Method(DataFieldIcons, :drawActiveMinutes), 
+      current.format(Format.INT), 
+      current / activityInfo.activeMinutesWeekGoal, 
+      false);
   }
 
   function getBluetoothInfo() as DataFieldProperties {
@@ -210,7 +234,7 @@ module DataFieldInfo {
       iconFunc = new Lang.Method(DataFieldIcons, :drawNoBluetoothConnection);
     }
 
-    return new DataFieldProperties(FieldType.BLUETOOTH, iconFunc, " ", 0);
+    return new DataFieldProperties(FieldType.BLUETOOTH, iconFunc, " ", 0, false);
   }
 
   function getAlarmsInfo() as DataFieldProperties {
@@ -220,16 +244,16 @@ module DataFieldInfo {
       iconFunc = new Lang.Method(DataFieldIcons, :drawNoAlarms);
     }
 
-    return new DataFieldProperties(FieldType.ALARMS, iconFunc, alarmCount.format(Format.INT), 0);
+    return new DataFieldProperties(FieldType.ALARMS, iconFunc, alarmCount.format(Format.INT), 0, false);
   }
 
   function getSecondsInfo() as DataFieldProperties {
     if (!Settings.lowPowerMode) {
       var now = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
       var seconds = now.sec;
-      return new DataFieldProperties(FieldType.SECONDS, null, seconds.format(Format.INT), seconds / 60.0);
+      return new DataFieldProperties(FieldType.SECONDS, null, seconds.format(Format.INT), seconds / 60.0, false);
     } else {
-      return new DataFieldProperties(FieldType.SECONDS, null, "", 0);
+      return new DataFieldProperties(FieldType.SECONDS, null, "", 0, false);
     }
   }
 
@@ -252,6 +276,6 @@ module DataFieldInfo {
     var bbFmt = bodyBattery.format(Format.INT);
     var progress = bodyBattery / 100.0;
     
-    return new DataFieldProperties(fId, iconCallback, bbFmt, progress);
+    return new DataFieldProperties(fId, iconCallback, bbFmt, progress, true);
   }
 }
