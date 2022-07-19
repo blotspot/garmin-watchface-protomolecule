@@ -9,6 +9,7 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 
 module Format {
+  const INT_ZERO = "%02d";
   const INT = "%i";
   const FLOAT = "%2.0d";
 }
@@ -141,8 +142,8 @@ module DataFieldInfo {
   function getHeartRateInfo() as DataFieldProperties {
     var heartRate = Activity.getActivityInfo().currentHeartRate;
     var icon = new Lang.Method(DataFieldIcons, :drawHeartRate);
-    if (heartRate == null && ActivityMonitor has :getHeartRateInfoHistory) {
-      var hrHistory = ActivityMonitor.getHeartRateInfoHistory(new Time.Duration(60), true).next(); // Try to get latest entry from the last minute
+    if (heartRate == null && ActivityMonitor has :getHeartRateHistory) {
+      var hrHistory = ActivityMonitor.getHeartRateHistory(new Time.Duration(60), true).next(); // Try to get latest entry from the last minute
       if (hrHistory != null) {
         heartRate = hrHistory.heartRate;
       }

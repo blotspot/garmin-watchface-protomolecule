@@ -6,14 +6,13 @@ using Toybox.System;
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   var mBurnInProtectionMode = false;
-  var mLastUpdateLowPowerMode = false;
+  var mLastUpdateBIPMode = false;
   var mLastUpdateSleepTime = false; 
   hidden var mLastLayout;
   
   hidden var mNoProgress1;
   hidden var mNoProgress2;
   hidden var mNoProgress3;
-  hidden var mSecondsDrawable;
 
   hidden var mActiveHeartrateField;
   hidden var mActiveHeartrateCounter = 0;
@@ -39,7 +38,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       }
     }
     // enter / exit low power mode triggered
-    if (requiresBurnInProtection() && mLastUpdateLowPowerMode != mBurnInProtectionMode) {
+    if (requiresBurnInProtection() && mLastUpdateBIPMode != mBurnInProtectionMode) {
       Log.debug("burn-in protection layout switch");
       return burnInProtectionLayout(dc);
     }
@@ -71,7 +70,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   hidden function burnInProtectionLayout(dc) {
-    mLastUpdateLowPowerMode = mBurnInProtectionMode;
+    mLastUpdateBIPMode = mBurnInProtectionMode;
     if (mBurnInProtectionMode) {
       return Rez.Layouts.SimpleWatchFace(dc);
     }
@@ -140,16 +139,13 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       mBurnInProtectionMode = true;
       WatchUi.requestUpdate();
     }
-    Settings.lowPowerMode = false;
+    Settings.lowPowerMode = true;
   }
 
   // too expensive?
   function onPartialUpdate(dc) {
     if (!mLastUpdateSleepTime) {
       updateHeartrate(dc);
-    }
-    if (!mBurnInProtectionMode && Settings.get("showSeconds") && mSecondsDrawable != null) {
-      mSecondsDrawable.partialUpdate(dc);
     }
   }
 
@@ -178,6 +174,5 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     mNoProgress1 = findDrawableById("NoProgressDataField1");
     mNoProgress2 = findDrawableById("NoProgressDataField2");
     mNoProgress3 = findDrawableById("NoProgressDataField3");
-    mSecondsDrawable = findDrawableById("DateAndTime");
   }
 }

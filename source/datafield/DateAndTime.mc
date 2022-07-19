@@ -6,19 +6,15 @@ using Toybox.System;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 
-class DateAndTime extends DataFieldDrawable {
+class DateAndTime extends WatchUi.Drawable {
 
   var mBurnInProtectionMode;
-  var mSecX;
-  var mSecY;
 
   var DayOfWeek = [];
   var Months = [];
 
   function initialize(params) {
-    params[:fieldId] = FieldId.DATE_AND_TIME;
-    DataFieldDrawable.initialize(params);
-
+    Drawable.initialize(params);
     mBurnInProtectionMode = params[:burnInProtectionMode] && System.getDeviceSettings().requiresBurnInProtection;
 
     Months = [
@@ -52,7 +48,7 @@ class DateAndTime extends DataFieldDrawable {
     var now = Gregorian.info(Time.now(), Settings.get("useSystemFontForDate") ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
     var date = getDateLine(now);
     var hours = getHours(now, is12Hour);
-    var minutes = now.min.format("%02d");
+    var minutes = now.min.format(Format.INT_ZERO);
 
     var dateDim = dc.getTextDimensions(date, Settings.resource(Rez.Fonts.DateFont));
     var dateX = dc.getWidth() * 0.5;
@@ -65,8 +61,6 @@ class DateAndTime extends DataFieldDrawable {
     var minutesDim = dc.getTextDimensions(minutes, Settings.resource(Rez.Fonts.MinutesFont));
     var minutesX = dc.getWidth() * 0.515;
     var minutesY = dc.getHeight() * 0.48 - minutesDim[1] / 2.0;
-
-    mSecX = minutesDim[0] + minutesX;
 
     var offset = 0;
     if (mBurnInProtectionMode) {
@@ -92,34 +86,26 @@ class DateAndTime extends DataFieldDrawable {
       var y = dc.getHeight() * 0.47 - meridiemDim[1] * (mBurnInProtectionMode || !Settings.get("showSeconds") ? 0 : 0.5) + offset;
       dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, Graphics.TEXT_JUSTIFY_LEFT);
     }
-    if (!mBurnInProtectionMode && Settings.get("showSeconds")) {
-      DataFieldDrawable.draw(dc);
-      updateSeconds(dc);
+    if (!mBurnInProtectionMode && !Settings.lowPowerMode && Settings.get("showSeconds")) {
+      updateSeconds(dc, now.sec, minutesDim[0] + minutesX);
     }
   }
 
-  function partialUpdate(dc) {
-    drawPartialUpdate(dc, method(:updateSeconds));
-  }
-
-  function updateSeconds(dc) {
+  function updateSeconds(dc, seconds, secX) {
     var dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont));
     var y = dc.getHeight() * 0.47 + dim[1] * (System.getDeviceSettings().is24Hour || !Settings.get("showMeridiemText") ? 0 : 0.5);
-    dc.setColor(themeColor(Color.FOREGROUND), themeColor(Color.BACKGROUND));
-    dc.setClip(mSecX, y, dim[0] + 1, dim[1]);
-    dc.clear();
     dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
     
-    dc.drawText(mSecX + dim[0], y, Settings.resource(Rez.Fonts.MeridiemFont), mLastInfo.text, Graphics.TEXT_JUSTIFY_RIGHT);
+    dc.drawText(secX + dim[0], y, Settings.resource(Rez.Fonts.MeridiemFont), seconds.format(Format.INT), Graphics.TEXT_JUSTIFY_RIGHT);
   }
 
   hidden function getDateLine(now) {
     if (Settings.get("useSystemFontForDate")) {
-      return Lang.format("$1$ $2$ $3$", [now.day_of_week, now.day.format("%02d"), now.month]);
+      return Lang.format("$1$ $2$ $3$", [now.day_of_week, now.day.format(Format.INT_ZERO), now.month]);
     } else {
       return Lang.format(
         "$1$ $2$ $3$", 
-        [ Settings.resource(DayOfWeek[now.day_of_week - 1]), now.day.format("%02d"), Settings.resource(Months[now.month - 1]) ]
+        [ Settings.resource(DayOfWeek[now.day_of_week - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[now.month - 1]) ]
       );
     }
   }
@@ -134,7 +120,7 @@ class DateAndTime extends DataFieldDrawable {
         hours -= 12;
       }
     }
-    return hours.format("%02d");
+    return hours.format(Format.INT_ZERO);
   }
 
   hidden function calculateOffset(dc, multiplicator, startY, endY) {

@@ -98,7 +98,8 @@ module Settings {
       Rez.Strings.DataFieldFloorsDown,
       Rez.Strings.DataFieldBluetooth,
       Rez.Strings.DataFieldAlarms,
-      Rez.Strings.DataFieldBodyBattery
+      Rez.Strings.DataFieldBodyBattery,
+      Rez.Strings.DataFieldSeconds
     ];
   }
 
