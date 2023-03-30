@@ -1,8 +1,9 @@
-using Toybox.WatchUi;
-using Toybox.Application;
-using Toybox.Application.Properties;
-using Toybox.Graphics;
-using Toybox.System;
+import Toybox.WatchUi;
+import Toybox.Application;
+import Toybox.Application.Properties;
+import Toybox.Graphics;
+import Toybox.System;
+import Toybox.Lang;
 
 class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
 
@@ -84,11 +85,11 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
       pushBatteryPicker(item); return;
     }
     if (item instanceof ToggleMenuItem) {
-      Settings.set(item.getId(), item.isEnabled());
+      Settings.set(item.getId(), (item as ToggleMenuItem).isEnabled());
     }
   }
 
-  hidden function pushCaloriesPicker(parent) {
+  hidden function pushCaloriesPicker(parent) as Void {
     var holder = new NumberFactory(1500, 4000, 100, parent.getId(), {});
     WatchUi.pushView(
       new OptionsMenu(holder, { :title => parent.getLabel() }), 
@@ -96,7 +97,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     );
   }
 
-  hidden function pushBatteryPicker(parent) {
+  hidden function pushBatteryPicker(parent) as Void {
     var holder = new NumberFactory(10, 55, 5, parent.getId(), {:suffix => "%"});
     WatchUi.pushView(
       new OptionsMenu(holder, { :title => parent.getLabel() }), 
@@ -104,7 +105,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     );
   }
 
-  hidden function pushThemeOptionsMenu(parent) {
+  hidden function pushThemeOptionsMenu(parent) as Void {
     var holder = new FixedValuesFactory([ 
       getThemeString(0), getThemeString(1), 
       getThemeString(2), getThemeString(3)
@@ -123,8 +124,8 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     );
   }
 
-  hidden function pushOrbitDatafieldOptionsMenu(parent) {
-    var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 11], parent.getId(), {});
+  hidden function pushOrbitDatafieldOptionsMenu(parent) as Void {
+    var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 11, 13], parent.getId(), {});
     WatchUi.pushView(
       new OptionsMenu(holder, { :title => parent.getLabel() }), 
       new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT
@@ -132,7 +133,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   }
   
   hidden function pushInnerCirclesDatafieldOptionsMenu(parent) {
-    var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 9, 11], parent.getId(), {});
+    var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 9, 11, 13], parent.getId(), {});
     WatchUi.pushView(
       new OptionsMenu(holder, { :title => parent.getLabel() }), 
       new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT
@@ -148,7 +149,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   }
   
   hidden function pushClockDatafieldOptionsMenu(parent) {
-    var holder = new DataFieldFactory([0, 2, 4, 5, 6, 7, 8, 9, 10, 11], parent.getId(), {});
+    var holder = new DataFieldFactory([0, 2, 4, 5, 6, 7, 8, 9, 10, 11, 13], parent.getId(), {});
     WatchUi.pushView(
       new OptionsMenu(holder, { :title => parent.getLabel() }), 
       new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT
@@ -227,7 +228,7 @@ function menuItem(id, label, subLabel) {
   return new WatchUi.MenuItem(label, subLabel, id, null);
 }
 
-var _theme = null;
+var _theme as Null or Array<Symbol> = null;
 
 function getThemeString(themeId) {
   if (_theme == null) {
@@ -241,7 +242,7 @@ function getThemeString(themeId) {
   return Settings.resource(_theme[themeId]);
 }
 
-var _layout = null;
+var _layout as Null or Array<Symbol> = null;
 
 function getLayoutString(layoutId) {
   if (_layout == null) {

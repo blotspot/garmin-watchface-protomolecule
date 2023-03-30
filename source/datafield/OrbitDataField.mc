@@ -1,6 +1,7 @@
-using Toybox.Graphics;
-using Toybox.Math;
-using Toybox.WatchUi;
+import Toybox.Graphics;
+import Toybox.Math;
+import Toybox.WatchUi;
+import Toybox.Lang;
 
 class OrbitDataField extends DataFieldDrawable {
 
@@ -8,7 +9,7 @@ class OrbitDataField extends DataFieldDrawable {
   hidden var mTotalDegree;
   hidden var mRadius;
 
-  function initialize(params) {
+  function initialize(params as Object) {
     DataFieldDrawable.initialize(params);
 
     mStartDegree = params[:startDegree];

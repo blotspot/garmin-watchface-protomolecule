@@ -1,12 +1,13 @@
-using Toybox.WatchUi;
-using Toybox.Application;
+import Toybox.Lang;
+import Toybox.WatchUi;
+import Toybox.Application;
 
 class DataFieldDrawable extends WatchUi.Drawable {
 
   hidden var mFieldId;
   hidden var mLastInfo = null;
 
-  function initialize(params) {
+  function initialize(params as Object) {
     Drawable.initialize(params);
     
     mFieldId = params[:fieldId];

@@ -88,6 +88,7 @@
   <string id="DataFieldAlarms">Alarms</string>
   <string id="DataFieldSeconds">Seconds</string>
   <string id="DataFieldBodyBattery">Body Battery</string>
+  <string id="DataFieldStressLevel">Stress Level</string>
 
   <string id="DateMonth1">Jan</string>
   <string id="DateMonth2">Feb</string>

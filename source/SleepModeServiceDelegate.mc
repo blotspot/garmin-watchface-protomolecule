@@ -1,6 +1,6 @@
-using Toybox.Application;
-using Toybox.Background;
-using Toybox.System;
+import Toybox.Application;
+import Toybox.Background;
+import Toybox.System;
 
 (:background)
 class SleepModeServiceDelegate extends System.ServiceDelegate {

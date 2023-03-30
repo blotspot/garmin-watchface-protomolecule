@@ -76,7 +76,7 @@
   <string id="SettingsSecondary3Title">DF Uhr rechts</string>
   
   <string id="NoDataField">Leer</string>
-  <string id="DataFieldSteps">tägliche Schritte</string>
+  <string id="DataFieldSteps">Tägliche Schritte</string>
   <string id="DataFieldBattery">Batteriestand</string>
   <string id="DataFieldCalories">Kalorien</string>
   <string id="DataFieldActiveMinutes">Aktive Minuten</string>
@@ -87,7 +87,8 @@
   <string id="DataFieldBluetooth">Bluetooth</string>
   <string id="DataFieldAlarms">Wecker</string>
   <string id="DataFieldSeconds">Sekunden</string>
-  <string id="DataFieldBodyBattery">Body Batterie</string>
+  <string id="DataFieldBodyBattery">Körperbatterie</string>
+  <string id="DataFieldStressLevel">Stresslevel</string>
 
   <string id="DateMonth1">Jan</string>
   <string id="DateMonth2">Feb</string>

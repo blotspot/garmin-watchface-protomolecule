@@ -1,19 +1,18 @@
-using Toybox.WatchUi;
-using Toybox.Application;
-using Toybox.Graphics;
-using Toybox.Lang;
-using Toybox.System;
-using Toybox.Time;
-using Toybox.Time.Gregorian;
+import Toybox.WatchUi;
+import Toybox.Application;
+import Toybox.Graphics;
+import Toybox.Lang;
+import Toybox.System;
+import Toybox.Time;
 
 class DateAndTime extends WatchUi.Drawable {
 
   var mBurnInProtectionMode;
 
-  var DayOfWeek = [];
-  var Months = [];
+  var DayOfWeek as Array<Symbol> = [];
+  var Months as Array<Symbol> = [];
 
-  function initialize(params) {
+  function initialize(params as Object) {
     Drawable.initialize(params);
     mBurnInProtectionMode = params[:burnInProtectionMode] && System.getDeviceSettings().requiresBurnInProtection;
 
@@ -45,7 +44,7 @@ class DateAndTime extends WatchUi.Drawable {
 
   function draw(dc) {
     var is12Hour = !System.getDeviceSettings().is24Hour;
-    var now = Gregorian.info(Time.now(), Settings.get("useSystemFontForDate") ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
+    var now = Time.Gregorian.info(Time.now(), Settings.get("useSystemFontForDate") ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
     var date = getDateLine(now);
     var hours = getHours(now, is12Hour);
     var minutes = now.min.format(Format.INT_ZERO);
@@ -92,20 +91,20 @@ class DateAndTime extends WatchUi.Drawable {
   }
 
   function updateSeconds(dc, seconds, secX) {
-    var dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont));
+    var dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont)) as Array<Number>;
     var y = dc.getHeight() * 0.47 + dim[1] * (System.getDeviceSettings().is24Hour || !Settings.get("showMeridiemText") ? 0 : 0.5);
     dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
     
     dc.drawText(secX + dim[0], y, Settings.resource(Rez.Fonts.MeridiemFont), seconds.format(Format.INT), Graphics.TEXT_JUSTIFY_RIGHT);
   }
 
-  hidden function getDateLine(now) {
+  hidden function getDateLine(now as Gregorian.Info) {
     if (Settings.get("useSystemFontForDate")) {
-      return Lang.format("$1$ $2$ $3$", [now.day_of_week, now.day.format(Format.INT_ZERO), now.month]);
+      return format("$1$ $2$ $3$", [now.day_of_week, now.day.format(Format.INT_ZERO), now.month]);
     } else {
-      return Lang.format(
+      return format(
         "$1$ $2$ $3$", 
-        [ Settings.resource(DayOfWeek[now.day_of_week - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[now.month - 1]) ]
+        [ Settings.resource(DayOfWeek[(now.day_of_week as Number) - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[(now.month as Number) - 1]) ]
       );
     }
   }

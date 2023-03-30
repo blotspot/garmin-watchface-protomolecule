@@ -1,7 +1,7 @@
-using Toybox.Math;
-using Toybox.System;
-using Toybox.WatchUi;
-using Toybox.Graphics;
+import Toybox.Math;
+import Toybox.System;
+import Toybox.WatchUi;
+import Toybox.Graphics;
 
 class OptionsItem extends WatchUi.Button {
   hidden var mLabel = "";
@@ -52,6 +52,7 @@ class OptionsMenu extends WatchUi.View {
   hidden var mCurrentItem;
   hidden var mNextItem;
 
+  (:typecheck(false))
   function initialize(valueHolder, options) {
     View.initialize();
     mValueHolder = valueHolder;

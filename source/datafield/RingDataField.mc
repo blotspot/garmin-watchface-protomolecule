@@ -1,11 +1,13 @@
-using Toybox.Graphics;
-using Toybox.Math;
-using Toybox.WatchUi;
+import Toybox.Graphics;
+import Toybox.Math;
+import Toybox.WatchUi;
+import Toybox.Lang;
 
 class RingDataField extends DataFieldDrawable {
   hidden var mShowIcon;
   hidden var mRadius;
 
+  (:typecheck(false))
   function initialize(params) {
     DataFieldDrawable.initialize(params);
     mShowIcon = params[:showIcon];

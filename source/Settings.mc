@@ -1,11 +1,11 @@
-using Toybox.Application.Properties;
-using Toybox.Lang;
-using Toybox.Math;
-using Toybox.System;
-using Toybox.Time;
-using Toybox.Time.Gregorian;
-using Toybox.UserProfile;
-using Toybox.WatchUi;
+import Toybox.Application.Properties;
+import Toybox.Lang;
+import Toybox.Math;
+import Toybox.System;
+import Toybox.Time;
+import Toybox.Time.Gregorian;
+import Toybox.UserProfile;
+import Toybox.WatchUi;
 
 module Settings {
 
@@ -99,7 +99,8 @@ module Settings {
       Rez.Strings.DataFieldBluetooth,
       Rez.Strings.DataFieldAlarms,
       Rez.Strings.DataFieldBodyBattery,
-      Rez.Strings.DataFieldSeconds
+      Rez.Strings.DataFieldSeconds,
+      Rez.Strings.DataFieldStressLevel
     ];
   }
 
@@ -166,8 +167,8 @@ module Settings {
   var lowPowerMode = false;
   var isSleepTime = false;
 
-  var _settings = {};
-  var _resources = {};
+  var _settings as Dictionary<String, Object> = {};
+  var _resources as Dictionary<Symbol, Object> = {};
 }
 
-var DataFieldRez = [];
+var DataFieldRez as Array<Symbol> = [];

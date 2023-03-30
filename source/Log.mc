@@ -1,5 +1,5 @@
-using Toybox.System;
-using Toybox.Application;
+import Toybox.System;
+import Toybox.Application;
 
 (:debug) module Log {
 

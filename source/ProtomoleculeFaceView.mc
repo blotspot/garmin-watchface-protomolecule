@@ -1,7 +1,7 @@
-using Toybox.WatchUi;
-using Toybox.Application;
-using Toybox.Graphics;
-using Toybox.System;
+import Toybox.WatchUi;
+import Toybox.Application;
+import Toybox.Graphics;
+import Toybox.System;
 
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
 

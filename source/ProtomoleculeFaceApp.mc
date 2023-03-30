@@ -1,12 +1,12 @@
-using Toybox.Application;
-using Toybox.Application.Properties;
-using Toybox.Background;
-using Toybox.Math;
-using Toybox.System;
-using Toybox.Time;
-using Toybox.Time.Gregorian;
-using Toybox.UserProfile;
-using Toybox.WatchUi;
+import Toybox.Application;
+import Toybox.Application.Properties;
+import Toybox.Background;
+import Toybox.Math;
+import Toybox.System;
+import Toybox.Time;
+import Toybox.Time.Gregorian;
+import Toybox.UserProfile;
+import Toybox.WatchUi;
 
 (:background)
 class ProtomoleculeFaceApp extends Application.AppBase {

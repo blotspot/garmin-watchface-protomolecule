@@ -1,9 +1,10 @@
-using Toybox.WatchUi;
-using Toybox.Graphics;
+import Toybox.WatchUi;
+import Toybox.Graphics;
+import Toybox.Lang;
 
 class ValueHolder {
-  hidden var mPrefix as String;
-  hidden var mSuffix as String;
+  hidden var mPrefix;
+  hidden var mSuffix;
   hidden var sizeCallback;
   hidden var indexCallback;
   hidden var textValueCallback;
@@ -12,6 +13,7 @@ class ValueHolder {
   protected var mSettingsId;
   protected var mCurrentSelection;
   
+  (:typecheck(false))
   function initialize(settingsId, options) {    
     mSettingsId = settingsId;
     mPrefix = options.hasKey(:prefix) ? options[:prefix] : "";
@@ -72,8 +74,9 @@ class ValueHolder {
 }
 
 class FixedValuesFactory extends ValueHolder {
-  hidden var mValues;
+  hidden var mValues as Array<String>;
   
+  (:typecheck(false))
   function initialize(values, settingsId, options) {
     mValues = values;
     mCurrentSelection = Settings.get(settingsId);
@@ -106,8 +109,9 @@ class FixedValuesFactory extends ValueHolder {
 }
 
 class DataFieldFactory extends ValueHolder {
-  hidden var mValues;
+  hidden var mValues as Array<Number>;
   
+  (:typecheck(false))
   function initialize(values, settingsId, options) {
     mValues = values;
     mCurrentSelection = getIndex(Settings.get(settingsId));
@@ -146,6 +150,7 @@ class NumberFactory extends ValueHolder {
 
   hidden var mFormatString;
 
+  (:typecheck(false))
   function initialize(start, stop, increment, settingsId, options) {
     mStart = start;
     mStop = stop;
@@ -173,7 +178,7 @@ class NumberFactory extends ValueHolder {
     return mStart + (index * mIncrement);
   }
 
-  function getIndex(value as Number) {
+  function getIndex(value) {
     return (value - mStart) / mIncrement;
   }
 

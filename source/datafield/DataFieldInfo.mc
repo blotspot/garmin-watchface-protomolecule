@@ -1,12 +1,12 @@
-using Toybox.Activity;
-using Toybox.ActivityMonitor;
-using Toybox.Application;
-using Toybox.BluetoothLowEnergy;
-using Toybox.Lang;
-using Toybox.SensorHistory;
-using Toybox.System;
-using Toybox.Time;
-using Toybox.Time.Gregorian;
+import Toybox.Activity;
+import Toybox.ActivityMonitor;
+import Toybox.Application;
+import Toybox.BluetoothLowEnergy;
+import Toybox.Lang;
+import Toybox.SensorHistory;
+import Toybox.System;
+import Toybox.Time;
+import Toybox.Time.Gregorian;
 
 module Format {
   const INT_ZERO = "%02d";
@@ -52,6 +52,7 @@ module FieldType {
   const ALARMS = 10;
   const BODY_BATTERY = 11;
   const SECONDS = 12;
+  const STRESS_LEVEL = 13;
 }
 
 module DataFieldInfo {
@@ -80,7 +81,7 @@ module DataFieldInfo {
 
   }
 
-  function getInfoForField(fieldId) as DataFieldProperties {
+  function getInfoForField(fieldId) as DataFieldProperties? {
     if (fieldId == FieldId.NO_PROGRESS_1) {
       return getInfoForType(Settings.get("middle1"));
     } else if (fieldId == FieldId.NO_PROGRESS_2) {
@@ -107,12 +108,12 @@ module DataFieldInfo {
       return getBatteryInfo();
     } else if (fieldId == FieldId.DATE_AND_TIME) {
       return getSecondsInfo();
+    } else {
+      return null;
     }
-
-    return null;
   }
 
-  function getInfoForType(fieldType) as DataFieldProperties {
+  function getInfoForType(fieldType) as DataFieldProperties? {
     if (fieldType == FieldType.HEART_RATE) {
       return getHeartRateInfo();
     } else if (fieldType == FieldType.CALORIES) {
@@ -135,8 +136,9 @@ module DataFieldInfo {
       return getAlarmsInfo();
     } else if (fieldType == FieldType.BODY_BATTERY) {
       return getBodyBatteryInfo();
+    } else {
+      return null;
     }
-    return null;
   }
 
   function getHeartRateInfo() as DataFieldProperties {
@@ -182,7 +184,6 @@ module DataFieldInfo {
     if (current >= 90) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryFull); }
     if (current < Settings.get("batteryThreshold")) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLow); }
     if (stats.charging) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLoading); }
-
 
     return new DataFieldProperties(FieldType.BATTERY, iconFunc, current.format(Format.FLOAT), current / 100, true);
   }
@@ -263,9 +264,7 @@ module DataFieldInfo {
     
     if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getBodyBatteryHistory)) {
       var iter = SensorHistory.getBodyBatteryHistory({:period => 1});
-      if (iter != null) {
-        bodyBattery = iter.next();
-      }
+      bodyBattery = iter.next();
     }
     if (bodyBattery == null) {
       bodyBattery = 0;
@@ -276,6 +275,26 @@ module DataFieldInfo {
     var iconCallback = new Lang.Method(DataFieldIcons, :drawBodyBattery);
     var bbFmt = bodyBattery.format(Format.INT);
     var progress = bodyBattery / 100.0;
+    
+    return new DataFieldProperties(fId, iconCallback, bbFmt, progress, true);
+  }
+
+  function getStressLevelInfo() as DataFieldProperties {
+    var stressLevel = null;
+    
+    if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getStressHistory)) {
+      var iter = SensorHistory.getStressHistory({:period => 1});
+      stressLevel = iter.next();
+    }
+    if (stressLevel == null) {
+      stressLevel = 0;
+    } else {
+      stressLevel = stressLevel.data;
+    }
+    var fId = FieldType.STRESS_LEVEL;
+    var iconCallback = new Lang.Method(DataFieldIcons, :drawStressLevel);
+    var bbFmt = stressLevel.format(Format.INT);
+    var progress = stressLevel / 100.0;
     
     return new DataFieldProperties(fId, iconCallback, bbFmt, progress, true);
   }

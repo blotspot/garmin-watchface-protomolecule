@@ -1,7 +1,8 @@
-using Toybox.WatchUi;
-using Toybox.Math;
-using Toybox.Graphics;
-using Toybox.Application;
+import Toybox.WatchUi;
+import Toybox.Math;
+import Toybox.Graphics;
+import Toybox.Application;
+import Toybox.Lang;
 
 module DataFieldIcons {
   //! dc => Drawable object
@@ -11,100 +12,104 @@ module DataFieldIcons {
   //! penSize => stroke width for unfilled areas
   //! value   => value of data field
 
-  function drawBattery(dc, x, y, size, penSize, value) {
+  function drawBattery(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y + (size * 0.1), "m");
   }
 
-  function drawBatteryFull(dc, x, y, size, penSize, value) {
+  function drawBatteryFull(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y + (size * 0.1), "h");
   }
 
-  function drawBatteryLow(dc, x, y, size, penSize, value) {
+  function drawBatteryLow(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y + (size * 0.1), "k");
   }
 
-  function drawBatteryLoading(dc, x, y, size, penSize, value) {
+  function drawBatteryLoading(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y + (size * 0.1), "l");
   }
 
-  function drawSteps(dc, x, y, size, penSize, value) {
+  function drawSteps(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y, "s");
   }
 
-  function drawCalories(dc, x, y, size, penSize, value) {
+  function drawCalories(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y, "c");
   }
 
-  function drawActiveMinutes(dc, x, y, size, penSize, value) {
+  function drawActiveMinutes(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y, "t");
   }
 
-  function drawNotificationInactive(dc, x, y, size, penSize, value) {
+  function drawNotificationInactive(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y + (size * 0.1), "N");
   }
 
-  function drawNotificationActive(dc, x, y, size, penSize, value) {
+  function drawNotificationActive(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y + (size * 0.1), "n");
   }
 
-  function drawHeartRate(dc, x, y, size, penSize, value) {
+  function drawHeartRate(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y, "p");
   }
 
-  function drawNoHeartRate(dc, x, y, size, penSize, value) {
+  function drawNoHeartRate(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y, "P");
   }
 
-  function drawFloorsUp(dc, x, y, size, penSize, value) {
+  function drawFloorsUp(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y, "F");
   }
 
-  function drawFloorsDown(dc, x, y, size, penSize, value) {
+  function drawFloorsDown(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y, "f");
   }
 
-  function drawBluetoothConnection(dc, x, y, size, penSize, value) {
+  function drawBluetoothConnection(dc, x, y, size, penSize, value) as Void {
     dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
     textIcon(dc, x, y, "b");
   }
 
-  function drawNoBluetoothConnection(dc, x, y, size, penSize, value) {
+  function drawNoBluetoothConnection(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y, "B");
   }
 
-  function drawAlarms(dc, x, y, size, penSize, value) {
+  function drawAlarms(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y, "a");
   }
 
-  function drawNoAlarms(dc, x, y, size, penSize, value) {
+  function drawNoAlarms(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y, "A");
   }
 
-  function drawSeconds(dc, x, y, size, penSize, value) {
+  function drawSeconds(dc, x, y, size, penSize, value) as Void {
     dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
     dc.drawText(x, y - (size * 0.1), Settings.resource(Rez.Fonts.MeridiemFont), value, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
   }
 
-  function drawBodyBattery(dc, x, y, size, penSize, value) {
+  function drawBodyBattery(dc, x, y, size, penSize, value) as Void {
     textIcon(dc, x, y, "y");
   }
 
-  function textIcon(dc, x, y, string) {
+  function drawStressLevel(dc, x, y, size, penSize, value) as Void {
+    textIcon(dc, x, y, "z");
+  }
+
+  function textIcon(dc, x, y, string) as Void {
     var font = Settings.resource(Rez.Fonts.IconsFont);
     dc.drawText(x, y, font, string, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
   }
   
-  function _getBuffer(size) {
+  function _getBuffer(size) as Lang.Double {
     return size / 10.0;
   }
 
-  function _setAntiAlias(dc) {
+  function _setAntiAlias(dc) as Void {
     if (dc has :setAntiAlias) {
       dc.setAntiAlias(true);
     }
   }
 
-  function _unsetAntiAlias(dc) {
+  function _unsetAntiAlias(dc) as Void {
     if (dc has :setAntiAlias) {
       dc.setAntiAlias(false);
     }
