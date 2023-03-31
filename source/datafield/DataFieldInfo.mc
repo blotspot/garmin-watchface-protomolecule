@@ -136,6 +136,8 @@ module DataFieldInfo {
       return getAlarmsInfo();
     } else if (fieldType == FieldType.BODY_BATTERY) {
       return getBodyBatteryInfo();
+    } else if (fieldType == FieldType.STRESS_LEVEL) {
+      return getStressLevelInfo();
     } else {
       return null;
     }
