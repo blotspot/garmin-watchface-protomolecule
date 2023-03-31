@@ -19,10 +19,11 @@ Can now be found in the Garmin store: https://apps.garmin.com/en-US/apps/d9f524c
 * Steps per Day
 * Active Minutes per Week
 * Floors Up / Down per Day
-* Battery
 * Notifcations
-* Alarms 
+* Alarms
 * Bluetooth connection status
+* Body Battery
+* Stress Level
 
 ### Attributions
 * Uses a slightly modified Version of the [DINish Font](https://github.com/playbeing/dinish) for the date and time elements.
