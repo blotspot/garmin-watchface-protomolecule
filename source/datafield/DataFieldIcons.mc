@@ -103,16 +103,4 @@ module DataFieldIcons {
     return size / 10.0;
   }
 
-  function _setAntiAlias(dc) as Void {
-    if (dc has :setAntiAlias) {
-      dc.setAntiAlias(true);
-    }
-  }
-
-  function _unsetAntiAlias(dc) as Void {
-    if (dc has :setAntiAlias) {
-      dc.setAntiAlias(false);
-    }
-  }
-
 }

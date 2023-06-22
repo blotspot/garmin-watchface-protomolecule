@@ -66,13 +66,13 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     if (item.getId().equals("theme")) {
       pushThemeOptionsMenu(item); return;
     }
-    if ("middle1middle2middle3".find(item.getId()) != null) {
+    if ("middle1middle2middle3".find(item.getId().toString()) != null) {
       pushClockDatafieldOptionsMenu(item); return;
     }
-    if (layoutId == LayoutId.ORBIT && "outerupper1upper2".find(item.getId()) != null) {
+    if (layoutId == LayoutId.ORBIT && "outerupper1upper2".find(item.getId().toString()) != null) {
       pushOrbitDatafieldOptionsMenu(item); return;
     }
-    if (layoutId == LayoutId.CIRCLES && "lower1lower2upper1upper2".find(item.getId()) != null) {
+    if (layoutId == LayoutId.CIRCLES && "lower1lower2upper1upper2".find(item.getId().toString()) != null) {
       pushInnerCirclesDatafieldOptionsMenu(item); return;
     }
     if (layoutId == LayoutId.CIRCLES && "outer".equals(item.getId())) {

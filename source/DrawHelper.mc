@@ -3,16 +3,18 @@ import Toybox.Lang;
 import Toybox.Application;
 
 module Color {
-  const TEXT_ACTIVE as Number = 0;
-  const TEXT_INACTIVE as Number = 1;
-  const PRIMARY as Number = 2;
-  const SECONDARY_1 as Number = 3;
-  const SECONDARY_2 as Number = 4;
-  const BACKGROUND as Number = 5;
-  const FOREGROUND as Number = 6;
-  const INACTIVE as Number = 7;
+  const TEXT_ACTIVE as Lang.Number = 0;
+  const TEXT_INACTIVE as Lang.Number = 1;
+  const PRIMARY as Lang.Number = 2;
+  const SECONDARY_1 as Lang.Number = 3;
+  const SECONDARY_2 as Lang.Number = 4;
+  const BACKGROUND as Lang.Number = 5;
+  const FOREGROUND as Lang.Number = 6;
+  const INACTIVE as Lang.Number = 7;
 
-  const _COLORS as Array<Number> = [
+  const MAX_COLOR_ID as Lang.Number = 8;
+
+  const _COLORS as Array<Lang.Number> = [
     /* EXPANSE */
       Graphics.COLOR_WHITE,   // TEXT_ACTIVE
       Graphics.COLOR_LT_GRAY, // TEXT_INACTIVE
@@ -70,19 +72,19 @@ module Color {
   ];
 }
 
-function themeColor(sectionId as Number) as Number {
-  var theme = Settings.get("theme") as Number;
-  return Color._COLORS[(theme * sectionId) + sectionId];
+function themeColor(sectionId as Lang.Number) as Lang.Number {
+  var theme = Settings.get("theme") as Lang.Number;
+  return Color._COLORS[(theme * Color.MAX_COLOR_ID) + sectionId];
 }
 
-function setAntiAlias(dc, enabled as Boolean) as Void {
-  if (dc has :setAntiAlias) {
-    dc.setAntiAlias(true);
+function setAntiAlias(dc, enabled as Lang.Boolean) as Void {
+  if (Graphics.Dc has :setAntiAlias) {
+    dc.setAntiAlias(enabled);
   }
 }
 
 function clearClip(dc) as Void {
-  if (dc has :clearClip) {
+  if (Graphics.Dc has :clearClip) {
     dc.clearClip();
   }
 }
