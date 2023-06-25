@@ -1,5 +1,5 @@
 <fonts>
-  <font id="IconsFont" filename="icons-36px.fnt" antialias="true" />
+  <font id="IconsFont" filename="icons-42px.fnt" antialias="true" />
   <font id="HoursFont" filename="PM_161_bold.fnt" antialias="true"/>
   <font id="MinutesFont" filename="PM_161_regular.fnt" antialias="true"/>
   <font id="DateFont" filename="PM_36_regular.fnt" antialias="true"/>
