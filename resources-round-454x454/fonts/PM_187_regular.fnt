@@ -1,0 +1,15 @@
+info face="Protomolecule" size=187 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1 outline=0
+common lineHeight=187 base=152 scaleW=256 scaleH=256 pages=2 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
+page id=0 file="PM_187_regular_0.png"
+page id=1 file="PM_187_regular_1.png"
+chars count=10
+char id=48   x=128   y=0     width=58    height=106   xoffset=9     yoffset=47    xadvance=76    page=0  chnl=15
+char id=49   x=61    y=0     width=32    height=104   xoffset=17    yoffset=48    xadvance=76    page=1  chnl=15
+char id=50   x=187   y=0     width=59    height=105   xoffset=9     yoffset=47    xadvance=76    page=0  chnl=15
+char id=51   x=0     y=0     width=63    height=106   xoffset=5     yoffset=47    xadvance=76    page=0  chnl=15
+char id=52   x=180   y=107   width=66    height=104   xoffset=5     yoffset=48    xadvance=76    page=0  chnl=15
+char id=53   x=0     y=107   width=59    height=105   xoffset=9     yoffset=48    xadvance=76    page=0  chnl=15
+char id=54   x=60    y=107   width=59    height=105   xoffset=9     yoffset=48    xadvance=76    page=0  chnl=15
+char id=55   x=0     y=0     width=60    height=104   xoffset=10    yoffset=48    xadvance=76    page=1  chnl=15
+char id=56   x=64    y=0     width=63    height=106   xoffset=7     yoffset=47    xadvance=76    page=0  chnl=15
+char id=57   x=120   y=107   width=59    height=105   xoffset=8     yoffset=47    xadvance=76    page=0  chnl=15

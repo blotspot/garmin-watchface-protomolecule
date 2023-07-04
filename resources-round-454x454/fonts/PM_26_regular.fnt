@@ -1,0 +1,17 @@
+info face="Protomolecule" size=26 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1 outline=0
+common lineHeight=26 base=21 scaleW=256 scaleH=256 pages=1 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
+page id=0 file="PM_26_regular_0.png"
+chars count=13
+char id=48   x=22    y=0     width=9     height=16    xoffset=1     yoffset=6     xadvance=11    page=0  chnl=15
+char id=49   x=135   y=0     width=5     height=15    xoffset=2     yoffset=6     xadvance=11    page=0  chnl=15
+char id=50   x=115   y=0     width=9     height=15    xoffset=1     yoffset=6     xadvance=11    page=0  chnl=15
+char id=51   x=0     y=0     width=10    height=16    xoffset=0     yoffset=6     xadvance=11    page=0  chnl=15
+char id=52   x=93    y=0     width=10    height=15    xoffset=0     yoffset=6     xadvance=11    page=0  chnl=15
+char id=53   x=32    y=0     width=9     height=16    xoffset=1     yoffset=6     xadvance=11    page=0  chnl=15
+char id=54   x=42    y=0     width=9     height=16    xoffset=1     yoffset=6     xadvance=11    page=0  chnl=15
+char id=55   x=125   y=0     width=9     height=15    xoffset=1     yoffset=6     xadvance=11    page=0  chnl=15
+char id=56   x=11    y=0     width=10    height=16    xoffset=0     yoffset=6     xadvance=11    page=0  chnl=15
+char id=57   x=104   y=0     width=10    height=15    xoffset=0     yoffset=6     xadvance=11    page=0  chnl=15
+char id=97   x=67    y=0     width=13    height=15    xoffset=0     yoffset=6     xadvance=12    page=0  chnl=15
+char id=109  x=52    y=0     width=14    height=15    xoffset=1     yoffset=6     xadvance=17    page=0  chnl=15
+char id=112  x=81    y=0     width=11    height=15    xoffset=1     yoffset=6     xadvance=13    page=0  chnl=15
