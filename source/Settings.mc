@@ -171,4 +171,4 @@ module Settings {
   var _resources as Dictionary<Symbol, Object> = {};
 }
 
-var DataFieldRez as Array<Symbol> = [];
+var DataFieldRez as Array<ResourceId> = [];

@@ -228,7 +228,7 @@ function menuItem(id, label, subLabel) {
   return new WatchUi.MenuItem(label, subLabel, id, null);
 }
 
-var _theme as Null or Array<Symbol> = null;
+var _theme as Null or Array<ResourceId> = null;
 
 function getThemeString(themeId) {
   if (_theme == null) {
@@ -242,7 +242,7 @@ function getThemeString(themeId) {
   return Settings.resource(_theme[themeId]);
 }
 
-var _layout as Null or Array<Symbol> = null;
+var _layout as Null or Array<ResourceId> = null;
 
 function getLayoutString(layoutId) {
   if (_layout == null) {
