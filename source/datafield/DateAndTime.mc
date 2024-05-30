@@ -9,8 +9,8 @@ class DateAndTime extends WatchUi.Drawable {
 
   var mBurnInProtectionMode;
 
-  var DayOfWeek as Array<Symbol> = [];
-  var Months as Array<Symbol> = [];
+  var DayOfWeek as Array<Lang.ResourceId> = [];
+  var Months as Array<Lang.ResourceId> = [];
 
   function initialize(params as Object) {
     Drawable.initialize(params);
