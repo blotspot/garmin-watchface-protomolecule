@@ -4,7 +4,6 @@ import Toybox.WatchUi;
 import Toybox.Lang;
 
 class OrbitDataField extends DataFieldDrawable {
-
   hidden var mStartDegree;
   hidden var mTotalDegree;
   hidden var mRadius;
@@ -49,14 +48,7 @@ class OrbitDataField extends DataFieldDrawable {
       var startDegree = reverse ? mStartDegree - mTotalDegree + getFillDegree(fillLevel) : mStartDegree;
       var endDegree = reverse ? mStartDegree - mTotalDegree : mStartDegree - getFillDegree(fillLevel);
 
-      dc.drawArc(
-        Settings.get("centerXPos"),
-        Settings.get("centerYPos"),
-        mRadius,
-        Graphics.ARC_CLOCKWISE,
-        startDegree,
-        endDegree
-      );
+      dc.drawArc(Settings.get("centerXPos"), Settings.get("centerYPos"), mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
       if (fillLevel < 1.0) {
         drawEndpoint(dc, reverse ? startDegree : endDegree);
       }
@@ -72,14 +64,7 @@ class OrbitDataField extends DataFieldDrawable {
         endDegree += getFillDegree(fillLevel);
       }
 
-      dc.drawArc(
-        Settings.get("centerXPos"),
-        Settings.get("centerYPos"),
-        mRadius,
-        Graphics.ARC_CLOCKWISE,
-        startDegree,
-        endDegree
-      );
+      dc.drawArc(Settings.get("centerXPos"), Settings.get("centerYPos"), mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
     }
   }
 
@@ -99,31 +84,18 @@ class OrbitDataField extends DataFieldDrawable {
     } else {
       dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     }
-    var x = (mFieldId == FieldId.ORBIT_LEFT) ? getX(dc, mStartDegree - mTotalDegree) - (Settings.get("iconSize") / 2) : getX(dc, mStartDegree) + (Settings.get("iconSize") / 2);
-    var y = ((mFieldId == FieldId.ORBIT_LEFT) ? getY(dc, mStartDegree - mTotalDegree) : getY(dc, mStartDegree)) + Settings.get("iconSize");
+    var x = mFieldId == FieldId.ORBIT_LEFT ? getX(dc, mStartDegree - mTotalDegree) - Settings.get("iconSize") / 2 : getX(dc, mStartDegree) + Settings.get("iconSize") / 2;
+    var y = (mFieldId == FieldId.ORBIT_LEFT ? getY(dc, mStartDegree - mTotalDegree) : getY(dc, mStartDegree)) + Settings.get("iconSize");
 
     if (mFieldId == FieldId.ORBIT_OUTER) {
       x = Settings.get("centerXPos");
-      y = Settings.get("centerYPos") + mRadius - Settings.get("iconSize") * (Settings.get("showOrbitIndicatorText") ? 2 : 1); 
+      y = Settings.get("centerYPos") + mRadius - Settings.get("iconSize") * (Settings.get("showOrbitIndicatorText") ? 2 : 1);
     }
 
-    mLastInfo.icon.invoke(
-      dc,
-      x,
-      y, 
-      Settings.get("iconSize"), 
-      Settings.get("strokeWidth"),
-      mLastInfo.text
-    );
+    mLastInfo.icon.invoke(dc, x, y, Settings.get("iconSize"), Settings.get("strokeWidth"), mLastInfo.text);
     if (Settings.get("showOrbitIndicatorText")) {
       y += Settings.get("iconSize");
-      dc.drawText(
-        x,
-        y - 1,
-        Settings.resource(Rez.Fonts.SecondaryIndicatorFont),
-        mLastInfo.text,
-        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
-      );
+      dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
   }
 
@@ -143,7 +115,7 @@ class OrbitDataField extends DataFieldDrawable {
 
   hidden function setClippingRegion(dc, penSize) {
     dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
-    
+
     clearClip(dc);
   }
 
@@ -157,4 +129,4 @@ class OrbitDataField extends DataFieldDrawable {
     }
     return themeColor(Color.FOREGROUND);
   }
-} 
+}

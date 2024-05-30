@@ -3,13 +3,12 @@ import Toybox.WatchUi;
 import Toybox.Application;
 
 class DataFieldDrawable extends WatchUi.Drawable {
-
   hidden var mFieldId;
   hidden var mLastInfo = null;
 
   function initialize(params as Object) {
     Drawable.initialize(params);
-    
+
     mFieldId = params[:fieldId];
   }
 

@@ -5,7 +5,6 @@ import Toybox.Lang;
 import Color;
 
 class SecondaryDataField extends DataFieldDrawable {
-
   hidden var mOffsetMod;
 
   (:typecheck(false))
@@ -34,7 +33,7 @@ class SecondaryDataField extends DataFieldDrawable {
       dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
     }
 
-    mLastInfo.icon.invoke(dc, locX - offset + (Settings.get("iconSize") / 2.0), locY, Settings.get("iconSize"), Settings.get("strokeWidth"), mLastInfo.text);
+    mLastInfo.icon.invoke(dc, locX - offset + Settings.get("iconSize") / 2.0, locY, Settings.get("iconSize"), Settings.get("strokeWidth"), mLastInfo.text);
     drawText(dc, mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), locX - offset + Settings.get("iconSize") + Settings.get("strokeWidth"));
   }
 
@@ -43,24 +42,13 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function drawText(dc, text, font, xPos) {
-    dc.drawText(
-      xPos,
-      locY - 1,
-      font,
-      text,
-      Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
-    );
+    dc.drawText(xPos, locY - 1, font, text, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
   }
 
   function setClippingRegion(dc, offset, penSize) {
     var contentDimensions = getDimensions(dc);
     dc.setColor(themeColor(Color.TEXT_ACTIVE), themeColor(Color.BACKGROUND));
-    dc.setClip(
-      locX - offset,
-      locY - contentDimensions[1] / 2 - penSize / 2,
-      contentDimensions[0] + penSize,
-      contentDimensions[1] + penSize
-    );
+    dc.setClip(locX - offset, locY - contentDimensions[1] / 2 - penSize / 2, contentDimensions[0] + penSize, contentDimensions[1] + penSize);
     dc.clear();
   }
 

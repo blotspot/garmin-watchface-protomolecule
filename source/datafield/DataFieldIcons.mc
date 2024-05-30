@@ -13,19 +13,19 @@ module DataFieldIcons {
   //! value   => value of data field
 
   function drawBattery(dc, x, y, size, penSize, value) as Void {
-    textIcon(dc, x, y + (size * 0.1), "m");
+    textIcon(dc, x, y + size * 0.1, "m");
   }
 
   function drawBatteryFull(dc, x, y, size, penSize, value) as Void {
-    textIcon(dc, x, y + (size * 0.1), "h");
+    textIcon(dc, x, y + size * 0.1, "h");
   }
 
   function drawBatteryLow(dc, x, y, size, penSize, value) as Void {
-    textIcon(dc, x, y + (size * 0.1), "k");
+    textIcon(dc, x, y + size * 0.1, "k");
   }
 
   function drawBatteryLoading(dc, x, y, size, penSize, value) as Void {
-    textIcon(dc, x, y + (size * 0.1), "l");
+    textIcon(dc, x, y + size * 0.1, "l");
   }
 
   function drawSteps(dc, x, y, size, penSize, value) as Void {
@@ -41,11 +41,11 @@ module DataFieldIcons {
   }
 
   function drawNotificationInactive(dc, x, y, size, penSize, value) as Void {
-    textIcon(dc, x, y + (size * 0.1), "N");
+    textIcon(dc, x, y + size * 0.1, "N");
   }
 
   function drawNotificationActive(dc, x, y, size, penSize, value) as Void {
-    textIcon(dc, x, y + (size * 0.1), "n");
+    textIcon(dc, x, y + size * 0.1, "n");
   }
 
   function drawHeartRate(dc, x, y, size, penSize, value) as Void {
@@ -83,7 +83,7 @@ module DataFieldIcons {
 
   function drawSeconds(dc, x, y, size, penSize, value) as Void {
     dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
-    dc.drawText(x, y - (size * 0.1), Settings.resource(Rez.Fonts.MeridiemFont), value, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+    dc.drawText(x, y - size * 0.1, Settings.resource(Rez.Fonts.MeridiemFont), value, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
   }
 
   function drawBodyBattery(dc, x, y, size, penSize, value) as Void {
@@ -98,9 +98,8 @@ module DataFieldIcons {
     var font = Settings.resource(Rez.Fonts.IconsFont);
     dc.drawText(x, y, font, string, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
   }
-  
+
   function _getBuffer(size) as Lang.Double {
     return size / 10.0;
   }
-
 }

@@ -4,7 +4,6 @@ import Toybox.System;
 
 (:background)
 class SleepModeServiceDelegate extends System.ServiceDelegate {
-
   function initialize() {
     System.ServiceDelegate.initialize();
   }

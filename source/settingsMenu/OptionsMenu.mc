@@ -12,10 +12,10 @@ class OptionsItem extends WatchUi.Button {
 
   function draw(dc) {
     var x = Settings.get("centerXPos");
-    var y = locY + (height / 2.0);
+    var y = locY + height / 2.0;
     dc.setColor(isCurrent() ? themeColor(Color.TEXT_ACTIVE) : themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
     dc.drawText(x, y, isCurrent() ? Graphics.FONT_MEDIUM : Graphics.FONT_SMALL, mLabel, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
-    
+
     if (isPrevious()) {
       dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
       dc.fillRectangle(locX, locY, width, 1);
@@ -45,7 +45,7 @@ class OptionsItem extends WatchUi.Button {
 
 class OptionsMenu extends WatchUi.View {
   hidden var mValueHolder;
-  
+
   hidden var mTitle;
   hidden var mTitleTextArea;
   hidden var mPreviousItem;

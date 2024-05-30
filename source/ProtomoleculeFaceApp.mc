@@ -10,7 +10,6 @@ import Toybox.WatchUi;
 
 (:background)
 class ProtomoleculeFaceApp extends Application.AppBase {
-
   function initialize() {
     AppBase.initialize();
   }
@@ -21,7 +20,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     current = new Time.Duration(current.hour * 3600 + current.min * 60);
 
     if (profile.wakeTime.lessThan(profile.sleepTime)) {
-      Settings.isSleepTime = (Settings.get("sleepLayoutActive") && (current.greaterThan(profile.sleepTime) || current.lessThan(profile.wakeTime)));
+      Settings.isSleepTime = Settings.get("sleepLayoutActive") && (current.greaterThan(profile.sleepTime) || current.lessThan(profile.wakeTime));
     } else if (profile.wakeTime.greaterThan(profile.sleepTime)) {
       Settings.isSleepTime = Settings.get("sleepLayoutActive") && current.greaterThan(profile.sleepTime) && current.lessThan(profile.wakeTime);
     } else {
@@ -30,33 +29,31 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   }
 
   function initBackground() {
-    if (System has :ServiceDelegate) {     
+    if (System has :ServiceDelegate) {
       Background.registerForSleepEvent();
       Background.registerForWakeEvent();
     }
   }
 
   // onStart() is called on application start up
-  function onStart(state) {
-  }
+  function onStart(state) {}
 
   // onStop() is called when your application is exiting
-  function onStop(state) {
-  }
+  function onStop(state) {}
 
   // Return the initial view of your application here
   function getInitialView() {
     Settings.initSettings();
     initBackground();
-    return [ new ProtomoleculeFaceView() ];
+    return [new ProtomoleculeFaceView()];
   }
 
   function getServiceDelegate() {
-    return [ new SleepModeServiceDelegate() ];
+    return [new SleepModeServiceDelegate()];
   }
 
   function getSettingsView() {
-    return [ new ProtomoleculeSettingsMenu(), new ProtomoleculeSettingsDelegate() ];
+    return [new ProtomoleculeSettingsMenu(), new ProtomoleculeSettingsDelegate()];
   }
 
   // New app settings have been received so trigger a UI update
@@ -70,5 +67,4 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     Settings.isSleepTime = Settings.get("sleepLayoutActive") && data;
     WatchUi.requestUpdate();
   }
-
 }

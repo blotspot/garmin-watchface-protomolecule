@@ -1,14 +1,14 @@
 import Toybox.System;
 import Toybox.Application;
 
-(:debug) module Log {
-
+(:debug)
+module Log {
   function debug(string) {
     System.println("debug :: " + string);
   }
 }
 
-(:release) module Log {
-
+(:release)
+module Log {
   function debug(string) {}
 }

@@ -38,14 +38,7 @@ class RingDataField extends DataFieldDrawable {
       } else {
         dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
       }
-      mLastInfo.icon.invoke(
-        dc,
-        locX,
-        locY, 
-        Settings.get("iconSize"), 
-        Settings.get("strokeWidth"),
-        mLastInfo.text
-      );
+      mLastInfo.icon.invoke(dc, locX, locY, Settings.get("iconSize"), Settings.get("strokeWidth"), mLastInfo.text);
     }
 
     setAntiAlias(dc, false);
@@ -73,13 +66,8 @@ class RingDataField extends DataFieldDrawable {
 
   hidden function setClippingRegion(dc, penSize) {
     dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
-    
-    dc.setClip(
-      locX - (mRadius + penSize),
-      locY - (mRadius + penSize),
-      (mRadius + penSize * 2) * 2,
-      (mRadius + penSize * 2) * 2
-    );
+
+    dc.setClip(locX - (mRadius + penSize), locY - (mRadius + penSize), (mRadius + penSize * 2) * 2, (mRadius + penSize * 2) * 2);
     dc.clear();
   }
 

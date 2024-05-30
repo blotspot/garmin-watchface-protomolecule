@@ -56,7 +56,6 @@ module FieldType {
 }
 
 module DataFieldInfo {
-
   class DataFieldProperties {
     var fieldType;
     var icon;
@@ -78,7 +77,6 @@ module DataFieldInfo {
       }
       return false;
     }
-
   }
 
   function getInfoForField(fieldId) as DataFieldProperties? {
@@ -137,7 +135,7 @@ module DataFieldInfo {
     } else if (fieldType == FieldType.BODY_BATTERY) {
       return getBodyBatteryInfo();
     } else if (fieldType == FieldType.STRESS_LEVEL) {
-      return getStressLevelInfo();
+      return getStressLevel();
     } else {
       return null;
     }
@@ -163,18 +161,16 @@ module DataFieldInfo {
   function getCalorieInfo() {
     var current = ActivityMonitor.getInfo().calories.toDouble();
 
-    return new DataFieldProperties(FieldType.CALORIES, 
-      new Lang.Method(DataFieldIcons, :drawCalories), 
-      current.format(Format.INT), 
-      current / Settings.get("caloriesGoal"), 
-      false);
+    return new DataFieldProperties(FieldType.CALORIES, new Lang.Method(DataFieldIcons, :drawCalories), current.format(Format.INT), current / Settings.get("caloriesGoal"), false);
   }
 
   function getNotificationInfo() as DataFieldProperties {
     var notifications = System.getDeviceSettings().notificationCount;
 
     var iconFunc = new Lang.Method(DataFieldIcons, :drawNotificationActive);
-    if (notifications == 0) { iconFunc = new Lang.Method(DataFieldIcons, :drawNotificationInactive); }
+    if (notifications == 0) {
+      iconFunc = new Lang.Method(DataFieldIcons, :drawNotificationInactive);
+    }
 
     return new DataFieldProperties(FieldType.NOTIFICATION, iconFunc, notifications.format(Format.INT), 0, false);
   }
@@ -183,9 +179,15 @@ module DataFieldInfo {
     var stats = System.getSystemStats();
     var current = stats.battery;
     var iconFunc = new Lang.Method(DataFieldIcons, :drawBattery);
-    if (current >= 90) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryFull); }
-    if (current < Settings.get("batteryThreshold")) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLow); }
-    if (stats.charging) { iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLoading); }
+    if (current >= 90) {
+      iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryFull);
+    }
+    if (current < Settings.get("batteryThreshold")) {
+      iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLow);
+    }
+    if (stats.charging) {
+      iconFunc = new Lang.Method(DataFieldIcons, :drawBatteryLoading);
+    }
 
     return new DataFieldProperties(FieldType.BATTERY, iconFunc, current.format(Format.FLOAT), current / 100, true);
   }
@@ -201,33 +203,21 @@ module DataFieldInfo {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.floorsClimbed.toDouble();
 
-    return new DataFieldProperties(FieldType.FLOORS_UP, 
-      new Lang.Method(DataFieldIcons, :drawFloorsUp), 
-      current.format(Format.INT), 
-      current / activityInfo.floorsClimbedGoal,
-      false);
+    return new DataFieldProperties(FieldType.FLOORS_UP, new Lang.Method(DataFieldIcons, :drawFloorsUp), current.format(Format.INT), current / activityInfo.floorsClimbedGoal, false);
   }
 
   function getFloorsDescentInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.floorsDescended.toDouble();
 
-    return new DataFieldProperties(FieldType.FLOORS_DOWN, 
-      new Lang.Method(DataFieldIcons, :drawFloorsDown), 
-      current.format(Format.INT),
-      current / activityInfo.floorsClimbedGoal, 
-      false);
+    return new DataFieldProperties(FieldType.FLOORS_DOWN, new Lang.Method(DataFieldIcons, :drawFloorsDown), current.format(Format.INT), current / activityInfo.floorsClimbedGoal, false);
   }
 
   function getActiveMinuteInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.activeMinutesWeek.total.toDouble();
 
-    return new DataFieldProperties(FieldType.ACTIVE_MINUTES, 
-      new Lang.Method(DataFieldIcons, :drawActiveMinutes), 
-      current.format(Format.INT), 
-      current / activityInfo.activeMinutesWeekGoal, 
-      false);
+    return new DataFieldProperties(FieldType.ACTIVE_MINUTES, new Lang.Method(DataFieldIcons, :drawActiveMinutes), current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal, false);
   }
 
   function getBluetoothInfo() as DataFieldProperties {
@@ -263,9 +253,9 @@ module DataFieldInfo {
 
   function getBodyBatteryInfo() as DataFieldProperties {
     var bodyBattery = null;
-    
-    if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getBodyBatteryHistory)) {
-      var iter = SensorHistory.getBodyBatteryHistory({:period => 1});
+
+    if (Toybox has :SensorHistory && Toybox.SensorHistory has :getBodyBatteryHistory) {
+      var iter = SensorHistory.getBodyBatteryHistory({ :period => 1 });
       bodyBattery = iter.next();
     }
     if (bodyBattery == null) {
@@ -277,15 +267,30 @@ module DataFieldInfo {
     var iconCallback = new Lang.Method(DataFieldIcons, :drawBodyBattery);
     var bbFmt = bodyBattery.format(Format.INT);
     var progress = bodyBattery / 100.0;
-    
+
     return new DataFieldProperties(fId, iconCallback, bbFmt, progress, true);
+  }
+
+  function getStressLevel() as DataFieldProperties {
+    if (ActivityMonitor.Info has :stressScore) {
+      return getStressScore();
+    } else {
+      return getStressLevelInfo();
+    }
+  }
+
+  function getStressScore() as DataFieldProperties {
+    var activityInfo = ActivityMonitor.getInfo();
+    var current = activityInfo.stressScore.toDouble();
+
+    return new DataFieldProperties(FieldType.STRESS_LEVEL, new Lang.Method(DataFieldIcons, :drawStressLevel), current.format(Format.INT), current / 100, true);
   }
 
   function getStressLevelInfo() as DataFieldProperties {
     var stressLevel = null;
-    
-    if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getStressHistory)) {
-      var iter = SensorHistory.getStressHistory({:period => 1});
+
+    if (Toybox has :SensorHistory && Toybox.SensorHistory has :getStressHistory) {
+      var iter = SensorHistory.getStressHistory({ :period => 1 });
       stressLevel = iter.next();
     }
     if (stressLevel == null) {
@@ -297,7 +302,7 @@ module DataFieldInfo {
     var iconCallback = new Lang.Method(DataFieldIcons, :drawStressLevel);
     var bbFmt = stressLevel.format(Format.INT);
     var progress = stressLevel / 100.0;
-    
+
     return new DataFieldProperties(fId, iconCallback, bbFmt, progress, true);
   }
 }

@@ -6,7 +6,6 @@ import Toybox.System;
 import Toybox.Time;
 
 class DateAndTime extends WatchUi.Drawable {
-
   var mBurnInProtectionMode;
 
   var DayOfWeek as Array<ResourceId> = [];
@@ -28,18 +27,10 @@ class DateAndTime extends WatchUi.Drawable {
       Rez.Strings.DateMonth9,
       Rez.Strings.DateMonth10,
       Rez.Strings.DateMonth11,
-      Rez.Strings.DateMonth12
+      Rez.Strings.DateMonth12,
     ];
 
-    DayOfWeek = [
-      Rez.Strings.DateWeek1,
-      Rez.Strings.DateWeek2,
-      Rez.Strings.DateWeek3,
-      Rez.Strings.DateWeek4,
-      Rez.Strings.DateWeek5,
-      Rez.Strings.DateWeek6,
-      Rez.Strings.DateWeek7
-    ];
+    DayOfWeek = [Rez.Strings.DateWeek1, Rez.Strings.DateWeek2, Rez.Strings.DateWeek3, Rez.Strings.DateWeek4, Rez.Strings.DateWeek5, Rez.Strings.DateWeek6, Rez.Strings.DateWeek7];
   }
 
   function draw(dc) {
@@ -69,8 +60,8 @@ class DateAndTime extends WatchUi.Drawable {
       minutesY += offset;
     }
 
-    dc.setColor((mBurnInProtectionMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND)), Graphics.COLOR_TRANSPARENT);
-    
+    dc.setColor(mBurnInProtectionMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
+
     // Date
     dc.drawText(dateX, dateY, Settings.get("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont), date, Graphics.TEXT_JUSTIFY_CENTER);
     // Hours
@@ -79,7 +70,7 @@ class DateAndTime extends WatchUi.Drawable {
     dc.drawText(minutesX, minutesY, Settings.resource(Rez.Fonts.MinutesFont), minutes, Graphics.TEXT_JUSTIFY_LEFT);
 
     if (is12Hour && Settings.get("showMeridiemText")) {
-      var meridiem = (now.hour < 12) ? "am" : "pm";
+      var meridiem = now.hour < 12 ? "am" : "pm";
       var meridiemDim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
       var x = minutesDim[0] + minutesX;
       var y = dc.getHeight() * 0.47 - meridiemDim[1] * (mBurnInProtectionMode || !Settings.get("showSeconds") ? 0 : 0.5) + offset;
@@ -94,7 +85,7 @@ class DateAndTime extends WatchUi.Drawable {
     var dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont)) as Array<Number>;
     var y = dc.getHeight() * 0.47 + dim[1] * (System.getDeviceSettings().is24Hour || !Settings.get("showMeridiemText") ? 0 : 0.5);
     dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
-    
+
     dc.drawText(secX + dim[0], y, Settings.resource(Rez.Fonts.MeridiemFont), seconds.format(Format.INT), Graphics.TEXT_JUSTIFY_RIGHT);
   }
 
@@ -102,10 +93,7 @@ class DateAndTime extends WatchUi.Drawable {
     if (Settings.get("useSystemFontForDate")) {
       return format("$1$ $2$ $3$", [now.day_of_week, now.day.format(Format.INT_ZERO), now.month]);
     } else {
-      return format(
-        "$1$ $2$ $3$", 
-        [ Settings.resource(DayOfWeek[(now.day_of_week as Number) - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[(now.month as Number) - 1]) ]
-      );
+      return format("$1$ $2$ $3$", [Settings.resource(DayOfWeek[(now.day_of_week as Number) - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[(now.month as Number) - 1])]);
     }
   }
 
@@ -126,9 +114,8 @@ class DateAndTime extends WatchUi.Drawable {
     var maxY = dc.getHeight() - endY;
     var minY = startY * -1;
     var window = maxY - minY;
-    var offset = (window * 0.2) * multiplicator + window * 0.1;
+    var offset = window * 0.2 * multiplicator + window * 0.1;
 
     return startY * -1 + offset;
   }
-
 }

@@ -12,9 +12,9 @@ class ValueHolder {
 
   protected var mSettingsId;
   protected var mCurrentSelection;
-  
+
   (:typecheck(false))
-  function initialize(settingsId, options) {    
+  function initialize(settingsId, options) {
     mSettingsId = settingsId;
     mPrefix = options.hasKey(:prefix) ? options[:prefix] : "";
     mSuffix = options.hasKey(:suffix) ? options[:suffix] : "";
@@ -23,7 +23,7 @@ class ValueHolder {
     textValueCallback = options[:textValue];
     settingsValueCallback = options[:settingsValue];
   }
-  
+
   hidden function getLabelValue(index) {
     return mPrefix + getTextValue(index).toString() + mSuffix;
   }
@@ -38,7 +38,6 @@ class ValueHolder {
   function getLabelRelativeToSelection(pos) {
     return getLabelValue(wrapIndex(mCurrentSelection + pos));
   }
-
 
   function incrementSelection() {
     mCurrentSelection = wrapIndex(mCurrentSelection + 1);
@@ -61,7 +60,7 @@ class ValueHolder {
   protected function getSize() {
     return sizeCallback.invoke();
   }
-  
+
   //! gets the raw text value at the requested index
   protected function getTextValue(index) {
     return textValueCallback.invoke(index);
@@ -75,12 +74,12 @@ class ValueHolder {
 
 class FixedValuesFactory extends ValueHolder {
   hidden var mValues as Array<String>;
-  
+
   (:typecheck(false))
   function initialize(values, settingsId, options) {
     mValues = values;
     mCurrentSelection = Settings.get(settingsId);
-    
+
     if (options == null) {
       options = {};
     }
@@ -110,12 +109,12 @@ class FixedValuesFactory extends ValueHolder {
 
 class DataFieldFactory extends ValueHolder {
   hidden var mValues as Array<Number>;
-  
+
   (:typecheck(false))
   function initialize(values, settingsId, options) {
     mValues = values;
     mCurrentSelection = getIndex(Settings.get(settingsId));
-    
+
     if (options == null) {
       options = {};
     }
@@ -166,7 +165,7 @@ class NumberFactory extends ValueHolder {
     options[:index] = method(:getIndex);
     options[:textValue] = method(:getTextValue);
     options[:settingsValue] = method(:getSettingsValue);
-    
+
     ValueHolder.initialize(settingsId, options);
   }
 
@@ -175,7 +174,7 @@ class NumberFactory extends ValueHolder {
   }
 
   function getSettingsValue(index) {
-    return mStart + (index * mIncrement);
+    return mStart + index * mIncrement;
   }
 
   function getIndex(value) {

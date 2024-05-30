@@ -4,12 +4,11 @@ import Toybox.Graphics;
 import Toybox.System;
 
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
-
   var mBurnInProtectionMode = false;
   var mLastUpdateBIPMode = false;
-  var mLastUpdateSleepTime = false; 
+  var mLastUpdateSleepTime = false;
   hidden var mLastLayout;
-  
+
   hidden var mNoProgress1;
   hidden var mNoProgress2;
   hidden var mNoProgress3;
@@ -57,7 +56,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   hidden function defaultLayout(dc) {
     mLastLayout = Settings.get("layout");
-    return (mLastLayout == LayoutId.ORBIT) ? Rez.Layouts.WatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc);
+    return mLastLayout == LayoutId.ORBIT ? Rez.Layouts.WatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc);
   }
 
   hidden function sleepTimeLayout(dc) {
@@ -89,8 +88,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // Called when this View is brought to the foreground. Restore
   // the state of this View and prepare it to be shown. This includes
   // loading resources into memory.
-  function onShow() {
-  }
+  function onShow() {}
 
   // Update the view
   function onUpdate(dc) {
@@ -121,8 +119,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // Called when this View is removed from the screen. Save the
   // state of this View here. This includes freeing resources from
   // memory.
-  function onHide() {
-  }
+  function onHide() {}
 
   // The user has just looked at their watch. Timers and animations may be started here.
   function onExitSleep() {
@@ -151,7 +148,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   function updateHeartrate(dc) {
     if (mActiveHeartrateField != null) {
-      mActiveHeartrateCounter += 1; 
+      mActiveHeartrateCounter += 1;
       if (mActiveHeartrateCounter % 10 == 0) {
         mActiveHeartrateField.partialUpdate(dc);
         mActiveHeartrateCounter = 0;
