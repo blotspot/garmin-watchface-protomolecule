@@ -3,10 +3,12 @@ import Toybox.ActivityMonitor;
 import Toybox.Application;
 import Toybox.BluetoothLowEnergy;
 import Toybox.Lang;
+import Toybox.Math;
 import Toybox.SensorHistory;
 import Toybox.System;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
+import Toybox.UserProfile;
 
 module Format {
   const INT_ZERO = "%02d";
@@ -53,6 +55,7 @@ module FieldType {
   const BODY_BATTERY = 11;
   const SECONDS = 12;
   const STRESS_LEVEL = 13;
+  const ACTIVE_CALORIES = 14;
 }
 
 module DataFieldInfo {
@@ -116,6 +119,8 @@ module DataFieldInfo {
       return getHeartRateInfo();
     } else if (fieldType == FieldType.CALORIES) {
       return getCalorieInfo();
+    } else if (fieldType == FieldType.ACTIVE_CALORIES) {
+      return getActiveCalorieInfo();
     } else if (fieldType == FieldType.NOTIFICATION) {
       return getNotificationInfo();
     } else if (fieldType == FieldType.STEPS) {
@@ -159,9 +164,29 @@ module DataFieldInfo {
   }
 
   function getCalorieInfo() {
-    var current = ActivityMonitor.getInfo().calories.toDouble();
+    var activityInfo = ActivityMonitor.getInfo();
+    var current = activityInfo.calories.toDouble();
 
     return new DataFieldProperties(FieldType.CALORIES, new Lang.Method(DataFieldIcons, :drawCalories), current.format(Format.INT), current / Settings.get("caloriesGoal"), false);
+  }
+
+  function getActiveCalorieInfo() {
+    var profile = UserProfile.getProfile();
+    var activityInfo = ActivityMonitor.getInfo();
+    var today = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+    var ageFactor = 6.116 * (today.year - profile.birthYear);
+    var heightFactor = 7.628 * profile.height;
+    var weightFactor = 12.2 * (profile.weight / 1000.0);
+    var genderFactor = -197.6;
+
+    if (profile.gender == UserProfile.GENDER_MALE) {
+      genderFactor = 5.2;
+    }
+    var resting = genderFactor - ageFactor + heightFactor + weightFactor;
+    var relResting = Math.round(((today.hour * 60 + today.min) * resting) / 1440).toNumber();
+    var active = activityInfo.calories.toDouble() - relResting;
+
+    return new DataFieldProperties(FieldType.ACTIVE_CALORIES, new Lang.Method(DataFieldIcons, :drawCalories), active.format(Format.INT), active / Settings.get("caloriesGoal"), false);
   }
 
   function getNotificationInfo() as DataFieldProperties {
