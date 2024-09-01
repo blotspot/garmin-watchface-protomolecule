@@ -297,21 +297,28 @@ module DataFieldInfo {
   }
 
   function getStressLevel() as DataFieldProperties {
+    var stressLevel = null;
     if (ActivityMonitor.Info has :stressScore) {
-      return getStressScore();
-    } else {
-      return getStressLevelInfo();
+      Log.debug("Using stress score");
+      var activityInfo = ActivityMonitor.getInfo();
+      if (activityInfo.stressScore != null) {
+        stressLevel = activityInfo.stressScore.toDouble();
+      }
     }
+    if (stressLevel == null) {
+      Log.debug("Using stress level info");
+      stressLevel = getLatestStressLevelFromSensorHistory();
+    }
+
+    var fId = FieldType.STRESS_LEVEL;
+    var iconCallback = new Lang.Method(DataFieldIcons, :drawStressLevel);
+    var slFmt = stressLevel.format(Format.INT);
+    var progress = stressLevel / 100.0;
+
+    return new DataFieldProperties(fId, iconCallback, slFmt, progress, true);
   }
 
-  function getStressScore() as DataFieldProperties {
-    var activityInfo = ActivityMonitor.getInfo();
-    var current = activityInfo.stressScore.toDouble();
-
-    return new DataFieldProperties(FieldType.STRESS_LEVEL, new Lang.Method(DataFieldIcons, :drawStressLevel), current.format(Format.INT), current / 100, true);
-  }
-
-  function getStressLevelInfo() as DataFieldProperties {
+  function getLatestStressLevelFromSensorHistory() as Number {
     var stressLevel = null;
 
     if (Toybox has :SensorHistory && Toybox.SensorHistory has :getStressHistory) {
@@ -323,11 +330,6 @@ module DataFieldInfo {
     } else {
       stressLevel = stressLevel.data;
     }
-    var fId = FieldType.STRESS_LEVEL;
-    var iconCallback = new Lang.Method(DataFieldIcons, :drawStressLevel);
-    var bbFmt = stressLevel.format(Format.INT);
-    var progress = stressLevel / 100.0;
-
-    return new DataFieldProperties(fId, iconCallback, bbFmt, progress, true);
+    return stressLevel;
   }
 }
