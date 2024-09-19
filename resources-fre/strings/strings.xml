@@ -1,0 +1,113 @@
+<strings>
+  <string id="AppName">Protomolecule WatchFace</string>
+
+  <string id="LayoutOrbit">Orbite (6 Champs de Données)</string>
+  <string id="LayoutOrbitItem">Orbite</string>
+  <string id="LayoutOrbitItemSub">6 Champs de Données</string>
+  <string id="LayoutCircles">Cercles (8 Champs de Données)</string>
+  <string id="LayoutCirclesItem">Cercles</string>
+  <string id="LayoutCirclesItemSub">8 Champs de Données</string>
+
+  <string id="ThemeExpanse">Expanse</string>
+  <string id="ThemeEarth">ONU</string>
+  <string id="ThemeMars">MCR</string>
+  <string id="ThemeBelt">Ceinture</string>
+  <string id="ThemeExpanseLight">Expanse (Clair)</string>
+  <string id="ThemeEarthLight">ONU (Clair)</string>
+
+  <string id="GenericSettingsGroupTitle">Paramètres Généraux</string>
+  <string id="SettingsChooseLayoutTitle">Choisir la Disposition</string>
+  <string id="SettingsLayoutTitle">Disposition</string>
+  <string id="SettingsChooseThemeTitle">Choisir le Thème</string>
+  <string id="SettingsThemeTitle">Thème</string>
+  <string id="SettingsShowSecondsTitle">Afficher les Secondes</string>
+  <string id="SettingsShowMeridiemTitle">Afficher AM/PM en format 12 Heures</string>
+  <string id="SettingsShowRemainingIndicator">Afficher la Partie Restante de l'Indicateur</string>
+  <string id="SettingsCaloriesGoalTitle">Objectif de Calories Quotidiennes</string>
+  <string id="SettingsBatteryThresholdTitle">Icône de batterie vide à %</string>
+  <string id="SettingsSleepTimeLayoutActiveTitle">Disposition fixe pendant le Sommeil</string>
+  <string id="SettingsActiveHeartrateTitle">Mettre à Jour la Fréquence Cardiaque toutes les 10 secondes</string>
+  <string id="SettingsUseSystemFontTitle">Utiliser la police du système pour la ligne de date (inclut tous les caractères spéciaux)</string>
+
+  <string id="SettingsMenuLabel">Paramètres</string>
+  <string id="ToggleMenuShowIndicatorTextLabel">Info Indicateur</string>
+  <string id="ToggleMenuShowIndicatorTextEnabled">Icône et Texte</string>
+  <string id="ToggleMenuShowIndicatorTextDisabled">Icône seulement</string>
+  <string id="ToggleMenuSystemFontLabel">Police pour la date</string>
+  <string id="ToggleMenuSystemFontEnabled">Système</string>
+  <string id="ToggleMenuSystemFontDisabled">Cadran</string>
+  <string id="ToggleMenuActiveHeartrateLabel">Mise à jour de la Fréquence Cardiaque</string>
+  <string id="ToggleMenuActiveHeartrateEnabled">10 sec</string>
+  <string id="ToggleMenuActiveHeartrateDisabled">1 min</string>
+  <string id="ToggleMenuRemainingArcLabel">Tracer l'arc</string>
+  <string id="ToggleMenuRemainingArcEnabled">Inachevé gris</string>
+  <string id="ToggleMenuRemainingArcDisabled">Complet uniquement</string>
+  <string id="ToggleMenuShowAmPmLabel">Afficher AM / PM</string>
+  <string id="ToggleMenuSleepTimeLayoutLabel">Disposition Sommeil</string>
+  <string id="ToggleMenuEnabled">Activé</string>
+  <string id="ToggleMenuDisabled">Désactivé</string>
+
+  <string id="SettingsLayoutSettingsTitle">Paramètres de Disposition</string>
+  <string id="SettingsOrbitLayoutGroupTitle">Paramètres de Disposition Orbite</string>
+  <string id="SettingsOrbitIndicatorTextTitle">[Orbite] Afficher le Texte pour les Champs de Données principaux</string>
+  <string id="SettingsOuterOrbitTitle">[Orbite] Indicateur Extérieur</string>
+  <string id="SettingsLeftOrbitTitle">[Orbite] Indicateur Gauche</string>
+  <string id="SettingsRightOrbitTitle">[Orbite] Indicateur Droit</string>
+
+  <string id="ODSettingsOuterOrbitTitle">Indicateur Extérieur</string>
+  <string id="ODSettingsLeftOrbitTitle">Indicateur Gauche</string>
+  <string id="ODSettingsRightOrbitTitle">Indicateur Droit</string>
+
+  <string id="SettingsCirclesLayoutGroupTitle">Paramètres de Disposition Cercles</string>
+  <string id="SettingsOuterTitle">[Cercles] Indicateur Extérieur</string>
+  <string id="SettingsUpper1Title">[Cercles] Indicateur Supérieur Gauche</string>
+  <string id="SettingsUpper2Title">[Cercles] Indicateur Supérieur Droit</string>
+  <string id="SettingsLower1Title">[Cercles] Indicateur Inférieur Gauche</string>
+  <string id="SettingsLower2Title">[Cercles] Indicateur Inférieur Droit</string>
+
+  <string id="ODSettingsOuterTitle">Indicateur Extérieur</string>
+  <string id="ODSettingsUpper1Title">Indicateur Supérieur Gauche</string>
+  <string id="ODSettingsUpper2Title">Indicateur Supérieur Droit</string>
+  <string id="ODSettingsLower1Title">Indicateur Inférieur Gauche</string>
+  <string id="ODSettingsLower2Title">Indicateur Inférieur Droit</string>
+
+  <string id="SettingsSecondary1Title">DF Horloge Gauche</string>
+  <string id="SettingsSecondary2Title">DF Horloge Milieu</string>
+  <string id="SettingsSecondary3Title">DF Horloge Droite</string>
+
+  <string id="NoDataField">Aucun</string>
+  <string id="DataFieldSteps">Pas</string>
+  <string id="DataFieldBattery">Batterie</string>
+  <string id="DataFieldCalories">Calories</string>
+  <string id="DataFieldActiveMinutes">Minutes Actives</string>
+  <string id="DataFieldHeartRate">Fréquence Cardiaque</string>
+  <string id="DataFieldMessages">Notifications</string>
+  <string id="DataFieldFloorsUp">Étages montés</string>
+  <string id="DataFieldFloorsDown">Étages descendus</string>
+  <string id="DataFieldBluetooth">Bluetooth</string>
+  <string id="DataFieldAlarms">Alarmes</string>
+  <string id="DataFieldSeconds">Secondes</string>
+  <string id="DataFieldBodyBattery">Batterie corporelle</string>
+  <string id="DataFieldStressLevel">Niveau de stress</string>
+
+  <string id="DateMonth1">Janv</string>
+  <string id="DateMonth2">Fevr</string>
+  <string id="DateMonth3">Mars</string>
+  <string id="DateMonth4">Avr</string>
+  <string id="DateMonth5">Mai</string>
+  <string id="DateMonth6">Juin</string>
+  <string id="DateMonth7">Juil</string>
+  <string id="DateMonth8">Aout</string>
+  <string id="DateMonth9">Sept</string>
+  <string id="DateMonth10">Oct</string>
+  <string id="DateMonth11">Nov</string>
+  <string id="DateMonth12">Dec</string>
+
+  <string id="DateWeek1">Dim</string>
+  <string id="DateWeek2">Lun</string>
+  <string id="DateWeek3">Mar</string>
+  <string id="DateWeek4">Mer</string>
+  <string id="DateWeek5">Jeu</string>
+  <string id="DateWeek6">Ven</string>
+  <string id="DateWeek7">Sam</string>
+</strings>
