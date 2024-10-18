@@ -18,7 +18,7 @@ Can now be found in the Garmin store: https://apps.garmin.com/en-US/apps/d9f524c
 - Steps per Day
 - Active Minutes per Week
 - Floors Up / Down per Day
-- Notifcations
+- Notifications
 - Alarms
 - Bluetooth connection status
 - Body Battery
