@@ -87,11 +87,11 @@ module DataFieldIcons {
   }
 
   function drawBodyBattery(dc, x, y, size, penSize, value) as Void {
-    textIcon(dc, x, y, "y");
+    textIcon(dc, x, y, "o");
   }
 
   function drawStressLevel(dc, x, y, size, penSize, value) as Void {
-    textIcon(dc, x, y, "z");
+    textIcon(dc, x, y, "y");
   }
 
   function textIcon(dc, x, y, string) as Void {
