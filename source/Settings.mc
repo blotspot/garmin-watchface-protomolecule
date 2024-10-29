@@ -135,6 +135,8 @@ module Settings {
     setAsNumber("theme", 0);
     setAsNumber("caloriesGoal", 2000);
     setAsNumber("batteryThreshold", 20);
+    setAsNumber("bodyBatteryThreshold", 30);
+    setAsBoolean("dynamicBodyBattery", false);
     setAsBoolean("activeHeartrate", false);
     setAsBoolean("showOrbitIndicatorText", false);
     setAsBoolean("showMeridiemText", false);

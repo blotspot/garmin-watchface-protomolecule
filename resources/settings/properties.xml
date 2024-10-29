@@ -4,12 +4,14 @@
   
   <property id="caloriesGoal" type="number">2000</property>
   <property id="batteryThreshold" type="number">20</property>
+  <property id="bodyBatteryThreshold" type="number">30</property>
   <property id="activeHeartrate" type="boolean">false</property>
   <property id="sleepLayoutActive" type="boolean">false</property>
   <property id="showOrbitIndicatorText" type="boolean">false</property>
   <property id="showMeridiemText" type="boolean">false</property>
   <property id="useSystemFontForDate" type="boolean">false</property>
   <property id="showSeconds" type="boolean">false</property>
+  <property id="dynamicBodyBattery" type="boolean">false</property>
   
   <property id="noProgressDataField1" type="number">5</property>
   <property id="noProgressDataField2" type="number">6</property>

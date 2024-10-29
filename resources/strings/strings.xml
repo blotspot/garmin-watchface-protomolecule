@@ -25,6 +25,8 @@
   <string id="SettingsShowRemainingIndicator">Show Remaining Part of Indicator</string>
   <string id="SettingsCaloriesGoalTitle">Daily Calories Goal</string>
   <string id="SettingsBatteryThresholdTitle">Battery empty icon at %</string>
+  <string id="SettingsDynamicBodyBatteryTitle">Dynamic Body Battery icon</string>
+  <string id="SettingsBodyBatteryThresholdTitle">Change Body Battery icon at %</string>
   <string id="SettingsSleepTimeLayoutActiveTitle">Fixed Layout during Sleep Time</string>
   <string id="SettingsActiveHeartrateTitle">Update Heartrate every 10 seconds</string>
   <string id="SettingsUseSystemFontTitle">Use system font for date line (includes all special characters)</string>

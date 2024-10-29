@@ -88,12 +88,15 @@ module DataFieldIcons {
 
   function drawBodyBattery(dc, x, y, size, penSize, value) as Void {
     var iconText = "o";
-    value = value.toLong();
-
-    if (value < 13) {
-      iconText = "z";
-    } else if (value < 33) {
-      iconText = "y";
+    if (Settings.get("dynamicBodyBattery")) {
+      var threshold = Settings.get("bodyBatteryThreshold");
+      value = value.toLong();
+      Log.debug("body battery " + value + " / " + threshold);
+      if (value <= 5) {
+        iconText = "z";
+      } else if (value < threshold) {
+        iconText = "y";
+      }
     }
 
     textIcon(dc, x, y, iconText);

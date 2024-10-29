@@ -43,6 +43,14 @@
     <settingConfig type="numeric" min="1" max="100" required="true"/>
   </setting>
 
+  <setting propertyKey="@Properties.dynamicBodyBattery" title="@Strings.SettingsDynamicBodyBatteryTitle">
+    <settingConfig type="boolean" required="true"/>
+  </setting>
+
+  <setting propertyKey="@Properties.bodyBatteryThreshold" title="@Strings.SettingsBodyBatteryThresholdTitle">
+    <settingConfig type="numeric" min="5" max="100" required="true"/>
+  </setting>
+
   <setting propertyKey="@Properties.noProgressDataField1" title="@Strings.SettingsSecondary1Title">
     <settingConfig type="list">
       <listEntry value="0">@Strings.NoDataField</listEntry>

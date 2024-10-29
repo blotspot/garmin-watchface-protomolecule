@@ -25,6 +25,8 @@
   <string id="SettingsShowRemainingIndicator">Afficher la Partie Restante de l'Indicateur</string>
   <string id="SettingsCaloriesGoalTitle">Objectif de Calories Quotidiennes</string>
   <string id="SettingsBatteryThresholdTitle">Icône de batterie vide à %</string>
+  <string id="SettingsDynamicBodyBatteryTitle">Dynamique icône de batterie corporelle</string>
+  <string id="SettingsBodyBatteryThresholdTitle">Changer l'icône de batterie corporelle à %</string>
   <string id="SettingsSleepTimeLayoutActiveTitle">Disposition fixe pendant le Sommeil</string>
   <string id="SettingsActiveHeartrateTitle">Mettre à Jour la Fréquence Cardiaque toutes les 10 secondes</string>
   <string id="SettingsUseSystemFontTitle">Utiliser la police du système pour la ligne de date (inclut tous les caractères spéciaux)</string>

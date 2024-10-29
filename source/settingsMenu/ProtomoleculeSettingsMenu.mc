@@ -46,6 +46,15 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
 
     Menu2.addItem(menuItem("caloriesGoal", Settings.resource(Rez.Strings.SettingsCaloriesGoalTitle), Settings.get("caloriesGoal").toString()));
     Menu2.addItem(menuItem("batteryThreshold", Settings.resource(Rez.Strings.SettingsBatteryThresholdTitle), Settings.get("batteryThreshold").toString()));
+    Menu2.addItem(
+      toggleItem(
+        "dynamicBodyBattery",
+        Settings.resource(Rez.Strings.SettingsDynamicBodyBatteryTitle),
+        Settings.resource(Rez.Strings.ToggleMenuEnabled),
+        Settings.resource(Rez.Strings.ToggleMenuDisabled)
+      )
+    );
+    Menu2.addItem(menuItem("bodyBatteryThreshold", Settings.resource(Rez.Strings.SettingsBodyBatteryThresholdTitle), Settings.get("bodyBatteryThreshold").toString()));
   }
 }
 
@@ -98,6 +107,10 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
       pushBatteryPicker(item);
       return;
     }
+    if (item.getId().equals("bodyBatteryThreshold")) {
+      pushBodyBatteryPicker(item);
+      return;
+    }
     if (item instanceof ToggleMenuItem) {
       Settings.set(item.getId(), (item as ToggleMenuItem).isEnabled());
     }
@@ -110,6 +123,11 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
 
   hidden function pushBatteryPicker(parent) as Void {
     var holder = new NumberFactory(10, 55, 5, parent.getId(), { :suffix => "%" });
+    WatchUi.pushView(new OptionsMenu(holder, { :title => parent.getLabel() }), new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT);
+  }
+
+  hidden function pushBodyBatteryPicker(parent) as Void {
+    var holder = new NumberFactory(10, 60, 5, parent.getId(), { :suffix => "%" });
     WatchUi.pushView(new OptionsMenu(holder, { :title => parent.getLabel() }), new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
