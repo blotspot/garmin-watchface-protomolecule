@@ -286,7 +286,7 @@ module DataFieldInfo {
     return null;
   }
 
-  function getBodyBattery() as Number or Null {
+  function getBodyBattery() as Number {
     // crashed on descentmk2s between 12h/24h, OOM
     var durations = [
         new Time.Duration(60 * 30),         // 30 minutes
