@@ -276,18 +276,48 @@ module DataFieldInfo {
     }
   }
 
-  function getBodyBatteryInfo() as DataFieldProperties {
-    var bodyBattery = null;
+  function getBodyIterator(period as Time.Duration?) {
+    if ((Toybox has :SensorHistory) && (SensorHistory has :getBodyBatteryHistory)) {
+        return SensorHistory.getBodyBatteryHistory({
+            :period => period,
+            :order => SensorHistory.ORDER_NEWEST_FIRST
+        });
+    }
+    return null;
+  }
 
-    if (Toybox has :SensorHistory && Toybox.SensorHistory has :getBodyBatteryHistory) {
-      var iter = SensorHistory.getBodyBatteryHistory({ :period => 1 });
-      bodyBattery = iter.next();
+  function getBodyBattery() as Number or Null {
+    // crashed on descentmk2s between 12h/24h, OOM
+    var durations = [
+        new Time.Duration(60 * 30),         // 30 minutes
+        new Time.Duration(60 * 60),         // 1 hour
+        new Time.Duration(60 * 60 * 6),     // 6 hours
+        // it seems to me as after 6h the old body battery value lost its meaning completely
+    ];
+
+    for (var i = 0; i < durations.size(); i++) {
+        var duration = durations[i];
+        var bbIterator = getBodyIterator(duration);
+
+        if (bbIterator == null) {
+            continue;
+        }
+
+        var sample = bbIterator.next();
+        while (sample != null) {
+            if (sample.data != null && sample.data.toNumber() != null) {
+                return sample.data.toNumber();
+            }
+            sample = bbIterator.next();
+        }
     }
+    return null; 
+  }
+  
+  function getBodyBatteryInfo() as DataFieldProperties {
+    var bodyBattery = getBodyBattery();
     if (bodyBattery == null) {
-      bodyBattery = 0;
-    } else {
-      bodyBattery = bodyBattery.data;
-    }
+      bodyBattery = 0;}
     var fId = FieldType.BODY_BATTERY;
     var iconCallback = new Lang.Method(DataFieldIcons, :drawBodyBattery);
     var bbFmt = bodyBattery.format(Format.INT);
