@@ -116,49 +116,49 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     }
   }
 
-  hidden function pushCaloriesPicker(parent) as Void {
+  hidden function pushCaloriesPicker(parent as MenuItem) as Void {
     var holder = new NumberFactory(1500, 4000, 100, parent.getId(), {});
-    WatchUi.pushView(new OptionsMenu(holder, { :title => parent.getLabel() }), new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT);
+    WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
-  hidden function pushBatteryPicker(parent) as Void {
+  hidden function pushBatteryPicker(parent as MenuItem) as Void {
     var holder = new NumberFactory(10, 55, 5, parent.getId(), { :suffix => "%" });
-    WatchUi.pushView(new OptionsMenu(holder, { :title => parent.getLabel() }), new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT);
+    WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
-  hidden function pushBodyBatteryPicker(parent) as Void {
+  hidden function pushBodyBatteryPicker(parent as MenuItem) as Void {
     var holder = new NumberFactory(10, 60, 5, parent.getId(), { :suffix => "%" });
-    WatchUi.pushView(new OptionsMenu(holder, { :title => parent.getLabel() }), new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT);
+    WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
-  hidden function pushThemeOptionsMenu(parent) as Void {
+  hidden function pushThemeOptionsMenu(parent as MenuItem) as Void {
     var holder = new FixedValuesFactory([getThemeString(0), getThemeString(1), getThemeString(2), getThemeString(3)], parent.getId(), {});
-    WatchUi.pushView(new OptionsMenu(holder, { :title => parent.getLabel() }), new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT);
+    WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
-  hidden function pushLayoutOptionsMenu(parent) {
+  hidden function pushLayoutOptionsMenu(parent as MenuItem) {
     var holder = new FixedValuesFactory([getLayoutString(0), getLayoutString(1)], parent.getId(), {});
-    WatchUi.pushView(new OptionsMenu(holder, { :title => parent.getLabel() }), new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT);
+    WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
-  hidden function pushOrbitDatafieldOptionsMenu(parent) as Void {
+  hidden function pushOrbitDatafieldOptionsMenu(parent as MenuItem) as Void {
     var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 11, 13], parent.getId(), {});
-    WatchUi.pushView(new OptionsMenu(holder, { :title => parent.getLabel() }), new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT);
+    WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
-  hidden function pushInnerCirclesDatafieldOptionsMenu(parent) {
+  hidden function pushInnerCirclesDatafieldOptionsMenu(parent as MenuItem) {
     var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 9, 11, 13], parent.getId(), {});
-    WatchUi.pushView(new OptionsMenu(holder, { :title => parent.getLabel() }), new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT);
+    WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
-  hidden function pushOuterCirclesDatafieldOptionsMenu(parent) {
+  hidden function pushOuterCirclesDatafieldOptionsMenu(parent as MenuItem) {
     var holder = new DataFieldFactory([0, 1, 2, 3, 11], parent.getId(), {});
-    WatchUi.pushView(new OptionsMenu(holder, { :title => parent.getLabel() }), new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT);
+    WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
-  hidden function pushClockDatafieldOptionsMenu(parent) {
+  hidden function pushClockDatafieldOptionsMenu(parent as MenuItem) {
     var holder = new DataFieldFactory([0, 2, 4, 5, 6, 7, 8, 9, 10, 11, 13], parent.getId(), {});
-    WatchUi.pushView(new OptionsMenu(holder, { :title => parent.getLabel() }), new OptionsMenuDelegate(holder, parent), WatchUi.SLIDE_LEFT);
+    WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
   hidden function pushOrbitSubMenu() {

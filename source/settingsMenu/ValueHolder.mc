@@ -3,15 +3,15 @@ import Toybox.Graphics;
 import Toybox.Lang;
 
 class ValueHolder {
-  hidden var mPrefix;
-  hidden var mSuffix;
+  hidden var mPrefix as String;
+  hidden var mSuffix as String;
   hidden var sizeCallback;
   hidden var indexCallback;
   hidden var textValueCallback;
   hidden var settingsValueCallback;
 
-  protected var mSettingsId;
-  protected var mCurrentSelection;
+  protected var mSettingsId as String;
+  protected var mSelectionIndex;
 
   (:typecheck(false))
   function initialize(settingsId, options) {
@@ -24,40 +24,25 @@ class ValueHolder {
     settingsValueCallback = options[:settingsValue];
   }
 
-  hidden function getLabelValue(index) {
+  function getLabel(index) {
     return mPrefix + getTextValue(index).toString() + mSuffix;
   }
 
-  hidden function wrapIndex(index) {
-    if (index < 0) {
-      index = getSize() + index;
-    }
-    return index % getSize();
+  function getIndexOfCurrentSelection() as Number {
+    return mSelectionIndex;
   }
 
-  function getLabelRelativeToSelection(pos) {
-    return getLabelValue(wrapIndex(mCurrentSelection + pos));
-  }
-
-  function incrementSelection() {
-    mCurrentSelection = wrapIndex(mCurrentSelection + 1);
-  }
-
-  function decrementSelection() {
-    mCurrentSelection = wrapIndex(mCurrentSelection - 1);
-  }
-
-  function saveSelection() {
-    Settings.set(mSettingsId, getSettingsValue(mCurrentSelection));
+  function save(index) {
+    Settings.set(mSettingsId, getSettingsValue(index));
   }
 
   //! get the settings value of the element at this index.
-  protected function getSettingsValue(index) {
+  function getSettingsValue(index) {
     return settingsValueCallback.invoke(index);
   }
 
   //! get the amount of elements in this Holder object
-  protected function getSize() {
+  function getSize() {
     return sizeCallback.invoke();
   }
 
@@ -78,7 +63,7 @@ class FixedValuesFactory extends ValueHolder {
   (:typecheck(false))
   function initialize(values, settingsId, options) {
     mValues = values;
-    mCurrentSelection = Settings.get(settingsId);
+    mSelectionIndex = Settings.get(settingsId);
 
     if (options == null) {
       options = {};
@@ -113,7 +98,7 @@ class DataFieldFactory extends ValueHolder {
   (:typecheck(false))
   function initialize(values, settingsId, options) {
     mValues = values;
-    mCurrentSelection = getIndex(Settings.get(settingsId));
+    mSelectionIndex = getIndex(Settings.get(settingsId));
 
     if (options == null) {
       options = {};
@@ -143,18 +128,18 @@ class DataFieldFactory extends ValueHolder {
 }
 
 class NumberFactory extends ValueHolder {
-  hidden var mStart;
-  hidden var mStop;
-  hidden var mIncrement;
+  hidden var mStart as Number;
+  hidden var mStop as Number;
+  hidden var mIncrement as Number;
 
-  hidden var mFormatString;
+  hidden var mFormatString as String;
 
   (:typecheck(false))
   function initialize(start, stop, increment, settingsId, options) {
     mStart = start;
     mStop = stop;
     mIncrement = increment;
-    mCurrentSelection = getIndex(Settings.get(settingsId));
+    mSelectionIndex = getIndex(Settings.get(settingsId));
 
     if (options == null) {
       options = {};
