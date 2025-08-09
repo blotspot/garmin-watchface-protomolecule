@@ -311,7 +311,7 @@ module DataFieldInfo {
             sample = bbIterator.next();
         }
     }
-    return null; 
+    return 0; 
   }
   
   function getBodyBatteryInfo() as DataFieldProperties {
