@@ -277,13 +277,10 @@ module DataFieldInfo {
   }
 
   function getBodyIterator(period as Time.Duration?) {
-    if ((Toybox has :SensorHistory) && (SensorHistory has :getBodyBatteryHistory)) {
         return SensorHistory.getBodyBatteryHistory({
             :period => period,
             :order => SensorHistory.ORDER_NEWEST_FIRST
         });
-    }
-    return null;
   }
 
   function getBodyBattery() as Number {
@@ -315,9 +312,10 @@ module DataFieldInfo {
   }
   
   function getBodyBatteryInfo() as DataFieldProperties {
-    var bodyBattery = getBodyBattery();
-    if (bodyBattery == null) {
-      bodyBattery = 0;}
+    var bodyBattery = 0;
+    if ((Toybox has :SensorHistory) && (SensorHistory has :getBodyBatteryHistory)) {
+      bodyBattery = getBodyBattery();
+      }
     var fId = FieldType.BODY_BATTERY;
     var iconCallback = new Lang.Method(DataFieldIcons, :drawBodyBattery);
     var bbFmt = bodyBattery.format(Format.INT);
