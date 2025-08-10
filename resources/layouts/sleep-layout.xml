@@ -1,4 +1,4 @@
-<layout id="WatchFaceSleep">
+<layout id="SleepLayout">
 	<drawable id="Background" class="Background"/>
 
   <drawable id="DateAndTime" class="DateAndTime">

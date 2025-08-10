@@ -45,20 +45,24 @@ class DateAndTime extends WatchUi.Drawable {
 
     var dateDim = dc.getTextDimensions(date, Settings.resource(Rez.Fonts.DateFont));
     var dateX = dc.getWidth() * 0.5;
-    var dateY = dc.getHeight() * 0.31 - dateDim[1] / 2.0;
+    var dateY = dc.getHeight() * 0.31 /* relative date pos */ - dateDim[1] / 2.0;
 
     var hoursDim = dc.getTextDimensions(hours, Settings.resource(Rez.Fonts.HoursFont));
     var hoursX = dc.getWidth() * 0.485;
-    var hoursY = dc.getHeight() * 0.48 - hoursDim[1] / 2.0;
+    var hoursY = dc.getHeight() * 0.48 /* relative time pos */ - hoursDim[1] / 2.0;
 
     var minutesDim = dc.getTextDimensions(minutes, Settings.resource(Rez.Fonts.MinutesFont));
     var minutesX = dc.getWidth() * 0.515;
-    var minutesY = dc.getHeight() * 0.48 - minutesDim[1] / 2.0;
+    var minutesY = dc.getHeight() * 0.48 /* relative time pos */ - minutesDim[1] / 2.0;
 
     var offset = 0;
     if (mBurnInProtectionMode) {
-      var mult = (now.min - mBurnInProtectionModeEnteredAt + 2) % 5;
-      offset = calculateOffset(dc, mult, dateY, hoursY + hoursDim[1]);
+      var timeMod = 2;
+      if (now.min < mBurnInProtectionModeEnteredAt) {
+        timeMod = 62;
+      }
+      var pos = ((now.min - mBurnInProtectionModeEnteredAt + timeMod) % 5) - 2; // -2, -1, 0, 1, 2, will always start at 0
+      offset = calculateOffset(dc, pos, hoursDim[1]);
       dateY += offset;
       hoursY += offset;
       minutesY += offset;
@@ -114,12 +118,12 @@ class DateAndTime extends WatchUi.Drawable {
     return hours.format(Format.INT_ZERO);
   }
 
-  hidden function calculateOffset(dc, multiplicator, startY, endY) {
-    var maxY = dc.getHeight() - endY;
-    var minY = startY * -1;
-    var window = maxY - minY;
-    var offset = window * 0.2 * multiplicator + window * 0.1;
+  hidden function calculateOffset(dc, pos, clockHeight) {
+    var maxY = dc.getHeight() - clockHeight / 2;
+    var minY = clockHeight / 2;
+    var window = (maxY - minY) / 4.5;
+    var offset = window * pos;
 
-    return startY * -1 + offset;
+    return offset;
   }
 }

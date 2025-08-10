@@ -1,0 +1,7 @@
+<layout id="BurnInProtectionLayout">
+	<drawable id="Background" class="Background"/>
+  
+  <drawable id="DateAndTime" class="DateAndTime">
+    <param name="burnInProtectionMode">true</param>
+  </drawable>
+</layout>

@@ -5,9 +5,9 @@ import Toybox.Graphics;
 import Toybox.System;
 
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
-  var mBurnInProtectionMode = false;
-  var mLastUpdateBIPMode = false;
-  var mLastUpdateSleepTime = false;
+  var mBurnInProtectionMode as Boolean = false;
+  var mLastUpdateBIPModeState as Boolean = false;
+  var mLastUpdateSleepTimeState as Boolean = false;
   hidden var mLastLayout;
 
   hidden var mNoProgress1;
@@ -24,60 +24,54 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   function chooseLayout(dc, onLayoutCall) {
-    // onLayout
     if (onLayoutCall) {
-      if (requiresBurnInProtection() && mBurnInProtectionMode) {
-        Log.debug("set burn-in protection layout");
-        return Rez.Layouts.SimpleWatchFace(dc);
-      } else if (Settings.isSleepTime) {
-        Log.debug("set sleep time layout");
-        return Rez.Layouts.WatchFaceSleep(dc);
-      } else {
-        Log.debug("set default layout");
-        return defaultLayout(dc);
-      }
+      Log.debug("onLayoutCall");
+      return chooseLayoutByPriority(dc);
     }
-    // enter / exit low power mode triggered
-    if (requiresBurnInProtection() && mLastUpdateBIPMode != mBurnInProtectionMode) {
-      Log.debug("burn-in protection layout switch");
-      return burnInProtectionLayout(dc);
+    if (requiresBurnInProtection() && mLastUpdateBIPModeState != mBurnInProtectionMode) {
+      Log.debug("enter / exit low power mode triggered");
+      mLastUpdateBIPModeState = mBurnInProtectionMode;
+      return chooseLayoutByPriority(dc);
     }
-    // sleep / wake time event triggered
-    if (!mBurnInProtectionMode && mLastUpdateSleepTime != Settings.isSleepTime) {
-      Log.debug("sleep time layout switch");
-      return sleepTimeLayout(dc);
+    if ((!mBurnInProtectionMode || (mBurnInProtectionMode && displayModeAvailable())) && mLastUpdateSleepTimeState != Settings.isSleepTime) {
+      Log.debug("sleep / wake time event triggered (and not in legacy BIP mode)");
+      mLastUpdateSleepTimeState = Settings.isSleepTime;
+      return chooseLayoutByPriority(dc);
     }
-    // Layout switch trigered
     if (!mBurnInProtectionMode && !Settings.isSleepTime && mLastLayout != Settings.get("layout")) {
-      Log.debug("default layout switch");
-      return defaultLayout(dc);
+      Log.debug("layout switch triggered");
+      mLastLayout = Settings.get("layout");
+      return chooseLayoutByPriority(dc);
     }
     return null;
   }
 
+  hidden function chooseLayoutByPriority(dc) {
+    // Prio 1: Legacy BIP (pixes cycling)
+    if (mBurnInProtectionMode && !displayModeAvailable()) {
+      Log.debug("set burn-in protection layout (AMOLEDs below API 5)");
+      mLastUpdateBIPModeState = mBurnInProtectionMode;
+      return Rez.Layouts.BurnInProtectionLayout(dc);
+    }
+    // Prio 2: Sleep Time (when enabled in settings)
+    if (Settings.isSleepTime) {
+      Log.debug("set sleep time layout");
+      mLastUpdateSleepTimeState = Settings.isSleepTime;
+      return Rez.Layouts.SleepLayout(dc);
+    }
+    // Prio 3: AMOLED Low Power Mode (<10% luminance)
+    if (mBurnInProtectionMode && displayModeAvailable()) {
+      Log.debug("set low power mode layout (AMOLEDs above API 5)");
+      return Rez.Layouts.LowPowerModeLayout(dc);
+    }
+    // Finally: Choose default layout
+    Log.debug("set default layout");
+    return defaultLayout(dc);
+  }
+
   hidden function defaultLayout(dc) {
     mLastLayout = Settings.get("layout");
-    return mLastLayout == LayoutId.ORBIT ? Rez.Layouts.WatchFace(dc) : Rez.Layouts.WatchFaceAlt(dc);
-  }
-
-  hidden function sleepTimeLayout(dc) {
-    mLastUpdateSleepTime = Settings.isSleepTime;
-    if (mLastUpdateSleepTime) {
-      return Rez.Layouts.WatchFaceSleep(dc);
-    } else {
-      return defaultLayout(dc);
-    }
-  }
-
-  hidden function burnInProtectionLayout(dc) {
-    mLastUpdateBIPMode = mBurnInProtectionMode;
-    if (mBurnInProtectionMode) {
-      return Rez.Layouts.SimpleWatchFace(dc);
-    }
-    if (Settings.isSleepTime) {
-      return sleepTimeLayout(dc);
-    }
-    return defaultLayout(dc);
+    return mLastLayout == LayoutId.ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
   }
 
   // Load your resources here
@@ -140,9 +134,8 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     Settings.lowPowerMode = true;
   }
 
-  // too expensive?
   function onPartialUpdate(dc) {
-    if (!mLastUpdateSleepTime) {
+    if (!mLastUpdateSleepTimeState) {
       updateHeartrate(dc);
     }
   }
@@ -164,6 +157,11 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     return mSettings;
   }
 
+  hidden function displayModeAvailable() as Boolean {
+    return System has :getDisplayMode;
+  }
+
+  //! check if watch requires burn-in protection (AMOLED)
   hidden function requiresBurnInProtection() as Boolean {
     return _settings() has :requiresBurnInProtection && _settings().requiresBurnInProtection;
   }

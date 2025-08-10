@@ -1,4 +1,4 @@
-<layout id="WatchFaceAlt">
+<layout id="CirclesLayout">
 	<drawable id="Background" class="Background"/>
 
   <drawable id="DateAndTime" class="DateAndTime">
