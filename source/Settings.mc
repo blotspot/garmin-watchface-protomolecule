@@ -1,3 +1,4 @@
+import Toybox.Application;
 import Toybox.Application.Properties;
 import Toybox.Lang;
 import Toybox.Math;
@@ -114,7 +115,7 @@ module Settings {
     ];
   }
 
-  function setAsBoolean(settingsId, defaultValue as Lang.Boolean) {
+  function setAsBoolean(settingsId as String, defaultValue as Lang.Boolean) {
     var value = Properties.getValue(settingsId);
     if (value == null || !(value instanceof Lang.Boolean)) {
       value = defaultValue;
@@ -122,7 +123,7 @@ module Settings {
     _settings[settingsId] = value;
   }
 
-  function setAsNumber(settingsId, defaultValue as Lang.Number) {
+  function setAsNumber(settingsId as String, defaultValue as Lang.Number) {
     var value = Properties.getValue(settingsId);
     if (value == null || !(value instanceof Lang.Number)) {
       value = defaultValue;
@@ -179,8 +180,8 @@ module Settings {
   var lowPowerMode = false;
   var isSleepTime = false;
 
-  var _settings as Dictionary<String, Object> = {};
-  var _resources as Dictionary<Symbol, Object> = {};
+  var _settings as Dictionary<String, PropertyValueType> = {};
+  var _resources as Dictionary<Symbol, Resource> = {};
 }
 
 var DataFieldRez as Array<ResourceId> = [];

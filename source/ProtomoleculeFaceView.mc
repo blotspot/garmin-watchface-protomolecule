@@ -1,5 +1,6 @@
 import Toybox.WatchUi;
 import Toybox.Application;
+import Toybox.Lang;
 import Toybox.Graphics;
 import Toybox.System;
 
@@ -92,7 +93,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // Update the view
   function onUpdate(dc) {
-    clearClip(dc);
+    saveClearClip(dc);
     // Call the parent onUpdate function to redraw the layout
     var layout = chooseLayout(dc, false);
     if (layout != null) {
@@ -156,14 +157,14 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     }
   }
 
-  hidden function _settings() {
+  hidden function _settings() as DeviceSettings {
     if (mSettings == null) {
       mSettings = System.getDeviceSettings();
     }
     return mSettings;
   }
 
-  hidden function requiresBurnInProtection() {
+  hidden function requiresBurnInProtection() as Boolean {
     return _settings() has :requiresBurnInProtection && _settings().requiresBurnInProtection;
   }
 

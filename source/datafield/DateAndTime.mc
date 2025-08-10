@@ -7,6 +7,7 @@ import Toybox.Time;
 
 class DateAndTime extends WatchUi.Drawable {
   var mBurnInProtectionMode;
+  var mBurnInProtectionModeEnteredAt;
 
   var DayOfWeek as Array<ResourceId> = [];
   var Months as Array<ResourceId> = [];
@@ -14,7 +15,9 @@ class DateAndTime extends WatchUi.Drawable {
   function initialize(params as Object) {
     Drawable.initialize(params);
     mBurnInProtectionMode = params[:burnInProtectionMode] && System.getDeviceSettings().requiresBurnInProtection;
-
+    if (mBurnInProtectionMode) {
+      mBurnInProtectionModeEnteredAt = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT).min;
+    }
     Months = [
       Rez.Strings.DateMonth1,
       Rez.Strings.DateMonth2,
@@ -54,7 +57,8 @@ class DateAndTime extends WatchUi.Drawable {
 
     var offset = 0;
     if (mBurnInProtectionMode) {
-      offset = calculateOffset(dc, now.min % 5, dateY, hoursY + hoursDim[1]);
+      var mult = (now.min - mBurnInProtectionModeEnteredAt + 2) % 5;
+      offset = calculateOffset(dc, mult, dateY, hoursY + hoursDim[1]);
       dateY += offset;
       hoursY += offset;
       minutesY += offset;

@@ -25,7 +25,7 @@ class OrbitDataField extends DataFieldDrawable {
 
   function update(dc) {
     setClippingRegion(dc, Settings.get("strokeWidth"));
-    setAntiAlias(dc, true);
+    saveSetAntiAlias(dc, true);
     dc.setPenWidth(Settings.get("strokeWidth"));
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
@@ -35,7 +35,7 @@ class OrbitDataField extends DataFieldDrawable {
     drawProgressArc(dc, mLastInfo.progress, mLastInfo.reverse);
     drawIcon(dc);
 
-    setAntiAlias(dc, false);
+    saveSetAntiAlias(dc, false);
   }
 
   function partialUpdate(dc) {
@@ -116,7 +116,7 @@ class OrbitDataField extends DataFieldDrawable {
   hidden function setClippingRegion(dc, penSize) {
     dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
 
-    clearClip(dc);
+    saveClearClip(dc);
   }
 
   hidden function getForeground() {

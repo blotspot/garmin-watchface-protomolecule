@@ -25,7 +25,7 @@ class RingDataField extends DataFieldDrawable {
 
   function update(dc) {
     setClippingRegion(dc, Settings.get("strokeWidth"));
-    setAntiAlias(dc, true);
+    saveSetAntiAlias(dc, true);
     dc.setPenWidth(Settings.get("strokeWidth") * 1.5);
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
@@ -41,7 +41,7 @@ class RingDataField extends DataFieldDrawable {
       mLastInfo.icon.invoke(dc, locX, locY, Settings.get("iconSize"), Settings.get("strokeWidth"), mLastInfo.text);
     }
 
-    setAntiAlias(dc, false);
+    saveSetAntiAlias(dc, false);
   }
 
   function partialUpdate(dc) {

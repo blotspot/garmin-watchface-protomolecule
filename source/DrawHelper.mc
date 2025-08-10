@@ -77,13 +77,13 @@ function themeColor(sectionId as Number) as Number {
   return Color._COLORS[theme * Color.MAX_COLOR_ID + sectionId];
 }
 
-function setAntiAlias(dc, enabled as Boolean) as Void {
+function saveSetAntiAlias(dc, enabled as Boolean) as Void {
   if (Graphics.Dc has :setAntiAlias) {
     dc.setAntiAlias(enabled);
   }
 }
 
-function clearClip(dc) as Void {
+function saveClearClip(dc) as Void {
   if (Graphics.Dc has :clearClip) {
     dc.clearClip();
   }

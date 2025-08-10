@@ -117,47 +117,47 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   }
 
   hidden function pushCaloriesPicker(parent as MenuItem) as Void {
-    var holder = new NumberFactory(1500, 4000, 100, parent.getId(), {});
+    var holder = new NumberFactory(1500, 4000, 100, parent.getId().toString(), {});
     WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
   hidden function pushBatteryPicker(parent as MenuItem) as Void {
-    var holder = new NumberFactory(10, 55, 5, parent.getId(), { :suffix => "%" });
+    var holder = new NumberFactory(10, 55, 5, parent.getId().toString(), { :suffix => "%" });
     WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
   hidden function pushBodyBatteryPicker(parent as MenuItem) as Void {
-    var holder = new NumberFactory(10, 60, 5, parent.getId(), { :suffix => "%" });
+    var holder = new NumberFactory(10, 60, 5, parent.getId().toString(), { :suffix => "%" });
     WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
   hidden function pushThemeOptionsMenu(parent as MenuItem) as Void {
-    var holder = new FixedValuesFactory([getThemeString(0), getThemeString(1), getThemeString(2), getThemeString(3)], parent.getId(), {});
+    var holder = new FixedValuesFactory([getThemeString(0), getThemeString(1), getThemeString(2), getThemeString(3)], parent.getId().toString(), {});
     WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
   hidden function pushLayoutOptionsMenu(parent as MenuItem) {
-    var holder = new FixedValuesFactory([getLayoutString(0), getLayoutString(1)], parent.getId(), {});
+    var holder = new FixedValuesFactory([getLayoutString(0), getLayoutString(1)], parent.getId().toString(), {});
     WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
   hidden function pushOrbitDatafieldOptionsMenu(parent as MenuItem) as Void {
-    var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 11, 13], parent.getId(), {});
+    var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 11, 13], parent.getId().toString(), {});
     WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
   hidden function pushInnerCirclesDatafieldOptionsMenu(parent as MenuItem) {
-    var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 9, 11, 13], parent.getId(), {});
+    var holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 9, 11, 13], parent.getId().toString(), {});
     WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
   hidden function pushOuterCirclesDatafieldOptionsMenu(parent as MenuItem) {
-    var holder = new DataFieldFactory([0, 1, 2, 3, 11], parent.getId(), {});
+    var holder = new DataFieldFactory([0, 1, 2, 3, 11], parent.getId().toString(), {});
     WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 
   hidden function pushClockDatafieldOptionsMenu(parent as MenuItem) {
-    var holder = new DataFieldFactory([0, 2, 4, 5, 6, 7, 8, 9, 10, 11, 13], parent.getId(), {});
+    var holder = new DataFieldFactory([0, 2, 4, 5, 6, 7, 8, 9, 10, 11, 13], parent.getId().toString(), {});
     WatchUi.pushView(new OptionsMenu2(holder, parent.getLabel()), new OptionsMenu2Delegate(holder, parent), WatchUi.SLIDE_LEFT);
   }
 

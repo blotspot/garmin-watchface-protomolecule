@@ -5,16 +5,26 @@ import Toybox.Lang;
 class ValueHolder {
   hidden var mPrefix as String;
   hidden var mSuffix as String;
-  hidden var sizeCallback;
-  hidden var indexCallback;
-  hidden var textValueCallback;
-  hidden var settingsValueCallback;
+  hidden var sizeCallback as Method;
+  hidden var indexCallback as Method;
+  hidden var textValueCallback as Method;
+  hidden var settingsValueCallback as Method;
 
   protected var mSettingsId as String;
-  protected var mSelectionIndex;
+  protected var mSelectionIndex as Number?;
 
-  (:typecheck(false))
-  function initialize(settingsId, options) {
+  function initialize(
+    settingsId,
+    options as
+      {
+        :prefix as String,
+        :suffix as String,
+        :size as Method,
+        :index as Method,
+        :textValue as Method,
+        :settingsValue as Method,
+      }?
+  ) {
     mSettingsId = settingsId;
     mPrefix = options.hasKey(:prefix) ? options[:prefix] : "";
     mSuffix = options.hasKey(:suffix) ? options[:suffix] : "";
@@ -22,37 +32,40 @@ class ValueHolder {
     indexCallback = options[:index];
     textValueCallback = options[:textValue];
     settingsValueCallback = options[:settingsValue];
+    if (mSelectionIndex == null) {
+      mSelectionIndex = 0;
+    }
   }
 
-  function getLabel(index) {
-    return mPrefix + getTextValue(index).toString() + mSuffix;
+  function getLabel(index) as String {
+    return mPrefix + getTextValue(index) + mSuffix;
   }
 
   function getIndexOfCurrentSelection() as Number {
     return mSelectionIndex;
   }
 
-  function save(index) {
+  function save(index) as Void {
     Settings.set(mSettingsId, getSettingsValue(index));
   }
 
   //! get the settings value of the element at this index.
-  function getSettingsValue(index) {
+  function getSettingsValue(index as Number) as Number {
     return settingsValueCallback.invoke(index);
   }
 
   //! get the amount of elements in this Holder object
-  function getSize() {
+  function getSize() as Number {
     return sizeCallback.invoke();
   }
 
   //! gets the raw text value at the requested index
-  protected function getTextValue(index) {
+  protected function getTextValue(index as Number) as String {
     return textValueCallback.invoke(index);
   }
 
   //! get the index based on the value
-  protected function getIndex(value) {
+  protected function getIndex(value) as Number {
     return indexCallback.invoke(value);
   }
 }
@@ -60,8 +73,15 @@ class ValueHolder {
 class FixedValuesFactory extends ValueHolder {
   hidden var mValues as Array<String>;
 
-  (:typecheck(false))
-  function initialize(values, settingsId, options) {
+  function initialize(
+    values as Array<String>,
+    settingsId as String,
+    options as
+      {
+        :prefix as String,
+        :suffix as String,
+      }?
+  ) {
     mValues = values;
     mSelectionIndex = Settings.get(settingsId);
 
@@ -75,19 +95,19 @@ class FixedValuesFactory extends ValueHolder {
     ValueHolder.initialize(settingsId, options);
   }
 
-  protected function getTextValue(index) {
+  protected function getTextValue(index as Number) as String {
     return mValues[index].toString();
   }
 
-  function getSettingsValue(index) {
+  function getSettingsValue(index as Number) as Number {
     return index;
   }
 
-  function getIndex(value) {
+  function getIndex(value as String) as Number {
     return mValues.indexOf(value);
   }
 
-  function getSize() {
+  function getSize() as Number {
     return mValues.size();
   }
 }
@@ -95,8 +115,15 @@ class FixedValuesFactory extends ValueHolder {
 class DataFieldFactory extends ValueHolder {
   hidden var mValues as Array<Number>;
 
-  (:typecheck(false))
-  function initialize(values, settingsId, options) {
+  function initialize(
+    values as Array<Number>,
+    settingsId as String,
+    options as
+      {
+        :prefix as String,
+        :suffix as String,
+      }?
+  ) {
     mValues = values;
     mSelectionIndex = getIndex(Settings.get(settingsId));
 
@@ -110,19 +137,19 @@ class DataFieldFactory extends ValueHolder {
     ValueHolder.initialize(settingsId, options);
   }
 
-  protected function getTextValue(index) {
-    return Settings.resource(DataFieldRez[mValues[index]]);
+  protected function getTextValue(index as Number) as String {
+    return Settings.resource(DataFieldRez[mValues[index]]).toString();
   }
 
-  function getSettingsValue(index) {
+  function getSettingsValue(index as Number) as Number {
     return mValues[index];
   }
 
-  function getIndex(value) {
+  function getIndex(value as Number) as Number {
     return mValues.indexOf(value);
   }
 
-  function getSize() {
+  function getSize() as Number {
     return mValues.size();
   }
 }
@@ -134,8 +161,18 @@ class NumberFactory extends ValueHolder {
 
   hidden var mFormatString as String;
 
-  (:typecheck(false))
-  function initialize(start, stop, increment, settingsId, options) {
+  function initialize(
+    start as Number,
+    stop as Number,
+    increment as Number,
+    settingsId as String,
+    options as
+      {
+        :prefix as String,
+        :suffix as String,
+        :format as String,
+      }?
+  ) {
     mStart = start;
     mStop = stop;
     mIncrement = increment;
@@ -154,19 +191,19 @@ class NumberFactory extends ValueHolder {
     ValueHolder.initialize(settingsId, options);
   }
 
-  protected function getTextValue(index) {
+  protected function getTextValue(index as Number) as String {
     return getSettingsValue(index).format(mFormatString);
   }
 
-  function getSettingsValue(index) {
+  function getSettingsValue(index as Number) as Number {
     return mStart + index * mIncrement;
   }
 
-  function getIndex(value) {
+  function getIndex(value as Number) as Number {
     return (value - mStart) / mIncrement;
   }
 
-  function getSize() {
+  function getSize() as Number {
     return (mStop - mStart) / mIncrement + 1;
   }
 }
