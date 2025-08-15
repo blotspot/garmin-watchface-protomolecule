@@ -73,7 +73,7 @@ module Color {
 }
 
 function themeColor(sectionId as Number) as ColorType {
-  var theme = Settings.get("theme") as Number;
+  var theme = Settings.get(:theme) as Number;
   return Color._COLORS[theme * Color.MAX_COLOR_ID + sectionId];
 }
 

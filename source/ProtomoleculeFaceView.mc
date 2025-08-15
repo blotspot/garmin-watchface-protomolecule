@@ -38,9 +38,9 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       mLastUpdateSleepTimeState = Settings.isSleepTime;
       return chooseLayoutByPriority(dc);
     }
-    if (!mBurnInProtectionMode && !Settings.isSleepTime && mLastLayout != Settings.get("layout")) {
+    if (!mBurnInProtectionMode && !Settings.isSleepTime && mLastLayout != Settings.get(:layout)) {
       Log.debug("layout switch triggered");
-      mLastLayout = Settings.get("layout");
+      mLastLayout = Settings.get(:layout);
       return chooseLayoutByPriority(dc);
     }
     return null;
@@ -70,7 +70,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   hidden function defaultLayout(dc) {
-    mLastLayout = Settings.get("layout");
+    mLastLayout = Settings.get(:layout);
     return mLastLayout == LayoutId.ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
   }
 
@@ -94,12 +94,12 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       setLayout(layout);
     }
 
-    if (Settings.get("activeHeartrate")) {
-      if (Settings.get("middle1") == FieldType.HEART_RATE) {
+    if (Settings.get(:activeHeartrate)) {
+      if (Settings.get(:middle1) == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress1;
-      } else if (Settings.get("middle2") == FieldType.HEART_RATE) {
+      } else if (Settings.get(:middle2) == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress2;
-      } else if (Settings.get("middle3") == FieldType.HEART_RATE) {
+      } else if (Settings.get(:middle3) == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress3;
       } else {
         mActiveHeartrateField = null;

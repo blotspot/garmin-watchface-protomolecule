@@ -20,9 +20,9 @@ class ProtomoleculeFaceApp extends Application.AppBase {
     current = new Time.Duration(current.hour * 3600 + current.min * 60);
 
     if (profile.wakeTime.lessThan(profile.sleepTime)) {
-      Settings.isSleepTime = Settings.get("sleepLayoutActive") && (current.greaterThan(profile.sleepTime) || current.lessThan(profile.wakeTime));
+      Settings.isSleepTime = Settings.get(:sleepLayoutActive) && (current.greaterThan(profile.sleepTime) || current.lessThan(profile.wakeTime));
     } else if (profile.wakeTime.greaterThan(profile.sleepTime)) {
-      Settings.isSleepTime = Settings.get("sleepLayoutActive") && current.greaterThan(profile.sleepTime) && current.lessThan(profile.wakeTime);
+      Settings.isSleepTime = Settings.get(:sleepLayoutActive) && current.greaterThan(profile.sleepTime) && current.lessThan(profile.wakeTime);
     } else {
       Settings.isSleepTime = false;
     }
@@ -64,7 +64,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   }
 
   function onBackgroundData(data) {
-    Settings.isSleepTime = Settings.get("sleepLayoutActive") && data;
+    Settings.isSleepTime = Settings.get(:sleepLayoutActive) && data;
     WatchUi.requestUpdate();
   }
 }

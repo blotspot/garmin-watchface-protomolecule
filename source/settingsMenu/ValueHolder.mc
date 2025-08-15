@@ -10,11 +10,11 @@ class ValueHolder {
   hidden var textValueCallback as Method;
   hidden var settingsValueCallback as Method;
 
-  protected var mSettingsId as String;
+  protected var mSettingsId as Symbol;
   protected var mSelectionIndex as Number?;
 
   function initialize(
-    settingsId,
+    settingsId as Symbol,
     options as
       {
         :prefix as String,
@@ -75,7 +75,7 @@ class FixedValuesFactory extends ValueHolder {
 
   function initialize(
     values as Array<String>,
-    settingsId as String,
+    settingsId as Symbol,
     options as
       {
         :prefix as String,
@@ -117,7 +117,7 @@ class DataFieldFactory extends ValueHolder {
 
   function initialize(
     values as Array<Number>,
-    settingsId as String,
+    settingsId as Symbol,
     options as
       {
         :prefix as String,
@@ -165,7 +165,7 @@ class NumberFactory extends ValueHolder {
     start as Number,
     stop as Number,
     increment as Number,
-    settingsId as String,
+    settingsId as Symbol,
     options as
       {
         :prefix as String,

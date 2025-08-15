@@ -25,10 +25,10 @@ class IconDrawable extends WatchUi.Drawable {
 
     var options = {
       :identifier => params.get(:identifier) != null ? params[:identifier] : "icon_" + mIcon,
-      :locX => params.get(:locX) != null ? params[:locX] : Settings.get("iconSize") / 2,
-      :locY => params.get(:locY) != null ? params[:locY] : Settings.get("iconSize"),
-      :width => params.get(:width) != null ? params[:width] : Settings.get("iconSize"),
-      :height => params.get(:height) != null ? params[:height] : Settings.get("iconSize"),
+      :locX => params.get(:locX) != null ? params[:locX] : Settings.get(:iconSize) / 2,
+      :locY => params.get(:locY) != null ? params[:locY] : Settings.get(:iconSize),
+      :width => params.get(:width) != null ? params[:width] : Settings.get(:iconSize),
+      :height => params.get(:height) != null ? params[:height] : Settings.get(:iconSize),
       :visible => params.get(:visible) != null ? params[:visible] : true,
     };
 
@@ -46,7 +46,7 @@ class IconDrawable extends WatchUi.Drawable {
     //! system call for menu options, for example
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     locX = dc.getWidth() / 2;
-    locY = dc.getHeight() / 2 + (mOffestY ? Settings.get("iconSize") * 0.1 : 0);
+    locY = dc.getHeight() / 2 + (mOffestY ? Settings.get(:iconSize) * 0.1 : 0);
     drawInternal(dc);
   }
 
