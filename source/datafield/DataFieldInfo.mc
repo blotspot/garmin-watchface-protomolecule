@@ -255,7 +255,7 @@ module DataFieldInfo {
 
   function getCalorieInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
-    var current = activityInfo.calories;
+    var current = activityInfo.calories.toDouble(); // turn to double for division
 
     return new DataFieldProperties(FieldType.CALORIES, current.format(Format.INT), current / Settings.get("caloriesGoal"), false);
   }
@@ -278,7 +278,7 @@ module DataFieldInfo {
     }
     var resting = genderFactor - ageFactor + heightFactor + weightFactor;
     var relResting = Math.round(((today.hour * 60 + today.min) * resting) / 1440);
-    var active = activityInfo.calories - relResting;
+    var active = activityInfo.calories.toDouble() - relResting;
 
     return new DataFieldProperties(FieldType.ACTIVE_CALORIES, active.format(Format.INT), active / Settings.get("caloriesGoal"), false);
   }
