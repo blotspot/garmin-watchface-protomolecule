@@ -1,6 +1,6 @@
 <strings>
   <string id="AppName">Protomolecule</string>
-  <string id="AppName">Protomolecule (Beta)</string>
+  <string id="AppNameBeta">Protomolecule (Beta)</string>
 
   <string id="LayoutOrbit">Orbit (6 Data Fields)</string>
   <string id="LayoutOrbitItem">Orbit</string>
