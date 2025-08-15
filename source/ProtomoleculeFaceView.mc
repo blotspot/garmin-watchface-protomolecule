@@ -6,9 +6,10 @@ import Toybox.System;
 
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
   var mBurnInProtectionMode as Boolean = false;
-  var mLastUpdateBIPModeState as Boolean = false;
-  var mLastUpdateSleepTimeState as Boolean = false;
-  hidden var mLastLayout;
+
+  hidden var mLastBIPModeState as Boolean = false;
+  hidden var mLastSleepTimeState as Boolean = false;
+  hidden var mActiveDefaultLayout as Number;
 
   hidden var mNoProgress1;
   hidden var mNoProgress2;
@@ -20,6 +21,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   hidden var mSettings;
 
   function initialize() {
+    mActiveDefaultLayout = Settings.get(:layout);
     WatchFace.initialize();
   }
 
@@ -28,19 +30,19 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       Log.debug("onLayoutCall");
       return chooseLayoutByPriority(dc);
     }
-    if (requiresBurnInProtection() && mLastUpdateBIPModeState != mBurnInProtectionMode) {
+    if (requiresBurnInProtection() && mLastBIPModeState != mBurnInProtectionMode) {
       Log.debug("enter / exit low power mode triggered");
-      mLastUpdateBIPModeState = mBurnInProtectionMode;
+      mLastBIPModeState = mBurnInProtectionMode;
       return chooseLayoutByPriority(dc);
     }
-    if ((!mBurnInProtectionMode || (mBurnInProtectionMode && displayModeAvailable())) && mLastUpdateSleepTimeState != Settings.isSleepTime) {
+    if ((!mBurnInProtectionMode || (mBurnInProtectionMode && displayModeAvailable())) && mLastSleepTimeState != Settings.isSleepTime) {
       Log.debug("sleep / wake time event triggered (and not in legacy BIP mode)");
-      mLastUpdateSleepTimeState = Settings.isSleepTime;
+      mLastSleepTimeState = Settings.isSleepTime;
       return chooseLayoutByPriority(dc);
     }
-    if (!mBurnInProtectionMode && !Settings.isSleepTime && mLastLayout != Settings.get(:layout)) {
+    if (!mBurnInProtectionMode && !Settings.isSleepTime && mActiveDefaultLayout != Settings.get(:layout)) {
       Log.debug("layout switch triggered");
-      mLastLayout = Settings.get(:layout);
+      mActiveDefaultLayout = Settings.get(:layout);
       return chooseLayoutByPriority(dc);
     }
     return null;
@@ -50,13 +52,13 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     // Prio 1: Legacy BIP (pixes cycling)
     if (mBurnInProtectionMode && !displayModeAvailable()) {
       Log.debug("set burn-in protection layout (AMOLEDs below API 5)");
-      mLastUpdateBIPModeState = mBurnInProtectionMode;
+      mLastBIPModeState = mBurnInProtectionMode;
       return Rez.Layouts.BurnInProtectionLayout(dc);
     }
     // Prio 2: Sleep Time (when enabled in settings)
     if (Settings.isSleepTime) {
       Log.debug("set sleep time layout");
-      mLastUpdateSleepTimeState = Settings.isSleepTime;
+      mLastSleepTimeState = Settings.isSleepTime;
       return Rez.Layouts.SleepLayout(dc);
     }
     // Prio 3: AMOLED Low Power Mode (<10% luminance)
@@ -66,12 +68,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     }
     // Finally: Choose default layout
     Log.debug("set default layout");
-    return defaultLayout(dc);
-  }
-
-  hidden function defaultLayout(dc) {
-    mLastLayout = Settings.get(:layout);
-    return mLastLayout == LayoutId.ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
+    return mActiveDefaultLayout == LayoutId.ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
   }
 
   // Load your resources here
@@ -135,7 +132,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   function onPartialUpdate(dc) {
-    if (!mLastUpdateSleepTimeState) {
+    if (!mLastSleepTimeState) {
       updateHeartrate(dc);
     }
   }

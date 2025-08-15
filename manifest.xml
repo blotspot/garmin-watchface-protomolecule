@@ -3,6 +3,7 @@
 <iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="3">
   <iq:application entry="ProtomoleculeFaceApp" type="watchface" id="8b6f64a72cc74645891fce16c87b230a" name="@Strings.AppNameBeta" launcherIcon="@Drawables.LauncherIcon" minSdkVersion="3.1.0">
     <iq:products>
+      <iq:product id="fenix6spro"/>
       <iq:product id="fenix843mm"/>
       <iq:product id="vivoactive4s"/>
     </iq:products>

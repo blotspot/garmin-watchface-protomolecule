@@ -7,49 +7,28 @@ class IconDrawable extends WatchUi.Drawable {
   hidden var mIcon as String;
   hidden var mOffestY as Boolean;
 
-  function initialize(
-    identifier as Number,
-    icon as String,
-    params as
-      {
-        :locX as Numeric,
-        :locY as Numeric,
-        :width as Numeric,
-        :height as Numeric,
-        :visible as Boolean,
-        :offsetY as Boolean,
-      }?
-  ) {
+  function initialize(identifier as Number, icon as String, params as { :offsetY as Boolean }?) {
     mIcon = icon;
     if (params == null) {
       params = {};
     }
     mOffestY = params.get(:offsetY) != null ? params[:offsetY] : false;
 
-    var options = {
-      :identifier => identifier,
-      :locX => params.get(:locX) != null ? params[:locX] : Settings.get(:iconSize) / 2,
-      :locY => params.get(:locY) != null ? params[:locY] : Settings.get(:iconSize),
-      :width => params.get(:width) != null ? params[:width] : Settings.get(:iconSize),
-      :height => params.get(:height) != null ? params[:height] : Settings.get(:iconSize),
-      :visible => params.get(:visible) != null ? params[:visible] : true,
-    };
-
-    Drawable.initialize(options);
+    Drawable.initialize({ :identifier => identifier });
   }
 
+  //! manual (DataField) call
   function drawAt(dc as Graphics.Dc, atLocX as Numeric, atLocY as Numeric) {
-    //! DataField call
     locX = atLocX;
     locY = mOffestY ? atLocY + height * 0.1 : atLocY;
     drawInternal(dc);
   }
 
+  //! system call
   function draw(dc as Graphics.Dc) {
-    //! system call for menu options, for example
-    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
     locX = dc.getWidth() / 2;
-    locY = dc.getHeight() / 2 + (mOffestY ? Settings.get(:iconSize) * 0.1 : 0);
+    locY = dc.getHeight() / 2;
     drawInternal(dc);
   }
 
