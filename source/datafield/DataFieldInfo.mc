@@ -160,7 +160,7 @@ module DataFieldInfo {
       icon = new IconDrawable({
         :identifier => fieldType,
         :icon => status == null || status > 0 ? "n" : "N",
-        :offsetY => true,
+        :offsetY => status != null,
       });
     } else if (fieldType == FieldType.STEPS) {
       icon = new IconDrawable({
@@ -197,7 +197,7 @@ module DataFieldInfo {
       icon = new IconDrawable({
         :identifier => fieldType,
         :icon => iconText,
-        :offsetY => true,
+        :offsetY => status != null,
       });
     } else if (fieldType == FieldType.BLUETOOTH) {
       icon = new IconDrawable({
