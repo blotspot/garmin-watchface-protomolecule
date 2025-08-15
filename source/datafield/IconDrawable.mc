@@ -8,23 +8,26 @@ class IconDrawable extends WatchUi.Drawable {
   hidden var mOffestY as Boolean;
 
   function initialize(
+    identifier as Number,
+    icon as String,
     params as
       {
-        :identifier as Object,
         :locX as Numeric,
         :locY as Numeric,
         :width as Numeric,
         :height as Numeric,
         :visible as Boolean,
-        :icon as String,
         :offsetY as Boolean,
-      }
+      }?
   ) {
-    mIcon = params[:icon];
+    mIcon = icon;
+    if (params == null) {
+      params = {};
+    }
     mOffestY = params.get(:offsetY) != null ? params[:offsetY] : false;
 
     var options = {
-      :identifier => params.get(:identifier) != null ? params[:identifier] : "icon_" + mIcon,
+      :identifier => identifier,
       :locX => params.get(:locX) != null ? params[:locX] : Settings.get(:iconSize) / 2,
       :locY => params.get(:locY) != null ? params[:locY] : Settings.get(:iconSize),
       :width => params.get(:width) != null ? params[:width] : Settings.get(:iconSize),

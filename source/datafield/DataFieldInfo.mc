@@ -148,41 +148,19 @@ module DataFieldInfo {
   function getIconDrawableForType(fieldType as Number, status as Numeric?) as IconDrawable {
     var icon = null;
     if (fieldType == FieldType.HEART_RATE) {
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => status == null || status > 0 ? "p" : "P",
-      });
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "p" : "P", null);
     } else if (fieldType == FieldType.CALORIES || fieldType == FieldType.ACTIVE_CALORIES) {
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => "c",
-      });
+      icon = new IconDrawable(fieldType, "c", null);
     } else if (fieldType == FieldType.NOTIFICATION) {
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => status == null || status > 0 ? "n" : "N",
-        :offsetY => status != null,
-      });
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "n" : "N", { :offsetY => status != null });
     } else if (fieldType == FieldType.STEPS) {
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => "s",
-      });
+      icon = new IconDrawable(fieldType, "s", null);
     } else if (fieldType == FieldType.FLOORS_UP) {
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => "F",
-      });
+      icon = new IconDrawable(fieldType, "F", null);
     } else if (fieldType == FieldType.FLOORS_DOWN) {
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => "f",
-      });
+      icon = new IconDrawable(fieldType, "f", null);
     } else if (fieldType == FieldType.ACTIVE_MINUTES) {
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => "t",
-      });
+      icon = new IconDrawable(fieldType, "t", null);
     } else if (fieldType == FieldType.BATTERY) {
       var iconText = "m";
       if (status != null && status >= 0.9) {
@@ -195,21 +173,11 @@ module DataFieldInfo {
       if (status != null && stats.charging) {
         iconText = "l";
       }
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => iconText,
-        :offsetY => status != null, // only offset in datafields, not in settings
-      });
+      icon = new IconDrawable(fieldType, iconText, { :offsetY => status != null });
     } else if (fieldType == FieldType.BLUETOOTH) {
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => status == null || status > 0 ? "b" : "B",
-      });
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "b" : "B", null);
     } else if (fieldType == FieldType.ALARMS) {
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => status == null || status > 0 ? "a" : "A",
-      });
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "a" : "A", null);
     } else if (fieldType == FieldType.BODY_BATTERY) {
       var iconText = "o";
       if (status != null && status <= 0.05) {
@@ -217,20 +185,11 @@ module DataFieldInfo {
       } else if (status != null && status < Settings.get(:bodyBatteryThreshold) / 100d) {
         iconText = "y";
       }
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => iconText,
-      });
+      icon = new IconDrawable(fieldType, iconText, null);
     } else if (fieldType == FieldType.STRESS_LEVEL) {
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => "x",
-      });
+      icon = new IconDrawable(fieldType, "x", null);
     } else {
-      icon = new IconDrawable({
-        :identifier => fieldType,
-        :icon => "",
-      });
+      icon = new IconDrawable(fieldType, "", null);
     }
 
     return icon;
