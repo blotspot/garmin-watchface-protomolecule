@@ -144,6 +144,7 @@ module DataFieldInfo {
     }
   }
 
+  //! status should be `null` when getting icons for settings
   function getIconDrawableForType(fieldType as Number, status as Numeric?) as IconDrawable {
     var icon = null;
     if (fieldType == FieldType.HEART_RATE) {
@@ -197,7 +198,7 @@ module DataFieldInfo {
       icon = new IconDrawable({
         :identifier => fieldType,
         :icon => iconText,
-        :offsetY => status != null,
+        :offsetY => status != null, // only offset in datafields, not in settings
       });
     } else if (fieldType == FieldType.BLUETOOTH) {
       icon = new IconDrawable({
