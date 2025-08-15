@@ -9,38 +9,38 @@ import Toybox.UserProfile;
 import Toybox.WatchUi;
 
 module Settings {
-  function get(key) {
+  function get(key as String) {
     return _settings[key];
   }
 
-  function set(key, value) {
+  function set(key as String, value as PropertyValueType) {
     _settings[key] = value;
     if (!setDataField(key, value)) {
       Properties.setValue(key, value);
 
-      if (key.equals("layout")) {
+      if ("layout".equals(key)) {
         loadDataFields();
       }
-      if (key.equals("sleepLayoutActive")) {
+      if ("sleepLayoutActive".equals(key)) {
         determineSleepTime();
       }
     }
   }
 
-  function setDataField(key, value) {
-    if (key.equals("middle1")) {
+  function setDataField(key, value) as Boolean {
+    if ("middle1".equals(key)) {
       Properties.setValue("noProgressDataField1", value);
       return true;
     }
-    if (key.equals("middle2")) {
+    if ("middle2".equals(key)) {
       Properties.setValue("noProgressDataField2", value);
       return true;
     }
-    if (key.equals("middle3")) {
+    if ("middle3".equals(key)) {
       Properties.setValue("noProgressDataField3", value);
       return true;
     }
-    if (key.equals("outer")) {
+    if ("outer".equals(key)) {
       if (_settings["layout"] == LayoutId.ORBIT) {
         Properties.setValue("outerOrbitDataField", value);
         return true;
@@ -49,7 +49,7 @@ module Settings {
         return true;
       }
     }
-    if (key.equals("upper1")) {
+    if ("upper1".equals(key)) {
       if (_settings["layout"] == LayoutId.ORBIT) {
         Properties.setValue("leftOrbitDataField", value);
         return true;
@@ -58,7 +58,7 @@ module Settings {
         return true;
       }
     }
-    if (key.equals("upper2")) {
+    if ("upper2".equals(key)) {
       if (_settings["layout"] == LayoutId.ORBIT) {
         Properties.setValue("rightOrbitDataField", value);
         return true;
@@ -67,18 +67,18 @@ module Settings {
         return true;
       }
     }
-    if (key.equals("lower1") && _settings["layout"] == LayoutId.CIRCLES) {
+    if ("lower1".equals(key) && _settings["layout"] == LayoutId.CIRCLES) {
       Properties.setValue("lowerDataField1", value);
       return true;
     }
-    if (key.equals("lower2") && _settings["layout"] == LayoutId.CIRCLES) {
+    if ("lower2".equals(key) && _settings["layout"] == LayoutId.CIRCLES) {
       Properties.setValue("lowerDataField2", value);
       return true;
     }
     return false;
   }
 
-  function resource(resourceId) {
+  function resource(resourceId) as Resource {
     if (_resources[resourceId] == null) {
       _resources[resourceId] = WatchUi.loadResource(resourceId);
     }
@@ -98,20 +98,20 @@ module Settings {
     determineSleepTime();
 
     DataFieldRez = [
-      Rez.Strings.NoDataField,
-      Rez.Strings.DataFieldSteps,
-      Rez.Strings.DataFieldBattery,
-      Rez.Strings.DataFieldCalories,
-      Rez.Strings.DataFieldActiveMinutes,
-      Rez.Strings.DataFieldHeartRate,
-      Rez.Strings.DataFieldMessages,
-      Rez.Strings.DataFieldFloorsUp,
-      Rez.Strings.DataFieldFloorsDown,
-      Rez.Strings.DataFieldBluetooth,
-      Rez.Strings.DataFieldAlarms,
-      Rez.Strings.DataFieldBodyBattery,
-      Rez.Strings.DataFieldSeconds,
-      Rez.Strings.DataFieldStressLevel,
+      /*  0 */ Rez.Strings.NoDataField,
+      /*  1 */ Rez.Strings.DataFieldSteps,
+      /*  2 */ Rez.Strings.DataFieldBattery,
+      /*  3 */ Rez.Strings.DataFieldCalories,
+      /*  4 */ Rez.Strings.DataFieldActiveMinutes,
+      /*  5 */ Rez.Strings.DataFieldHeartRate,
+      /*  6 */ Rez.Strings.DataFieldMessages,
+      /*  7 */ Rez.Strings.DataFieldFloorsUp,
+      /*  8 */ Rez.Strings.DataFieldFloorsDown,
+      /*  9 */ Rez.Strings.DataFieldBluetooth,
+      /* 10 */ Rez.Strings.DataFieldAlarms,
+      /* 11 */ Rez.Strings.DataFieldBodyBattery,
+      /* 12 */ Rez.Strings.DataFieldSeconds,
+      /* 13 */ Rez.Strings.DataFieldStressLevel,
     ];
   }
 
@@ -177,8 +177,8 @@ module Settings {
     }
   }
 
-  var lowPowerMode = false;
-  var isSleepTime = false;
+  var lowPowerMode as Boolean = false;
+  var isSleepTime as Boolean = false;
 
   var _settings as Dictionary<String, PropertyValueType> = {};
   var _resources as Dictionary<Symbol, Resource> = {};

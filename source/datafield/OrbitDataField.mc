@@ -4,11 +4,25 @@ import Toybox.WatchUi;
 import Toybox.Lang;
 
 class OrbitDataField extends DataFieldDrawable {
-  hidden var mStartDegree;
-  hidden var mTotalDegree;
-  hidden var mRadius;
+  hidden var mStartDegree as Numeric;
+  hidden var mTotalDegree as Numeric;
+  hidden var mRadius as Numeric;
 
-  function initialize(params as Object) {
+  function initialize(
+    params as
+      {
+        :identifier as Object,
+        :locX as Numeric,
+        :locY as Numeric,
+        :width as Numeric,
+        :height as Numeric,
+        :visible as Boolean,
+        :fieldId as Number,
+        :startDegree as Numeric,
+        :totalDegree as Numeric,
+        :radius as Numeric,
+      }
+  ) {
     DataFieldDrawable.initialize(params);
 
     mStartDegree = params[:startDegree];
@@ -16,14 +30,14 @@ class OrbitDataField extends DataFieldDrawable {
     mRadius = params[:radius];
   }
 
-  function draw(dc) {
+  function draw(dc as Graphics.Dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
       update(dc);
     }
   }
 
-  function update(dc) {
+  function update(dc as Graphics.Dc) {
     setClippingRegion(dc, Settings.get("strokeWidth"));
     saveSetAntiAlias(dc, true);
     dc.setPenWidth(Settings.get("strokeWidth"));
@@ -38,11 +52,11 @@ class OrbitDataField extends DataFieldDrawable {
     saveSetAntiAlias(dc, false);
   }
 
-  function partialUpdate(dc) {
-    drawPartialUpdate(dc, method(:update));
+  function partialUpdate(dc as Graphics.Dc) {
+    DataFieldDrawable.drawPartialUpdate(dc, method(:update));
   }
 
-  hidden function drawProgressArc(dc, fillLevel, reverse) {
+  hidden function drawProgressArc(dc as Graphics.Dc, fillLevel as Numeric, reverse as Boolean) {
     dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     if (fillLevel > 0.0) {
       var startDegree = reverse ? mStartDegree - mTotalDegree + getFillDegree(fillLevel) : mStartDegree;
@@ -55,7 +69,7 @@ class OrbitDataField extends DataFieldDrawable {
     }
   }
 
-  hidden function drawRemainingArc(dc, fillLevel, reverse) {
+  hidden function drawRemainingArc(dc as Graphics.Dc, fillLevel as Numeric, reverse as Boolean) {
     if (fillLevel < 1.0) {
       dc.setColor(themeColor(Color.INACTIVE), Graphics.COLOR_TRANSPARENT);
       var startDegree = reverse ? mStartDegree : mStartDegree - getFillDegree(fillLevel);
@@ -68,7 +82,7 @@ class OrbitDataField extends DataFieldDrawable {
     }
   }
 
-  hidden function drawEndpoint(dc, degree) {
+  hidden function drawEndpoint(dc as Graphics.Dc, degree as Numeric) {
     var x = getX(dc, degree);
     var y = getY(dc, degree);
     // draw outer colored circle
@@ -78,7 +92,7 @@ class OrbitDataField extends DataFieldDrawable {
     dc.fillCircle(x, y, Settings.get("strokeWidth") + Settings.get("strokeWidth") * 0.25);
   }
 
-  hidden function drawIcon(dc) {
+  hidden function drawIcon(dc as Graphics.Dc) {
     if (mLastInfo.progress == 0) {
       dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
     } else {
@@ -92,34 +106,34 @@ class OrbitDataField extends DataFieldDrawable {
       y = Settings.get("centerYPos") + mRadius - Settings.get("iconSize") * (Settings.get("showOrbitIndicatorText") ? 2 : 1);
     }
 
-    mLastInfo.icon.invoke(dc, x, y, Settings.get("iconSize"), Settings.get("strokeWidth"), mLastInfo.text);
+    mLastInfo.icon.drawAt(dc, x, y);
     if (Settings.get("showOrbitIndicatorText")) {
       y += Settings.get("iconSize");
       dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
   }
 
-  hidden function getX(dc, degree) {
+  hidden function getX(dc as Graphics.Dc, degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
     return Settings.get("centerXPos") + mRadius * Math.cos(degree);
   }
 
-  hidden function getY(dc, degree) {
+  hidden function getY(dc as Graphics.Dc, degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
     return dc.getHeight() - (Settings.get("centerYPos") + mRadius * Math.sin(degree));
   }
 
-  hidden function getFillDegree(fillLevel) {
+  hidden function getFillDegree(fillLevel as Numeric) as Numeric {
     return mTotalDegree * fillLevel;
   }
 
-  hidden function setClippingRegion(dc, penSize) {
+  hidden function setClippingRegion(dc as Graphics.Dc, penSize as Numeric) {
     dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
 
     saveClearClip(dc);
   }
 
-  hidden function getForeground() {
+  hidden function getForeground() as ColorType {
     if (mFieldId == FieldId.ORBIT_OUTER) {
       return themeColor(Color.PRIMARY);
     } else if (mFieldId == FieldId.ORBIT_LEFT) {

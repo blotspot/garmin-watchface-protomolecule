@@ -6,13 +6,21 @@ import Toybox.System;
 import Toybox.Time;
 
 class DateAndTime extends WatchUi.Drawable {
-  var mBurnInProtectionMode;
-  var mBurnInProtectionModeEnteredAt;
+  var mBurnInProtectionMode as Boolean;
+  var mBurnInProtectionModeEnteredAt as Number?;
 
   var DayOfWeek as Array<ResourceId> = [];
   var Months as Array<ResourceId> = [];
 
-  function initialize(params as Object) {
+  function initialize(params as {
+    :identifier as Object,
+    :locX as Number,
+    :locY as Number,
+    :width as Number,
+    :height as Number,
+    :visible as Boolean,
+    :burnInProtectionMode as Boolean,
+  }) {
     Drawable.initialize(params);
     mBurnInProtectionMode = params[:burnInProtectionMode] && System.getDeviceSettings().requiresBurnInProtection;
     if (mBurnInProtectionMode) {
@@ -36,7 +44,7 @@ class DateAndTime extends WatchUi.Drawable {
     DayOfWeek = [Rez.Strings.DateWeek1, Rez.Strings.DateWeek2, Rez.Strings.DateWeek3, Rez.Strings.DateWeek4, Rez.Strings.DateWeek5, Rez.Strings.DateWeek6, Rez.Strings.DateWeek7];
   }
 
-  function draw(dc) {
+  function draw(dc as Graphics.Dc) {
     var is12Hour = !System.getDeviceSettings().is24Hour;
     var now = Time.Gregorian.info(Time.now(), Settings.get("useSystemFontForDate") ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
     var date = getDateLine(now);
@@ -89,7 +97,7 @@ class DateAndTime extends WatchUi.Drawable {
     }
   }
 
-  function updateSeconds(dc, seconds, secX) {
+  function updateSeconds(dc as Graphics.Dc, seconds as Number, secX as Numeric) {
     var dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont)) as Array<Number>;
     var y = dc.getHeight() * 0.47 + dim[1] * (System.getDeviceSettings().is24Hour || !Settings.get("showMeridiemText") ? 0 : 0.5);
     dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
@@ -97,7 +105,7 @@ class DateAndTime extends WatchUi.Drawable {
     dc.drawText(secX + dim[0], y, Settings.resource(Rez.Fonts.MeridiemFont), seconds.format(Format.INT), Graphics.TEXT_JUSTIFY_RIGHT);
   }
 
-  hidden function getDateLine(now as Gregorian.Info) {
+  hidden function getDateLine(now as Gregorian.Info) as String {
     if (Settings.get("useSystemFontForDate")) {
       return format("$1$ $2$ $3$", [now.day_of_week, now.day.format(Format.INT_ZERO), now.month]);
     } else {
@@ -105,7 +113,7 @@ class DateAndTime extends WatchUi.Drawable {
     }
   }
 
-  hidden function getHours(now, is12Hour) {
+  hidden function getHours(now as Gregorian.Info, is12Hour as Boolean) as String {
     var hours = now.hour;
     if (is12Hour) {
       if (hours == 0) {
@@ -118,7 +126,7 @@ class DateAndTime extends WatchUi.Drawable {
     return hours.format(Format.INT_ZERO);
   }
 
-  hidden function calculateOffset(dc, pos, clockHeight) {
+  hidden function calculateOffset(dc as Graphics.Dc, pos as Numeric, clockHeight as Numeric) as Numeric {
     var maxY = dc.getHeight() - clockHeight / 2;
     var minY = clockHeight / 2;
     var window = (maxY - minY) / 4.5;

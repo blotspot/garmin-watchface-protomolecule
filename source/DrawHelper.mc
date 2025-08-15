@@ -14,7 +14,7 @@ module Color {
 
   const MAX_COLOR_ID as Number = 8;
 
-  const _COLORS as Array<Number> = [
+  const _COLORS as Array<ColorType> = [
     /* EXPANSE */
     Graphics.COLOR_WHITE, // TEXT_ACTIVE
     Graphics.COLOR_LT_GRAY, // TEXT_INACTIVE
@@ -72,18 +72,18 @@ module Color {
   ];
 }
 
-function themeColor(sectionId as Number) as Number {
+function themeColor(sectionId as Number) as ColorType {
   var theme = Settings.get("theme") as Number;
   return Color._COLORS[theme * Color.MAX_COLOR_ID + sectionId];
 }
 
-function saveSetAntiAlias(dc, enabled as Boolean) as Void {
+function saveSetAntiAlias(dc as Graphics.Dc, enabled as Boolean) as Void {
   if (Graphics.Dc has :setAntiAlias) {
     dc.setAntiAlias(enabled);
   }
 }
 
-function saveClearClip(dc) as Void {
+function saveClearClip(dc as Graphics.Dc) as Void {
   if (Graphics.Dc has :clearClip) {
     dc.clearClip();
   }

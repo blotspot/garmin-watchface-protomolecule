@@ -66,7 +66,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   function onSelect(item) {
     var layoutId = Settings.get("layout");
 
-    if (item.getId().equals("layoutSettings")) {
+    if ("layoutSettings".equals(item.getId())) {
       if (layoutId == LayoutId.ORBIT) {
         pushOrbitSubMenu();
         return;
@@ -75,11 +75,11 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
         return;
       }
     }
-    if (item.getId().equals("layout")) {
+    if ("layout".equals(item.getId())) {
       pushLayoutOptionsMenu(item);
       return;
     }
-    if (item.getId().equals("theme")) {
+    if ("theme".equals(item.getId())) {
       pushThemeOptionsMenu(item);
       return;
     }
@@ -99,20 +99,20 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
       pushOuterCirclesDatafieldOptionsMenu(item);
       return;
     }
-    if (item.getId().equals("caloriesGoal")) {
+    if ("caloriesGoal".equals(item.getId())) {
       pushCaloriesPicker(item);
       return;
     }
-    if (item.getId().equals("batteryThreshold")) {
+    if ("batteryThreshold".equals(item.getId())) {
       pushBatteryPicker(item);
       return;
     }
-    if (item.getId().equals("bodyBatteryThreshold")) {
+    if ("bodyBatteryThreshold".equals(item.getId())) {
       pushBodyBatteryPicker(item);
       return;
     }
     if (item instanceof ToggleMenuItem) {
-      Settings.set(item.getId(), (item as ToggleMenuItem).isEnabled());
+      Settings.set(item.getId().toString(), (item as ToggleMenuItem).isEnabled());
     }
   }
 
