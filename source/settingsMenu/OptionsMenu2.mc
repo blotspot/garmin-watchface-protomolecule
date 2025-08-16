@@ -7,8 +7,8 @@ class OptionsMenu2 extends WatchUi.Menu2 {
     Menu2.initialize({ :title => title, :focus => valueHolder.getIndexOfCurrentSelection() });
 
     for (var i = 0; i < valueHolder.getSize(); i++) {
-      if (valueHolder instanceof DataFieldFactory) {
-        var icon = DataFieldInfo.getIconDrawableForType(valueHolder.getSettingsValue(i), null);
+      var icon = valueHolder.getIconDrawable(i);
+      if (icon != null) {
         Menu2.addItem(new WatchUi.IconMenuItem(valueHolder.getLabel(i), null, i, icon, null));
       } else {
         Menu2.addItem(new WatchUi.MenuItem(valueHolder.getLabel(i), null, i, null));

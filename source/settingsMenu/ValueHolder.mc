@@ -9,12 +9,13 @@ class ValueHolder {
   hidden var indexCallback as Method;
   hidden var textValueCallback as Method;
   hidden var settingsValueCallback as Method;
+  hidden var iconDrawableCallback as Method;
 
-  protected var mSettingsId as Symbol;
+  protected var mSettingsId as String;
   protected var mSelectionIndex as Number?;
 
   function initialize(
-    settingsId as Symbol,
+    settingsId as String,
     options as
       {
         :prefix as String,
@@ -23,6 +24,7 @@ class ValueHolder {
         :index as Method,
         :textValue as Method,
         :settingsValue as Method,
+        :iconDrawable as Method,
       }?
   ) {
     mSettingsId = settingsId;
@@ -32,6 +34,7 @@ class ValueHolder {
     indexCallback = options[:index];
     textValueCallback = options[:textValue];
     settingsValueCallback = options[:settingsValue];
+    iconDrawableCallback = options[:iconDrawable];
     if (mSelectionIndex == null) {
       mSelectionIndex = 0;
     }
@@ -52,6 +55,10 @@ class ValueHolder {
   //! get the settings value of the element at this index.
   function getSettingsValue(index as Number) as Number {
     return settingsValueCallback.invoke(index);
+  }
+
+  function getIconDrawable(index as Number) as Drawable? {
+    return iconDrawableCallback.invoke(index);
   }
 
   //! get the amount of elements in this Holder object
@@ -75,7 +82,7 @@ class FixedValuesFactory extends ValueHolder {
 
   function initialize(
     values as Array<String>,
-    settingsId as Symbol,
+    settingsId as String,
     options as
       {
         :prefix as String,
@@ -92,6 +99,7 @@ class FixedValuesFactory extends ValueHolder {
     options[:index] = method(:getIndex);
     options[:textValue] = method(:getTextValue);
     options[:settingsValue] = method(:getSettingsValue);
+    options[:iconDrawable] = method(:getIconDrawable);
     ValueHolder.initialize(settingsId, options);
   }
 
@@ -101,6 +109,10 @@ class FixedValuesFactory extends ValueHolder {
 
   function getSettingsValue(index as Number) as Number {
     return index;
+  }
+
+  function getIconDrawable(index as Number) as Drawable? {
+    return null;
   }
 
   function getIndex(value as String) as Number {
@@ -117,7 +129,7 @@ class DataFieldFactory extends ValueHolder {
 
   function initialize(
     values as Array<Number>,
-    settingsId as Symbol,
+    settingsId as String,
     options as
       {
         :prefix as String,
@@ -134,6 +146,7 @@ class DataFieldFactory extends ValueHolder {
     options[:index] = method(:getIndex);
     options[:textValue] = method(:getTextValue);
     options[:settingsValue] = method(:getSettingsValue);
+    options[:iconDrawable] = method(:getIconDrawable);
     ValueHolder.initialize(settingsId, options);
   }
 
@@ -143,6 +156,10 @@ class DataFieldFactory extends ValueHolder {
 
   function getSettingsValue(index as Number) as Number {
     return mValues[index];
+  }
+
+  function getIconDrawable(index as Number) as Drawable? {
+    return DataFieldInfo.getIconDrawableForType(mValues[index], null);
   }
 
   function getIndex(value as Number) as Number {
@@ -165,7 +182,7 @@ class NumberFactory extends ValueHolder {
     start as Number,
     stop as Number,
     increment as Number,
-    settingsId as Symbol,
+    settingsId as String,
     options as
       {
         :prefix as String,
@@ -187,6 +204,7 @@ class NumberFactory extends ValueHolder {
     options[:index] = method(:getIndex);
     options[:textValue] = method(:getTextValue);
     options[:settingsValue] = method(:getSettingsValue);
+    options[:iconDrawable] = method(:getIconDrawable);
 
     ValueHolder.initialize(settingsId, options);
   }
@@ -197,6 +215,10 @@ class NumberFactory extends ValueHolder {
 
   function getSettingsValue(index as Number) as Number {
     return mStart + index * mIncrement;
+  }
+
+  function getIconDrawable(index as Number) as Drawable? {
+    return null;
   }
 
   function getIndex(value as Number) as Number {

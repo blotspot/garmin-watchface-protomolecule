@@ -84,21 +84,21 @@ module DataFieldInfo {
 
   function getInfoForField(fieldId as Number) as DataFieldProperties? {
     if (fieldId == FieldId.NO_PROGRESS_1) {
-      return getInfoForType(Settings.get(:middle1));
+      return getInfoForType(Settings.get("middle1"));
     } else if (fieldId == FieldId.NO_PROGRESS_2) {
-      return getInfoForType(Settings.get(:middle2));
+      return getInfoForType(Settings.get("middle2"));
     } else if (fieldId == FieldId.NO_PROGRESS_3) {
-      return getInfoForType(Settings.get(:middle3));
+      return getInfoForType(Settings.get("middle3"));
     } else if (fieldId == FieldId.OUTER || fieldId == FieldId.ORBIT_OUTER) {
-      return getInfoForType(Settings.get(:outer));
+      return getInfoForType(Settings.get("outer"));
     } else if (fieldId == FieldId.UPPER_1 || fieldId == FieldId.ORBIT_LEFT) {
-      return getInfoForType(Settings.get(:upper1));
+      return getInfoForType(Settings.get("upper1"));
     } else if (fieldId == FieldId.UPPER_2 || fieldId == FieldId.ORBIT_RIGHT) {
-      return getInfoForType(Settings.get(:upper2));
+      return getInfoForType(Settings.get("upper2"));
     } else if (fieldId == FieldId.LOWER_1) {
-      return getInfoForType(Settings.get(:lower1));
+      return getInfoForType(Settings.get("lower1"));
     } else if (fieldId == FieldId.LOWER_2) {
-      return getInfoForType(Settings.get(:lower2));
+      return getInfoForType(Settings.get("lower2"));
     } else if (fieldId == FieldId.SLEEP_HR) {
       return getHeartRateInfo();
     } else if (fieldId == FieldId.SLEEP_NOTIFY) {
@@ -166,7 +166,7 @@ module DataFieldInfo {
       if (status != null && status >= 0.9) {
         iconText = "h";
       }
-      if (status != null && status < Settings.get(:batteryThreshold) / 100d) {
+      if (status != null && status < Settings.get("batteryThreshold") / 100d) {
         iconText = "k";
       }
       var stats = System.getSystemStats();
@@ -182,7 +182,7 @@ module DataFieldInfo {
       var iconText = "o";
       if (status != null && status <= 0.05) {
         iconText = "z";
-      } else if (status != null && status < Settings.get(:bodyBatteryThreshold) / 100d) {
+      } else if (status != null && status < Settings.get("bodyBatteryThreshold") / 100d) {
         iconText = "y";
       }
       icon = new IconDrawable(fieldType, iconText, null);
@@ -217,7 +217,7 @@ module DataFieldInfo {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.calories.toDouble(); // turn to double for division
 
-    return new DataFieldProperties(FieldType.CALORIES, current.format(Format.INT), current / Settings.get(:caloriesGoal), false);
+    return new DataFieldProperties(FieldType.CALORIES, current.format(Format.INT), current / Settings.get("caloriesGoal"), false);
   }
 
   function getActiveCalorieInfo() as DataFieldProperties {
@@ -240,7 +240,7 @@ module DataFieldInfo {
     var relResting = Math.round(((today.hour * 60 + today.min) * resting) / 1440);
     var active = activityInfo.calories.toDouble() - relResting;
 
-    return new DataFieldProperties(FieldType.ACTIVE_CALORIES, active.format(Format.INT), active / Settings.get(:caloriesGoal), false);
+    return new DataFieldProperties(FieldType.ACTIVE_CALORIES, active.format(Format.INT), active / Settings.get("caloriesGoal"), false);
   }
 
   function getNotificationInfo() as DataFieldProperties {

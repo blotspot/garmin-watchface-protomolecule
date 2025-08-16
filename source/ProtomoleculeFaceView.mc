@@ -16,12 +16,12 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   hidden var mNoProgress3;
 
   hidden var mActiveHeartrateField;
-  hidden var mActiveHeartrateCounter = 0;
+  hidden var noProgressFieldUpdateCounter = 0;
 
   hidden var mSettings;
 
   function initialize() {
-    mActiveDefaultLayout = Settings.get(:layout);
+    mActiveDefaultLayout = Settings.get("layout");
     WatchFace.initialize();
   }
 
@@ -30,19 +30,19 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       Log.debug("onLayoutCall");
       return chooseLayoutByPriority(dc);
     }
-    if (requiresBurnInProtection() && mLastBIPModeState != mBurnInProtectionMode) {
+    if (mLastBIPModeState != mBurnInProtectionMode) {
       Log.debug("enter / exit low power mode triggered");
       mLastBIPModeState = mBurnInProtectionMode;
       return chooseLayoutByPriority(dc);
     }
-    if ((!mBurnInProtectionMode || (mBurnInProtectionMode && displayModeAvailable())) && mLastSleepTimeState != Settings.isSleepTime) {
+    if (mLastSleepTimeState != Settings.isSleepTimeLayout()) {
       Log.debug("sleep / wake time event triggered (and not in legacy BIP mode)");
-      mLastSleepTimeState = Settings.isSleepTime;
+      mLastSleepTimeState = Settings.isSleepTimeLayout();
       return chooseLayoutByPriority(dc);
     }
-    if (!mBurnInProtectionMode && !Settings.isSleepTime && mActiveDefaultLayout != Settings.get(:layout)) {
+    if (mActiveDefaultLayout != Settings.get("layout")) {
       Log.debug("layout switch triggered");
-      mActiveDefaultLayout = Settings.get(:layout);
+      mActiveDefaultLayout = Settings.get("layout");
       return chooseLayoutByPriority(dc);
     }
     return null;
@@ -52,13 +52,11 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     // Prio 1: Legacy BIP (pixes cycling)
     if (mBurnInProtectionMode && !displayModeAvailable()) {
       Log.debug("set burn-in protection layout (AMOLEDs below API 5)");
-      mLastBIPModeState = mBurnInProtectionMode;
       return Rez.Layouts.BurnInProtectionLayout(dc);
     }
     // Prio 2: Sleep Time (when enabled in settings)
-    if (Settings.isSleepTime) {
+    if (Settings.isSleepTimeLayout()) {
       Log.debug("set sleep time layout");
-      mLastSleepTimeState = Settings.isSleepTime;
       return Rez.Layouts.SleepLayout(dc);
     }
     // Prio 3: AMOLED Low Power Mode (<10% luminance)
@@ -91,12 +89,12 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       setLayout(layout);
     }
 
-    if (Settings.get(:activeHeartrate)) {
-      if (Settings.get(:middle1) == FieldType.HEART_RATE) {
+    if (Settings.get("activeHeartrate")) {
+      if (Settings.get("middle1") == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress1;
-      } else if (Settings.get(:middle2) == FieldType.HEART_RATE) {
+      } else if (Settings.get("middle2") == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress2;
-      } else if (Settings.get(:middle3) == FieldType.HEART_RATE) {
+      } else if (Settings.get("middle3") == FieldType.HEART_RATE) {
         mActiveHeartrateField = mNoProgress3;
       } else {
         mActiveHeartrateField = null;
@@ -132,18 +130,17 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   function onPartialUpdate(dc) {
-    if (!mLastSleepTimeState) {
-      updateHeartrate(dc);
-    }
-  }
-
-  function updateHeartrate(dc) {
-    if (mActiveHeartrateField != null) {
-      mActiveHeartrateCounter += 1;
-      if (mActiveHeartrateCounter % 10 == 0) {
-        mActiveHeartrateField.partialUpdate(dc);
-        mActiveHeartrateCounter = 0;
+    if (!Settings.isSleepTime) {
+      noProgressFieldUpdateCounter += 1;
+      noProgressFieldUpdateCounter = noProgressFieldUpdateCounter % 10;
+      if (noProgressFieldUpdateCounter == 0) {
+        mNoProgress1.partialUpdate(dc);
+        mNoProgress2.partialUpdate(dc);
+        mNoProgress3.partialUpdate(dc);
       }
+    }
+    if (Settings.isSleepTime && noProgressFieldUpdateCounter != 0) {
+      noProgressFieldUpdateCounter = 0;
     }
   }
 

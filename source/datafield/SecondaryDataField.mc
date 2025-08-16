@@ -39,9 +39,9 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   function update(dc as Graphics.Dc) {
-    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont)) + Settings.get(:iconSize);
+    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont)) + Settings.get("iconSize");
     var offset = fieldWidth * mOffsetMod;
-    setClippingRegion(dc, offset, Settings.get(:strokeWidth));
+    setClippingRegion(dc, offset, Settings.get("strokeWidth"));
 
     if (mLastInfo.progress == 0) {
       dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
@@ -49,8 +49,8 @@ class SecondaryDataField extends DataFieldDrawable {
       dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
     }
 
-    mLastInfo.icon.drawAt(dc, locX - offset + Settings.get(:iconSize) / 2.0, locY);
-    drawText(dc, mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), locX - offset + Settings.get(:iconSize) + Settings.get(:strokeWidth));
+    mLastInfo.icon.drawAt(dc, locX - offset + Settings.get("iconSize") / 2.0, locY);
+    drawText(dc, mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), locX - offset + Settings.get("iconSize") + Settings.get("strokeWidth"));
   }
 
   function partialUpdate(dc as Graphics.Dc) {
@@ -63,16 +63,17 @@ class SecondaryDataField extends DataFieldDrawable {
 
   function setClippingRegion(dc as Graphics.Dc, offset as Numeric, penSize as Numeric) {
     var contentDimensions = getDimensions(dc);
-    dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
+    // clear with background so canvas is fresh on partial update
+    dc.setColor(themeColor(Color.TEXT_ACTIVE), themeColor(Color.BACKGROUND));
     dc.setClip(locX - offset, locY - contentDimensions[1] / 2 - penSize / 2, contentDimensions[0] + penSize, contentDimensions[1] + penSize);
     dc.clear();
   }
 
   function getDimensions(dc as Graphics.Dc) as Array<Numeric> {
     var dim = dc.getTextDimensions("000", Settings.resource(Rez.Fonts.SecondaryIndicatorFont)) as Array<Numeric>;
-    dim[0] = dim[0] + Settings.get(:iconSize);
-    if (dim[1] < Settings.get(:iconSize)) {
-      dim[1] = Settings.get(:iconSize);
+    dim[0] = dim[0] + Settings.get("iconSize");
+    if (dim[1] < Settings.get("iconSize")) {
+      dim[1] = Settings.get("iconSize");
     }
 
     return dim;

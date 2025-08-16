@@ -20,7 +20,7 @@ class IconDrawable extends WatchUi.Drawable {
   //! manual (DataField) call
   function drawAt(dc as Graphics.Dc, atLocX as Numeric, atLocY as Numeric) {
     locX = atLocX;
-    locY = mOffestY ? atLocY + height * 0.1 : atLocY;
+    locY = mOffestY ? atLocY + Settings.get("iconSize") * 0.1 : atLocY;
     drawInternal(dc);
   }
 

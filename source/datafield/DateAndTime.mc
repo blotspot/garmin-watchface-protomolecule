@@ -49,7 +49,7 @@ class DateAndTime extends WatchUi.Drawable {
 
   function draw(dc as Graphics.Dc) {
     var is12Hour = !System.getDeviceSettings().is24Hour;
-    var now = Time.Gregorian.info(Time.now(), Settings.get(:useSystemFontForDate) ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
+    var now = Time.Gregorian.info(Time.now(), Settings.get("useSystemFontForDate") ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
     var date = getDateLine(now);
     var hours = getHours(now, is12Hour);
     var minutes = now.min.format(Format.INT_ZERO);
@@ -82,34 +82,34 @@ class DateAndTime extends WatchUi.Drawable {
     dc.setColor(mBurnInProtectionMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
 
     // Date
-    dc.drawText(dateX, dateY, Settings.get(:useSystemFontForDate) ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont), date, Graphics.TEXT_JUSTIFY_CENTER);
+    dc.drawText(dateX, dateY, Settings.get("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont), date, Graphics.TEXT_JUSTIFY_CENTER);
     // Hours
     dc.drawText(hoursX, hoursY, Settings.resource(Rez.Fonts.HoursFont), hours, Graphics.TEXT_JUSTIFY_RIGHT);
     // Minutes
     dc.drawText(minutesX, minutesY, Settings.resource(Rez.Fonts.MinutesFont), minutes, Graphics.TEXT_JUSTIFY_LEFT);
 
-    if (is12Hour && Settings.get(:showMeridiemText)) {
+    if (is12Hour && Settings.get("showMeridiemText")) {
       var meridiem = now.hour < 12 ? "am" : "pm";
       var meridiemDim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
       var x = minutesDim[0] + minutesX;
-      var y = dc.getHeight() * 0.47 - meridiemDim[1] * (mBurnInProtectionMode || !Settings.get(:showSeconds) ? 0 : 0.5) + offset;
+      var y = dc.getHeight() * 0.47 - meridiemDim[1] * (mBurnInProtectionMode || !Settings.get("showSeconds") ? 0 : 0.5) + offset;
       dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, Graphics.TEXT_JUSTIFY_LEFT);
     }
-    if (!mBurnInProtectionMode && !Settings.lowPowerMode && Settings.get(:showSeconds)) {
+    if (!mBurnInProtectionMode && !Settings.lowPowerMode && Settings.get("showSeconds")) {
       updateSeconds(dc, now.sec, minutesDim[0] + minutesX);
     }
   }
 
   function updateSeconds(dc as Graphics.Dc, seconds as Number, secX as Numeric) {
     var dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont)) as Array<Number>;
-    var y = dc.getHeight() * 0.47 + dim[1] * (System.getDeviceSettings().is24Hour || !Settings.get(:showMeridiemText) ? 0 : 0.5);
+    var y = dc.getHeight() * 0.47 + dim[1] * (System.getDeviceSettings().is24Hour || !Settings.get("showMeridiemText") ? 0 : 0.5);
     dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
 
     dc.drawText(secX + dim[0], y, Settings.resource(Rez.Fonts.MeridiemFont), seconds.format(Format.INT), Graphics.TEXT_JUSTIFY_RIGHT);
   }
 
   hidden function getDateLine(now as Gregorian.Info) as String {
-    if (Settings.get(:useSystemFontForDate)) {
+    if (Settings.get("useSystemFontForDate")) {
       return format("$1$ $2$ $3$", [now.day_of_week, now.day.format(Format.INT_ZERO), now.month]);
     } else {
       return format("$1$ $2$ $3$", [Settings.resource(DayOfWeek[(now.day_of_week as Number) - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[(now.month as Number) - 1])]);
