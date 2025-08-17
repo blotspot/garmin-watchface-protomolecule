@@ -12,7 +12,7 @@ class IconDrawable extends WatchUi.Drawable {
     if (params == null) {
       params = {};
     }
-    mOffestY = params.get(:offsetY) != null ? params[:offsetY] : false;
+    mOffestY = params.hasKey(:offsetY) ? params[:offsetY] : false;
 
     Drawable.initialize({ :identifier => identifier });
   }

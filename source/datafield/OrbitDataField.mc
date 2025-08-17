@@ -25,8 +25,8 @@ class OrbitDataField extends DataFieldDrawable {
         :radius as Numeric,
       }
   ) {
-    params[:locX] = params.get(:x) != null ? params[:x] : System.getDeviceSettings().screenWidth * 0.5;
-    params[:locY] = params.get(:y) != null ? params[:y] : System.getDeviceSettings().screenHeight * 0.5;
+    params[:locX] = params.hasKey(:x) ? params[:x] : System.getDeviceSettings().screenWidth * 0.5;
+    params[:locY] = params.hasKey(:y) ? params[:y] : System.getDeviceSettings().screenHeight * 0.5;
     DataFieldDrawable.initialize(params);
 
     mStartDegree = params[:startDegree];

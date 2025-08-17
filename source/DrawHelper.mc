@@ -50,12 +50,6 @@ module FieldType {
   const ACTIVE_CALORIES = 14;
 }
 
-module SecondaryPosition {
-  const LEFT = 0;
-  const CENTER = 1;
-  const RIGHT = 2;
-}
-
 module Color {
   const TEXT_ACTIVE as Number = 0;
   const TEXT_INACTIVE as Number = 1;

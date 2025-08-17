@@ -1,4 +1,12 @@
 <layout id="BurnInProtectionLayout">
 	<drawable id="Background" class="Background"/>
-  <drawable id="DateAndTime" class="DateAndTime" />
+  <drawable id="DateAndTime" class="DateAndTime">
+    <param name="dateX">0.5 * dc.getWidth()</param>
+    <param name="dateY">0.31 * dc.getHeight()</param>
+    <param name="justifyDate">Graphics.TEXT_JUSTIFY_CENTER</param>
+    <param name="hoursX">0.485 * dc.getWidth()</param>
+    <param name="hoursY">0.48 * dc.getHeight()</param>
+    <param name="minutesX">0.515 * dc.getWidth()</param>
+    <param name="minutesY">0.48 * dc.getHeight()</param>
+  </drawable>
 </layout>

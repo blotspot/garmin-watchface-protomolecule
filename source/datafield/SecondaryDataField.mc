@@ -6,6 +6,7 @@ import Color;
 
 class SecondaryDataField extends DataFieldDrawable {
   hidden var mOffsetMod as Numeric;
+  hidden var mColor as Number;
 
   function initialize(
     params as
@@ -20,6 +21,7 @@ class SecondaryDataField extends DataFieldDrawable {
         :position as Number,
         :x as Numeric,
         :y as Numeric,
+        :color as Number,
       }
   ) {
     //! redefine locX / locY.
@@ -29,13 +31,14 @@ class SecondaryDataField extends DataFieldDrawable {
     DataFieldDrawable.initialize(params);
 
     var pos = params[:position];
-    if (pos == SecondaryPosition.LEFT) {
+    if (pos == Graphics.TEXT_JUSTIFY_LEFT) {
       mOffsetMod = 0;
-    } else if (pos == SecondaryPosition.CENTER) {
+    } else if (pos == Graphics.TEXT_JUSTIFY_CENTER) {
       mOffsetMod = 0.5;
     } else {
       mOffsetMod = 1;
     }
+    mColor = params.hasKey(:color) ? params[:color] : Color.TEXT_ACTIVE;
   }
 
   function draw(dc as Graphics.Dc) {
@@ -55,7 +58,7 @@ class SecondaryDataField extends DataFieldDrawable {
     if (mLastInfo.progress == 0) {
       dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
     } else {
-      dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
+      dc.setColor(themeColor(mColor), Graphics.COLOR_TRANSPARENT);
     }
 
     var offsetX = dim[0] * mOffsetMod + Settings.get("strokeWidth") / 2d;
