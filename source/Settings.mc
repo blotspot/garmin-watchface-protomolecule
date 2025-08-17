@@ -176,10 +176,12 @@ module Settings {
     }
   }
 
-  var lowPowerMode as Boolean = false;
-  var isSleepTime as Boolean = false;
+  var burnInProtectionMode as Boolean = false; // AMOLED Displays
+  var lowPowerMode as Boolean = false; // All Displays (MiP / AMOLED)
+  var isSleepTime as Boolean = false; // User configured sleep time active
+  const hasDisplayMode as Boolean = System has :getDisplayMode;
 
-  function isSleepTimeLayout() as Boolean {
+  function useSleepTimeLayout() as Boolean {
     return (get("sleepLayoutActive") as Boolean) && Settings.isSleepTime;
   }
 

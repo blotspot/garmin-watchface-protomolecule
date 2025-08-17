@@ -22,60 +22,70 @@ class SecondaryDataField extends DataFieldDrawable {
         :y as Numeric,
       }
   ) {
+    //! redefine locX / locY.
+    //! Doing it the stupid way because the layout isn't allowing a `dc` call in their definition.
+    params[:locX] = params[:x];
+    params[:locY] = params[:y];
     DataFieldDrawable.initialize(params);
 
     mOffsetMod = params[:offsetModifier];
-    //! redefine locX / locY.
-    //! Doing it the stupid way because the layout isn't allowing a `dc` call in their definition.
-    locX = params[:x];
-    locY = params[:y];
   }
 
   function draw(dc as Graphics.Dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
-      update(dc);
+      update(dc, false);
     }
   }
 
-  function update(dc as Graphics.Dc) {
-    var fieldWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont)) + Settings.get("iconSize");
-    var offset = fieldWidth * mOffsetMod;
-    setClippingRegion(dc, offset, Settings.get("strokeWidth"));
-
+  function update(dc as Graphics.Dc, partial as Boolean) {
+    //! stroke width acts as buffer used in the clipping region and between icon and text
+    var dim = getDimensions(dc);
+    setClippingRegion(dc, dim);
+    if (partial) {
+      clearForPartialUpdate(dc);
+    }
     if (mLastInfo.progress == 0) {
       dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
     } else {
       dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
     }
 
-    mLastInfo.icon.drawAt(dc, locX - offset + Settings.get("iconSize") / 2.0, locY);
-    drawText(dc, mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), locX - offset + Settings.get("iconSize") + Settings.get("strokeWidth"));
+    var offsetX = dim[0] * mOffsetMod + Settings.get("strokeWidth") / 2d;
+    mLastInfo.icon.drawAt(dc, locX - offsetX + Settings.get("iconSize") / 2d /* icon will be centered at x, so add half icon size */, locY);
+    if (mLastInfo.text != null) {
+      dc.drawText(
+        locX - offsetX + Settings.get("iconSize") + Settings.get("strokeWidth"),
+        locY - 1, // just txt font things :shrug:
+        Settings.resource(Rez.Fonts.SecondaryIndicatorFont),
+        mLastInfo.text,
+        Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
+      );
+    }
   }
 
   function partialUpdate(dc as Graphics.Dc) {
     DataFieldDrawable.drawPartialUpdate(dc, method(:update));
   }
 
-  function drawText(dc as Graphics.Dc, text as String, font as FontType, xPos as Numeric) {
-    dc.drawText(xPos, locY - 1, font, text, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+  hidden function setClippingRegion(dc as Graphics.Dc, dim as Array<Numeric>) {
+    var offsetX = dim[0] * mOffsetMod;
+    dc.setClip(locX - offsetX, locY - dim[1] / 2, dim[0], dim[1]);
   }
 
-  function setClippingRegion(dc as Graphics.Dc, offset as Numeric, penSize as Numeric) {
-    var contentDimensions = getDimensions(dc);
-    // clear with background so canvas is fresh on partial update
+  hidden function clearForPartialUpdate(dc as Graphics.Dc) {
+    // clear with background color so we don't draw over existing text
     dc.setColor(themeColor(Color.TEXT_ACTIVE), themeColor(Color.BACKGROUND));
-    dc.setClip(locX - offset, locY - contentDimensions[1] / 2 - penSize / 2, contentDimensions[0] + penSize, contentDimensions[1] + penSize);
     dc.clear();
   }
 
-  function getDimensions(dc as Graphics.Dc) as Array<Numeric> {
-    var dim = dc.getTextDimensions("000", Settings.resource(Rez.Fonts.SecondaryIndicatorFont)) as Array<Numeric>;
-    dim[0] = dim[0] + Settings.get("iconSize");
-    if (dim[1] < Settings.get("iconSize")) {
-      dim[1] = Settings.get("iconSize");
+  hidden function getDimensions(dc as Graphics.Dc) as Array<Numeric> {
+    var textWidth = 0;
+    if (mLastInfo.text != null) {
+      textWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont));
     }
-
-    return dim;
+    var fieldWidth = textWidth + Settings.get("iconSize") + Settings.get("strokeWidth") * 2;
+    // NOTE: +1 makes me less nervous about the bounds on 218x218 size displays and that's a good thing
+    return [fieldWidth, Settings.get("iconSize") + Settings.get("strokeWidth") * 2 + 1];
   }
 }

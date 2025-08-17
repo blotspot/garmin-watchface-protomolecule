@@ -6,7 +6,7 @@ import Toybox.System;
 import Toybox.Time;
 
 class DateAndTime extends WatchUi.Drawable {
-  var mBurnInProtectionMode as Boolean;
+  // var mBurnInProtectionMode as Boolean;
   var mBurnInProtectionModeEnteredAt as Number?;
 
   var DayOfWeek as Array<ResourceId> = [];
@@ -25,8 +25,8 @@ class DateAndTime extends WatchUi.Drawable {
       }
   ) {
     Drawable.initialize(params);
-    mBurnInProtectionMode = params[:burnInProtectionMode] && System.getDeviceSettings().requiresBurnInProtection;
-    if (mBurnInProtectionMode) {
+    // mBurnInProtectionMode = params[:burnInProtectionMode] && System.getDeviceSettings().requiresBurnInProtection;
+    if (Settings.burnInProtectionMode) {
       mBurnInProtectionModeEnteredAt = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT).min;
     }
     Months = [
@@ -66,20 +66,15 @@ class DateAndTime extends WatchUi.Drawable {
     var minutesX = dc.getWidth() * 0.515;
     var minutesY = dc.getHeight() * 0.48 /* relative time pos */ - minutesDim[1] / 2.0;
 
-    var offset = 0;
-    if (mBurnInProtectionMode) {
-      var timeMod = 2;
-      if (now.min < mBurnInProtectionModeEnteredAt) {
-        timeMod = 62;
-      }
-      var pos = ((now.min - mBurnInProtectionModeEnteredAt + timeMod) % 5) - 2; // -2, -1, 0, 1, 2, will always start at 0
-      offset = calculateOffset(dc, pos, hoursDim[1]);
-      dateY += offset;
-      hoursY += offset;
-      minutesY += offset;
+    var offsetY = 0;
+    if (Settings.burnInProtectionMode) {
+      offsetY = calculateLegacyBIPModeOffset(dc, now.min, hoursDim[1]);
+      dateY += offsetY;
+      hoursY += offsetY;
+      minutesY += offsetY;
     }
 
-    dc.setColor(mBurnInProtectionMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
+    dc.setColor(Settings.burnInProtectionMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
 
     // Date
     dc.drawText(dateX, dateY, Settings.get("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont), date, Graphics.TEXT_JUSTIFY_CENTER);
@@ -89,22 +84,25 @@ class DateAndTime extends WatchUi.Drawable {
     dc.drawText(minutesX, minutesY, Settings.resource(Rez.Fonts.MinutesFont), minutes, Graphics.TEXT_JUSTIFY_LEFT);
 
     if (is12Hour && Settings.get("showMeridiemText")) {
-      var meridiem = now.hour < 12 ? "am" : "pm";
-      var meridiemDim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
-      var x = minutesDim[0] + minutesX;
-      var y = dc.getHeight() * 0.47 - meridiemDim[1] * (mBurnInProtectionMode || !Settings.get("showSeconds") ? 0 : 0.5) + offset;
-      dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, Graphics.TEXT_JUSTIFY_LEFT);
+      drawMeridiem(dc, now.hour, minutesDim[0] + minutesX, offsetY);
     }
-    if (!mBurnInProtectionMode && !Settings.lowPowerMode && Settings.get("showSeconds")) {
-      updateSeconds(dc, now.sec, minutesDim[0] + minutesX);
+    if (!Settings.lowPowerMode && Settings.get("showSeconds")) {
+      drawSeconds(dc, now.sec, minutesDim[0] + minutesX);
     }
   }
 
-  function updateSeconds(dc as Graphics.Dc, seconds as Number, secX as Numeric) {
+  hidden function drawMeridiem(dc as Graphics.Dc, hour as Number, posX as Numeric, offsetY as Numeric) {
+    var meridiem = hour < 12 ? "am" : "pm";
+    var meridiemDim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
+    var y = dc.getHeight() * 0.47 - meridiemDim[1] * (Settings.burnInProtectionMode || !Settings.get("showSeconds") ? 0 : 0.5) + offsetY;
+    dc.drawText(posX, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, Graphics.TEXT_JUSTIFY_LEFT);
+  }
+
+  hidden function drawSeconds(dc as Graphics.Dc, seconds as Number, secX as Numeric) {
     var dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont)) as Array<Number>;
     var y = dc.getHeight() * 0.47 + dim[1] * (System.getDeviceSettings().is24Hour || !Settings.get("showMeridiemText") ? 0 : 0.5);
-    dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
 
+    dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
     dc.drawText(secX + dim[0], y, Settings.resource(Rez.Fonts.MeridiemFont), seconds.format(Format.INT), Graphics.TEXT_JUSTIFY_RIGHT);
   }
 
@@ -129,7 +127,12 @@ class DateAndTime extends WatchUi.Drawable {
     return hours.format(Format.INT_ZERO);
   }
 
-  hidden function calculateOffset(dc as Graphics.Dc, pos as Numeric, clockHeight as Numeric) as Numeric {
+  hidden function calculateLegacyBIPModeOffset(dc as Graphics.Dc, min as Number, clockHeight as Numeric) as Numeric {
+    var timeMod = 2;
+    if (min < mBurnInProtectionModeEnteredAt) {
+      timeMod = 62;
+    }
+    var pos = ((min - mBurnInProtectionModeEnteredAt + timeMod) % 5) - 2; // -2, -1, 0, 1, 2, will always start at 0
     var maxY = dc.getHeight() - clockHeight / 2;
     var minY = clockHeight / 2;
     var window = (maxY - minY) / 4.5;

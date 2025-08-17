@@ -62,11 +62,11 @@ module DataFieldInfo {
   class DataFieldProperties {
     var fieldType as Number;
     var icon as IconDrawable;
-    var text as String;
+    var text as String?;
     var progress as Numeric;
     var reverse as Boolean;
 
-    function initialize(_fieldType as Number, _text as String, _progress as Numeric, _reverse as Boolean) {
+    function initialize(_fieldType as Number, _text as String?, _progress as Numeric, _reverse as Boolean) {
       fieldType = _fieldType;
       text = _text;
       progress = _progress;
@@ -309,9 +309,9 @@ module DataFieldInfo {
 
   function getBluetoothInfo() as DataFieldProperties {
     if (System.getDeviceSettings().phoneConnected) {
-      return new DataFieldProperties(FieldType.BLUETOOTH, " ", 1, false);
+      return new DataFieldProperties(FieldType.BLUETOOTH, null, 1, false);
     } else {
-      return new DataFieldProperties(FieldType.BLUETOOTH, " ", 0, false);
+      return new DataFieldProperties(FieldType.BLUETOOTH, null, 0, false);
     }
   }
 

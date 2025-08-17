@@ -5,18 +5,15 @@ import Toybox.Graphics;
 import Toybox.System;
 
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
-  var mBurnInProtectionMode as Boolean = false;
-
   hidden var mLastBIPModeState as Boolean = false;
-  hidden var mLastSleepTimeState as Boolean = false;
+  hidden var mLastSleepLayoutState as Boolean = false;
   hidden var mActiveDefaultLayout as Number;
 
-  hidden var mNoProgress1;
-  hidden var mNoProgress2;
-  hidden var mNoProgress3;
+  hidden var mNoProgress1 as SecondaryDataField?;
+  hidden var mNoProgress2 as SecondaryDataField?;
+  hidden var mNoProgress3 as SecondaryDataField?;
 
-  hidden var mActiveHeartrateField;
-  hidden var noProgressFieldUpdateCounter = 0;
+  hidden var mDataFieldUpdateCounter = 0;
 
   hidden var mSettings;
 
@@ -30,14 +27,14 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       Log.debug("onLayoutCall");
       return chooseLayoutByPriority(dc);
     }
-    if (mLastBIPModeState != mBurnInProtectionMode) {
+    if (mLastBIPModeState != Settings.burnInProtectionMode) {
       Log.debug("enter / exit low power mode triggered");
-      mLastBIPModeState = mBurnInProtectionMode;
+      mLastBIPModeState = Settings.burnInProtectionMode;
       return chooseLayoutByPriority(dc);
     }
-    if (mLastSleepTimeState != Settings.isSleepTimeLayout()) {
+    if (mLastSleepLayoutState != Settings.useSleepTimeLayout()) {
       Log.debug("sleep / wake time event triggered (and not in legacy BIP mode)");
-      mLastSleepTimeState = Settings.isSleepTimeLayout();
+      mLastSleepLayoutState = Settings.useSleepTimeLayout();
       return chooseLayoutByPriority(dc);
     }
     if (mActiveDefaultLayout != Settings.get("layout")) {
@@ -50,17 +47,17 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   hidden function chooseLayoutByPriority(dc) {
     // Prio 1: Legacy BIP (pixes cycling)
-    if (mBurnInProtectionMode && !displayModeAvailable()) {
+    if (Settings.burnInProtectionMode && !Settings.hasDisplayMode) {
       Log.debug("set burn-in protection layout (AMOLEDs below API 5)");
       return Rez.Layouts.BurnInProtectionLayout(dc);
     }
     // Prio 2: Sleep Time (when enabled in settings)
-    if (Settings.isSleepTimeLayout()) {
+    if (Settings.useSleepTimeLayout()) {
       Log.debug("set sleep time layout");
       return Rez.Layouts.SleepLayout(dc);
     }
     // Prio 3: AMOLED Low Power Mode (<10% luminance)
-    if (mBurnInProtectionMode && displayModeAvailable()) {
+    if (Settings.burnInProtectionMode && Settings.hasDisplayMode) {
       Log.debug("set low power mode layout (AMOLEDs above API 5)");
       return Rez.Layouts.LowPowerModeLayout(dc);
     }
@@ -89,20 +86,6 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       setLayout(layout);
     }
 
-    if (Settings.get("activeHeartrate")) {
-      if (Settings.get("middle1") == FieldType.HEART_RATE) {
-        mActiveHeartrateField = mNoProgress1;
-      } else if (Settings.get("middle2") == FieldType.HEART_RATE) {
-        mActiveHeartrateField = mNoProgress2;
-      } else if (Settings.get("middle3") == FieldType.HEART_RATE) {
-        mActiveHeartrateField = mNoProgress3;
-      } else {
-        mActiveHeartrateField = null;
-      }
-    } else {
-      mActiveHeartrateField = null;
-    }
-
     View.onUpdate(dc);
   }
 
@@ -114,33 +97,43 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // The user has just looked at their watch. Timers and animations may be started here.
   function onExitSleep() {
     if (requiresBurnInProtection()) {
-      mBurnInProtectionMode = false;
+      Log.debug("onExitSleep burnInProtectionMode");
+      Settings.burnInProtectionMode = false;
       WatchUi.requestUpdate();
     }
+    Log.debug("onExitSleep lowPowerMode");
     Settings.lowPowerMode = false;
   }
 
   // Terminate any active timers and prepare for slow updates.
   function onEnterSleep() {
+    mDataFieldUpdateCounter = 0;
     if (requiresBurnInProtection()) {
-      mBurnInProtectionMode = true;
+      Log.debug("onEnterSleep burnInProtectionMode");
+      Settings.burnInProtectionMode = true;
       WatchUi.requestUpdate();
     }
+    Log.debug("onEnterSleep lowPowerMode");
     Settings.lowPowerMode = true;
   }
 
   function onPartialUpdate(dc) {
-    if (!Settings.isSleepTime) {
-      noProgressFieldUpdateCounter += 1;
-      noProgressFieldUpdateCounter = noProgressFieldUpdateCounter % 10;
-      if (noProgressFieldUpdateCounter == 0) {
-        mNoProgress1.partialUpdate(dc);
-        mNoProgress2.partialUpdate(dc);
-        mNoProgress3.partialUpdate(dc);
+    if (!Settings.isSleepTime && Settings.get("activeHeartrate")) {
+      mDataFieldUpdateCounter += 1;
+      mDataFieldUpdateCounter = mDataFieldUpdateCounter % 10;
+      Log.debug("reset progress counter " + mDataFieldUpdateCounter);
+      if (mDataFieldUpdateCounter == 0) {
+        Log.debug("run partial update");
+        if (mNoProgress1 != null) {
+          mNoProgress1.partialUpdate(dc);
+        }
+        if (mNoProgress2 != null) {
+          mNoProgress2.partialUpdate(dc);
+        }
+        if (mNoProgress3 != null) {
+          mNoProgress3.partialUpdate(dc);
+        }
       }
-    }
-    if (Settings.isSleepTime && noProgressFieldUpdateCounter != 0) {
-      noProgressFieldUpdateCounter = 0;
     }
   }
 

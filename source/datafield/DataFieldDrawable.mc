@@ -20,9 +20,8 @@ class DataFieldDrawable extends WatchUi.Drawable {
         :fieldId as Number,
       }
   ) {
-    Drawable.initialize(params);
-
     mFieldId = params[:fieldId];
+    Drawable.initialize(params);
   }
 
   function draw(dc as Graphics.Dc) {
@@ -33,7 +32,7 @@ class DataFieldDrawable extends WatchUi.Drawable {
     var currentInfo = DataFieldInfo.getInfoForField(mFieldId);
     if (currentInfo != null && !currentInfo.equals(mLastInfo)) {
       mLastInfo = currentInfo;
-      drawCallback.invoke(dc); // invoke `update(dc)` method of child class
+      drawCallback.invoke(dc, true); // invoke `update(dc)` method of child class
     }
   }
 }
