@@ -4,7 +4,6 @@ import Toybox.Lang;
 import Toybox.Math;
 import Toybox.System;
 import Toybox.Time;
-import Toybox.Time.Gregorian;
 import Toybox.UserProfile;
 import Toybox.WatchUi;
 
@@ -163,7 +162,7 @@ module Settings {
 
   function determineSleepTime() {
     var profile = UserProfile.getProfile();
-    var current = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+    var current = System.getClockTime();
     current = new Time.Duration(current.hour * 3600 + current.min * 60);
 
     Settings.isSleepTime = false;

@@ -21,14 +21,10 @@ class DateAndTime extends WatchUi.Drawable {
         :width as Number,
         :height as Number,
         :visible as Boolean,
-        :burnInProtectionMode as Boolean,
       }
   ) {
     Drawable.initialize(params);
     mBurnInProtectionMode = Settings.burnInProtectionMode && !Settings.hasDisplayMode;
-    if (mBurnInProtectionMode) {
-      mBurnInProtectionModeEnteredAt = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT).min;
-    }
     Months = [
       Rez.Strings.DateMonth1,
       Rez.Strings.DateMonth2,
@@ -48,8 +44,11 @@ class DateAndTime extends WatchUi.Drawable {
   }
 
   function draw(dc as Graphics.Dc) {
-    var is12Hour = !System.getDeviceSettings().is24Hour;
     var now = Time.Gregorian.info(Time.now(), Settings.get("useSystemFontForDate") ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
+    var is12Hour = !System.getDeviceSettings().is24Hour;
+    if (mBurnInProtectionMode && mBurnInProtectionModeEnteredAt == null) {
+      mBurnInProtectionModeEnteredAt = now.min;
+    }
     var date = getDateLine(now);
     var hours = getHours(now, is12Hour);
     var minutes = now.min.format(Format.INT_ZERO);

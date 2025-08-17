@@ -162,7 +162,7 @@ module DataFieldInfo {
       return new DataFieldProperties(FieldType.HEART_RATE, heartRate.format(Format.INT), 1, false);
     }
 
-    return new DataFieldProperties(FieldType.HEART_RATE, "0", 0, false);
+    return new DataFieldProperties(FieldType.HEART_RATE, null, 0, false);
   }
 
   function getCalorieInfo() as DataFieldProperties {
@@ -179,8 +179,8 @@ module DataFieldInfo {
       return getCalorieInfo();
     }
     var activityInfo = ActivityMonitor.getInfo();
-    var today = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-    var ageFactor = 6.116 * (today.year - profile.birthYear);
+    var now = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+    var ageFactor = 6.116 * (now.year - profile.birthYear);
     var heightFactor = 7.628 * profile.height;
     var weightFactor = 12.2 * (profile.weight / 1000.0);
     var genderFactor = -197.6;
@@ -189,7 +189,7 @@ module DataFieldInfo {
       genderFactor = 5.2;
     }
     var resting = genderFactor - ageFactor + heightFactor + weightFactor;
-    var relResting = Math.round(((today.hour * 60 + today.min) * resting) / 1440);
+    var relResting = Math.round(((now.hour * 60 + now.min) * resting) / 1440);
     var active = activityInfo.calories.toDouble() - relResting;
 
     return new DataFieldProperties(FieldType.ACTIVE_CALORIES, active.format(Format.INT), active / Settings.get("caloriesGoal"), false);
@@ -256,7 +256,7 @@ module DataFieldInfo {
     }
 
     Log.debug("active minutes not supported");
-    return new DataFieldProperties(FieldType.ACTIVE_MINUTES, "0", 0, false);
+    return new DataFieldProperties(FieldType.ACTIVE_MINUTES, null, 0, false);
   }
 
   function getBluetoothInfo() as DataFieldProperties {
@@ -277,54 +277,53 @@ module DataFieldInfo {
   }
 
   function getBodyBattery() as Number {
-    if (Toybox has :SensorHistory && SensorHistory has :getBodyBatteryHistory) {
-      // crashed on descentmk2s between 12h/24h, OOM
-      var durations = [
-        new Time.Duration(60 * 30), // 30 minutes
-        new Time.Duration(60 * 60), // 1 hour
-        new Time.Duration(60 * 60 * 6), // 6 hours
-        // it seems to me as after 6h the old body battery value lost its meaning completely
-      ];
+    // crashed on descentmk2s between 12h/24h, OOM
+    var durations = [
+      new Time.Duration(60 * 30), // 30 minutes
+      new Time.Duration(60 * 60), // 1 hour
+      new Time.Duration(60 * 60 * 6), // 6 hours
+      // it seems to me as after 6h the old body battery value lost its meaning completely
+    ];
 
-      for (var i = 0; i < durations.size(); i++) {
-        var duration = durations[i];
-        var bbIterator = SensorHistory.getBodyBatteryHistory({
-          :period => duration,
-          :order => SensorHistory.ORDER_NEWEST_FIRST,
-        });
+    for (var i = 0; i < durations.size(); i++) {
+      var duration = durations[i];
+      var bbIterator = SensorHistory.getBodyBatteryHistory({
+        :period => duration,
+        :order => SensorHistory.ORDER_NEWEST_FIRST,
+      });
 
-        var sample = bbIterator.next();
-        while (sample != null) {
-          if (sample.data != null && sample.data.toNumber() != null) {
-            return sample.data.toNumber();
-          }
-          sample = bbIterator.next();
+      var sample = bbIterator.next();
+      while (sample != null) {
+        if (sample.data != null && sample.data.toNumber() != null) {
+          return sample.data.toNumber();
         }
+        sample = bbIterator.next();
       }
     }
     return 0;
   }
 
   function getBodyBatteryInfo() as DataFieldProperties {
-    var bodyBattery = getBodyBattery();
-    return new DataFieldProperties(FieldType.BODY_BATTERY, bodyBattery.format(Format.INT), bodyBattery / 100.0, true);
+    if (Toybox has :SensorHistory && SensorHistory has :getBodyBatteryHistory) {
+      var bodyBattery = getBodyBattery();
+      return new DataFieldProperties(FieldType.BODY_BATTERY, bodyBattery.format(Format.INT), bodyBattery / 100.0, true);
+    }
+    return new DataFieldProperties(FieldType.BODY_BATTERY, null, 0, true);
   }
 
   function getStressLevel() as DataFieldProperties {
     var stressLevel = null;
     if (ActivityMonitor.Info has :stressScore) {
-      Log.debug("Using stress score");
       var activityInfo = ActivityMonitor.getInfo();
       if (activityInfo.stressScore != null) {
         stressLevel = activityInfo.stressScore.toDouble();
       }
     }
     if (stressLevel == null && Toybox has :SensorHistory && Toybox.SensorHistory has :getStressHistory) {
-      Log.debug("Using stress level info");
       stressLevel = getLatestStressLevelFromSensorHistory();
     } else if (stressLevel == null) {
       Log.debug("Stress level not supported.");
-      stressLevel = 0;
+      return new DataFieldProperties(FieldType.STRESS_LEVEL, null, 0, true);
     }
 
     return new DataFieldProperties(FieldType.STRESS_LEVEL, stressLevel.format(Format.INT), stressLevel / 100.0, true);

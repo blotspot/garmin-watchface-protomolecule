@@ -5,6 +5,7 @@
     <iq:products>
       <iq:product id="fenix6spro"/>
       <iq:product id="fenix843mm"/>
+      <iq:product id="venu"/>
       <iq:product id="vivoactive4s"/>
     </iq:products>
     <iq:permissions>
