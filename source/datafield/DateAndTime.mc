@@ -45,38 +45,30 @@ class DateAndTime extends WatchUi.Drawable {
 
   function draw(dc as Graphics.Dc) {
     var now = Time.Gregorian.info(Time.now(), Settings.get("useSystemFontForDate") ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
-    var is12Hour = !System.getDeviceSettings().is24Hour;
     if (mBurnInProtectionMode && mBurnInProtectionModeEnteredAt == null) {
       mBurnInProtectionModeEnteredAt = now.min;
     }
-    var date = getDateLine(now);
+    var is12Hour = !System.getDeviceSettings().is24Hour;
+
     var hours = getHours(now, is12Hour);
     var minutes = now.min.format(Format.INT_ZERO);
 
-    var dateDim = dc.getTextDimensions(date, Settings.resource(Rez.Fonts.DateFont));
-    var dateX = dc.getWidth() * 0.5;
-    var dateY = dc.getHeight() * 0.31 /* relative date pos */ - dateDim[1] / 2.0;
-
     var hoursDim = dc.getTextDimensions(hours, Settings.resource(Rez.Fonts.HoursFont));
-    var hoursX = dc.getWidth() * 0.485;
-    var hoursY = dc.getHeight() * 0.48 /* relative time pos */ - hoursDim[1] / 2.0;
-
     var minutesDim = dc.getTextDimensions(minutes, Settings.resource(Rez.Fonts.MinutesFont));
-    var minutesX = dc.getWidth() * 0.515;
-    var minutesY = dc.getHeight() * 0.48 /* relative time pos */ - minutesDim[1] / 2.0;
 
     var offsetY = 0;
     if (mBurnInProtectionMode) {
       offsetY = calculateLegacyBIPModeOffset(dc, now.min, hoursDim[1]);
-      dateY += offsetY;
-      hoursY += offsetY;
-      minutesY += offsetY;
     }
+    var hoursX = dc.getWidth() * 0.485;
+    var hoursY = dc.getHeight() * 0.48 /* relative time pos */ - hoursDim[1] / 2.0 + offsetY;
+
+    var minutesX = dc.getWidth() * 0.515;
+    var minutesY = dc.getHeight() * 0.48 /* relative time pos */ - minutesDim[1] / 2.0 + offsetY;
 
     dc.setColor(mBurnInProtectionMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
-
     // Date
-    dc.drawText(dateX, dateY, Settings.get("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont), date, Graphics.TEXT_JUSTIFY_CENTER);
+    drawDate(dc, now, minutesDim[0] + minutesX, offsetY);
     // Hours
     dc.drawText(hoursX, hoursY, Settings.resource(Rez.Fonts.HoursFont), hours, Graphics.TEXT_JUSTIFY_RIGHT);
     // Minutes
@@ -88,6 +80,22 @@ class DateAndTime extends WatchUi.Drawable {
     if (!Settings.lowPowerMode && Settings.get("showSeconds")) {
       drawSeconds(dc, now.sec, minutesDim[0] + minutesX);
     }
+  }
+
+  hidden function drawDate(dc as Graphics.Dc, now as Time.Gregorian.Info, sleepLayoutX as Numeric, offsetY as Numeric) {
+    var font = Settings.get("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont);
+    var date = getDateLine(now);
+    var dateDim = dc.getTextDimensions(date, font);
+    var dateX = dc.getWidth() * 0.5;
+    var dateY = dc.getHeight() * 0.31 /* relative date pos */ - dateDim[1] / 2.0;
+    var justify = Graphics.TEXT_JUSTIFY_CENTER;
+
+    if (Settings.useSleepTimeLayout()) {
+      dateX = sleepLayoutX;
+      justify = Graphics.TEXT_JUSTIFY_RIGHT;
+    }
+
+    dc.drawText(dateX, dateY, font, date, justify);
   }
 
   hidden function drawMeridiem(dc as Graphics.Dc, hour as Number, posX as Numeric, offsetY as Numeric) {

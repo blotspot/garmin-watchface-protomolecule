@@ -1,9 +1,6 @@
 <layout id="SleepLayout">
 	<drawable id="Background" class="Background"/>
-
-  <drawable id="DateAndTime" class="DateAndTime">
-    <param name="burnInProtectionMode">false</param>
-  </drawable>
+  <drawable id="DateAndTime" class="DateAndTime" />
 
   <drawable id="HeartrateDataField" class="SecondaryDataField">
     <param name="fieldId">FieldId.SLEEP_HR</param>
@@ -24,11 +21,10 @@
     <param name="y">0.685 * dc.getHeight()</param>
   </drawable>
   
-  <drawable id="BatteryDataField" class="RingDataField">
+  <drawable id="BatteryDataField" class="SecondaryDataField">
     <param name="fieldId">FieldId.SLEEP_BATTERY</param>
-    <param name="showIcon">true</param>
-    <param name="x">0.5 * dc.getWidth()</param>
-    <param name="y">0.865 * dc.getHeight()</param>
-    <param name="radius">dc.getWidth() / 12.4</param>
+    <param name="position">SecondaryPosition.LEFT</param>
+    <param name="x">0.168 * dc.getWidth()</param>
+    <param name="y">0.31 * dc.getHeight() + 1</param>
   </drawable>
 </layout>

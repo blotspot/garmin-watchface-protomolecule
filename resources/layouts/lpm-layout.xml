@@ -1,9 +1,6 @@
 <layout id="LowPowerModeLayout">
 	<drawable id="Background" class="Background"/>
-  
-  <drawable id="DateAndTime" class="DateAndTime">
-    <param name="burnInProtectionMode">false</param>
-  </drawable>
+  <drawable id="DateAndTime" class="DateAndTime" />
 
   <drawable id="NoProgressDataField1" class="SecondaryDataField">
     <param name="fieldId">FieldId.NO_PROGRESS_1</param>
