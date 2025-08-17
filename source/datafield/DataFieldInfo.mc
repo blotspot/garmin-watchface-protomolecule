@@ -175,8 +175,7 @@ module DataFieldInfo {
   function getActiveCalorieInfo() as DataFieldProperties {
     var profile = UserProfile.getProfile();
     if (profile.birthYear == null && profile.height == null && profile.weight == null) {
-      Log.debug("User profile not set, cannot calculate active calories");
-      return getCalorieInfo();
+      return new DataFieldProperties(FieldType.ACTIVE_CALORIES, null, 0, false);
     }
     var activityInfo = ActivityMonitor.getInfo();
     var now = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
@@ -255,7 +254,6 @@ module DataFieldInfo {
       return new DataFieldProperties(FieldType.ACTIVE_MINUTES, current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal, false);
     }
 
-    Log.debug("active minutes not supported");
     return new DataFieldProperties(FieldType.ACTIVE_MINUTES, null, 0, false);
   }
 
@@ -322,7 +320,6 @@ module DataFieldInfo {
     if (stressLevel == null && Toybox has :SensorHistory && Toybox.SensorHistory has :getStressHistory) {
       stressLevel = getLatestStressLevelFromSensorHistory();
     } else if (stressLevel == null) {
-      Log.debug("Stress level not supported.");
       return new DataFieldProperties(FieldType.STRESS_LEVEL, null, 0, true);
     }
 

@@ -121,9 +121,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     if (!Settings.isSleepTime && Settings.get("activeHeartrate")) {
       mDataFieldUpdateCounter += 1;
       mDataFieldUpdateCounter = mDataFieldUpdateCounter % 10;
-      Log.debug("reset progress counter " + mDataFieldUpdateCounter);
       if (mDataFieldUpdateCounter == 0) {
-        Log.debug("run partial update");
         if (mNoProgress1 != null) {
           mNoProgress1.partialUpdate(dc);
         }
