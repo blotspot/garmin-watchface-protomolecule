@@ -32,6 +32,10 @@ class IconDrawable extends WatchUi.Drawable {
     drawInternal(dc);
   }
 
+  function resetOffset() {
+    mOffestY = false;
+  }
+
   hidden function drawInternal(dc as Graphics.Dc) {
     var font = Settings.resource(Rez.Fonts.IconsFont);
     dc.drawText(locX, locY, font, mIcon, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);

@@ -91,8 +91,6 @@ module Settings {
 
     _settings["iconSize"] = (width + height) / 2 / 12.4;
     _settings["strokeWidth"] = (width + height) / 2 / 100;
-    _settings["centerXPos"] = width / 2.0;
-    _settings["centerYPos"] = height / 2.0;
 
     loadProperties();
     determineSleepTime();

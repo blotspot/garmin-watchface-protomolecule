@@ -17,7 +17,7 @@ class SecondaryDataField extends DataFieldDrawable {
         :height as Numeric,
         :visible as Boolean,
         :fieldId as Number,
-        :offsetModifier as Numeric,
+        :position as Number,
         :x as Numeric,
         :y as Numeric,
       }
@@ -28,7 +28,14 @@ class SecondaryDataField extends DataFieldDrawable {
     params[:locY] = params[:y];
     DataFieldDrawable.initialize(params);
 
-    mOffsetMod = params[:offsetModifier];
+    var pos = params[:position];
+    if (pos == SecondaryPosition.LEFT) {
+      mOffsetMod = 0;
+    } else if (pos == SecondaryPosition.CENTER) {
+      mOffsetMod = 0.5;
+    } else {
+      mOffsetMod = 1;
+    }
   }
 
   function draw(dc as Graphics.Dc) {

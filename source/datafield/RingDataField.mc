@@ -54,6 +54,7 @@ class RingDataField extends DataFieldDrawable {
       } else {
         dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
       }
+      mLastInfo.icon.resetOffset();
       mLastInfo.icon.drawAt(dc, locX, locY);
     }
 

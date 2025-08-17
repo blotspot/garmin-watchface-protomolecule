@@ -10,54 +10,6 @@ import Toybox.Time;
 import Toybox.Time.Gregorian;
 import Toybox.UserProfile;
 
-module Format {
-  const INT_ZERO = "%02d";
-  const INT = "%i";
-  const FLOAT = "%2.0d";
-}
-
-module LayoutId {
-  const ORBIT = 0;
-  const CIRCLES = 1;
-}
-
-module FieldId {
-  const NO_PROGRESS_1 = 0;
-  const NO_PROGRESS_2 = 1;
-  const NO_PROGRESS_3 = 2;
-  const ORBIT_OUTER = 3;
-  const ORBIT_LEFT = 4;
-  const ORBIT_RIGHT = 5;
-  const OUTER = 6;
-  const UPPER_1 = 7;
-  const UPPER_2 = 8;
-  const LOWER_1 = 9;
-  const LOWER_2 = 10;
-  const SLEEP_BATTERY = 11;
-  const SLEEP_HR = 12;
-  const SLEEP_ALARMS = 13;
-  const SLEEP_NOTIFY = 14;
-  const DATE_AND_TIME = 15;
-}
-
-module FieldType {
-  const NOTHING = 0;
-  const STEPS = 1;
-  const BATTERY = 2;
-  const CALORIES = 3;
-  const ACTIVE_MINUTES = 4;
-  const HEART_RATE = 5;
-  const NOTIFICATION = 6;
-  const FLOORS_UP = 7;
-  const FLOORS_DOWN = 8;
-  const BLUETOOTH = 9;
-  const ALARMS = 10;
-  const BODY_BATTERY = 11;
-  const SECONDS = 12;
-  const STRESS_LEVEL = 13;
-  const ACTIVE_CALORIES = 14;
-}
-
 module DataFieldInfo {
   class DataFieldProperties {
     var fieldType as Number;
@@ -76,7 +28,7 @@ module DataFieldInfo {
 
     function equals(other) as Boolean {
       if (other != null && other instanceof DataFieldProperties) {
-        return other.fieldType == fieldType && other.icon.equals(icon) && other.text.equals(text) && other.progress == progress;
+        return other.fieldType == fieldType && other.icon.equals(icon) && (other.text == null ? other.text == text : other.text.equals(text)) && other.progress == progress;
       }
       return false;
     }

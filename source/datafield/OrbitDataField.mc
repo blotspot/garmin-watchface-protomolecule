@@ -18,11 +18,15 @@ class OrbitDataField extends DataFieldDrawable {
         :height as Numeric,
         :visible as Boolean,
         :fieldId as Number,
+        :x as Numeric,
+        :y as Numeric,
         :startDegree as Numeric,
         :totalDegree as Numeric,
         :radius as Numeric,
       }
   ) {
+    params[:locX] = params.get(:x) != null ? params[:x] : System.getDeviceSettings().screenWidth * 0.5;
+    params[:locY] = params.get(:y) != null ? params[:y] : System.getDeviceSettings().screenHeight * 0.5;
     DataFieldDrawable.initialize(params);
 
     mStartDegree = params[:startDegree];
@@ -62,7 +66,7 @@ class OrbitDataField extends DataFieldDrawable {
       var startDegree = reverse ? mStartDegree - mTotalDegree + getFillDegree(fillLevel) : mStartDegree;
       var endDegree = reverse ? mStartDegree - mTotalDegree : mStartDegree - getFillDegree(fillLevel);
 
-      dc.drawArc(Settings.get("centerXPos"), Settings.get("centerYPos"), mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
+      dc.drawArc(locX, locY, mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
       if (fillLevel < 1.0) {
         drawEndpoint(dc, reverse ? startDegree : endDegree);
       }
@@ -78,7 +82,7 @@ class OrbitDataField extends DataFieldDrawable {
         endDegree += getFillDegree(fillLevel);
       }
 
-      dc.drawArc(Settings.get("centerXPos"), Settings.get("centerYPos"), mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
+      dc.drawArc(locX, locY, mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
     }
   }
 
@@ -98,16 +102,24 @@ class OrbitDataField extends DataFieldDrawable {
     } else {
       dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     }
-    var x = mFieldId == FieldId.ORBIT_LEFT ? getX(dc, mStartDegree - mTotalDegree) - Settings.get("iconSize") / 2 : getX(dc, mStartDegree) + Settings.get("iconSize") / 2;
-    var y = (mFieldId == FieldId.ORBIT_LEFT ? getY(dc, mStartDegree - mTotalDegree) : getY(dc, mStartDegree)) + Settings.get("iconSize");
+    var x = locX;
+    var y = locY;
 
-    if (mFieldId == FieldId.ORBIT_OUTER) {
-      x = Settings.get("centerXPos");
-      y = Settings.get("centerYPos") + mRadius - Settings.get("iconSize") * (Settings.get("showOrbitIndicatorText") ? 2 : 1);
+    if (mFieldId == FieldId.ORBIT_LEFT) {
+      x = getX(dc, mStartDegree - mTotalDegree) - Settings.get("iconSize") / 2;
+      y = getY(dc, mStartDegree - mTotalDegree) + Settings.get("iconSize");
+    } else if (mFieldId == FieldId.ORBIT_RIGHT) {
+      x = getX(dc, mStartDegree) + Settings.get("iconSize") / 2;
+      y = getY(dc, mStartDegree) + Settings.get("iconSize");
+    } else if (mFieldId == FieldId.ORBIT_OUTER) {
+      y = locY + mRadius - Settings.get("iconSize") * (Settings.get("showOrbitIndicatorText") ? 2 : 1);
     }
-
     mLastInfo.icon.drawAt(dc, x, y);
-    if (Settings.get("showOrbitIndicatorText")) {
+    drawText(dc, x, y);
+  }
+
+  hidden function drawText(dc as Graphics.Dc, x as Numeric, y as Numeric) {
+    if (Settings.get("showOrbitIndicatorText") && mLastInfo.text != null) {
       y += Settings.get("iconSize");
       dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
@@ -115,12 +127,12 @@ class OrbitDataField extends DataFieldDrawable {
 
   hidden function getX(dc as Graphics.Dc, degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
-    return Settings.get("centerXPos") + mRadius * Math.cos(degree);
+    return locX + mRadius * Math.cos(degree);
   }
 
   hidden function getY(dc as Graphics.Dc, degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
-    return dc.getHeight() - (Settings.get("centerYPos") + mRadius * Math.sin(degree));
+    return dc.getHeight() - (locY + mRadius * Math.sin(degree));
   }
 
   hidden function getFillDegree(fillLevel as Numeric) as Numeric {

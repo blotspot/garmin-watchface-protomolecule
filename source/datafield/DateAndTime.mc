@@ -6,11 +6,11 @@ import Toybox.System;
 import Toybox.Time;
 
 class DateAndTime extends WatchUi.Drawable {
-  // var mBurnInProtectionMode as Boolean;
-  var mBurnInProtectionModeEnteredAt as Number?;
+  hidden var mBurnInProtectionMode as Boolean;
+  hidden var mBurnInProtectionModeEnteredAt as Number?;
 
-  var DayOfWeek as Array<ResourceId> = [];
-  var Months as Array<ResourceId> = [];
+  hidden var DayOfWeek as Array<ResourceId> = [];
+  hidden var Months as Array<ResourceId> = [];
 
   function initialize(
     params as
@@ -25,8 +25,8 @@ class DateAndTime extends WatchUi.Drawable {
       }
   ) {
     Drawable.initialize(params);
-    // mBurnInProtectionMode = params[:burnInProtectionMode] && System.getDeviceSettings().requiresBurnInProtection;
-    if (Settings.burnInProtectionMode) {
+    mBurnInProtectionMode = Settings.burnInProtectionMode && !Settings.hasDisplayMode;
+    if (mBurnInProtectionMode) {
       mBurnInProtectionModeEnteredAt = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT).min;
     }
     Months = [
@@ -67,14 +67,14 @@ class DateAndTime extends WatchUi.Drawable {
     var minutesY = dc.getHeight() * 0.48 /* relative time pos */ - minutesDim[1] / 2.0;
 
     var offsetY = 0;
-    if (Settings.burnInProtectionMode) {
+    if (mBurnInProtectionMode) {
       offsetY = calculateLegacyBIPModeOffset(dc, now.min, hoursDim[1]);
       dateY += offsetY;
       hoursY += offsetY;
       minutesY += offsetY;
     }
 
-    dc.setColor(Settings.burnInProtectionMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
+    dc.setColor(mBurnInProtectionMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
 
     // Date
     dc.drawText(dateX, dateY, Settings.get("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont), date, Graphics.TEXT_JUSTIFY_CENTER);
