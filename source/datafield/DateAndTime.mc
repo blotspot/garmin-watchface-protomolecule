@@ -67,7 +67,7 @@ class DateAndTime extends WatchUi.Drawable {
   }
 
   function draw(dc as Graphics.Dc) {
-    var now = Time.Gregorian.info(Time.now(), Settings.get("useSystemFontForDate") ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
+    var now = Time.Gregorian.info(Time.now(), Settings.get(10) ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
     if (mBurnInProtectionMode && mBurnInProtectionModeEnteredAt == null) {
       mBurnInProtectionModeEnteredAt = now.min;
     }
@@ -94,16 +94,16 @@ class DateAndTime extends WatchUi.Drawable {
     y = minutesY - minutesDim[1] / 2.0 + offsetY;
     dc.drawText(minutesX, y, Settings.resource(Rez.Fonts.MinutesFont), minutes, Graphics.TEXT_JUSTIFY_LEFT);
 
-    if (is12Hour && Settings.get("showMeridiemText")) {
+    if (is12Hour && Settings.get(8)) {
       drawMeridiem(dc, now.hour, minutesDim[0] + minutesX, offsetY);
     }
-    if (!Settings.lowPowerMode && Settings.get("showSeconds")) {
+    if (!Settings.lowPowerMode && Settings.get(11)) {
       drawSeconds(dc, now.sec, minutesDim[0] + minutesX);
     }
   }
 
   hidden function drawDate(dc as Graphics.Dc, now as Time.Gregorian.Info, sleepLayoutX as Numeric, offsetY as Numeric) {
-    var font = Settings.get("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont);
+    var font = Settings.get(10) ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont);
     var date = getDateLine(now);
     var dateDim = dc.getTextDimensions(date, font);
     var y = dateY - dateDim[1] / 2.0 + offsetY;
@@ -114,22 +114,22 @@ class DateAndTime extends WatchUi.Drawable {
   hidden function drawMeridiem(dc as Graphics.Dc, hour as Number, posX as Numeric, offsetY as Numeric) {
     var meridiem = hour < 12 ? "am" : "pm";
     var dim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
-    var y = hoursY - Settings.get("strokeWidth");
-    y -= (Settings.get("strokeWidth") / 2 + dim[1]) * (Settings.burnInProtectionMode || !Settings.get("showSeconds") ? 0 : 0.5) + offsetY;
+    var y = hoursY - Settings.strokeWidth;
+    y -= (Settings.strokeWidth / 2 + dim[1]) * (Settings.burnInProtectionMode || !Settings.get(11) ? 0 : 0.5) + offsetY;
     dc.drawText(posX, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, Graphics.TEXT_JUSTIFY_LEFT);
   }
 
   hidden function drawSeconds(dc as Graphics.Dc, seconds as Number, secX as Numeric) {
     var dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont)) as Array<Number>;
-    var y = hoursY - Settings.get("strokeWidth");
-    y += (Settings.get("strokeWidth") / 2 + dim[1]) * (System.getDeviceSettings().is24Hour || !Settings.get("showMeridiemText") ? 0 : 0.5);
+    var y = hoursY - Settings.strokeWidth;
+    y += (Settings.strokeWidth / 2 + dim[1]) * (System.getDeviceSettings().is24Hour || !Settings.get(8) ? 0 : 0.5);
 
     dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
     dc.drawText(secX + dim[0], y, Settings.resource(Rez.Fonts.MeridiemFont), seconds.format(Format.INT), Graphics.TEXT_JUSTIFY_RIGHT);
   }
 
   hidden function getDateLine(now as Gregorian.Info) as String {
-    if (Settings.get("useSystemFontForDate")) {
+    if (Settings.get(10)) {
       return format("$1$ $2$ $3$", [now.day_of_week, now.day.format(Format.INT_ZERO), now.month]);
     } else {
       return format("$1$ $2$ $3$", [Settings.resource(DayOfWeek[(now.day_of_week as Number) - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[(now.month as Number) - 1])]);

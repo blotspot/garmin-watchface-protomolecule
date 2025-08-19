@@ -5,7 +5,7 @@ import Toybox.Lang;
 import Color;
 
 class SecondaryDataField extends DataFieldDrawable {
-  hidden var mOffsetMod as Numeric;
+  hidden var mOffsetMod as Numeric = 0;
   hidden var mColor as Number;
 
   function initialize(
@@ -61,11 +61,11 @@ class SecondaryDataField extends DataFieldDrawable {
       dc.setColor(themeColor(mColor), Graphics.COLOR_TRANSPARENT);
     }
 
-    var offsetX = dim[0] * mOffsetMod + Settings.get("strokeWidth") / 2d;
-    mLastInfo.icon.drawAt(dc, locX - offsetX + Settings.get("iconSize") / 2d /* icon will be centered at x, so add half icon size */, locY);
+    var offsetX = dim[0] * mOffsetMod + Settings.strokeWidth / 2d;
+    mLastInfo.icon.drawAt(dc, locX - offsetX + Settings.iconSize / 2d /* icon will be centered at x, so add half icon size */, locY);
     if (mLastInfo.text != null) {
       dc.drawText(
-        locX - offsetX + Settings.get("iconSize") + Settings.get("strokeWidth"),
+        locX - offsetX + Settings.iconSize + Settings.strokeWidth,
         locY - 1, // just txt font things :shrug:
         Settings.resource(Rez.Fonts.SecondaryIndicatorFont),
         mLastInfo.text,
@@ -94,8 +94,8 @@ class SecondaryDataField extends DataFieldDrawable {
     if (mLastInfo.text != null) {
       textWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont));
     }
-    var fieldWidth = textWidth + Settings.get("iconSize") + Settings.get("strokeWidth") * 2;
+    var fieldWidth = textWidth + Settings.iconSize + Settings.strokeWidth * 2;
     // NOTE: +1 makes me less nervous about the bounds on 218x218 size displays and that's a good thing
-    return [fieldWidth, Settings.get("iconSize") + Settings.get("strokeWidth") * 2 + 1];
+    return [fieldWidth, Settings.iconSize + Settings.strokeWidth * 2 + 1];
   }
 }

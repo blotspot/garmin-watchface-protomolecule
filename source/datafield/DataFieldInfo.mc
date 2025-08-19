@@ -36,21 +36,27 @@ module DataFieldInfo {
 
   function getInfoForField(fieldId as Number) as DataFieldProperties? {
     if (fieldId == FieldId.NO_PROGRESS_1) {
-      return getInfoForType(Settings.get("middle1"));
+      return getInfoForType(Settings.get(12) as Number);
     } else if (fieldId == FieldId.NO_PROGRESS_2) {
-      return getInfoForType(Settings.get("middle2"));
+      return getInfoForType(Settings.get(13) as Number);
     } else if (fieldId == FieldId.NO_PROGRESS_3) {
-      return getInfoForType(Settings.get("middle3"));
-    } else if (fieldId == FieldId.OUTER || fieldId == FieldId.ORBIT_OUTER) {
-      return getInfoForType(Settings.get("outer"));
-    } else if (fieldId == FieldId.UPPER_1 || fieldId == FieldId.ORBIT_LEFT) {
-      return getInfoForType(Settings.get("upper1"));
-    } else if (fieldId == FieldId.UPPER_2 || fieldId == FieldId.ORBIT_RIGHT) {
-      return getInfoForType(Settings.get("upper2"));
+      return getInfoForType(Settings.get(14) as Number);
+    } else if (fieldId == FieldId.ORBIT_OUTER) {
+      return getInfoForType(Settings.get(15) as Number);
+    } else if (fieldId == FieldId.ORBIT_LEFT) {
+      return getInfoForType(Settings.get(16) as Number);
+    } else if (fieldId == FieldId.ORBIT_RIGHT) {
+      return getInfoForType(Settings.get(17) as Number);
+    } else if (fieldId == FieldId.OUTER) {
+      return getInfoForType(Settings.get(18) as Number);
+    } else if (fieldId == FieldId.UPPER_1) {
+      return getInfoForType(Settings.get(19) as Number);
+    } else if (fieldId == FieldId.UPPER_2) {
+      return getInfoForType(Settings.get(20) as Number);
     } else if (fieldId == FieldId.LOWER_1) {
-      return getInfoForType(Settings.get("lower1"));
+      return getInfoForType(Settings.get(21) as Number);
     } else if (fieldId == FieldId.LOWER_2) {
-      return getInfoForType(Settings.get("lower2"));
+      return getInfoForType(Settings.get(22) as Number);
     } else if (fieldId == FieldId.SLEEP_HR) {
       return getHeartRateInfo();
     } else if (fieldId == FieldId.SLEEP_NOTIFY) {
@@ -100,48 +106,48 @@ module DataFieldInfo {
   function getIconDrawableForType(fieldType as Number, status as Numeric?) as IconDrawable {
     var icon = null;
     if (fieldType == FieldType.HEART_RATE) {
-      icon = new IconDrawable(fieldType, status == null || status > 0 ? "p" : "P", null);
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "p" : "P", false);
     } else if (fieldType == FieldType.CALORIES || fieldType == FieldType.ACTIVE_CALORIES) {
-      icon = new IconDrawable(fieldType, "c", null);
+      icon = new IconDrawable(fieldType, "c", false);
     } else if (fieldType == FieldType.NOTIFICATION) {
-      icon = new IconDrawable(fieldType, status == null || status > 0 ? "n" : "N", { :offsetY => status != null });
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "n" : "N", true);
     } else if (fieldType == FieldType.STEPS) {
-      icon = new IconDrawable(fieldType, "s", null);
+      icon = new IconDrawable(fieldType, "s", false);
     } else if (fieldType == FieldType.FLOORS_UP) {
-      icon = new IconDrawable(fieldType, "F", null);
+      icon = new IconDrawable(fieldType, "F", false);
     } else if (fieldType == FieldType.FLOORS_DOWN) {
-      icon = new IconDrawable(fieldType, "f", null);
+      icon = new IconDrawable(fieldType, "f", false);
     } else if (fieldType == FieldType.ACTIVE_MINUTES) {
-      icon = new IconDrawable(fieldType, "t", null);
+      icon = new IconDrawable(fieldType, "t", false);
     } else if (fieldType == FieldType.BATTERY) {
       var iconText = "m";
       if (status != null && status >= 0.9) {
         iconText = "h";
       }
-      if (status != null && status < Settings.get("batteryThreshold") / 100d) {
+      if (status != null && status < Settings.get(3) / 100d) {
         iconText = "k";
       }
       var stats = System.getSystemStats();
       if (status != null && stats.charging) {
         iconText = "l";
       }
-      icon = new IconDrawable(fieldType, iconText, { :offsetY => status != null });
+      icon = new IconDrawable(fieldType, iconText, status != null);
     } else if (fieldType == FieldType.BLUETOOTH) {
-      icon = new IconDrawable(fieldType, status == null || status > 0 ? "b" : "B", null);
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "b" : "B", false);
     } else if (fieldType == FieldType.ALARMS) {
-      icon = new IconDrawable(fieldType, status == null || status > 0 ? "a" : "A", null);
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "a" : "A", false);
     } else if (fieldType == FieldType.BODY_BATTERY) {
       var iconText = "o";
       if (status != null && status <= 0.05) {
         iconText = "z";
-      } else if (status != null && status < Settings.get("bodyBatteryThreshold") / 100d) {
+      } else if (status != null && status < Settings.get(4) / 100d) {
         iconText = "y";
       }
-      icon = new IconDrawable(fieldType, iconText, null);
+      icon = new IconDrawable(fieldType, iconText, false);
     } else if (fieldType == FieldType.STRESS_LEVEL) {
-      icon = new IconDrawable(fieldType, "x", null);
+      icon = new IconDrawable(fieldType, "x", false);
     } else {
-      icon = new IconDrawable(fieldType, "", null);
+      icon = new IconDrawable(fieldType, null, false);
     }
 
     return icon;
@@ -169,7 +175,7 @@ module DataFieldInfo {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.calories.toDouble(); // turn to double for division
 
-    return new DataFieldProperties(FieldType.CALORIES, current.format(Format.INT), current / Settings.get("caloriesGoal"), false);
+    return new DataFieldProperties(FieldType.CALORIES, current.format(Format.INT), current / Settings.get(2), false);
   }
 
   function getActiveCalorieInfo() as DataFieldProperties {
@@ -191,7 +197,7 @@ module DataFieldInfo {
     var relResting = Math.round(((now.hour * 60 + now.min) * resting) / 1440);
     var active = activityInfo.calories.toDouble() - relResting;
 
-    return new DataFieldProperties(FieldType.ACTIVE_CALORIES, active.format(Format.INT), active / Settings.get("caloriesGoal"), false);
+    return new DataFieldProperties(FieldType.ACTIVE_CALORIES, active.format(Format.INT), active / Settings.get(2), false);
   }
 
   function getNotificationInfo() as DataFieldProperties {

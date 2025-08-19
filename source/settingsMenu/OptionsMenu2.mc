@@ -27,7 +27,7 @@ class OptionsMenu2Delegate extends WatchUi.Menu2InputDelegate {
     mParent = parent;
   }
 
-  function onSelect(item) {
+  function onSelect(item as WatchUi.MenuItem) {
     mValueHolder.save(item.getId());
     mParent.setSubLabel(mValueHolder.getLabel(item.getId()));
     WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);

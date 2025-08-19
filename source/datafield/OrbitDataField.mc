@@ -44,7 +44,7 @@ class OrbitDataField extends DataFieldDrawable {
   function update(dc as Graphics.Dc) {
     setClippingRegion(dc);
     saveSetAntiAlias(dc, true);
-    dc.setPenWidth(Settings.get("strokeWidth"));
+    dc.setPenWidth(Settings.strokeWidth);
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
     }
@@ -90,10 +90,10 @@ class OrbitDataField extends DataFieldDrawable {
     var x = getX(dc, degree);
     var y = getY(dc, degree);
     // draw outer colored circle
-    dc.fillCircle(x, y, Settings.get("strokeWidth") + Settings.get("strokeWidth") * 0.75);
+    dc.fillCircle(x, y, Settings.strokeWidth + Settings.strokeWidth * 0.75);
     // draw inner white circle
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-    dc.fillCircle(x, y, Settings.get("strokeWidth") + Settings.get("strokeWidth") * 0.25);
+    dc.fillCircle(x, y, Settings.strokeWidth + Settings.strokeWidth * 0.25);
   }
 
   hidden function drawIcon(dc as Graphics.Dc) {
@@ -106,21 +106,21 @@ class OrbitDataField extends DataFieldDrawable {
     var y = locY;
 
     if (mFieldId == FieldId.ORBIT_LEFT) {
-      x = getX(dc, mStartDegree - mTotalDegree) - Settings.get("iconSize") / 2;
-      y = getY(dc, mStartDegree - mTotalDegree) + Settings.get("iconSize");
+      x = getX(dc, mStartDegree - mTotalDegree) - Settings.iconSize / 2;
+      y = getY(dc, mStartDegree - mTotalDegree) + Settings.iconSize;
     } else if (mFieldId == FieldId.ORBIT_RIGHT) {
-      x = getX(dc, mStartDegree) + Settings.get("iconSize") / 2;
-      y = getY(dc, mStartDegree) + Settings.get("iconSize");
+      x = getX(dc, mStartDegree) + Settings.iconSize / 2;
+      y = getY(dc, mStartDegree) + Settings.iconSize;
     } else if (mFieldId == FieldId.ORBIT_OUTER) {
-      y = locY + mRadius - Settings.get("iconSize") * (Settings.get("showOrbitIndicatorText") ? 2 : 1);
+      y = locY + mRadius - Settings.iconSize * (Settings.get(7) ? 2 : 1);
     }
     mLastInfo.icon.drawAt(dc, x, y);
     drawText(dc, x, y);
   }
 
   hidden function drawText(dc as Graphics.Dc, x as Numeric, y as Numeric) {
-    if (Settings.get("showOrbitIndicatorText") && mLastInfo.text != null) {
-      y += Settings.get("iconSize");
+    if (Settings.get(7) && mLastInfo.text != null) {
+      y += Settings.iconSize;
       dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
   }
