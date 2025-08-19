@@ -4,32 +4,39 @@ import Toybox.Application;
 import Toybox.Lang;
 
 class IconDrawable extends WatchUi.Drawable {
-  hidden var mIcon as String;
+  hidden var mIcon as String?;
   hidden var mOffestY as Boolean;
 
-  function initialize(identifier as Number, icon as String, params as { :offsetY as Boolean }?) {
+  function initialize(identifier as Number, icon as String?, offsetY as Boolean) {
     mIcon = icon;
-    if (params == null) {
-      params = {};
-    }
-    mOffestY = params.hasKey(:offsetY) ? params[:offsetY] : false;
+    mOffestY = offsetY;
 
     Drawable.initialize({ :identifier => identifier });
   }
 
   //! manual (DataField) call
   function drawAt(dc as Graphics.Dc, atLocX as Numeric, atLocY as Numeric) {
-    locX = atLocX;
-    locY = mOffestY ? atLocY + Settings.get("iconSize") * 0.1 : atLocY;
-    drawInternal(dc);
+    if (mIcon != null) {
+      saveSetAntiAlias(dc, true);
+      locX = atLocX;
+      locY = mOffestY ? atLocY + Settings.iconSize * 0.1 : atLocY;
+      drawInternal(dc);
+      saveSetAntiAlias(dc, false);
+    }
   }
 
   //! system call
   function draw(dc as Graphics.Dc) {
-    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-    locX = dc.getWidth() / 2;
-    locY = dc.getHeight() / 2;
-    drawInternal(dc);
+    if (mIcon != null) {
+      locX = dc.getWidth() / 2;
+      locY = dc.getHeight() / 2;
+      saveSetAntiAlias(dc, true);
+      dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
+      dc.fillCircle(locX, locY, Settings.iconSize);
+      dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+      drawInternal(dc);
+      saveSetAntiAlias(dc, false);
+    }
   }
 
   function resetOffset() {

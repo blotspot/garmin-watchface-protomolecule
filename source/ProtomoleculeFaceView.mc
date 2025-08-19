@@ -5,9 +5,9 @@ import Toybox.Graphics;
 import Toybox.System;
 
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
-  hidden var mLastBIPModeState as Boolean = false;
-  hidden var mLastSleepLayoutState as Boolean = false;
-  hidden var mActiveDefaultLayout as Number;
+  hidden var mLastBIPModeState as Boolean;
+  hidden var mLastSleepLayoutState as Boolean;
+  hidden var mActiveDefaultLayout as Number?;
 
   hidden var mNoProgress1 as SecondaryDataField?;
   hidden var mNoProgress2 as SecondaryDataField?;
@@ -18,7 +18,8 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   hidden var mSettings;
 
   function initialize() {
-    mActiveDefaultLayout = Settings.get("layout");
+    mLastBIPModeState = Settings.burnInProtectionMode;
+    mLastSleepLayoutState = Settings.useSleepTimeLayout();
     WatchFace.initialize();
   }
 
@@ -37,9 +38,9 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       mLastSleepLayoutState = Settings.useSleepTimeLayout();
       return chooseLayoutByPriority(dc);
     }
-    if (mActiveDefaultLayout != Settings.get("layout")) {
+    if (mActiveDefaultLayout != Settings.get(0)) {
       Log.debug("layout switch triggered");
-      mActiveDefaultLayout = Settings.get("layout");
+      mActiveDefaultLayout = Settings.get(0) as Number;
       return chooseLayoutByPriority(dc);
     }
     return null;
@@ -92,7 +93,9 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // Called when this View is removed from the screen. Save the
   // state of this View here. This includes freeing resources from
   // memory.
-  function onHide() {}
+  function onHide() {
+    Settings.purge();
+  }
 
   // The user has just looked at their watch. Timers and animations may be started here.
   function onExitSleep() {
@@ -118,7 +121,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   function onPartialUpdate(dc) {
-    if (!Settings.isSleepTime && Settings.get("activeHeartrate")) {
+    if (!Settings.isSleepTime && Settings.get(6)) {
       mDataFieldUpdateCounter += 1;
       mDataFieldUpdateCounter = mDataFieldUpdateCounter % 10;
       if (mDataFieldUpdateCounter == 0) {

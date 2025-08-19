@@ -11,11 +11,11 @@ class ValueHolder {
   hidden var settingsValueCallback as Method;
   hidden var iconDrawableCallback as Method;
 
-  protected var mSettingsId as String;
+  protected var mSettingsId as Number;
   protected var mSelectionIndex as Number?;
 
   function initialize(
-    settingsId as String,
+    settingsId as Number,
     options as
       {
         :prefix as String,
@@ -82,7 +82,7 @@ class FixedValuesFactory extends ValueHolder {
 
   function initialize(
     values as Array<String>,
-    settingsId as String,
+    settingsId as Number,
     options as
       {
         :prefix as String,
@@ -90,7 +90,7 @@ class FixedValuesFactory extends ValueHolder {
       }?
   ) {
     mValues = values;
-    mSelectionIndex = Settings.get(settingsId);
+    mSelectionIndex = Settings.get(settingsId) as Number;
 
     if (options == null) {
       options = {};
@@ -129,7 +129,7 @@ class DataFieldFactory extends ValueHolder {
 
   function initialize(
     values as Array<Number>,
-    settingsId as String,
+    settingsId as Number,
     options as
       {
         :prefix as String,
@@ -137,7 +137,7 @@ class DataFieldFactory extends ValueHolder {
       }?
   ) {
     mValues = values;
-    mSelectionIndex = getIndex(Settings.get(settingsId));
+    mSelectionIndex = getIndex(Settings.get(settingsId) as Number);
 
     if (options == null) {
       options = {};
@@ -151,6 +151,22 @@ class DataFieldFactory extends ValueHolder {
   }
 
   protected function getTextValue(index as Number) as String {
+    var DataFieldRez = [
+      /*  0 */ Rez.Strings.NoDataField,
+      /*  1 */ Rez.Strings.DataFieldSteps,
+      /*  2 */ Rez.Strings.DataFieldBattery,
+      /*  3 */ Rez.Strings.DataFieldCalories,
+      /*  4 */ Rez.Strings.DataFieldActiveMinutes,
+      /*  5 */ Rez.Strings.DataFieldHeartRate,
+      /*  6 */ Rez.Strings.DataFieldMessages,
+      /*  7 */ Rez.Strings.DataFieldFloorsUp,
+      /*  8 */ Rez.Strings.DataFieldFloorsDown,
+      /*  9 */ Rez.Strings.DataFieldBluetooth,
+      /* 10 */ Rez.Strings.DataFieldAlarms,
+      /* 11 */ Rez.Strings.DataFieldBodyBattery,
+      /* 12 */ Rez.Strings.DataFieldSeconds,
+      /* 13 */ Rez.Strings.DataFieldStressLevel,
+    ];
     return Settings.resource(DataFieldRez[mValues[index]]).toString();
   }
 
@@ -182,7 +198,7 @@ class NumberFactory extends ValueHolder {
     start as Number,
     stop as Number,
     increment as Number,
-    settingsId as String,
+    settingsId as Number,
     options as
       {
         :prefix as String,
@@ -193,7 +209,7 @@ class NumberFactory extends ValueHolder {
     mStart = start;
     mStop = stop;
     mIncrement = increment;
-    mSelectionIndex = getIndex(Settings.get(settingsId));
+    mSelectionIndex = getIndex(Settings.get(settingsId) as Number);
 
     if (options == null) {
       options = {};

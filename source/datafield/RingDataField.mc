@@ -40,9 +40,9 @@ class RingDataField extends DataFieldDrawable {
   }
 
   function update(dc as Graphics.Dc) {
-    setClippingRegion(dc, Settings.get("strokeWidth"));
+    setClippingRegion(dc, Settings.strokeWidth);
     saveSetAntiAlias(dc, true);
-    dc.setPenWidth(Settings.get("strokeWidth") * 1.5);
+    dc.setPenWidth(Settings.strokeWidth * 1.5);
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
     }
