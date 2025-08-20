@@ -5,7 +5,7 @@ import Toybox.Lang;
 import Color;
 
 class SecondaryDataField extends DataFieldDrawable {
-  hidden var mOffsetMod as Numeric = 0;
+  hidden var mOffsetMod as Numeric;
   hidden var mColor as Number;
 
   function initialize(
@@ -31,24 +31,18 @@ class SecondaryDataField extends DataFieldDrawable {
     DataFieldDrawable.initialize(params);
 
     var pos = params[:position];
-    if (pos == Graphics.TEXT_JUSTIFY_LEFT) {
-      mOffsetMod = 0;
-    } else if (pos == Graphics.TEXT_JUSTIFY_CENTER) {
-      mOffsetMod = 0.5;
-    } else {
-      mOffsetMod = 1;
-    }
-    mColor = params.hasKey(:color) ? params[:color] : Color.TEXT_ACTIVE;
+    mOffsetMod = pos == 2 ? 0 : pos == 1 ? 0.5 : 1;
+    mColor = params.hasKey(:color) ? themeColor(params[:color]) : 0xffffff;
   }
 
-  function draw(dc as Graphics.Dc) {
+  function draw(dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
       update(dc, false);
     }
   }
 
-  function update(dc as Graphics.Dc, partial as Boolean) {
+  function update(dc, partial as Boolean) {
     //! stroke width acts as buffer used in the clipping region and between icon and text
     var dim = getDimensions(dc);
     setClippingRegion(dc, dim);
@@ -56,9 +50,9 @@ class SecondaryDataField extends DataFieldDrawable {
       clearForPartialUpdate(dc);
     }
     if (mLastInfo.progress == 0) {
-      dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
+      dc.setColor(0xaaaaaa, -1);
     } else {
-      dc.setColor(themeColor(mColor), Graphics.COLOR_TRANSPARENT);
+      dc.setColor(mColor, -1);
     }
 
     var offsetX = dim[0] * mOffsetMod + Settings.strokeWidth / 2d;
@@ -69,27 +63,27 @@ class SecondaryDataField extends DataFieldDrawable {
         locY - 1, // just txt font things :shrug:
         Settings.resource(Rez.Fonts.SecondaryIndicatorFont),
         mLastInfo.text,
-        Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
+        2 | 4
       );
     }
   }
 
-  function partialUpdate(dc as Graphics.Dc) {
+  function partialUpdate(dc) {
     DataFieldDrawable.drawPartialUpdate(dc, method(:update));
   }
 
-  hidden function setClippingRegion(dc as Graphics.Dc, dim as Array<Numeric>) {
+  hidden function setClippingRegion(dc, dim as Array<Numeric>) {
     var offsetX = dim[0] * mOffsetMod;
     dc.setClip(locX - offsetX, locY - dim[1] / 2, dim[0], dim[1]);
   }
 
-  hidden function clearForPartialUpdate(dc as Graphics.Dc) {
+  hidden function clearForPartialUpdate(dc) {
     // clear with background color so we don't draw over existing text
-    dc.setColor(themeColor(Color.TEXT_ACTIVE), themeColor(Color.BACKGROUND));
+    dc.setColor(0xffffff, 0);
     dc.clear();
   }
 
-  hidden function getDimensions(dc as Graphics.Dc) as Array<Numeric> {
+  hidden function getDimensions(dc) as Array<Numeric> {
     var textWidth = 0;
     if (mLastInfo.text != null) {
       textWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont));

@@ -24,11 +24,11 @@ class DataFieldDrawable extends WatchUi.Drawable {
     Drawable.initialize(params);
   }
 
-  function draw(dc as Graphics.Dc) {
+  function draw(dc) {
     mLastInfo = DataFieldInfo.getInfoForField(mFieldId);
   }
 
-  function drawPartialUpdate(dc as Graphics.Dc, drawCallback as Method) {
+  function drawPartialUpdate(dc, drawCallback as Method) {
     var currentInfo = DataFieldInfo.getInfoForField(mFieldId);
     if (currentInfo != null && !currentInfo.equals(mLastInfo)) {
       mLastInfo = currentInfo;

@@ -47,7 +47,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
 
   function onDeviceSettingChanged(key as Symbol, value as Object) {
     Log.debug("onDeviceSettingChanged " + key.toString());
-    Settings.determineSleepTime();
+    Settings.loadProperties();
     WatchUi.requestUpdate();
   }
 

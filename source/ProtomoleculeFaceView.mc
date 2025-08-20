@@ -38,9 +38,9 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       mLastSleepLayoutState = Settings.useSleepTimeLayout();
       return chooseLayoutByPriority(dc);
     }
-    if (mActiveDefaultLayout != Settings.get(0)) {
+    if (mActiveDefaultLayout != Settings.get(0 /* layout */)) {
       Log.debug("layout switch triggered");
-      mActiveDefaultLayout = Settings.get(0) as Number;
+      mActiveDefaultLayout = Settings.get(0 /* layout */) as Number;
       return chooseLayoutByPriority(dc);
     }
     return null;
@@ -64,7 +64,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     }
     // Finally: Choose default layout
     Log.debug("set default layout");
-    return mActiveDefaultLayout == LayoutId.ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
+    return mActiveDefaultLayout == 0 ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
   }
 
   // Load your resources here
@@ -121,7 +121,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   function onPartialUpdate(dc) {
-    if (!Settings.isSleepTime && Settings.get(6)) {
+    if (!Settings.isSleepTime && Settings.get(6 /* activeHeartrate */)) {
       mDataFieldUpdateCounter += 1;
       mDataFieldUpdateCounter = mDataFieldUpdateCounter % 10;
       if (mDataFieldUpdateCounter == 0) {

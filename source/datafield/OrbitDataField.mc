@@ -34,14 +34,14 @@ class OrbitDataField extends DataFieldDrawable {
     mRadius = params[:radius];
   }
 
-  function draw(dc as Graphics.Dc) {
+  function draw(dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
       update(dc);
     }
   }
 
-  function update(dc as Graphics.Dc) {
+  function update(dc) {
     setClippingRegion(dc);
     saveSetAntiAlias(dc, true);
     dc.setPenWidth(Settings.strokeWidth);
@@ -56,51 +56,51 @@ class OrbitDataField extends DataFieldDrawable {
     saveSetAntiAlias(dc, false);
   }
 
-  function partialUpdate(dc as Graphics.Dc) {
+  function partialUpdate(dc) {
     DataFieldDrawable.drawPartialUpdate(dc, method(:update));
   }
 
-  hidden function drawProgressArc(dc as Graphics.Dc, fillLevel as Numeric, reverse as Boolean) {
-    dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
+  hidden function drawProgressArc(dc, fillLevel as Numeric, reverse as Boolean) {
+    dc.setColor(getForeground(), -1);
     if (fillLevel > 0.0) {
       var startDegree = reverse ? mStartDegree - mTotalDegree + getFillDegree(fillLevel) : mStartDegree;
       var endDegree = reverse ? mStartDegree - mTotalDegree : mStartDegree - getFillDegree(fillLevel);
 
-      dc.drawArc(locX, locY, mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
+      dc.drawArc(locX, locY, mRadius, 1, startDegree, endDegree);
       if (fillLevel < 1.0) {
         drawEndpoint(dc, reverse ? startDegree : endDegree);
       }
     }
   }
 
-  hidden function drawRemainingArc(dc as Graphics.Dc, fillLevel as Numeric, reverse as Boolean) {
+  hidden function drawRemainingArc(dc, fillLevel as Numeric, reverse as Boolean) {
     if (fillLevel < 1.0) {
-      dc.setColor(themeColor(Color.INACTIVE), Graphics.COLOR_TRANSPARENT);
+      dc.setColor(0x555555, -1);
       var startDegree = reverse ? mStartDegree : mStartDegree - getFillDegree(fillLevel);
       var endDegree = mStartDegree - mTotalDegree;
       if (reverse) {
         endDegree += getFillDegree(fillLevel);
       }
 
-      dc.drawArc(locX, locY, mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
+      dc.drawArc(locX, locY, mRadius, 1, startDegree, endDegree);
     }
   }
 
-  hidden function drawEndpoint(dc as Graphics.Dc, degree as Numeric) {
+  hidden function drawEndpoint(dc, degree as Numeric) {
     var x = getX(dc, degree);
     var y = getY(dc, degree);
     // draw outer colored circle
     dc.fillCircle(x, y, Settings.strokeWidth + Settings.strokeWidth * 0.75);
     // draw inner white circle
-    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+    dc.setColor(0xffffff, -1);
     dc.fillCircle(x, y, Settings.strokeWidth + Settings.strokeWidth * 0.25);
   }
 
-  hidden function drawIcon(dc as Graphics.Dc) {
+  hidden function drawIcon(dc) {
     if (mLastInfo.progress == 0) {
-      dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
+      dc.setColor(0xaaaaaa, -1);
     } else {
-      dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
+      dc.setColor(getForeground(), -1);
     }
     var x = locX;
     var y = locY;
@@ -112,25 +112,21 @@ class OrbitDataField extends DataFieldDrawable {
       x = getX(dc, mStartDegree) + Settings.iconSize / 2;
       y = getY(dc, mStartDegree) + Settings.iconSize;
     } else if (mFieldId == FieldId.ORBIT_OUTER) {
-      y = locY + mRadius - Settings.iconSize * (Settings.get(7) ? 2 : 1);
+      y = locY + mRadius - Settings.iconSize * (Settings.get(7 /* showOrbitIndicatorText */) ? 2 : 1);
     }
     mLastInfo.icon.drawAt(dc, x, y);
-    drawText(dc, x, y);
-  }
-
-  hidden function drawText(dc as Graphics.Dc, x as Numeric, y as Numeric) {
-    if (Settings.get(7) && mLastInfo.text != null) {
+    if (Settings.get(7 /* showOrbitIndicatorText */) && mLastInfo.text != null) {
       y += Settings.iconSize;
-      dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+      dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, 1 | 4);
     }
   }
 
-  hidden function getX(dc as Graphics.Dc, degree as Numeric) as Numeric {
+  hidden function getX(dc, degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
     return locX + mRadius * Math.cos(degree);
   }
 
-  hidden function getY(dc as Graphics.Dc, degree as Numeric) as Numeric {
+  hidden function getY(dc, degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
     return dc.getHeight() - (locY + mRadius * Math.sin(degree));
   }
@@ -139,7 +135,7 @@ class OrbitDataField extends DataFieldDrawable {
     return mTotalDegree * fillLevel;
   }
 
-  hidden function setClippingRegion(dc as Graphics.Dc) {
+  hidden function setClippingRegion(dc) {
     saveClearClip(dc);
   }
 
@@ -151,6 +147,6 @@ class OrbitDataField extends DataFieldDrawable {
     } else if (mFieldId == FieldId.ORBIT_RIGHT) {
       return themeColor(Color.SECONDARY_2);
     }
-    return themeColor(Color.FOREGROUND);
+    return 0xffffff;
   }
 }

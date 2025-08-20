@@ -15,7 +15,7 @@ class IconDrawable extends WatchUi.Drawable {
   }
 
   //! manual (DataField) call
-  function drawAt(dc as Graphics.Dc, atLocX as Numeric, atLocY as Numeric) {
+  function drawAt(dc, atLocX as Numeric, atLocY as Numeric) {
     if (mIcon != null) {
       saveSetAntiAlias(dc, true);
       locX = atLocX;
@@ -26,14 +26,14 @@ class IconDrawable extends WatchUi.Drawable {
   }
 
   //! system call
-  function draw(dc as Graphics.Dc) {
+  function draw(dc) {
     if (mIcon != null) {
       locX = dc.getWidth() / 2;
       locY = dc.getHeight() / 2;
       saveSetAntiAlias(dc, true);
-      dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
-      dc.fillCircle(locX, locY, Settings.iconSize);
-      dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+      dc.setColor(0xff5500 /* orange */, -1);
+      dc.fillCircle(locX, locY, Math.floor(Settings.iconSize) - 1);
+      dc.setColor(0xffffff, -1);
       drawInternal(dc);
       saveSetAntiAlias(dc, false);
     }
@@ -43,9 +43,9 @@ class IconDrawable extends WatchUi.Drawable {
     mOffestY = false;
   }
 
-  hidden function drawInternal(dc as Graphics.Dc) {
+  hidden function drawInternal(dc) {
     var font = Settings.resource(Rez.Fonts.IconsFont);
-    dc.drawText(locX, locY, font, mIcon, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+    dc.drawText(locX, locY, font, mIcon, 1 | 4);
   }
 
   function equals(other) as Boolean {

@@ -9,13 +9,7 @@ class DateAndTime extends WatchUi.Drawable {
   hidden var mBurnInProtectionMode as Boolean;
   hidden var mBurnInProtectionModeEnteredAt as Number?;
 
-  hidden var dateX as Numeric;
-  hidden var dateY as Numeric;
   hidden var justifyDate as Number;
-  hidden var hoursX as Numeric;
-  hidden var hoursY as Numeric;
-  hidden var minutesX as Numeric;
-  hidden var minutesY as Numeric;
 
   hidden var DayOfWeek as Array<ResourceId> = [];
   hidden var Months as Array<ResourceId> = [];
@@ -29,23 +23,11 @@ class DateAndTime extends WatchUi.Drawable {
         :width as Number,
         :height as Number,
         :visible as Boolean,
-        :dateX as Numeric,
-        :dateY as Numeric,
         :justifyDate as Numeric,
-        :hoursX as Numeric,
-        :hoursY as Numeric,
-        :minutesX as Numeric,
-        :minutesY as Numeric,
       }
   ) {
     mBurnInProtectionMode = Settings.burnInProtectionMode && !Settings.hasDisplayMode;
-    dateX = params[:dateX];
-    dateY = params[:dateY];
     justifyDate = params[:justifyDate];
-    hoursX = params[:hoursX];
-    hoursY = params[:hoursY];
-    minutesX = params[:minutesX];
-    minutesY = params[:minutesY];
 
     Months = [
       Rez.Strings.DateMonth1,
@@ -66,8 +48,8 @@ class DateAndTime extends WatchUi.Drawable {
     Drawable.initialize(params);
   }
 
-  function draw(dc as Graphics.Dc) {
-    var now = Time.Gregorian.info(Time.now(), Settings.get(10) ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
+  function draw(dc) {
+    var now = Time.Gregorian.info(Time.now(), Settings.get(10 /* sleepLayoutActive */) ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
     if (mBurnInProtectionMode && mBurnInProtectionModeEnteredAt == null) {
       mBurnInProtectionModeEnteredAt = now.min;
     }
@@ -76,60 +58,51 @@ class DateAndTime extends WatchUi.Drawable {
     var hours = getHours(now, is12Hour);
     var minutes = now.min.format(Format.INT_ZERO);
 
-    var hoursDim = dc.getTextDimensions(hours, Settings.resource(Rez.Fonts.HoursFont));
-    var minutesDim = dc.getTextDimensions(minutes, Settings.resource(Rez.Fonts.MinutesFont));
-
     var offsetY = 0;
     if (mBurnInProtectionMode) {
-      offsetY = calculateLegacyBIPModeOffset(dc, now.min, hoursDim[1]);
+      offsetY = calculateLegacyBIPModeOffset(dc, now.min);
     }
 
-    dc.setColor(mBurnInProtectionMode ? Graphics.COLOR_WHITE : themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
+    var timeY = 0.48 * dc.getHeight();
+
+    dc.setColor(0xffffff, -1);
     // Date
-    drawDate(dc, now, minutesDim[0] + minutesX, offsetY);
-    // Hours
-    var y = hoursY - hoursDim[1] / 2.0 + offsetY;
-    dc.drawText(hoursX, y, Settings.resource(Rez.Fonts.HoursFont), hours, Graphics.TEXT_JUSTIFY_RIGHT);
-    // Minutes
-    y = minutesY - minutesDim[1] / 2.0 + offsetY;
-    dc.drawText(minutesX, y, Settings.resource(Rez.Fonts.MinutesFont), minutes, Graphics.TEXT_JUSTIFY_LEFT);
-
-    if (is12Hour && Settings.get(8)) {
-      drawMeridiem(dc, now.hour, minutesDim[0] + minutesX, offsetY);
-    }
-    if (!Settings.lowPowerMode && Settings.get(11)) {
-      drawSeconds(dc, now.sec, minutesDim[0] + minutesX);
-    }
-  }
-
-  hidden function drawDate(dc as Graphics.Dc, now as Time.Gregorian.Info, sleepLayoutX as Numeric, offsetY as Numeric) {
-    var font = Settings.get(10) ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont);
+    var font = Settings.get(10 /* sleepLayoutActive */) ? 1 /* Graphics.FONT_TINY */ : Settings.resource(Rez.Fonts.DateFont);
     var date = getDateLine(now);
-    var dateDim = dc.getTextDimensions(date, font);
-    var y = dateY - dateDim[1] / 2.0 + offsetY;
+    var dim = dc.getTextDimensions(date, font);
+    var x = (justifyDate == 0 ? 0.832 : 0.5) * dc.getWidth();
+    var y = 0.31 * dc.getHeight() - dim[1] / 2.0 + offsetY;
+    dc.drawText(x, y, font, date, justifyDate);
+    // Hours
+    dim = dc.getTextDimensions(hours, Settings.resource(Rez.Fonts.HoursFont));
+    x = 0.485 * dc.getWidth();
+    y = timeY - dim[1] / 2.0 + offsetY;
+    dc.drawText(x, y, Settings.resource(Rez.Fonts.HoursFont), hours, 0);
+    // Minutes
+    dim = dc.getTextDimensions(minutes, Settings.resource(Rez.Fonts.MinutesFont));
+    x = 0.515 * dc.getWidth();
+    y = timeY - dim[1] / 2.0 + offsetY;
+    dc.drawText(x, y, Settings.resource(Rez.Fonts.MinutesFont), minutes, 2);
 
-    dc.drawText(dateX, y, font, date, justifyDate);
-  }
+    x += dim[0];
+    y = y + dim[1] / 2 - Settings.strokeWidth;
+    if (is12Hour && Settings.get(8 /* showMeridiemText */)) {
+      var meridiem = now.hour < 12 ? "am" : "pm";
+      dim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
+      y -= (Settings.strokeWidth / 2 + dim[1]) * (Settings.burnInProtectionMode || !Settings.get(11 /* showSeconds */) ? 0 : 0.5) + offsetY;
+      dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, 2);
+    }
+    if (!Settings.lowPowerMode && Settings.get(11 /* showSeconds */)) {
+      dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont)) as Array<Number>;
+      y += System.getDeviceSettings().is24Hour || !Settings.get(8 /* showMeridiemText */) ? 0 : dim[1] + Settings.strokeWidth;
 
-  hidden function drawMeridiem(dc as Graphics.Dc, hour as Number, posX as Numeric, offsetY as Numeric) {
-    var meridiem = hour < 12 ? "am" : "pm";
-    var dim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
-    var y = hoursY - Settings.strokeWidth;
-    y -= (Settings.strokeWidth / 2 + dim[1]) * (Settings.burnInProtectionMode || !Settings.get(11) ? 0 : 0.5) + offsetY;
-    dc.drawText(posX, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, Graphics.TEXT_JUSTIFY_LEFT);
-  }
-
-  hidden function drawSeconds(dc as Graphics.Dc, seconds as Number, secX as Numeric) {
-    var dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont)) as Array<Number>;
-    var y = hoursY - Settings.strokeWidth;
-    y += (Settings.strokeWidth / 2 + dim[1]) * (System.getDeviceSettings().is24Hour || !Settings.get(8) ? 0 : 0.5);
-
-    dc.setColor(themeColor(Color.FOREGROUND), Graphics.COLOR_TRANSPARENT);
-    dc.drawText(secX + dim[0], y, Settings.resource(Rez.Fonts.MeridiemFont), seconds.format(Format.INT), Graphics.TEXT_JUSTIFY_RIGHT);
+      dc.setColor(0xffffff, -1);
+      dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), now.sec.format(Format.INT), 2);
+    }
   }
 
   hidden function getDateLine(now as Gregorian.Info) as String {
-    if (Settings.get(10)) {
+    if (Settings.get(10 /* sleepLayoutActive */)) {
       return format("$1$ $2$ $3$", [now.day_of_week, now.day.format(Format.INT_ZERO), now.month]);
     } else {
       return format("$1$ $2$ $3$", [Settings.resource(DayOfWeek[(now.day_of_week as Number) - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[(now.month as Number) - 1])]);
@@ -149,15 +122,13 @@ class DateAndTime extends WatchUi.Drawable {
     return hours.format(Format.INT_ZERO);
   }
 
-  hidden function calculateLegacyBIPModeOffset(dc as Graphics.Dc, min as Number, clockHeight as Numeric) as Numeric {
+  hidden function calculateLegacyBIPModeOffset(dc, min as Number) as Numeric {
     var timeMod = 2;
     if (min < mBurnInProtectionModeEnteredAt) {
       timeMod = 62;
     }
     var pos = ((min - mBurnInProtectionModeEnteredAt + timeMod) % 5) - 2; // -2, -1, 0, 1, 2, will always start at 0
-    var maxY = dc.getHeight() - clockHeight / 2;
-    var minY = clockHeight / 2;
-    var window = (maxY - minY) / 4.5;
+    var window = dc.getHeight() / 8;
     var offset = window * pos;
 
     return offset;

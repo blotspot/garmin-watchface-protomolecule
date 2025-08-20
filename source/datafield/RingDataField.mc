@@ -32,14 +32,14 @@ class RingDataField extends DataFieldDrawable {
     locY = params[:y];
   }
 
-  function draw(dc as Graphics.Dc) {
+  function draw(dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
       update(dc);
     }
   }
 
-  function update(dc as Graphics.Dc) {
+  function update(dc) {
     setClippingRegion(dc, Settings.strokeWidth);
     saveSetAntiAlias(dc, true);
     dc.setPenWidth(Settings.strokeWidth * 1.5);
@@ -50,9 +50,9 @@ class RingDataField extends DataFieldDrawable {
 
     if (mShowIcon) {
       if (mLastInfo.progress == 0) {
-        dc.setColor(themeColor(Color.TEXT_INACTIVE), Graphics.COLOR_TRANSPARENT);
+        dc.setColor(0xaaaaaa, -1);
       } else {
-        dc.setColor(themeColor(Color.TEXT_ACTIVE), Graphics.COLOR_TRANSPARENT);
+        dc.setColor(0xffffff, -1);
       }
       mLastInfo.icon.resetOffset();
       mLastInfo.icon.drawAt(dc, locX, locY);
@@ -61,11 +61,11 @@ class RingDataField extends DataFieldDrawable {
     saveSetAntiAlias(dc, false);
   }
 
-  function partialUpdate(dc as Graphics.Dc) {
+  function partialUpdate(dc) {
     DataFieldDrawable.drawPartialUpdate(dc, method(:update));
   }
 
-  hidden function drawProgressArc(dc as Graphics.Dc, fillLevel as Numeric) {
+  hidden function drawProgressArc(dc, fillLevel as Numeric) {
     if (fillLevel > 0.0) {
       var startDegree = 90;
       var endDegree = startDegree - 360 * fillLevel;
@@ -74,15 +74,15 @@ class RingDataField extends DataFieldDrawable {
         locX, // x center of ring
         locY, // y center of ring
         mRadius,
-        Graphics.ARC_CLOCKWISE,
+        1,
         startDegree,
         endDegree
       );
     }
   }
 
-  hidden function setClippingRegion(dc as Graphics.Dc, penSize as Numeric) {
-    dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
+  hidden function setClippingRegion(dc, penSize as Numeric) {
+    dc.setColor(getForeground(), -1);
 
     dc.setClip(locX - (mRadius + penSize), locY - (mRadius + penSize), (mRadius + penSize * 2) * 2, (mRadius + penSize * 2) * 2);
     dc.clear();
@@ -100,6 +100,6 @@ class RingDataField extends DataFieldDrawable {
     } else if (mFieldId == FieldId.LOWER_2) {
       return themeColor(Color.SECONDARY_2);
     }
-    return themeColor(Color.FOREGROUND);
+    return 0xffffff;
   }
 }

@@ -9,9 +9,9 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
   function initialize() {
     Menu2.initialize({ :title => Settings.resource(Rez.Strings.SettingsMenuLabel) });
 
-    Menu2.addItem(menuItem(0, Settings.resource(Rez.Strings.SettingsLayoutTitle), getLayoutString(Settings.get(0) as Number)));
+    Menu2.addItem(menuItem(0, Settings.resource(Rez.Strings.SettingsLayoutTitle), getLayoutString(Settings.get(0 /* layout */) as Number)));
     Menu2.addItem(menuItem(-1, Settings.resource(Rez.Strings.SettingsLayoutSettingsTitle), null));
-    Menu2.addItem(menuItem(1, Settings.resource(Rez.Strings.SettingsThemeTitle), getThemeString(Settings.get(1) as Number)));
+    Menu2.addItem(menuItem(1, Settings.resource(Rez.Strings.SettingsThemeTitle), getThemeString(Settings.get(1 /* theme */) as Number)));
 
     Menu2.addItem(
       toggleItem(
@@ -28,10 +28,10 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
       toggleItem(10, Settings.resource(Rez.Strings.ToggleMenuSystemFontLabel), Settings.resource(Rez.Strings.ToggleMenuSystemFontEnabled), Settings.resource(Rez.Strings.ToggleMenuSystemFontDisabled))
     );
 
-    Menu2.addItem(menuItem(2, Settings.resource(Rez.Strings.SettingsCaloriesGoalTitle), Settings.get(2).toString()));
-    Menu2.addItem(menuItem(3, Settings.resource(Rez.Strings.SettingsBatteryThresholdTitle), Settings.get(3).toString()));
+    Menu2.addItem(menuItem(2, Settings.resource(Rez.Strings.SettingsCaloriesGoalTitle), Settings.get(2 /* caloriesGoal */).toString()));
+    Menu2.addItem(menuItem(3, Settings.resource(Rez.Strings.SettingsBatteryThresholdTitle), Settings.get(3 /* batteryThreshold */).toString()));
     Menu2.addItem(toggleItem(5, Settings.resource(Rez.Strings.SettingsDynamicBodyBatteryTitle), Settings.resource(Rez.Strings.ToggleMenuEnabled), Settings.resource(Rez.Strings.ToggleMenuDisabled)));
-    Menu2.addItem(menuItem(4, Settings.resource(Rez.Strings.SettingsBodyBatteryThresholdTitle), Settings.get(4).toString()));
+    Menu2.addItem(menuItem(4, Settings.resource(Rez.Strings.SettingsBodyBatteryThresholdTitle), Settings.get(4 /* bodyBatteryThreshold */).toString()));
   }
 }
 
@@ -44,7 +44,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     var id = item.getId() as Number;
 
     if (-1 == id) {
-      if (Settings.get(0) == LayoutId.ORBIT) {
+      if (Settings.get(0 /* layout */) == 0) {
         pushOrbitSubMenu();
         return;
       } else {

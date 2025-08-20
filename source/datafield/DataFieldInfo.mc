@@ -124,7 +124,7 @@ module DataFieldInfo {
       if (status != null && status >= 0.9) {
         iconText = "h";
       }
-      if (status != null && status < Settings.get(3) / 100d) {
+      if (status != null && status < Settings.get(3 /* batteryThreshold */) / 100d) {
         iconText = "k";
       }
       var stats = System.getSystemStats();
@@ -140,7 +140,7 @@ module DataFieldInfo {
       var iconText = "o";
       if (status != null && status <= 0.05) {
         iconText = "z";
-      } else if (status != null && status < Settings.get(4) / 100d) {
+      } else if (status != null && status < Settings.get(4 /* bodyBatteryThreshold */) / 100d) {
         iconText = "y";
       }
       icon = new IconDrawable(fieldType, iconText, false);
@@ -175,7 +175,7 @@ module DataFieldInfo {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.calories.toDouble(); // turn to double for division
 
-    return new DataFieldProperties(FieldType.CALORIES, current.format(Format.INT), current / Settings.get(2), false);
+    return new DataFieldProperties(FieldType.CALORIES, current.format(Format.INT), current / Settings.get(2 /* caloriesGoal */), false);
   }
 
   function getActiveCalorieInfo() as DataFieldProperties {
@@ -197,7 +197,7 @@ module DataFieldInfo {
     var relResting = Math.round(((now.hour * 60 + now.min) * resting) / 1440);
     var active = activityInfo.calories.toDouble() - relResting;
 
-    return new DataFieldProperties(FieldType.ACTIVE_CALORIES, active.format(Format.INT), active / Settings.get(2), false);
+    return new DataFieldProperties(FieldType.ACTIVE_CALORIES, active.format(Format.INT), active / Settings.get(2 /* caloriesGoal */), false);
   }
 
   function getNotificationInfo() as DataFieldProperties {
@@ -214,7 +214,7 @@ module DataFieldInfo {
     var stats = System.getSystemStats();
     var current = stats.battery;
 
-    return new DataFieldProperties(FieldType.BATTERY, current.format(Format.FLOAT), current / 100, true);
+    return new DataFieldProperties(FieldType.BATTERY, current.format("%2.0d"), current / 100, true);
   }
 
   function getStepInfo() as DataFieldProperties {

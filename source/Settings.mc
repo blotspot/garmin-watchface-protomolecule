@@ -54,54 +54,40 @@ module Settings {
     }
   }
 
-  function setS(id as Number, val as PropertyValueType) {}
-
   function get(id as Number) as PropertyValueType {
     if (_set == null) {
       _set = new Array<PropertyValueType>[23];
     }
     if (_set[id] == null) {
-      var k;
-      if (id < 12) {
-        k = [
-          /*  0 */ "layout",
-          /*  1 */ "theme",
-          /*  2 */ "caloriesGoal",
-          /*  3 */ "batteryThreshold",
-          /*  4 */ "bodyBatteryThreshold",
-          /*  5 */ "dynamicBodyBattery",
-          /*  6 */ "activeHeartrate",
-          /*  7 */ "showOrbitIndicatorText",
-          /*  8 */ "showMeridiemText",
-          /*  9 */ "sleepLayoutActive",
-          /* 10 */ "useSystemFontForDate",
-          /* 11 */ "showSeconds",
-        ];
-        _set[id] = Properties.getValue(k[id]);
-        if (_set[id] == null) {
-          var d = [0, 0, 2000, 20, 30, false, false, false, false, false, false, false];
-          _set[id] = d[id];
-        }
-      }
-      // Datafields
-      else {
-        k = [
-          /* 12 */ "noProgressDataField1",
-          /* 13 */ "noProgressDataField2",
-          /* 14 */ "noProgressDataField3",
-          /* 15 */ "outerOrbitDataField",
-          /* 16 */ "leftOrbitDataField",
-          /* 17 */ "rightOrbitDataField",
-          /* 18 */ "outerDataField",
-          /* 19 */ "upperDataField1",
-          /* 20 */ "upperDataField2",
-          /* 21 */ "lowerDataField1",
-          /* 22 */ "lowerDataField2",
-        ];
-        _set[id] = Properties.getValue(k[id - 12]);
-      }
+      var k = [
+        /*  0 */ "layout",
+        /*  1 */ "theme",
+        /*  2 */ "caloriesGoal",
+        /*  3 */ "batteryThreshold",
+        /*  4 */ "bodyBatteryThreshold",
+        /*  5 */ "dynamicBodyBattery",
+        /*  6 */ "activeHeartrate",
+        /*  7 */ "showOrbitIndicatorText",
+        /*  8 */ "showMeridiemText",
+        /*  9 */ "sleepLayoutActive",
+        /* 10 */ "useSystemFontForDate",
+        /* 11 */ "showSeconds",
+        /* 12 */ "noProgressDataField1",
+        /* 13 */ "noProgressDataField2",
+        /* 14 */ "noProgressDataField3",
+        /* 15 */ "outerOrbitDataField",
+        /* 16 */ "leftOrbitDataField",
+        /* 17 */ "rightOrbitDataField",
+        /* 18 */ "outerDataField",
+        /* 19 */ "upperDataField1",
+        /* 20 */ "upperDataField2",
+        /* 21 */ "lowerDataField1",
+        /* 22 */ "lowerDataField2",
+      ];
+      _set[id] = Properties.getValue(k[id]);
     }
     return _set[id];
+    // return Properties.getValue(k[id]);
   }
 
   function resource(resourceId as ResourceId) as Resource {
@@ -158,7 +144,7 @@ module Settings {
   var isSleepTime as Boolean?; // User configured sleep time active
 
   function useSleepTimeLayout() as Boolean {
-    return (Settings.get(9) as Boolean) && Settings.isSleepTime;
+    return (Settings.get(9 /* sleepLayoutActive */) as Boolean) && Settings.isSleepTime;
   }
 
   var _set as Array<PropertyValueType>?;
