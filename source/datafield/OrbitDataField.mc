@@ -1,3 +1,4 @@
+import Toybox.Application.Properties;
 import Toybox.Graphics;
 import Toybox.Math;
 import Toybox.WatchUi;
@@ -104,7 +105,7 @@ class OrbitDataField extends DataFieldDrawable {
     }
     var x = locX;
     var y = locY;
-
+    var showT = Properties.getValue("showOrbitIndicatorText");
     if (mFieldId == FieldId.ORBIT_LEFT) {
       x = getX(dc, mStartDegree - mTotalDegree) - Settings.iconSize / 2;
       y = getY(dc, mStartDegree - mTotalDegree) + Settings.iconSize;
@@ -112,10 +113,10 @@ class OrbitDataField extends DataFieldDrawable {
       x = getX(dc, mStartDegree) + Settings.iconSize / 2;
       y = getY(dc, mStartDegree) + Settings.iconSize;
     } else if (mFieldId == FieldId.ORBIT_OUTER) {
-      y = locY + mRadius - Settings.iconSize * (Settings.get(7 /* showOrbitIndicatorText */) ? 2 : 1);
+      y = locY + mRadius - Settings.iconSize * (showT ? 2 : 1);
     }
     mLastInfo.icon.drawAt(dc, x, y);
-    if (Settings.get(7 /* showOrbitIndicatorText */) && mLastInfo.text != null) {
+    if (showT && mLastInfo.text != null) {
       y += Settings.iconSize;
       dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, 1 | 4);
     }

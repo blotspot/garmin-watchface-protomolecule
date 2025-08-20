@@ -18,18 +18,17 @@ class OptionsMenu2 extends WatchUi.Menu2 {
 }
 
 class OptionsMenu2Delegate extends WatchUi.Menu2InputDelegate {
-  hidden var mValueHolder as ValueHolder;
+  var holder as ValueHolder?;
   hidden var mParent as MenuItem;
 
-  function initialize(valueHolder as ValueHolder, parent as MenuItem) {
+  function initialize(parent as MenuItem) {
     Menu2InputDelegate.initialize();
-    mValueHolder = valueHolder;
     mParent = parent;
   }
 
   function onSelect(item as WatchUi.MenuItem) {
-    mValueHolder.save(item.getId());
-    mParent.setSubLabel(mValueHolder.getLabel(item.getId()));
+    holder.save(item.getId());
+    mParent.setSubLabel(holder.getLabel(item.getId()));
     WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
   }
 

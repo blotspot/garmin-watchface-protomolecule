@@ -1,5 +1,5 @@
 import Toybox.WatchUi;
-import Toybox.Application;
+import Toybox.Application.Properties;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.System;
@@ -49,7 +49,7 @@ class DateAndTime extends WatchUi.Drawable {
   }
 
   function draw(dc) {
-    var now = Time.Gregorian.info(Time.now(), Settings.get(10 /* sleepLayoutActive */) ? Time.FORMAT_MEDIUM : Time.FORMAT_SHORT);
+    var now = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
     if (mBurnInProtectionMode && mBurnInProtectionModeEnteredAt == null) {
       mBurnInProtectionModeEnteredAt = now.min;
     }
@@ -67,7 +67,7 @@ class DateAndTime extends WatchUi.Drawable {
 
     dc.setColor(0xffffff, -1);
     // Date
-    var font = Settings.get(10 /* sleepLayoutActive */) ? 1 /* Graphics.FONT_TINY */ : Settings.resource(Rez.Fonts.DateFont);
+    var font = Properties.getValue("useSystemFontForDate") ? 1 /* Graphics.FONT_TINY */ : Settings.resource(Rez.Fonts.DateFont);
     var date = getDateLine(now);
     var dim = dc.getTextDimensions(date, font);
     var x = (justifyDate == 0 ? 0.832 : 0.5) * dc.getWidth();
@@ -86,15 +86,17 @@ class DateAndTime extends WatchUi.Drawable {
 
     x += dim[0];
     y = y + dim[1] / 2 - Settings.strokeWidth;
-    if (is12Hour && Settings.get(8 /* showMeridiemText */)) {
+    var showSec = Properties.getValue("showSeconds") as Boolean;
+    var showAmPm = Properties.getValue("showMeridiemText") as Boolean;
+    if (is12Hour && showAmPm) {
       var meridiem = now.hour < 12 ? "am" : "pm";
       dim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
-      y -= (Settings.strokeWidth / 2 + dim[1]) * (Settings.burnInProtectionMode || !Settings.get(11 /* showSeconds */) ? 0 : 0.5) + offsetY;
+      y = y - (Settings.strokeWidth / 2 + dim[1]) * (Settings.burnInProtectionMode || !showSec ? 0 : 0.5);
       dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, 2);
     }
-    if (!Settings.lowPowerMode && Settings.get(11 /* showSeconds */)) {
+    if (!Settings.lowPowerMode && showSec) {
       dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont)) as Array<Number>;
-      y += System.getDeviceSettings().is24Hour || !Settings.get(8 /* showMeridiemText */) ? 0 : dim[1] + Settings.strokeWidth;
+      y += System.getDeviceSettings().is24Hour || !showAmPm ? 0 : dim[1] + Settings.strokeWidth;
 
       dc.setColor(0xffffff, -1);
       dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), now.sec.format(Format.INT), 2);
@@ -102,11 +104,7 @@ class DateAndTime extends WatchUi.Drawable {
   }
 
   hidden function getDateLine(now as Gregorian.Info) as String {
-    if (Settings.get(10 /* sleepLayoutActive */)) {
-      return format("$1$ $2$ $3$", [now.day_of_week, now.day.format(Format.INT_ZERO), now.month]);
-    } else {
-      return format("$1$ $2$ $3$", [Settings.resource(DayOfWeek[(now.day_of_week as Number) - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[(now.month as Number) - 1])]);
-    }
+    return format("$1$ $2$ $3$", [Settings.resource(DayOfWeek[(now.day_of_week as Number) - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[(now.month as Number) - 1])]);
   }
 
   hidden function getHours(now as Gregorian.Info, is12Hour as Boolean) as String {

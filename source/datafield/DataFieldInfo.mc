@@ -1,6 +1,6 @@
 import Toybox.Activity;
 import Toybox.ActivityMonitor;
-import Toybox.Application;
+import Toybox.Application.Properties;
 import Toybox.BluetoothLowEnergy;
 import Toybox.Lang;
 import Toybox.Math;
@@ -36,27 +36,27 @@ module DataFieldInfo {
 
   function getInfoForField(fieldId as Number) as DataFieldProperties? {
     if (fieldId == FieldId.NO_PROGRESS_1) {
-      return getInfoForType(Settings.get(12) as Number);
+      return getInfoForType(Properties.getValue("noProgressDataField1") as Number);
     } else if (fieldId == FieldId.NO_PROGRESS_2) {
-      return getInfoForType(Settings.get(13) as Number);
+      return getInfoForType(Properties.getValue("noProgressDataField2") as Number);
     } else if (fieldId == FieldId.NO_PROGRESS_3) {
-      return getInfoForType(Settings.get(14) as Number);
+      return getInfoForType(Properties.getValue("noProgressDataField3") as Number);
     } else if (fieldId == FieldId.ORBIT_OUTER) {
-      return getInfoForType(Settings.get(15) as Number);
+      return getInfoForType(Properties.getValue("outerOrbitDataField") as Number);
     } else if (fieldId == FieldId.ORBIT_LEFT) {
-      return getInfoForType(Settings.get(16) as Number);
+      return getInfoForType(Properties.getValue("leftOrbitDataField") as Number);
     } else if (fieldId == FieldId.ORBIT_RIGHT) {
-      return getInfoForType(Settings.get(17) as Number);
+      return getInfoForType(Properties.getValue("rightOrbitDataField") as Number);
     } else if (fieldId == FieldId.OUTER) {
-      return getInfoForType(Settings.get(18) as Number);
+      return getInfoForType(Properties.getValue("outerDataField") as Number);
     } else if (fieldId == FieldId.UPPER_1) {
-      return getInfoForType(Settings.get(19) as Number);
+      return getInfoForType(Properties.getValue("upperDataField1") as Number);
     } else if (fieldId == FieldId.UPPER_2) {
-      return getInfoForType(Settings.get(20) as Number);
+      return getInfoForType(Properties.getValue("upperDataField2") as Number);
     } else if (fieldId == FieldId.LOWER_1) {
-      return getInfoForType(Settings.get(21) as Number);
+      return getInfoForType(Properties.getValue("lowerDataField1") as Number);
     } else if (fieldId == FieldId.LOWER_2) {
-      return getInfoForType(Settings.get(22) as Number);
+      return getInfoForType(Properties.getValue("lowerDataField2") as Number);
     } else if (fieldId == FieldId.SLEEP_HR) {
       return getHeartRateInfo();
     } else if (fieldId == FieldId.SLEEP_NOTIFY) {
@@ -124,7 +124,7 @@ module DataFieldInfo {
       if (status != null && status >= 0.9) {
         iconText = "h";
       }
-      if (status != null && status < Settings.get(3 /* batteryThreshold */) / 100d) {
+      if (status != null && status < Properties.getValue("batteryThreshold") / 100d) {
         iconText = "k";
       }
       var stats = System.getSystemStats();
@@ -138,10 +138,12 @@ module DataFieldInfo {
       icon = new IconDrawable(fieldType, status == null || status > 0 ? "a" : "A", false);
     } else if (fieldType == FieldType.BODY_BATTERY) {
       var iconText = "o";
-      if (status != null && status <= 0.05) {
-        iconText = "z";
-      } else if (status != null && status < Settings.get(4 /* bodyBatteryThreshold */) / 100d) {
-        iconText = "y";
+      if (Properties.getValue("dynamicBodyBattery")) {
+        if (status != null && status <= 0.05) {
+          iconText = "z";
+        } else if (status != null && status < Properties.getValue("bodyBatteryThreshold") / 100d) {
+          iconText = "y";
+        }
       }
       icon = new IconDrawable(fieldType, iconText, false);
     } else if (fieldType == FieldType.STRESS_LEVEL) {
@@ -175,7 +177,7 @@ module DataFieldInfo {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.calories.toDouble(); // turn to double for division
 
-    return new DataFieldProperties(FieldType.CALORIES, current.format(Format.INT), current / Settings.get(2 /* caloriesGoal */), false);
+    return new DataFieldProperties(FieldType.CALORIES, current.format(Format.INT), current / Properties.getValue("caloriesGoal"), false);
   }
 
   function getActiveCalorieInfo() as DataFieldProperties {
@@ -197,7 +199,7 @@ module DataFieldInfo {
     var relResting = Math.round(((now.hour * 60 + now.min) * resting) / 1440);
     var active = activityInfo.calories.toDouble() - relResting;
 
-    return new DataFieldProperties(FieldType.ACTIVE_CALORIES, active.format(Format.INT), active / Settings.get(2 /* caloriesGoal */), false);
+    return new DataFieldProperties(FieldType.ACTIVE_CALORIES, active.format(Format.INT), active / Properties.getValue("caloriesGoal"), false);
   }
 
   function getNotificationInfo() as DataFieldProperties {

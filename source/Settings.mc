@@ -7,89 +7,6 @@ import Toybox.UserProfile;
 import Toybox.WatchUi;
 
 module Settings {
-  function set(id as Number, value as PropertyValueType) {
-    var k = [
-      /*  0 */ "layout",
-      /*  1 */ "theme",
-      /*  2 */ "caloriesGoal",
-      /*  3 */ "batteryThreshold",
-      /*  4 */ "bodyBatteryThreshold",
-      /*  5 */ "dynamicBodyBattery",
-      /*  6 */ "activeHeartrate",
-      /*  7 */ "showOrbitIndicatorText",
-      /*  8 */ "showMeridiemText",
-      /*  9 */ "sleepLayoutActive",
-      /* 10 */ "useSystemFontForDate",
-      /* 11 */ "showSeconds",
-      /* 12 */ "noProgressDataField1",
-      /* 13 */ "noProgressDataField2",
-      /* 14 */ "noProgressDataField3",
-      /* 15 */ "outerOrbitDataField",
-      /* 16 */ "leftOrbitDataField",
-      /* 17 */ "rightOrbitDataField",
-      /* 18 */ "outerDataField",
-      /* 19 */ "upperDataField1",
-      /* 20 */ "upperDataField2",
-      /* 21 */ "lowerDataField1",
-      /* 22 */ "lowerDataField2",
-    ];
-    Properties.setValue(k[id], value);
-
-    if (_set != null) {
-      _set[id] = value;
-      if (id == 0) {
-        // clear saved data fields
-        _set[15] = null;
-        _set[16] = null;
-        _set[17] = null;
-        _set[18] = null;
-        _set[19] = null;
-        _set[20] = null;
-        _set[21] = null;
-        _set[22] = null;
-      }
-    }
-    if (id == 9) {
-      determineSleepTime();
-    }
-  }
-
-  function get(id as Number) as PropertyValueType {
-    if (_set == null) {
-      _set = new Array<PropertyValueType>[23];
-    }
-    if (_set[id] == null) {
-      var k = [
-        /*  0 */ "layout",
-        /*  1 */ "theme",
-        /*  2 */ "caloriesGoal",
-        /*  3 */ "batteryThreshold",
-        /*  4 */ "bodyBatteryThreshold",
-        /*  5 */ "dynamicBodyBattery",
-        /*  6 */ "activeHeartrate",
-        /*  7 */ "showOrbitIndicatorText",
-        /*  8 */ "showMeridiemText",
-        /*  9 */ "sleepLayoutActive",
-        /* 10 */ "useSystemFontForDate",
-        /* 11 */ "showSeconds",
-        /* 12 */ "noProgressDataField1",
-        /* 13 */ "noProgressDataField2",
-        /* 14 */ "noProgressDataField3",
-        /* 15 */ "outerOrbitDataField",
-        /* 16 */ "leftOrbitDataField",
-        /* 17 */ "rightOrbitDataField",
-        /* 18 */ "outerDataField",
-        /* 19 */ "upperDataField1",
-        /* 20 */ "upperDataField2",
-        /* 21 */ "lowerDataField1",
-        /* 22 */ "lowerDataField2",
-      ];
-      _set[id] = Properties.getValue(k[id]);
-    }
-    return _set[id];
-    // return Properties.getValue(k[id]);
-  }
-
   function resource(resourceId as ResourceId) as Resource {
     if (_res == null || _resLookup == null) {
       _res = [];
@@ -113,13 +30,11 @@ module Settings {
 
   function loadProperties() {
     determineSleepTime();
-    _set = null;
   }
 
   function purge() {
     _resLookup = null;
     _res = null;
-    _set = null;
   }
 
   function determineSleepTime() {
@@ -144,10 +59,9 @@ module Settings {
   var isSleepTime as Boolean?; // User configured sleep time active
 
   function useSleepTimeLayout() as Boolean {
-    return (Settings.get(9 /* sleepLayoutActive */) as Boolean) && Settings.isSleepTime;
+    return Properties.getValue("sleepLayoutActive") && Settings.isSleepTime;
   }
 
-  var _set as Array<PropertyValueType>?;
   var _resLookup as Array<ResourceId>?;
   var _res as Array<Resource>?;
 }

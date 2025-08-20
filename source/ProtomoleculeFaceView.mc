@@ -1,5 +1,5 @@
 import Toybox.WatchUi;
-import Toybox.Application;
+import Toybox.Application.Properties;
 import Toybox.Lang;
 import Toybox.Graphics;
 import Toybox.System;
@@ -38,9 +38,9 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       mLastSleepLayoutState = Settings.useSleepTimeLayout();
       return chooseLayoutByPriority(dc);
     }
-    if (mActiveDefaultLayout != Settings.get(0 /* layout */)) {
+    if (mActiveDefaultLayout != Properties.getValue("layout")) {
       Log.debug("layout switch triggered");
-      mActiveDefaultLayout = Settings.get(0 /* layout */) as Number;
+      mActiveDefaultLayout = Properties.getValue("layout") as Number;
       return chooseLayoutByPriority(dc);
     }
     return null;
@@ -76,7 +76,10 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // Called when this View is brought to the foreground. Restore
   // the state of this View and prepare it to be shown. This includes
   // loading resources into memory.
-  function onShow() {}
+  function onShow() {
+    Log.debug("onShow");
+    Settings.purge();
+  }
 
   // Update the view
   function onUpdate(dc) {
@@ -94,6 +97,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // state of this View here. This includes freeing resources from
   // memory.
   function onHide() {
+    Log.debug("onHide");
     Settings.purge();
   }
 
@@ -121,7 +125,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   function onPartialUpdate(dc) {
-    if (!Settings.isSleepTime && Settings.get(6 /* activeHeartrate */)) {
+    if (!Settings.isSleepTime && Properties.getValue("activeHeartrate")) {
       mDataFieldUpdateCounter += 1;
       mDataFieldUpdateCounter = mDataFieldUpdateCounter % 10;
       if (mDataFieldUpdateCounter == 0) {

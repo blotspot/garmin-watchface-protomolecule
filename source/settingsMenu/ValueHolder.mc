@@ -1,6 +1,7 @@
-import Toybox.WatchUi;
+import Toybox.Application.Properties;
 import Toybox.Graphics;
 import Toybox.Lang;
+import Toybox.WatchUi;
 
 class ValueHolder {
   hidden var mPrefix as String;
@@ -11,11 +12,11 @@ class ValueHolder {
   hidden var settingsValueCallback as Method;
   hidden var iconDrawableCallback as Method;
 
-  protected var mSettingsId as Number;
+  protected var mSettingsId as String;
   protected var mSelectionIndex as Number?;
 
   function initialize(
-    settingsId as Number,
+    settingsId as String,
     options as
       {
         :prefix as String,
@@ -49,7 +50,7 @@ class ValueHolder {
   }
 
   function save(index) as Void {
-    Settings.set(mSettingsId, getSettingsValue(index));
+    Properties.setValue(mSettingsId, getSettingsValue(index));
   }
 
   //! get the settings value of the element at this index.
@@ -82,7 +83,7 @@ class FixedValuesFactory extends ValueHolder {
 
   function initialize(
     values as Array<String>,
-    settingsId as Number,
+    settingsId as String,
     options as
       {
         :prefix as String,
@@ -90,7 +91,7 @@ class FixedValuesFactory extends ValueHolder {
       }?
   ) {
     mValues = values;
-    mSelectionIndex = Settings.get(settingsId) as Number;
+    mSelectionIndex = Properties.getValue(settingsId) as Number;
 
     if (options == null) {
       options = {};
@@ -129,7 +130,7 @@ class DataFieldFactory extends ValueHolder {
 
   function initialize(
     values as Array<Number>,
-    settingsId as Number,
+    settingsId as String,
     options as
       {
         :prefix as String,
@@ -137,7 +138,7 @@ class DataFieldFactory extends ValueHolder {
       }?
   ) {
     mValues = values;
-    mSelectionIndex = getIndex(Settings.get(settingsId) as Number);
+    mSelectionIndex = getIndex(Properties.getValue(settingsId) as Number);
 
     if (options == null) {
       options = {};
@@ -198,7 +199,7 @@ class NumberFactory extends ValueHolder {
     start as Number,
     stop as Number,
     increment as Number,
-    settingsId as Number,
+    settingsId as String,
     options as
       {
         :prefix as String,
@@ -209,7 +210,7 @@ class NumberFactory extends ValueHolder {
     mStart = start;
     mStop = stop;
     mIncrement = increment;
-    mSelectionIndex = getIndex(Settings.get(settingsId) as Number);
+    mSelectionIndex = getIndex(Properties.getValue(settingsId) as Number);
 
     if (options == null) {
       options = {};

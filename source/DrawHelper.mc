@@ -1,6 +1,6 @@
 import Toybox.Graphics;
 import Toybox.Lang;
-import Toybox.Application;
+import Toybox.Application.Properties;
 
 module Format {
   const INT_ZERO as String = "%02d";
@@ -70,7 +70,7 @@ module Color {
 }
 
 function themeColor(sectionId as Number) as ColorType {
-  return Color._COLORS[(Settings.get(1 /* theme */) as Number) * 3 /* MAX_COLOR_ID */ + sectionId];
+  return Color._COLORS[(Properties.getValue("theme") as Number) * 3 /* MAX_COLOR_ID */ + sectionId];
 }
 
 function saveSetAntiAlias(dc, enabled as Boolean) as Void {
