@@ -111,16 +111,16 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
       if ("theme".equals(id)) {
         options.holder = new FixedValuesFactory([getThemeString(0), getThemeString(1), getThemeString(2), getThemeString(3)], id, {});
       }
-      if ("noProgressDataField1noProgressDataField2noProgressDataField3".find(id)) {
+      if ("noProgressDataField1".equals(id) || "noProgressDataField2".equals(id) || "noProgressDataField3".equals(id)) {
         options.holder = new DataFieldFactory([0, 2, 4, 5, 6, 7, 8, 9, 10, 11, 13], id, {});
       }
-      if ("outerOrbitDataFieldleftOrbitDataFieldrightOrbitDataField".find(id)) {
+      if ("outerOrbitDataField".equals(id) || "leftOrbitDataField".equals(id) || "rightOrbitDataField".equals(id)) {
         options.holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 11, 13], id, {});
       }
       if ("outerDataField".equals(id)) {
         options.holder = new DataFieldFactory([0, 1, 2, 3, 11], id, {});
       }
-      if ("upperDataField1upperDataField2lowerDataField1lowerDataField2".find(id)) {
+      if ("upperDataField1".equals(id) || "upperDataField2".equals(id) || "lowerDataField1".equals(id) || "lowerDataField2".equals(id)) {
         options.holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 9, 11, 13], id, {});
       }
       if ("caloriesGoal".equals(id)) {

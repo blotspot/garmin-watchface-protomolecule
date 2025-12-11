@@ -65,7 +65,7 @@ class DateAndTime extends WatchUi.Drawable {
 
     var timeY = 0.48 * dc.getHeight();
 
-    dc.setColor(0xffffff, -1);
+    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     // Date
     var font = Properties.getValue("useSystemFontForDate") ? 1 /* Graphics.FONT_TINY */ : Settings.resource(Rez.Fonts.DateFont);
     var date = getDateLine(now);
@@ -83,12 +83,12 @@ class DateAndTime extends WatchUi.Drawable {
     x = 0.515 * dc.getWidth();
     y = timeY - dim[1] / 2.0 + offsetY;
     dc.drawText(x, y, Settings.resource(Rez.Fonts.MinutesFont), minutes, 2);
-
+    // Meridiem / Seconds
     x += dim[0];
     y = y + dim[1] / 2 - Settings.strokeWidth;
     var showSec = Properties.getValue("showSeconds") as Boolean;
-    var showAmPm = Properties.getValue("showMeridiemText") as Boolean;
-    if (is12Hour && showAmPm) {
+    var showMeridiem = Properties.getValue("showMeridiemText") as Boolean;
+    if (is12Hour && showMeridiem) {
       var meridiem = now.hour < 12 ? "am" : "pm";
       dim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
       y = y - (Settings.strokeWidth / 2 + dim[1]) * (Settings.burnInProtectionMode || !showSec ? 0 : 0.5);
@@ -96,9 +96,9 @@ class DateAndTime extends WatchUi.Drawable {
     }
     if (!Settings.lowPowerMode && showSec) {
       dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont)) as Array<Number>;
-      y += System.getDeviceSettings().is24Hour || !showAmPm ? 0 : dim[1] + Settings.strokeWidth;
+      y += System.getDeviceSettings().is24Hour || !showMeridiem ? 0 : dim[1] + Settings.strokeWidth;
 
-      dc.setColor(0xffffff, -1);
+      dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
       dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), now.sec.format(Format.INT), 2);
     }
   }

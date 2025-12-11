@@ -76,7 +76,7 @@ class OrbitDataField extends DataFieldDrawable {
 
   hidden function drawRemainingArc(dc, fillLevel as Numeric, reverse as Boolean) {
     if (fillLevel < 1.0) {
-      dc.setColor(0x555555, -1);
+      dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
       var startDegree = reverse ? mStartDegree : mStartDegree - getFillDegree(fillLevel);
       var endDegree = mStartDegree - mTotalDegree;
       if (reverse) {
@@ -93,15 +93,15 @@ class OrbitDataField extends DataFieldDrawable {
     // draw outer colored circle
     dc.fillCircle(x, y, Settings.strokeWidth + Settings.strokeWidth * 0.75);
     // draw inner white circle
-    dc.setColor(0xffffff, -1);
+    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     dc.fillCircle(x, y, Settings.strokeWidth + Settings.strokeWidth * 0.25);
   }
 
   hidden function drawIcon(dc) {
     if (mLastInfo.progress == 0) {
-      dc.setColor(0xaaaaaa, -1);
+      dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
     } else {
-      dc.setColor(getForeground(), -1);
+      dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     }
     var x = locX;
     var y = locY;
@@ -148,6 +148,6 @@ class OrbitDataField extends DataFieldDrawable {
     } else if (mFieldId == FieldId.ORBIT_RIGHT) {
       return themeColor(Color.SECONDARY_2);
     }
-    return 0xffffff;
+    return Graphics.COLOR_WHITE;
   }
 }

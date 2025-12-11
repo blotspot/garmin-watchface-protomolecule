@@ -32,7 +32,7 @@ class SecondaryDataField extends DataFieldDrawable {
 
     var pos = params[:position];
     mOffsetMod = pos == 2 ? 0 : pos == 1 ? 0.5 : 1;
-    mColor = params.hasKey(:color) ? themeColor(params[:color]) : 0xffffff;
+    mColor = params.hasKey(:color) ? themeColor(params[:color]) : Graphics.COLOR_WHITE;
   }
 
   function draw(dc) {
@@ -50,9 +50,9 @@ class SecondaryDataField extends DataFieldDrawable {
       clearForPartialUpdate(dc);
     }
     if (mLastInfo.progress == 0) {
-      dc.setColor(0xaaaaaa, -1);
+      dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
     } else {
-      dc.setColor(mColor, -1);
+      dc.setColor(mColor, Graphics.COLOR_TRANSPARENT);
     }
 
     var offsetX = dim[0] * mOffsetMod + Settings.strokeWidth / 2d;
@@ -79,7 +79,7 @@ class SecondaryDataField extends DataFieldDrawable {
 
   hidden function clearForPartialUpdate(dc) {
     // clear with background color so we don't draw over existing text
-    dc.setColor(0xffffff, 0);
+    dc.setColor(Graphics.COLOR_WHITE, 0);
     dc.clear();
   }
 

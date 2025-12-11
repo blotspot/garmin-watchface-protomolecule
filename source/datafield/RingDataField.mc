@@ -50,9 +50,9 @@ class RingDataField extends DataFieldDrawable {
 
     if (mShowIcon) {
       if (mLastInfo.progress == 0) {
-        dc.setColor(0xaaaaaa, -1);
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
       } else {
-        dc.setColor(0xffffff, -1);
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
       }
       mLastInfo.icon.resetOffset();
       mLastInfo.icon.drawAt(dc, locX, locY);
@@ -100,6 +100,6 @@ class RingDataField extends DataFieldDrawable {
     } else if (mFieldId == FieldId.LOWER_2) {
       return themeColor(Color.SECONDARY_2);
     }
-    return 0xffffff;
+    return Graphics.COLOR_WHITE;
   }
 }

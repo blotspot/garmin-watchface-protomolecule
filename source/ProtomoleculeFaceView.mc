@@ -69,6 +69,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // Load your resources here
   function onLayout(dc) {
+    Settings.loadProperties();
     setLayout(chooseLayout(dc, true));
     getDrawableDataFields();
   }
