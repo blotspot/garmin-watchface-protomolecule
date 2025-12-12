@@ -155,10 +155,6 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     return mSettings;
   }
 
-  hidden function displayModeAvailable() as Boolean {
-    return System has :getDisplayMode;
-  }
-
   //! check if watch requires burn-in protection (AMOLED)
   hidden function requiresBurnInProtection() as Boolean {
     return _settings() has :requiresBurnInProtection && _settings().requiresBurnInProtection;
