@@ -79,7 +79,12 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // loading resources into memory.
   function onShow() {
     Log.debug("onShow");
-    Settings.purge();
+    var sleepTime = Settings.isSleepTime;
+    Settings.determineSleepTime();
+    if (sleepTime != Settings.isSleepTime) {
+      Log.debug("onShow sleep time changed, update layout");
+      WatchUi.requestUpdate();
+    }
   }
 
   // Update the view
