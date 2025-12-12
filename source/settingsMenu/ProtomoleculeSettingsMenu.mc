@@ -34,6 +34,7 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
         Settings.resource(Rez.Strings.ToggleMenuDisabled)
       )
     );
+    Menu2.addItem(menuItem("sleepLayoutSettings", Settings.resource(Rez.Strings.SettingsSleepLayoutSettingsTitle), null));
     Menu2.addItem(
       toggleItem(
         "useSystemFontForDate",
@@ -98,6 +99,16 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
         WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
         return;
       }
+    } else if ("sleepLayoutSettings".equals(id)) {
+      var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsOrbitLayoutGroupTitle) });
+
+      menu.addItem(menuItem("sleepModeDataFieldUp", Settings.resource(Rez.Strings.SettingsSleepModeDFUpTitle), getDataFieldString(Properties.getValue("sleepModeDataFieldUp") as Number)));
+      menu.addItem(menuItem("sleepModeDataField1", Settings.resource(Rez.Strings.SettingsSleepModeDF1Title), getDataFieldString(Properties.getValue("sleepModeDataField1") as Number)));
+      menu.addItem(menuItem("sleepModeDataField2", Settings.resource(Rez.Strings.SettingsSleepModeDF2Title), getDataFieldString(Properties.getValue("sleepModeDataField2") as Number)));
+      menu.addItem(menuItem("sleepModeDataField3", Settings.resource(Rez.Strings.SettingsSleepModeDF3Title), getDataFieldString(Properties.getValue("sleepModeDataField3") as Number)));
+
+      WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
+      return;
     }
     if (item instanceof ToggleMenuItem) {
       Properties.setValue(id, (item as ToggleMenuItem).isEnabled());
@@ -111,7 +122,15 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
       if ("theme".equals(id)) {
         options.holder = new FixedValuesFactory([getThemeString(0), getThemeString(1), getThemeString(2), getThemeString(3)], id, {});
       }
-      if ("noProgressDataField1".equals(id) || "noProgressDataField2".equals(id) || "noProgressDataField3".equals(id)) {
+      if (
+        "noProgressDataField1".equals(id) ||
+        "noProgressDataField2".equals(id) ||
+        "noProgressDataField3".equals(id) ||
+        "sleepModeDataFieldUp".equals(id) ||
+        "sleepModeDataField1".equals(id) ||
+        "sleepModeDataField2".equals(id) ||
+        "sleepModeDataField3".equals(id)
+      ) {
         options.holder = new DataFieldFactory([0, 2, 4, 5, 6, 7, 8, 9, 10, 11, 13], id, {});
       }
       if ("outerOrbitDataField".equals(id) || "leftOrbitDataField".equals(id) || "rightOrbitDataField".equals(id)) {

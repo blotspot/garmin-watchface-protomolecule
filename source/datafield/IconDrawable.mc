@@ -31,7 +31,7 @@ class IconDrawable extends WatchUi.Drawable {
       locX = dc.getWidth() / 2;
       locY = dc.getHeight() / 2;
       saveSetAntiAlias(dc, true);
-      dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
+      dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
       dc.fillCircle(locX, locY, Math.floor(Settings.iconSize) - 1);
       dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
       drawInternal(dc);

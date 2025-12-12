@@ -10,8 +10,6 @@
   <string id="ThemeEarth">ONU</string>
   <string id="ThemeMars">MCR</string>
   <string id="ThemeBelt">Ceinture</string>
-  <string id="ThemeExpanseLight">Expanse (Clair)</string>
-  <string id="ThemeEarthLight">ONU (Clair)</string>
 
   <string id="GenericSettingsGroupTitle">Paramètres Généraux</string>
   <string id="SettingsChooseLayoutTitle">Choisir la Disposition</string>
@@ -48,6 +46,7 @@
   <string id="ToggleMenuDisabled">Désactivé</string>
 
   <string id="SettingsLayoutSettingsTitle">Paramètres de Disposition</string>
+  <string id="SettingsSleepLayoutSettingsTitle">Paramètres de Sommeil</string>
   <string id="SettingsOrbitLayoutGroupTitle">Paramètres de Disposition Orbite</string>
   <string id="SettingsOrbitIndicatorTextTitle">[Orbite] Afficher le Texte pour les Champs de Données principaux</string>
   <string id="SettingsOuterOrbitTitle">[Orbite] Indicateur Extérieur</string>
@@ -74,6 +73,11 @@
   <string id="SettingsSecondary1Title">DF Horloge Gauche</string>
   <string id="SettingsSecondary2Title">DF Horloge Milieu</string>
   <string id="SettingsSecondary3Title">DF Horloge Droite</string>
+  
+  <string id="SettingsSleepModeDFUpTitle">DF Mode Veille Supérieur</string>
+  <string id="SettingsSleepModeDF1Title">DF Mode Veille Gauche</string>
+  <string id="SettingsSleepModeDF2Title">DF Mode Veille Milieu</string>
+  <string id="SettingsSleepModeDF3Title">DF Mode Veille Droite</string>
 
   <string id="NoDataField">Aucun</string>
   <string id="DataFieldSteps">Pas</string>

@@ -17,6 +17,11 @@
   <property id="noProgressDataField2" type="number">6</property>
   <property id="noProgressDataField3" type="number">9</property>
   
+  <property id="sleepModeDataField1" type="number">5</property>
+  <property id="sleepModeDataField2" type="number">6</property>
+  <property id="sleepModeDataField3" type="number">10</property>
+  <property id="sleepModeDataFieldUp" type="number">2</property>
+  
   <property id="outerDataField" type="number">2</property>
   <property id="upperDataField1" type="number">1</property>
   <property id="upperDataField2" type="number">3</property>

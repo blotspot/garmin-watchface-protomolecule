@@ -4,27 +4,27 @@
     <param name="justifyDate">0</param>
   </drawable>
 
-  <drawable id="HeartrateDataField" class="SecondaryDataField">
-    <param name="fieldId">FieldId.SLEEP_HR</param>
+  <drawable id="SleepLeftDataField" class="SecondaryDataField">
+    <param name="fieldId">FieldId.SLEEP_LEFT</param>
     <param name="position">2</param>
     <param name="x">0.168 * dc.getWidth()</param>
     <param name="y">0.685 * dc.getHeight()</param>
   </drawable>
-  <drawable id="NotificationDataField" class="SecondaryDataField">
-    <param name="fieldId">FieldId.SLEEP_NOTIFY</param>
+  <drawable id="SleepMiddleDataField" class="SecondaryDataField">
+    <param name="fieldId">FieldId.SLEEP_MIDDLE</param>
     <param name="position">1</param>
     <param name="x">0.5 * dc.getWidth()</param>
     <param name="y">0.685 * dc.getHeight()</param>
   </drawable>
-  <drawable id="AlarmsDataField" class="SecondaryDataField">
-    <param name="fieldId">FieldId.SLEEP_ALARMS</param>
+  <drawable id="SleepRightDataField" class="SecondaryDataField">
+    <param name="fieldId">FieldId.SLEEP_RIGHT</param>
     <param name="position">0</param>
     <param name="x">0.832 * dc.getWidth()</param>
     <param name="y">0.685 * dc.getHeight()</param>
   </drawable>
   
-  <drawable id="BatteryDataField" class="SecondaryDataField">
-    <param name="fieldId">FieldId.SLEEP_BATTERY</param>
+  <drawable id="SleepUpperDataField" class="SecondaryDataField">
+    <param name="fieldId">FieldId.SLEEP_UP</param>
     <param name="position">2</param>
     <param name="x">0.168 * dc.getWidth()</param>
     <param name="y">0.31 * dc.getHeight() + 1</param>

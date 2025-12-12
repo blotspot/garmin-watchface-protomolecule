@@ -57,14 +57,14 @@ module DataFieldInfo {
       return getInfoForType(Properties.getValue("lowerDataField1") as Number);
     } else if (fieldId == FieldId.LOWER_2) {
       return getInfoForType(Properties.getValue("lowerDataField2") as Number);
-    } else if (fieldId == FieldId.SLEEP_HR) {
-      return getHeartRateInfo();
-    } else if (fieldId == FieldId.SLEEP_NOTIFY) {
-      return getNotificationInfo();
-    } else if (fieldId == FieldId.SLEEP_ALARMS) {
-      return getAlarmsInfo();
-    } else if (fieldId == FieldId.SLEEP_BATTERY) {
-      return getBatteryInfo();
+    } else if (fieldId == FieldId.SLEEP_LEFT) {
+      return getInfoForType(Properties.getValue("sleepModeDataField1") as Number);
+    } else if (fieldId == FieldId.SLEEP_MIDDLE) {
+      return getInfoForType(Properties.getValue("sleepModeDataField2") as Number);
+    } else if (fieldId == FieldId.SLEEP_RIGHT) {
+      return getInfoForType(Properties.getValue("sleepModeDataField3") as Number);
+    } else if (fieldId == FieldId.SLEEP_UP) {
+      return getInfoForType(Properties.getValue("sleepModeDataFieldUp") as Number);
     } else {
       return null;
     }

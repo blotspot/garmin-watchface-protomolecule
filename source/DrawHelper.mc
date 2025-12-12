@@ -19,10 +19,10 @@ module FieldId {
   const UPPER_2 as Number = 8;
   const LOWER_1 as Number = 9;
   const LOWER_2 as Number = 10;
-  const SLEEP_BATTERY as Number = 11;
-  const SLEEP_HR as Number = 12;
-  const SLEEP_ALARMS as Number = 13;
-  const SLEEP_NOTIFY as Number = 14;
+  const SLEEP_UP as Number = 11;
+  const SLEEP_LEFT as Number = 12;
+  const SLEEP_RIGHT as Number = 13;
+  const SLEEP_MIDDLE as Number = 14;
   const DATE_AND_TIME as Number = 15;
 }
 

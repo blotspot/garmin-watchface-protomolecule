@@ -10,8 +10,6 @@
   <string id="ThemeEarth">UN</string>
   <string id="ThemeMars">MCR</string>
   <string id="ThemeBelt">Belt</string>
-  <string id="ThemeExpanseLight">Expanse (Hell)</string>
-  <string id="ThemeEarthLight">UN (Hell)</string>
 
   <string id="GenericSettingsGroupTitle">Allgemeine Einstellungen</string>
   <string id="SettingsLayoutTitle">Layout</string>
@@ -48,6 +46,7 @@
   <string id="ToggleMenuDisabled">Aus</string>
 
   <string id="SettingsLayoutSettingsTitle">Layout Einstellungen</string>
+  <string id="SettingsSleepLayoutSettingsTitle">Schlaflayout Einstellung</string>
   <string id="SettingsOrbitLayoutGroupTitle">Orbit Layout Einstellungen</string>
   <string id="SettingsOrbitIndicatorTextTitle">Zeige Text bei den pimären Indikatoren</string>
   <string id="SettingsOuterOrbitTitle">[Orbit] Äußeres Datenfeld</string>
@@ -74,6 +73,11 @@
   <string id="SettingsSecondary1Title">DF Uhr links</string>
   <string id="SettingsSecondary2Title">DF Uhr mitte</string>
   <string id="SettingsSecondary3Title">DF Uhr rechts</string>
+  
+  <string id="SettingsSleepModeDFUpTitle">DF Schlafmodus oben</string>
+  <string id="SettingsSleepModeDF1Title">DF Schlafmodus link</string>
+  <string id="SettingsSleepModeDF2Title">DF Schlafmodus mitte</string>
+  <string id="SettingsSleepModeDF3Title">DF Schlafmodus rechts</string>
   
   <string id="NoDataField">Leer</string>
   <string id="DataFieldSteps">Tägliche Schritte</string>
