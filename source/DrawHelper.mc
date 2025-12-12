@@ -56,8 +56,8 @@ module Color {
     0xff0000, // SECONDARY_2
     /* EARTH */
     0x00aaff, // PRIMARY
-    0x0055ff, // SECONDARY_1
-    0x0055ff, // SECONDARY_2
+    0x00ffff, // SECONDARY_1
+    0x00ffff, // SECONDARY_2
     /* MARS */
     0xff0000, // PRIMARY
     0xff5500, // SECONDARY_1
