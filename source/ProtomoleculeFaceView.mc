@@ -25,21 +25,29 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   function chooseLayout(dc, onLayoutCall) {
     if (onLayoutCall) {
-      Log.debug("onLayoutCall");
+      if (Log.isDebugEnabled()) {
+        Log.debug("onLayoutCall");
+      }
       return chooseLayoutByPriority(dc);
     }
     if (mLastBIPModeState != Settings.burnInProtectionMode) {
-      Log.debug("enter / exit low power mode triggered");
+      if (Log.isDebugEnabled()) {
+        Log.debug("enter / exit low power mode triggered");
+      }
       mLastBIPModeState = Settings.burnInProtectionMode;
       return chooseLayoutByPriority(dc);
     }
     if (mLastSleepLayoutState != Settings.useSleepTimeLayout()) {
-      Log.debug("sleep / wake time event triggered (and not in legacy BIP mode)");
+      if (Log.isDebugEnabled()) {
+        Log.debug("sleep / wake time event triggered (and not in legacy BIP mode)");
+      }
       mLastSleepLayoutState = Settings.useSleepTimeLayout();
       return chooseLayoutByPriority(dc);
     }
     if (mActiveDefaultLayout != Properties.getValue("layout")) {
-      Log.debug("layout switch triggered");
+      if (Log.isDebugEnabled()) {
+        Log.debug("layout switch triggered");
+      }
       mActiveDefaultLayout = Properties.getValue("layout") as Number;
       return chooseLayoutByPriority(dc);
     }
@@ -49,21 +57,29 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   hidden function chooseLayoutByPriority(dc) {
     // Prio 1: Legacy BIP (pixes cycling)
     if (Settings.burnInProtectionMode && !Settings.hasDisplayMode) {
-      Log.debug("set burn-in protection layout (AMOLEDs below API 5)");
+      if (Log.isDebugEnabled()) {
+        Log.debug("set burn-in protection layout (AMOLEDs below API 5)");
+      }
       return Rez.Layouts.BurnInProtectionLayout(dc);
     }
     // Prio 2: Sleep Time (when enabled in settings)
     if (Settings.useSleepTimeLayout()) {
-      Log.debug("set sleep time layout");
+      if (Log.isDebugEnabled()) {
+        Log.debug("set sleep time layout");
+      }
       return Rez.Layouts.SleepLayout(dc);
     }
     // Prio 3: AMOLED Low Power Mode (<10% luminance)
     if (Settings.burnInProtectionMode && Settings.hasDisplayMode) {
-      Log.debug("set low power mode layout (AMOLEDs above API 5)");
+      if (Log.isDebugEnabled()) {
+        Log.debug("set low power mode layout (AMOLEDs above API 5)");
+      }
       return Rez.Layouts.LowPowerModeLayout(dc);
     }
     // Finally: Choose default layout
-    Log.debug("set default layout");
+    if (Log.isDebugEnabled()) {
+      Log.debug("set default layout");
+    }
     return mActiveDefaultLayout == 0 ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
   }
 
@@ -78,12 +94,8 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // the state of this View and prepare it to be shown. This includes
   // loading resources into memory.
   function onShow() {
-    Log.debug("onShow");
-    var sleepTime = Settings.isSleepTime;
-    Settings.determineSleepTime();
-    if (sleepTime != Settings.isSleepTime) {
-      Log.debug("onShow sleep time changed, update layout");
-      WatchUi.requestUpdate();
+    if (Log.isDebugEnabled()) {
+      Log.debug("onShow");
     }
   }
 
@@ -103,18 +115,24 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // state of this View here. This includes freeing resources from
   // memory.
   function onHide() {
-    Log.debug("onHide");
+    if (Log.isDebugEnabled()) {
+      Log.debug("onHide");
+    }
     Settings.purge();
   }
 
   // The user has just looked at their watch. Timers and animations may be started here.
   function onExitSleep() {
     if (requiresBurnInProtection()) {
-      Log.debug("onExitSleep burnInProtectionMode");
+      if (Log.isDebugEnabled()) {
+        Log.debug("onExitSleep burnInProtectionMode");
+      }
       Settings.burnInProtectionMode = false;
       WatchUi.requestUpdate();
     }
-    Log.debug("onExitSleep lowPowerMode");
+    if (Log.isDebugEnabled()) {
+      Log.debug("onExitSleep lowPowerMode");
+    }
     Settings.lowPowerMode = false;
   }
 
@@ -122,11 +140,15 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   function onEnterSleep() {
     mDataFieldUpdateCounter = 0;
     if (requiresBurnInProtection()) {
-      Log.debug("onEnterSleep burnInProtectionMode");
+      if (Log.isDebugEnabled()) {
+        Log.debug("onEnterSleep burnInProtectionMode");
+      }
       Settings.burnInProtectionMode = true;
       WatchUi.requestUpdate();
     }
-    Log.debug("onEnterSleep lowPowerMode");
+    if (Log.isDebugEnabled()) {
+      Log.debug("onEnterSleep lowPowerMode");
+    }
     Settings.lowPowerMode = true;
   }
 

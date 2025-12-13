@@ -1,4 +1,7 @@
 <strings>
+  <string id="AppName">Protomolecule</string>
+  <string id="AppNameBeta">Protomolecule (BETA)</string>
+
   <string id="LayoutOrbit">Orbit (6 Datenfelder)</string>
   <string id="LayoutOrbitItem">Orbit</string>
   <string id="LayoutOrbitItemSub">6 Datenfelder</string>
