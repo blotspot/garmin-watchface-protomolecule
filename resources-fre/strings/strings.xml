@@ -78,7 +78,9 @@
   <string id="SettingsSleepModeDF1Title">DF Mode Veille Gauche</string>
   <string id="SettingsSleepModeDF2Title">DF Mode Veille Milieu</string>
   <string id="SettingsSleepModeDF3Title">DF Mode Veille Droite</string>
-
+  
+  <string id="ODSettingsSleepModeDFUpTitle">DF Ligne de Date</string>
+  
   <string id="NoDataField">Aucun</string>
   <string id="DataFieldSteps">Pas</string>
   <string id="DataFieldBattery">Batterie</string>

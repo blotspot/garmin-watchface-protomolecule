@@ -79,6 +79,8 @@
   <string id="SettingsSleepModeDF2Title">DF Schlafmodus mitte</string>
   <string id="SettingsSleepModeDF3Title">DF Schlafmodus rechts</string>
   
+  <string id="ODSettingsSleepModeDFUpTitle">DF Datumszeile</string>
+  
   <string id="NoDataField">Leer</string>
   <string id="DataFieldSteps">Tägliche Schritte</string>
   <string id="DataFieldBattery">Batteriestand</string>

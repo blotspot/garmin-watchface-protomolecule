@@ -82,6 +82,8 @@
   <string id="SettingsSleepModeDF2Title">DF SleepMode Middle</string>
   <string id="SettingsSleepModeDF3Title">DF SleepMode Right</string>
   
+  <string id="ODSettingsSleepModeDFUpTitle">DF Date Line</string>
+  
   <string id="NoDataField">Nothing</string>
   <string id="DataFieldSteps">Steps</string>
   <string id="DataFieldBattery">Battery</string>

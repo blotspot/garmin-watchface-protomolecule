@@ -102,10 +102,10 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     } else if ("sleepLayoutSettings".equals(id)) {
       var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsOrbitLayoutGroupTitle) });
 
-      menu.addItem(menuItem("sleepModeDataFieldUp", Settings.resource(Rez.Strings.SettingsSleepModeDFUpTitle), getDataFieldString(Properties.getValue("sleepModeDataFieldUp") as Number)));
-      menu.addItem(menuItem("sleepModeDataField1", Settings.resource(Rez.Strings.SettingsSleepModeDF1Title), getDataFieldString(Properties.getValue("sleepModeDataField1") as Number)));
-      menu.addItem(menuItem("sleepModeDataField2", Settings.resource(Rez.Strings.SettingsSleepModeDF2Title), getDataFieldString(Properties.getValue("sleepModeDataField2") as Number)));
-      menu.addItem(menuItem("sleepModeDataField3", Settings.resource(Rez.Strings.SettingsSleepModeDF3Title), getDataFieldString(Properties.getValue("sleepModeDataField3") as Number)));
+      menu.addItem(menuItem("sleepModeDataFieldUp", Settings.resource(Rez.Strings.ODSettingsSleepModeDFUpTitle), getDataFieldString(Properties.getValue("sleepModeDataFieldUp") as Number)));
+      menu.addItem(menuItem("sleepModeDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), getDataFieldString(Properties.getValue("sleepModeDataField1") as Number)));
+      menu.addItem(menuItem("sleepModeDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), getDataFieldString(Properties.getValue("sleepModeDataField2") as Number)));
+      menu.addItem(menuItem("sleepModeDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), getDataFieldString(Properties.getValue("sleepModeDataField3") as Number)));
 
       WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
       return;
