@@ -100,8 +100,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
         return;
       }
     } else if ("sleepLayoutSettings".equals(id)) {
-      var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsOrbitLayoutGroupTitle) });
-
+      var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsSleepLayoutSettingsTitle) });
       menu.addItem(menuItem("sleepModeDataFieldUp", Settings.resource(Rez.Strings.ODSettingsSleepModeDFUpTitle), getDataFieldString(Properties.getValue("sleepModeDataFieldUp") as Number)));
       menu.addItem(menuItem("sleepModeDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), getDataFieldString(Properties.getValue("sleepModeDataField1") as Number)));
       menu.addItem(menuItem("sleepModeDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), getDataFieldString(Properties.getValue("sleepModeDataField2") as Number)));
