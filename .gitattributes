@@ -1,1 +1,2 @@
+# run git config --global merge.ours.driver true
 manifest.xml merge=ours
