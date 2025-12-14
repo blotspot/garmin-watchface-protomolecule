@@ -8,6 +8,10 @@ import Enums;
 class DataFieldDrawable extends WatchUi.Drawable {
   hidden var mFieldId as FieldId;
   hidden var mLastInfo as DataFieldProperties? = null;
+  hidden var mClipX as Numeric?;
+  hidden var mClipY as Numeric?;
+  hidden var mClipWidth as Numeric?;
+  hidden var mClipHeight as Numeric?;
 
   function initialize(
     params as
@@ -35,5 +39,16 @@ class DataFieldDrawable extends WatchUi.Drawable {
       mLastInfo = currentInfo;
       drawCallback.invoke(dc, true); // invoke `update(dc)` method of child class
     }
+  }
+
+  private function isInHitbox(x as Number, y as Number) as Boolean {
+    return x >= mClipX && x <= mClipX + mClipWidth && y >= mClipY && y <= mClipY + mClipHeight;
+  }
+
+  public function getComplicationForCoordinates(x as Number, y as Number) {
+    if (isInHitbox(x, y)) {
+      Log.debug("Hit DataFieldDrawable id=" + mFieldId);
+    }
+    return null;
   }
 }

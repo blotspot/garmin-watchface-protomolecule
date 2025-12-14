@@ -5,96 +5,97 @@ import Toybox.Graphics;
 import Toybox.System;
 
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
-  hidden var mLastBIPModeState as Boolean;
-  hidden var mLastSleepLayoutState as Boolean;
-  hidden var mActiveDefaultLayout as Number?;
+  private var _lastBIPModeState as Boolean;
+  private var _lastSleepLayoutState as Boolean;
+  private var _activeDefaultLayout as Number?;
 
-  hidden var mNoProgress1 as SecondaryDataField?;
-  hidden var mNoProgress2 as SecondaryDataField?;
-  hidden var mNoProgress3 as SecondaryDataField?;
+  private var _currentLayout as Array<WatchUi.Drawable>?;
 
-  hidden var mDataFieldUpdateCounter = 0;
-
-  hidden var mSettings;
+  private var _dataFieldUpdateCounter = 0;
 
   function initialize() {
-    mLastBIPModeState = Settings.burnInProtectionMode;
-    mLastSleepLayoutState = Settings.useSleepTimeLayout();
+    _lastBIPModeState = Settings.burnInProtectionMode;
+    _lastSleepLayoutState = Settings.useSleepTimeLayout();
     WatchFace.initialize();
   }
 
   function chooseLayout(dc, onLayoutCall) {
     if (onLayoutCall) {
-      if (Log.isDebugEnabled()) {
+      if (Log.isDebugEnabled) {
         Log.debug("onLayoutCall");
       }
       return chooseLayoutByPriority(dc);
     }
-    if (mLastBIPModeState != Settings.burnInProtectionMode) {
-      if (Log.isDebugEnabled()) {
+    if (_lastBIPModeState != Settings.burnInProtectionMode) {
+      if (Log.isDebugEnabled) {
         Log.debug("enter / exit low power mode triggered");
       }
-      mLastBIPModeState = Settings.burnInProtectionMode;
+      _lastBIPModeState = Settings.burnInProtectionMode;
       return chooseLayoutByPriority(dc);
     }
-    if (mLastSleepLayoutState != Settings.useSleepTimeLayout()) {
-      if (Log.isDebugEnabled()) {
+    if (_lastSleepLayoutState != Settings.useSleepTimeLayout()) {
+      if (Log.isDebugEnabled) {
         Log.debug("sleep / wake time event triggered (and not in legacy BIP mode)");
       }
-      mLastSleepLayoutState = Settings.useSleepTimeLayout();
+      _lastSleepLayoutState = Settings.useSleepTimeLayout();
       return chooseLayoutByPriority(dc);
     }
-    if (mActiveDefaultLayout != Properties.getValue("layout")) {
-      if (Log.isDebugEnabled()) {
+    if (_activeDefaultLayout != Properties.getValue("layout")) {
+      if (Log.isDebugEnabled) {
         Log.debug("layout switch triggered");
       }
-      mActiveDefaultLayout = Properties.getValue("layout") as Number;
+      _activeDefaultLayout = Properties.getValue("layout") as Number;
       return chooseLayoutByPriority(dc);
     }
     return null;
   }
 
   hidden function chooseLayoutByPriority(dc) {
+    var layout = null;
     // Prio 1: Legacy BIP (pixes cycling)
     if (Settings.burnInProtectionMode && !Settings.hasDisplayMode) {
-      if (Log.isDebugEnabled()) {
+      if (Log.isDebugEnabled) {
         Log.debug("set burn-in protection layout (AMOLEDs below API 5)");
       }
-      return Rez.Layouts.BurnInProtectionLayout(dc);
+      layout = Rez.Layouts.BurnInProtectionLayout(dc);
     }
     // Prio 2: Sleep Time (when enabled in settings)
     if (Settings.useSleepTimeLayout()) {
-      if (Log.isDebugEnabled()) {
+      if (Log.isDebugEnabled) {
         Log.debug("set sleep time layout");
       }
-      return Rez.Layouts.SleepLayout(dc);
+      layout = Rez.Layouts.SleepLayout(dc);
     }
     // Prio 3: AMOLED Low Power Mode (<10% luminance)
     if (Settings.burnInProtectionMode && Settings.hasDisplayMode) {
-      if (Log.isDebugEnabled()) {
+      if (Log.isDebugEnabled) {
         Log.debug("set low power mode layout (AMOLEDs above API 5)");
       }
-      return Rez.Layouts.LowPowerModeLayout(dc);
+      layout = Rez.Layouts.LowPowerModeLayout(dc);
     }
-    // Finally: Choose default layout
-    if (Log.isDebugEnabled()) {
-      Log.debug("set default layout");
+    if (layout == null) {
+      // If no special Layouts found, choose default layout
+      if (Log.isDebugEnabled) {
+        Log.debug("set default layout");
+      }
+      layout = _activeDefaultLayout == Enums.LAYOUT_ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
     }
-    return mActiveDefaultLayout == 0 ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
+    _currentLayout = layout;
+
+    return _currentLayout;
   }
 
   // Load your resources here
   function onLayout(dc) {
     Settings.loadProperties();
     setLayout(chooseLayout(dc, true));
-    getDrawableDataFields();
   }
 
   // Called when this View is brought to the foreground. Restore
   // the state of this View and prepare it to be shown. This includes
   // loading resources into memory.
   function onShow() {
-    if (Log.isDebugEnabled()) {
+    if (Log.isDebugEnabled) {
       Log.debug("onShow");
     }
   }
@@ -115,7 +116,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // state of this View here. This includes freeing resources from
   // memory.
   function onHide() {
-    if (Log.isDebugEnabled()) {
+    if (Log.isDebugEnabled) {
       Log.debug("onHide");
     }
     Settings.purge();
@@ -124,13 +125,13 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // The user has just looked at their watch. Timers and animations may be started here.
   function onExitSleep() {
     if (requiresBurnInProtection()) {
-      if (Log.isDebugEnabled()) {
+      if (Log.isDebugEnabled) {
         Log.debug("onExitSleep burnInProtectionMode");
       }
       Settings.burnInProtectionMode = false;
       WatchUi.requestUpdate();
     }
-    if (Log.isDebugEnabled()) {
+    if (Log.isDebugEnabled) {
       Log.debug("onExitSleep lowPowerMode");
     }
     Settings.lowPowerMode = false;
@@ -138,15 +139,15 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // Terminate any active timers and prepare for slow updates.
   function onEnterSleep() {
-    mDataFieldUpdateCounter = 0;
+    _dataFieldUpdateCounter = 0;
     if (requiresBurnInProtection()) {
-      if (Log.isDebugEnabled()) {
+      if (Log.isDebugEnabled) {
         Log.debug("onEnterSleep burnInProtectionMode");
       }
       Settings.burnInProtectionMode = true;
       WatchUi.requestUpdate();
     }
-    if (Log.isDebugEnabled()) {
+    if (Log.isDebugEnabled) {
       Log.debug("onEnterSleep lowPowerMode");
     }
     Settings.lowPowerMode = true;
@@ -154,37 +155,60 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   function onPartialUpdate(dc) {
     if (!Settings.isSleepTime && Properties.getValue("activeHeartrate")) {
-      mDataFieldUpdateCounter += 1;
-      mDataFieldUpdateCounter = mDataFieldUpdateCounter % 10;
-      if (mDataFieldUpdateCounter == 0) {
-        if (mNoProgress1 != null) {
-          mNoProgress1.partialUpdate(dc);
-        }
-        if (mNoProgress2 != null) {
-          mNoProgress2.partialUpdate(dc);
-        }
-        if (mNoProgress3 != null) {
-          mNoProgress3.partialUpdate(dc);
+      _dataFieldUpdateCounter += 1;
+      _dataFieldUpdateCounter = _dataFieldUpdateCounter % 10;
+
+      if (_dataFieldUpdateCounter == 0) {
+        for (var i = 0; i < _currentLayout.size(); i += 1) {
+          var drawable = _currentLayout[i];
+          if (drawable instanceof SecondaryDataField) {
+            (drawable as SecondaryDataField).partialUpdate(dc);
+          }
         }
       }
     }
   }
 
-  hidden function _settings() as DeviceSettings {
-    if (mSettings == null) {
-      mSettings = System.getDeviceSettings();
+  function getCurrentLayout() as Array<WatchUi.Drawable> {
+    return _currentLayout;
+  }
+
+  private var _deviceSettings;
+
+  private function _settings() as DeviceSettings {
+    if (_deviceSettings == null) {
+      _deviceSettings = System.getDeviceSettings();
     }
-    return mSettings;
+    return _deviceSettings;
   }
 
   //! check if watch requires burn-in protection (AMOLED)
   hidden function requiresBurnInProtection() as Boolean {
     return _settings() has :requiresBurnInProtection && _settings().requiresBurnInProtection;
   }
+}
 
-  hidden function getDrawableDataFields() {
-    mNoProgress1 = findDrawableById("NoProgressDataField1");
-    mNoProgress2 = findDrawableById("NoProgressDataField2");
-    mNoProgress3 = findDrawableById("NoProgressDataField3");
+class ProtomoleculeFaceViewDelegate extends WatchUi.WatchFaceDelegate {
+  private var _view as ProtomoleculeFaceView;
+
+  function initialize(view as ProtomoleculeFaceView) {
+    WatchFaceDelegate.initialize();
+    _view = view;
+  }
+
+  function onPress(clickEvent as WatchUi.ClickEvent) as Boolean {
+    var coords = clickEvent.getCoordinates();
+    var drawables = _view.getCurrentLayout();
+    if (Log.isDebugEnabled) {
+      Log.debug("onPress x:" + coords[0] + ", y:" + coords[1]);
+    }
+    for (var i = 0; i < drawables.size(); i += 1) {
+      var drawable = drawables[i];
+      Log.debug("iterate over drawable id: " + drawable.identifier);
+      if (drawable has :getComplicationForCoordinates) {
+        drawable.getComplicationForCoordinates(coords[0], coords[1]);
+      }
+    }
+    return false;
   }
 }

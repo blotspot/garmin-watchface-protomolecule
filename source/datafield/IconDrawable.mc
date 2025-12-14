@@ -4,8 +4,8 @@ import Toybox.Application;
 import Toybox.Lang;
 
 class IconDrawable extends WatchUi.Drawable {
-  hidden var mIcon as String?;
-  hidden var mOffestY as Boolean;
+  private var mIcon as String?;
+  private var mOffestY as Boolean;
 
   function initialize(identifier as Number, icon as String?, offsetY as Boolean) {
     mIcon = icon;
@@ -43,7 +43,7 @@ class IconDrawable extends WatchUi.Drawable {
     mOffestY = false;
   }
 
-  hidden function drawInternal(dc) {
+  private function drawInternal(dc) {
     var font = Settings.resource(Rez.Fonts.IconsFont);
     dc.drawText(locX, locY, font, mIcon, 1 | 4);
   }

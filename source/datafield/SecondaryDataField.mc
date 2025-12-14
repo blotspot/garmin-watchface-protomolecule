@@ -6,8 +6,8 @@ import Color;
 import Enums;
 
 class SecondaryDataField extends DataFieldDrawable {
-  hidden var mOffsetMod as Numeric;
-  hidden var mColor as Number;
+  private var _offsetMod as Numeric;
+  private var _color as Number;
 
   function initialize(
     params as
@@ -32,8 +32,8 @@ class SecondaryDataField extends DataFieldDrawable {
     DataFieldDrawable.initialize(params);
 
     var pos = params[:position];
-    mOffsetMod = pos == 2 ? 0 : pos == 1 ? 0.5 : 1;
-    mColor = params.hasKey(:color) ? $.themeColor(params[:color]) : Graphics.COLOR_WHITE;
+    _offsetMod = pos == 2 ? 0 : pos == 1 ? 0.5 : 1;
+    _color = params.hasKey(:color) ? $.themeColor(params[:color]) : Graphics.COLOR_WHITE;
   }
 
   function draw(dc) {
@@ -53,10 +53,10 @@ class SecondaryDataField extends DataFieldDrawable {
     if (mLastInfo.progress == 0) {
       dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
     } else {
-      dc.setColor(mColor, Graphics.COLOR_TRANSPARENT);
+      dc.setColor(_color, Graphics.COLOR_TRANSPARENT);
     }
 
-    var offsetX = dim[0] * mOffsetMod + Settings.strokeWidth / 2d;
+    var offsetX = dim[0] * _offsetMod + Settings.strokeWidth / 2d;
     mLastInfo.icon.drawAt(dc, locX - offsetX + Settings.iconSize / 2d /* icon will be centered at x, so add half icon size */, locY);
     if (mLastInfo.text != null) {
       dc.drawText(
@@ -73,18 +73,22 @@ class SecondaryDataField extends DataFieldDrawable {
     DataFieldDrawable.drawPartialUpdate(dc, method(:update));
   }
 
-  hidden function setClippingRegion(dc, dim as Array<Numeric>) {
-    var offsetX = dim[0] * mOffsetMod;
+  private function setClippingRegion(dc, dim as Array<Numeric>) {
+    var offsetX = dim[0] * _offsetMod;
+    mClipX = locX - dim[0] * _offsetMod;
+    mClipY = locY - dim[1] / 2;
+    mClipWidth = dim[0];
+    mClipHeight = dim[1];
     dc.setClip(locX - offsetX, locY - dim[1] / 2, dim[0], dim[1]);
   }
 
-  hidden function clearForPartialUpdate(dc) {
+  private function clearForPartialUpdate(dc) {
     // clear with background color so we don't draw over existing text
     dc.setColor(Graphics.COLOR_WHITE, 0);
     dc.clear();
   }
 
-  hidden function getDimensions(dc) as Array<Numeric> {
+  private function getDimensions(dc) as Array<Numeric> {
     var textWidth = 0;
     if (mLastInfo.text != null) {
       textWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont));

@@ -5,8 +5,8 @@ import Toybox.Lang;
 import Enums;
 
 class RingDataField extends DataFieldDrawable {
-  hidden var mShowIcon as Boolean;
-  hidden var mRadius as Numeric;
+  private var _showIcon as Boolean;
+  private var _radius as Numeric;
 
   function initialize(
     params as
@@ -25,12 +25,17 @@ class RingDataField extends DataFieldDrawable {
       }
   ) {
     DataFieldDrawable.initialize(params);
-    mShowIcon = params[:showIcon];
-    mRadius = params[:radius];
+    _showIcon = params[:showIcon];
+    _radius = params[:radius];
     //! redefine locX / locY.
     //! Doing it the stupid way because the layout isn't allowing a `dc` call in their definition.
     locX = params[:x];
     locY = params[:y];
+
+    mClipX = locX - (_radius + Settings.strokeWidth);
+    mClipY = locY - (_radius + Settings.strokeWidth);
+    mClipWidth = (_radius + Settings.strokeWidth * 2) * 2;
+    mClipHeight = (_radius + Settings.strokeWidth * 2) * 2;
   }
 
   function draw(dc) {
@@ -41,7 +46,7 @@ class RingDataField extends DataFieldDrawable {
   }
 
   function update(dc) {
-    setClippingRegion(dc, Settings.strokeWidth);
+    setClippingRegion(dc);
     $.saveSetAntiAlias(dc, true);
     dc.setPenWidth(Settings.strokeWidth * 1.5);
     if (mLastInfo.progress > 1.0) {
@@ -49,7 +54,7 @@ class RingDataField extends DataFieldDrawable {
     }
     drawProgressArc(dc, mLastInfo.progress);
 
-    if (mShowIcon) {
+    if (_showIcon) {
       if (mLastInfo.progress == 0) {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
       } else {
@@ -66,7 +71,7 @@ class RingDataField extends DataFieldDrawable {
     DataFieldDrawable.drawPartialUpdate(dc, method(:update));
   }
 
-  hidden function drawProgressArc(dc, fillLevel as Numeric) {
+  private function drawProgressArc(dc, fillLevel as Numeric) {
     if (fillLevel > 0.0) {
       var startDegree = 90;
       var endDegree = startDegree - 360 * fillLevel;
@@ -74,22 +79,21 @@ class RingDataField extends DataFieldDrawable {
       dc.drawArc(
         locX, // x center of ring
         locY, // y center of ring
-        mRadius,
-        1,
+        _radius,
+        Graphics.ARC_CLOCKWISE,
         startDegree,
         endDegree
       );
     }
   }
 
-  hidden function setClippingRegion(dc, penSize as Numeric) {
+  private function setClippingRegion(dc) {
     dc.setColor(getForeground(), -1);
-
-    dc.setClip(locX - (mRadius + penSize), locY - (mRadius + penSize), (mRadius + penSize * 2) * 2, (mRadius + penSize * 2) * 2);
+    dc.setClip(mClipX, mClipY, mClipWidth, mClipHeight);
     dc.clear();
   }
 
-  hidden function getForeground() as ColorType {
+  private function getForeground() as ColorType {
     if (mFieldId == Enums.FIELD_OUTER || mFieldId == Enums.FIELD_SLEEP_UP) {
       return $.themeColor(Enums.COLOR_PRIMARY);
     } else if (mFieldId == Enums.FIELD_UPPER_1) {

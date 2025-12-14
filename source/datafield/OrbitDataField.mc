@@ -6,9 +6,9 @@ import Toybox.Lang;
 import Enums;
 
 class OrbitDataField extends DataFieldDrawable {
-  hidden var mStartDegree as Numeric;
-  hidden var mTotalDegree as Numeric;
-  hidden var mRadius as Numeric;
+  private var mStartDegree as Numeric;
+  private var mTotalDegree as Numeric;
+  private var mRadius as Numeric;
 
   function initialize(
     params as
@@ -62,20 +62,20 @@ class OrbitDataField extends DataFieldDrawable {
     DataFieldDrawable.drawPartialUpdate(dc, method(:update));
   }
 
-  hidden function drawProgressArc(dc, fillLevel as Numeric, reverse as Boolean) {
+  private function drawProgressArc(dc, fillLevel as Numeric, reverse as Boolean) {
     dc.setColor(getForeground(), -1);
     if (fillLevel > 0.0) {
       var startDegree = reverse ? mStartDegree - mTotalDegree + getFillDegree(fillLevel) : mStartDegree;
       var endDegree = reverse ? mStartDegree - mTotalDegree : mStartDegree - getFillDegree(fillLevel);
 
-      dc.drawArc(locX, locY, mRadius, 1, startDegree, endDegree);
+      dc.drawArc(locX, locY, mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
       if (fillLevel < 1.0) {
         drawEndpoint(dc, reverse ? startDegree : endDegree);
       }
     }
   }
 
-  hidden function drawRemainingArc(dc, fillLevel as Numeric, reverse as Boolean) {
+  private function drawRemainingArc(dc, fillLevel as Numeric, reverse as Boolean) {
     if (fillLevel < 1.0) {
       dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
       var startDegree = reverse ? mStartDegree : mStartDegree - getFillDegree(fillLevel);
@@ -84,11 +84,11 @@ class OrbitDataField extends DataFieldDrawable {
         endDegree += getFillDegree(fillLevel);
       }
 
-      dc.drawArc(locX, locY, mRadius, 1, startDegree, endDegree);
+      dc.drawArc(locX, locY, mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
     }
   }
 
-  hidden function drawEndpoint(dc, degree as Numeric) {
+  private function drawEndpoint(dc, degree as Numeric) {
     var x = getX(dc, degree);
     var y = getY(dc, degree);
     // draw outer colored circle
@@ -98,7 +98,7 @@ class OrbitDataField extends DataFieldDrawable {
     dc.fillCircle(x, y, Settings.strokeWidth + Settings.strokeWidth * 0.25);
   }
 
-  hidden function drawIcon(dc) {
+  private function drawIcon(dc) {
     if (mLastInfo.progress == 0) {
       dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
     } else {
@@ -117,31 +117,43 @@ class OrbitDataField extends DataFieldDrawable {
       y = locY + mRadius - Settings.iconSize * (showT ? 2 : 1);
     }
     mLastInfo.icon.drawAt(dc, x, y);
+
+    mClipX = x - Settings.iconSize / 2;
+    mClipY = y - Settings.iconSize / 2;
+    mClipWidth = Settings.iconSize;
+    mClipHeight = Settings.iconSize;
+
     if (showT && mLastInfo.text != null) {
+      var textDim = dc.getTextDimensions(mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont)) as Array<Number>;
+      if (Settings.iconSize < textDim[0]) {
+        mClipWidth = textDim[0];
+        mClipX = x - Settings.iconSize / 2;
+      }
+      mClipHeight = Settings.iconSize + textDim[1];
       y += Settings.iconSize;
       dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, 1 | 4);
     }
   }
 
-  hidden function getX(dc, degree as Numeric) as Numeric {
+  private function getX(dc, degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
     return locX + mRadius * Math.cos(degree);
   }
 
-  hidden function getY(dc, degree as Numeric) as Numeric {
+  private function getY(dc, degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
     return dc.getHeight() - (locY + mRadius * Math.sin(degree));
   }
 
-  hidden function getFillDegree(fillLevel as Numeric) as Numeric {
+  private function getFillDegree(fillLevel as Numeric) as Numeric {
     return mTotalDegree * fillLevel;
   }
 
-  hidden function setClippingRegion(dc) {
+  private function setClippingRegion(dc) {
     $.saveClearClip(dc);
   }
 
-  hidden function getForeground() as ColorType {
+  private function getForeground() as ColorType {
     if (mFieldId == Enums.FIELD_ORBIT_OUTER) {
       return $.themeColor(Enums.COLOR_PRIMARY);
     } else if (mFieldId == Enums.FIELD_ORBIT_LEFT) {

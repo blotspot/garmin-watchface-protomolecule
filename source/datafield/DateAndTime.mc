@@ -6,13 +6,13 @@ import Toybox.System;
 import Toybox.Time;
 
 class DateAndTime extends WatchUi.Drawable {
-  hidden var mBurnInProtectionMode as Boolean;
-  hidden var mBurnInProtectionModeEnteredAt as Number?;
+  private var _burnInProtectionMode as Boolean;
+  private var _burnInProtectionModeEnteredAt as Number?;
 
-  hidden var justifyDate as Number;
+  private var _justifyDate as Number;
 
-  hidden var DayOfWeek as Array<ResourceId> = [];
-  hidden var Months as Array<ResourceId> = [];
+  private var DayOfWeek as Array<ResourceId> = [];
+  private var Months as Array<ResourceId> = [];
 
   function initialize(
     params as
@@ -26,8 +26,8 @@ class DateAndTime extends WatchUi.Drawable {
         :justifyDate as Numeric,
       }
   ) {
-    mBurnInProtectionMode = Settings.burnInProtectionMode && !Settings.hasDisplayMode;
-    justifyDate = params[:justifyDate];
+    _burnInProtectionMode = Settings.burnInProtectionMode && !Settings.hasDisplayMode;
+    _justifyDate = params[:justifyDate];
 
     Months = [
       Rez.Strings.DateMonth1,
@@ -50,8 +50,8 @@ class DateAndTime extends WatchUi.Drawable {
 
   function draw(dc) {
     var now = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-    if (mBurnInProtectionMode && mBurnInProtectionModeEnteredAt == null) {
-      mBurnInProtectionModeEnteredAt = now.min;
+    if (_burnInProtectionMode && _burnInProtectionModeEnteredAt == null) {
+      _burnInProtectionModeEnteredAt = now.min;
     }
     var is12Hour = !System.getDeviceSettings().is24Hour;
 
@@ -59,7 +59,7 @@ class DateAndTime extends WatchUi.Drawable {
     var minutes = now.min.format(Format.INT_ZERO);
 
     var offsetY = 0;
-    if (mBurnInProtectionMode) {
+    if (_burnInProtectionMode) {
       offsetY = calculateLegacyBIPModeOffset(dc, now.min);
     }
 
@@ -70,9 +70,9 @@ class DateAndTime extends WatchUi.Drawable {
     var font = Properties.getValue("useSystemFontForDate") ? 1 /* Graphics.FONT_TINY */ : Settings.resource(Rez.Fonts.DateFont);
     var date = getDateLine(now);
     var dim = dc.getTextDimensions(date, font);
-    var x = (justifyDate == 0 ? 0.832 : 0.5) * dc.getWidth();
+    var x = (_justifyDate == 0 ? 0.832 : 0.5) * dc.getWidth();
     var y = 0.31 * dc.getHeight() - dim[1] / 2.0 + offsetY;
-    dc.drawText(x, y, font, date, justifyDate);
+    dc.drawText(x, y, font, date, _justifyDate);
     // Hours
     dim = dc.getTextDimensions(hours, Settings.resource(Rez.Fonts.HoursFont));
     x = 0.485 * dc.getWidth();
@@ -103,11 +103,11 @@ class DateAndTime extends WatchUi.Drawable {
     }
   }
 
-  hidden function getDateLine(now as Gregorian.Info) as String {
+  private function getDateLine(now as Gregorian.Info) as String {
     return format("$1$ $2$ $3$", [Settings.resource(DayOfWeek[(now.day_of_week as Number) - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[(now.month as Number) - 1])]);
   }
 
-  hidden function getHours(now as Gregorian.Info, is12Hour as Boolean) as String {
+  private function getHours(now as Gregorian.Info, is12Hour as Boolean) as String {
     var hours = now.hour;
     if (is12Hour) {
       if (hours == 0) {
@@ -120,12 +120,12 @@ class DateAndTime extends WatchUi.Drawable {
     return hours.format(Format.INT_ZERO);
   }
 
-  hidden function calculateLegacyBIPModeOffset(dc, min as Number) as Numeric {
+  private function calculateLegacyBIPModeOffset(dc, min as Number) as Numeric {
     var timeMod = 2;
-    if (min < mBurnInProtectionModeEnteredAt) {
+    if (min < _burnInProtectionModeEnteredAt) {
       timeMod = 62;
     }
-    var pos = ((min - mBurnInProtectionModeEnteredAt + timeMod) % 5) - 2; // -2, -1, 0, 1, 2, will always start at 0
+    var pos = ((min - _burnInProtectionModeEnteredAt + timeMod) % 5) - 2; // -2, -1, 0, 1, 2, will always start at 0
     var window = dc.getHeight() / 8;
     var offset = window * pos;
 

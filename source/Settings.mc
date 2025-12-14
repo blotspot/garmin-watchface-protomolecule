@@ -41,7 +41,7 @@ module Settings {
     var profile = UserProfile.getProfile();
     var current = System.getClockTime();
     current = new Time.Duration(current.hour * 3600 + current.min * 60);
-    if (Log.isDebugEnabled()) {
+    if (Log.isDebugEnabled) {
       Log.debug("Sleep Time: " + (profile.sleepTime.value() / 3600).format(Format.INT_ZERO) + ":" + ((profile.sleepTime.value() % 3600) / 60).format(Format.INT_ZERO));
       Log.debug("Wake Time: " + (profile.wakeTime.value() / 3600).format(Format.INT_ZERO) + ":" + ((profile.wakeTime.value() % 3600) / 60).format(Format.INT_ZERO));
     }

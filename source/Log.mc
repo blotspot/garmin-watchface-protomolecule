@@ -4,9 +4,7 @@ import Toybox.Application;
 
 (:debug)
 module Log {
-  function isDebugEnabled() as Boolean {
-    return true;
-  }
+  const isDebugEnabled as Boolean = true;
 
   function debug(string) {
     System.println("debug :: " + string);
@@ -15,9 +13,7 @@ module Log {
 
 (:release)
 module Log {
-  function isDebugEnabled() as Boolean {
-    return false;
-  }
+  const isDebugEnabled as Boolean = false;
 
   function debug(string) {}
 }
