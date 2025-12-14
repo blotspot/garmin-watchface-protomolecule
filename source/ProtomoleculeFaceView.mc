@@ -101,7 +101,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // Update the view
   function onUpdate(dc) {
-    saveClearClip(dc);
+    $.saveClearClip(dc);
     // Call the parent onUpdate function to redraw the layout
     var layout = chooseLayout(dc, false);
     if (layout != null) {
