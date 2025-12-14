@@ -44,7 +44,7 @@ class OrbitDataField extends DataFieldDrawable {
 
   function update(dc) {
     setClippingRegion(dc);
-    saveSetAntiAlias(dc, true);
+    $.saveSetAntiAlias(dc, true);
     dc.setPenWidth(Settings.strokeWidth);
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
@@ -54,7 +54,7 @@ class OrbitDataField extends DataFieldDrawable {
     drawProgressArc(dc, mLastInfo.progress, mLastInfo.reverse);
     drawIcon(dc);
 
-    saveSetAntiAlias(dc, false);
+    $.saveSetAntiAlias(dc, false);
   }
 
   function partialUpdate(dc) {
@@ -137,16 +137,16 @@ class OrbitDataField extends DataFieldDrawable {
   }
 
   hidden function setClippingRegion(dc) {
-    saveClearClip(dc);
+    $.saveClearClip(dc);
   }
 
   hidden function getForeground() as ColorType {
     if (mFieldId == FieldId.ORBIT_OUTER) {
-      return themeColor(Color.PRIMARY);
+      return $.themeColor(Color.PRIMARY);
     } else if (mFieldId == FieldId.ORBIT_LEFT) {
-      return themeColor(Color.SECONDARY_1);
+      return $.themeColor(Color.SECONDARY_1);
     } else if (mFieldId == FieldId.ORBIT_RIGHT) {
-      return themeColor(Color.SECONDARY_2);
+      return $.themeColor(Color.SECONDARY_2);
     }
     return Graphics.COLOR_WHITE;
   }

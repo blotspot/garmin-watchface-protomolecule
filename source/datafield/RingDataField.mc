@@ -41,7 +41,7 @@ class RingDataField extends DataFieldDrawable {
 
   function update(dc) {
     setClippingRegion(dc, Settings.strokeWidth);
-    saveSetAntiAlias(dc, true);
+    $.saveSetAntiAlias(dc, true);
     dc.setPenWidth(Settings.strokeWidth * 1.5);
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
@@ -58,7 +58,7 @@ class RingDataField extends DataFieldDrawable {
       mLastInfo.icon.drawAt(dc, locX, locY);
     }
 
-    saveSetAntiAlias(dc, false);
+    $.saveSetAntiAlias(dc, false);
   }
 
   function partialUpdate(dc) {
@@ -90,15 +90,15 @@ class RingDataField extends DataFieldDrawable {
 
   hidden function getForeground() as ColorType {
     if (mFieldId == FieldId.OUTER || mFieldId == FieldId.SLEEP_UP) {
-      return themeColor(Color.PRIMARY);
+      return $.themeColor(Color.PRIMARY);
     } else if (mFieldId == FieldId.UPPER_1) {
-      return themeColor(Color.SECONDARY_1);
+      return $.themeColor(Color.SECONDARY_1);
     } else if (mFieldId == FieldId.UPPER_2) {
-      return themeColor(Color.SECONDARY_1);
+      return $.themeColor(Color.SECONDARY_1);
     } else if (mFieldId == FieldId.LOWER_1) {
-      return themeColor(Color.SECONDARY_2);
+      return $.themeColor(Color.SECONDARY_2);
     } else if (mFieldId == FieldId.LOWER_2) {
-      return themeColor(Color.SECONDARY_2);
+      return $.themeColor(Color.SECONDARY_2);
     }
     return Graphics.COLOR_WHITE;
   }

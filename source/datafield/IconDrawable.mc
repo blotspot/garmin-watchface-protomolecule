@@ -17,11 +17,11 @@ class IconDrawable extends WatchUi.Drawable {
   //! manual (DataField) call
   function drawAt(dc, atLocX as Numeric, atLocY as Numeric) {
     if (mIcon != null) {
-      saveSetAntiAlias(dc, true);
+      $.saveSetAntiAlias(dc, true);
       locX = atLocX;
       locY = mOffestY ? atLocY + Settings.iconSize * 0.1 : atLocY;
       drawInternal(dc);
-      saveSetAntiAlias(dc, false);
+      $.saveSetAntiAlias(dc, false);
     }
   }
 
@@ -30,12 +30,12 @@ class IconDrawable extends WatchUi.Drawable {
     if (mIcon != null) {
       locX = dc.getWidth() / 2;
       locY = dc.getHeight() / 2;
-      saveSetAntiAlias(dc, true);
+      $.saveSetAntiAlias(dc, true);
       dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
       dc.fillCircle(locX, locY, Math.floor(Settings.iconSize) - 1);
       dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
       drawInternal(dc);
-      saveSetAntiAlias(dc, false);
+      $.saveSetAntiAlias(dc, false);
     }
   }
 

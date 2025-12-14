@@ -8,12 +8,12 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
   function initialize() {
     Menu2.initialize({ :title => Settings.resource(Rez.Strings.SettingsMenuLabel) });
 
-    Menu2.addItem(menuItem("layout", Settings.resource(Rez.Strings.SettingsLayoutTitle), getLayoutString(Properties.getValue("layout") as Number)));
-    Menu2.addItem(menuItem("layoutSettings", Settings.resource(Rez.Strings.SettingsLayoutSettingsTitle), null));
-    Menu2.addItem(menuItem("theme", Settings.resource(Rez.Strings.SettingsThemeTitle), getThemeString(Properties.getValue("theme") as Number)));
+    Menu2.addItem($.menuItem("layout", Settings.resource(Rez.Strings.SettingsLayoutTitle), $.getLayoutString(Properties.getValue("layout") as Number)));
+    Menu2.addItem($.menuItem("layoutSettings", Settings.resource(Rez.Strings.SettingsLayoutSettingsTitle), null));
+    Menu2.addItem($.menuItem("theme", Settings.resource(Rez.Strings.SettingsThemeTitle), $.getThemeString(Properties.getValue("theme") as Number)));
 
     Menu2.addItem(
-      toggleItem(
+      $.toggleItem(
         "activeHeartrate",
         Settings.resource(Rez.Strings.ToggleMenuActiveHeartrateLabel),
         Settings.resource(Rez.Strings.ToggleMenuActiveHeartrateEnabled),
@@ -21,22 +21,22 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
       )
     );
     Menu2.addItem(
-      toggleItem("showSeconds", Settings.resource(Rez.Strings.SettingsShowSecondsTitle), Settings.resource(Rez.Strings.ToggleMenuEnabled), Settings.resource(Rez.Strings.ToggleMenuDisabled))
+      $.toggleItem("showSeconds", Settings.resource(Rez.Strings.SettingsShowSecondsTitle), Settings.resource(Rez.Strings.ToggleMenuEnabled), Settings.resource(Rez.Strings.ToggleMenuDisabled))
     );
     Menu2.addItem(
-      toggleItem("showMeridiemText", Settings.resource(Rez.Strings.ToggleMenuShowAmPmLabel), Settings.resource(Rez.Strings.ToggleMenuEnabled), Settings.resource(Rez.Strings.ToggleMenuDisabled))
+      $.toggleItem("showMeridiemText", Settings.resource(Rez.Strings.ToggleMenuShowAmPmLabel), Settings.resource(Rez.Strings.ToggleMenuEnabled), Settings.resource(Rez.Strings.ToggleMenuDisabled))
     );
     Menu2.addItem(
-      toggleItem(
+      $.toggleItem(
         "sleepLayoutActive",
         Settings.resource(Rez.Strings.ToggleMenuSleepTimeLayoutLabel),
         Settings.resource(Rez.Strings.ToggleMenuEnabled),
         Settings.resource(Rez.Strings.ToggleMenuDisabled)
       )
     );
-    Menu2.addItem(menuItem("sleepLayoutSettings", Settings.resource(Rez.Strings.SettingsSleepLayoutSettingsTitle), null));
+    Menu2.addItem($.menuItem("sleepLayoutSettings", Settings.resource(Rez.Strings.SettingsSleepLayoutSettingsTitle), null));
     Menu2.addItem(
-      toggleItem(
+      $.toggleItem(
         "useSystemFontForDate",
         Settings.resource(Rez.Strings.ToggleMenuSystemFontLabel),
         Settings.resource(Rez.Strings.ToggleMenuSystemFontEnabled),
@@ -44,17 +44,17 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
       )
     );
 
-    Menu2.addItem(menuItem("caloriesGoal", Settings.resource(Rez.Strings.SettingsCaloriesGoalTitle), Properties.getValue("caloriesGoal").toString()));
-    Menu2.addItem(menuItem("batteryThreshold", Settings.resource(Rez.Strings.SettingsBatteryThresholdTitle), Properties.getValue("batteryThreshold").toString()));
+    Menu2.addItem($.menuItem("caloriesGoal", Settings.resource(Rez.Strings.SettingsCaloriesGoalTitle), Properties.getValue("caloriesGoal").toString()));
+    Menu2.addItem($.menuItem("batteryThreshold", Settings.resource(Rez.Strings.SettingsBatteryThresholdTitle), Properties.getValue("batteryThreshold").toString()));
     Menu2.addItem(
-      toggleItem(
+      $.toggleItem(
         "dynamicBodyBattery",
         Settings.resource(Rez.Strings.SettingsDynamicBodyBatteryTitle),
         Settings.resource(Rez.Strings.ToggleMenuEnabled),
         Settings.resource(Rez.Strings.ToggleMenuDisabled)
       )
     );
-    Menu2.addItem(menuItem("bodyBatteryThreshold", Settings.resource(Rez.Strings.SettingsBodyBatteryThresholdTitle), Properties.getValue("bodyBatteryThreshold").toString()));
+    Menu2.addItem($.menuItem("bodyBatteryThreshold", Settings.resource(Rez.Strings.SettingsBodyBatteryThresholdTitle), Properties.getValue("bodyBatteryThreshold").toString()));
   }
 }
 
@@ -69,42 +69,42 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
       if (Properties.getValue("layout") == 0) {
         var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsOrbitLayoutGroupTitle) });
         menu.addItem(
-          toggleItem(
+          $.toggleItem(
             "showOrbitIndicatorText",
             Settings.resource(Rez.Strings.ToggleMenuShowIndicatorTextLabel),
             Settings.resource(Rez.Strings.ToggleMenuShowIndicatorTextEnabled),
             Settings.resource(Rez.Strings.ToggleMenuShowIndicatorTextDisabled)
           )
         );
-        menu.addItem(menuItem("leftOrbitDataField", Settings.resource(Rez.Strings.ODSettingsLeftOrbitTitle), getDataFieldString(Properties.getValue("leftOrbitDataField") as Number)));
-        menu.addItem(menuItem("rightOrbitDataField", Settings.resource(Rez.Strings.ODSettingsRightOrbitTitle), getDataFieldString(Properties.getValue("rightOrbitDataField") as Number)));
-        menu.addItem(menuItem("outerOrbitDataField", Settings.resource(Rez.Strings.ODSettingsOuterOrbitTitle), getDataFieldString(Properties.getValue("outerOrbitDataField") as Number)));
-        menu.addItem(menuItem("noProgressDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), getDataFieldString(Properties.getValue("noProgressDataField1") as Number)));
-        menu.addItem(menuItem("noProgressDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), getDataFieldString(Properties.getValue("noProgressDataField2") as Number)));
-        menu.addItem(menuItem("noProgressDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), getDataFieldString(Properties.getValue("noProgressDataField3") as Number)));
+        menu.addItem($.menuItem("leftOrbitDataField", Settings.resource(Rez.Strings.ODSettingsLeftOrbitTitle), $.getDataFieldString(Properties.getValue("leftOrbitDataField") as Number)));
+        menu.addItem($.menuItem("rightOrbitDataField", Settings.resource(Rez.Strings.ODSettingsRightOrbitTitle), $.getDataFieldString(Properties.getValue("rightOrbitDataField") as Number)));
+        menu.addItem($.menuItem("outerOrbitDataField", Settings.resource(Rez.Strings.ODSettingsOuterOrbitTitle), $.getDataFieldString(Properties.getValue("outerOrbitDataField") as Number)));
+        menu.addItem($.menuItem("noProgressDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), $.getDataFieldString(Properties.getValue("noProgressDataField1") as Number)));
+        menu.addItem($.menuItem("noProgressDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), $.getDataFieldString(Properties.getValue("noProgressDataField2") as Number)));
+        menu.addItem($.menuItem("noProgressDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), $.getDataFieldString(Properties.getValue("noProgressDataField3") as Number)));
 
         WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
         return;
       } else {
         var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsCirclesLayoutGroupTitle) });
-        menu.addItem(menuItem("upperDataField1", Settings.resource(Rez.Strings.ODSettingsUpper1Title), getDataFieldString(Properties.getValue("upperDataField1") as Number)));
-        menu.addItem(menuItem("upperDataField2", Settings.resource(Rez.Strings.ODSettingsUpper2Title), getDataFieldString(Properties.getValue("upperDataField2") as Number)));
-        menu.addItem(menuItem("lowerDataField1", Settings.resource(Rez.Strings.ODSettingsLower1Title), getDataFieldString(Properties.getValue("lowerDataField1") as Number)));
-        menu.addItem(menuItem("lowerDataField2", Settings.resource(Rez.Strings.ODSettingsLower2Title), getDataFieldString(Properties.getValue("lowerDataField2") as Number)));
-        menu.addItem(menuItem("outerDataField", Settings.resource(Rez.Strings.ODSettingsOuterTitle), getDataFieldString(Properties.getValue("outerDataField") as Number)));
-        menu.addItem(menuItem("noProgressDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), getDataFieldString(Properties.getValue("noProgressDataField1") as Number)));
-        menu.addItem(menuItem("noProgressDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), getDataFieldString(Properties.getValue("noProgressDataField2") as Number)));
-        menu.addItem(menuItem("noProgressDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), getDataFieldString(Properties.getValue("noProgressDataField3") as Number)));
+        menu.addItem($.menuItem("upperDataField1", Settings.resource(Rez.Strings.ODSettingsUpper1Title), $.getDataFieldString(Properties.getValue("upperDataField1") as Number)));
+        menu.addItem($.menuItem("upperDataField2", Settings.resource(Rez.Strings.ODSettingsUpper2Title), $.getDataFieldString(Properties.getValue("upperDataField2") as Number)));
+        menu.addItem($.menuItem("lowerDataField1", Settings.resource(Rez.Strings.ODSettingsLower1Title), $.getDataFieldString(Properties.getValue("lowerDataField1") as Number)));
+        menu.addItem($.menuItem("lowerDataField2", Settings.resource(Rez.Strings.ODSettingsLower2Title), $.getDataFieldString(Properties.getValue("lowerDataField2") as Number)));
+        menu.addItem($.menuItem("outerDataField", Settings.resource(Rez.Strings.ODSettingsOuterTitle), $.getDataFieldString(Properties.getValue("outerDataField") as Number)));
+        menu.addItem($.menuItem("noProgressDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), $.getDataFieldString(Properties.getValue("noProgressDataField1") as Number)));
+        menu.addItem($.menuItem("noProgressDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), $.getDataFieldString(Properties.getValue("noProgressDataField2") as Number)));
+        menu.addItem($.menuItem("noProgressDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), $.getDataFieldString(Properties.getValue("noProgressDataField3") as Number)));
 
         WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
         return;
       }
     } else if ("sleepLayoutSettings".equals(id)) {
       var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsSleepLayoutSettingsTitle) });
-      menu.addItem(menuItem("sleepModeDataFieldUp", Settings.resource(Rez.Strings.ODSettingsSleepModeDFUpTitle), getDataFieldString(Properties.getValue("sleepModeDataFieldUp") as Number)));
-      menu.addItem(menuItem("sleepModeDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), getDataFieldString(Properties.getValue("sleepModeDataField1") as Number)));
-      menu.addItem(menuItem("sleepModeDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), getDataFieldString(Properties.getValue("sleepModeDataField2") as Number)));
-      menu.addItem(menuItem("sleepModeDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), getDataFieldString(Properties.getValue("sleepModeDataField3") as Number)));
+      menu.addItem($.menuItem("sleepModeDataFieldUp", Settings.resource(Rez.Strings.ODSettingsSleepModeDFUpTitle), $.getDataFieldString(Properties.getValue("sleepModeDataFieldUp") as Number)));
+      menu.addItem($.menuItem("sleepModeDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), $.getDataFieldString(Properties.getValue("sleepModeDataField1") as Number)));
+      menu.addItem($.menuItem("sleepModeDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), $.getDataFieldString(Properties.getValue("sleepModeDataField2") as Number)));
+      menu.addItem($.menuItem("sleepModeDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), $.getDataFieldString(Properties.getValue("sleepModeDataField3") as Number)));
 
       WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
       return;
@@ -116,10 +116,10 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     if (item instanceof MenuItem) {
       var options = new OptionsMenu2Delegate(item);
       if ("layout".equals(id)) {
-        options.holder = new FixedValuesFactory([getLayoutString(0), getLayoutString(1)], id, {});
+        options.holder = new FixedValuesFactory([$.getLayoutString(0), $.getLayoutString(1)], id, {});
       }
       if ("theme".equals(id)) {
-        options.holder = new FixedValuesFactory([getThemeString(0), getThemeString(1), getThemeString(2), getThemeString(3)], id, {});
+        options.holder = new FixedValuesFactory([$.getThemeString(0), $.getThemeString(1), $.getThemeString(2), $.getThemeString(3)], id, {});
       }
       if (
         "noProgressDataField1".equals(id) ||

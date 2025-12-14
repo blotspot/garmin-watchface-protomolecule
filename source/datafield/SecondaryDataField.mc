@@ -32,7 +32,7 @@ class SecondaryDataField extends DataFieldDrawable {
 
     var pos = params[:position];
     mOffsetMod = pos == 2 ? 0 : pos == 1 ? 0.5 : 1;
-    mColor = params.hasKey(:color) ? themeColor(params[:color]) : Graphics.COLOR_WHITE;
+    mColor = params.hasKey(:color) ? $.themeColor(params[:color]) : Graphics.COLOR_WHITE;
   }
 
   function draw(dc) {
