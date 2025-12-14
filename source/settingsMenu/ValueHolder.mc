@@ -2,6 +2,7 @@ import Toybox.Application.Properties;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
+import Enums;
 
 class ValueHolder {
   hidden var mPrefix as String;
@@ -126,10 +127,10 @@ class FixedValuesFactory extends ValueHolder {
 }
 
 class DataFieldFactory extends ValueHolder {
-  hidden var mValues as Array<Number>;
+  hidden var mValues as Array<FieldType>;
 
   function initialize(
-    values as Array<Number>,
+    values as Array<FieldType>,
     settingsId as String,
     options as
       {
@@ -138,7 +139,7 @@ class DataFieldFactory extends ValueHolder {
       }?
   ) {
     mValues = values;
-    mSelectionIndex = getIndex(Properties.getValue(settingsId) as Number);
+    mSelectionIndex = getIndex(Properties.getValue(settingsId) as FieldType);
 
     if (options == null) {
       options = {};
@@ -179,7 +180,7 @@ class DataFieldFactory extends ValueHolder {
     return DataFieldInfo.getIconDrawableForType(mValues[index], null);
   }
 
-  function getIndex(value as Number) as Number {
+  function getIndex(value as FieldType) as Number {
     return mValues.indexOf(value);
   }
 

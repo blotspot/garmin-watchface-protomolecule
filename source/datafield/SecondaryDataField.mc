@@ -3,6 +3,7 @@ import Toybox.Graphics;
 import Toybox.Application;
 import Toybox.Lang;
 import Color;
+import Enums;
 
 class SecondaryDataField extends DataFieldDrawable {
   hidden var mOffsetMod as Numeric;
@@ -21,7 +22,7 @@ class SecondaryDataField extends DataFieldDrawable {
         :position as Number,
         :x as Numeric,
         :y as Numeric,
-        :color as Number,
+        :color as Enums.Color,
       }
   ) {
     //! redefine locX / locY.

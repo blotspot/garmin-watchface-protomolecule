@@ -9,16 +9,17 @@ import Toybox.System;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
 import Toybox.UserProfile;
+import Enums;
 
 module DataFieldInfo {
   class DataFieldProperties {
-    var fieldType as Number;
+    var fieldType as FieldType;
     var icon as IconDrawable;
     var text as String?;
     var progress as Numeric;
     var reverse as Boolean;
 
-    function initialize(_fieldType as Number, _text as String?, _progress as Numeric, _reverse as Boolean) {
+    function initialize(_fieldType as FieldType, _text as String?, _progress as Numeric, _reverse as Boolean) {
       fieldType = _fieldType;
       text = _text;
       progress = _progress;
@@ -34,68 +35,68 @@ module DataFieldInfo {
     }
   }
 
-  function getInfoForField(fieldId as Number) as DataFieldProperties? {
-    if (fieldId == FieldId.NO_PROGRESS_1) {
-      return getInfoForType(Properties.getValue("noProgressDataField1") as Number);
-    } else if (fieldId == FieldId.NO_PROGRESS_2) {
-      return getInfoForType(Properties.getValue("noProgressDataField2") as Number);
-    } else if (fieldId == FieldId.NO_PROGRESS_3) {
-      return getInfoForType(Properties.getValue("noProgressDataField3") as Number);
-    } else if (fieldId == FieldId.ORBIT_OUTER) {
-      return getInfoForType(Properties.getValue("outerOrbitDataField") as Number);
-    } else if (fieldId == FieldId.ORBIT_LEFT) {
-      return getInfoForType(Properties.getValue("leftOrbitDataField") as Number);
-    } else if (fieldId == FieldId.ORBIT_RIGHT) {
-      return getInfoForType(Properties.getValue("rightOrbitDataField") as Number);
-    } else if (fieldId == FieldId.OUTER) {
-      return getInfoForType(Properties.getValue("outerDataField") as Number);
-    } else if (fieldId == FieldId.UPPER_1) {
-      return getInfoForType(Properties.getValue("upperDataField1") as Number);
-    } else if (fieldId == FieldId.UPPER_2) {
-      return getInfoForType(Properties.getValue("upperDataField2") as Number);
-    } else if (fieldId == FieldId.LOWER_1) {
-      return getInfoForType(Properties.getValue("lowerDataField1") as Number);
-    } else if (fieldId == FieldId.LOWER_2) {
-      return getInfoForType(Properties.getValue("lowerDataField2") as Number);
-    } else if (fieldId == FieldId.SLEEP_LEFT) {
-      return getInfoForType(Properties.getValue("sleepModeDataField1") as Number);
-    } else if (fieldId == FieldId.SLEEP_MIDDLE) {
-      return getInfoForType(Properties.getValue("sleepModeDataField2") as Number);
-    } else if (fieldId == FieldId.SLEEP_RIGHT) {
-      return getInfoForType(Properties.getValue("sleepModeDataField3") as Number);
-    } else if (fieldId == FieldId.SLEEP_UP) {
-      return getInfoForType(Properties.getValue("sleepModeDataFieldUp") as Number);
+  function getInfoForField(fieldId as FieldId) as DataFieldProperties? {
+    if (fieldId == Enums.FIELD_NO_PROGRESS_1) {
+      return getInfoForType(Properties.getValue("noProgressDataField1") as FieldType);
+    } else if (fieldId == Enums.FIELD_NO_PROGRESS_2) {
+      return getInfoForType(Properties.getValue("noProgressDataField2") as FieldType);
+    } else if (fieldId == Enums.FIELD_NO_PROGRESS_3) {
+      return getInfoForType(Properties.getValue("noProgressDataField3") as FieldType);
+    } else if (fieldId == Enums.FIELD_ORBIT_OUTER) {
+      return getInfoForType(Properties.getValue("outerOrbitDataField") as FieldType);
+    } else if (fieldId == Enums.FIELD_ORBIT_LEFT) {
+      return getInfoForType(Properties.getValue("leftOrbitDataField") as FieldType);
+    } else if (fieldId == Enums.FIELD_ORBIT_RIGHT) {
+      return getInfoForType(Properties.getValue("rightOrbitDataField") as FieldType);
+    } else if (fieldId == Enums.FIELD_OUTER) {
+      return getInfoForType(Properties.getValue("outerDataField") as FieldType);
+    } else if (fieldId == Enums.FIELD_UPPER_1) {
+      return getInfoForType(Properties.getValue("upperDataField1") as FieldType);
+    } else if (fieldId == Enums.FIELD_UPPER_2) {
+      return getInfoForType(Properties.getValue("upperDataField2") as FieldType);
+    } else if (fieldId == Enums.FIELD_LOWER_1) {
+      return getInfoForType(Properties.getValue("lowerDataField1") as FieldType);
+    } else if (fieldId == Enums.FIELD_LOWER_2) {
+      return getInfoForType(Properties.getValue("lowerDataField2") as FieldType);
+    } else if (fieldId == Enums.FIELD_SLEEP_LEFT) {
+      return getInfoForType(Properties.getValue("sleepModeDataField1") as FieldType);
+    } else if (fieldId == Enums.FIELD_SLEEP_MIDDLE) {
+      return getInfoForType(Properties.getValue("sleepModeDataField2") as FieldType);
+    } else if (fieldId == Enums.FIELD_SLEEP_RIGHT) {
+      return getInfoForType(Properties.getValue("sleepModeDataField3") as FieldType);
+    } else if (fieldId == Enums.FIELD_SLEEP_UP) {
+      return getInfoForType(Properties.getValue("sleepModeDataFieldUp") as FieldType);
     } else {
       return null;
     }
   }
 
-  function getInfoForType(fieldType as Number) as DataFieldProperties? {
-    if (fieldType == FieldType.HEART_RATE) {
+  function getInfoForType(fieldType as FieldType) as DataFieldProperties? {
+    if (fieldType == Enums.DATA_HEART_RATE) {
       return getHeartRateInfo();
-    } else if (fieldType == FieldType.CALORIES) {
+    } else if (fieldType == Enums.DATA_CALORIES) {
       return getCalorieInfo();
-    } else if (fieldType == FieldType.ACTIVE_CALORIES) {
+    } else if (fieldType == Enums.DATA_ACTIVE_CALORIES) {
       return getActiveCalorieInfo();
-    } else if (fieldType == FieldType.NOTIFICATION) {
+    } else if (fieldType == Enums.DATA_NOTIFICATION) {
       return getNotificationInfo();
-    } else if (fieldType == FieldType.STEPS) {
+    } else if (fieldType == Enums.DATA_STEPS) {
       return getStepInfo();
-    } else if (fieldType == FieldType.FLOORS_UP) {
+    } else if (fieldType == Enums.DATA_FLOORS_UP) {
       return getFloorsClimbedInfo();
-    } else if (fieldType == FieldType.FLOORS_DOWN) {
+    } else if (fieldType == Enums.DATA_FLOORS_DOWN) {
       return getFloorsDescentInfo();
-    } else if (fieldType == FieldType.ACTIVE_MINUTES) {
+    } else if (fieldType == Enums.DATA_ACTIVE_MINUTES) {
       return getActiveMinuteInfo();
-    } else if (fieldType == FieldType.BATTERY) {
+    } else if (fieldType == Enums.DATA_BATTERY) {
       return getBatteryInfo();
-    } else if (fieldType == FieldType.BLUETOOTH) {
+    } else if (fieldType == Enums.DATA_BLUETOOTH) {
       return getBluetoothInfo();
-    } else if (fieldType == FieldType.ALARMS) {
+    } else if (fieldType == Enums.DATA_ALARMS) {
       return getAlarmsInfo();
-    } else if (fieldType == FieldType.BODY_BATTERY) {
+    } else if (fieldType == Enums.DATA_BODY_BATTERY) {
       return getBodyBatteryInfo();
-    } else if (fieldType == FieldType.STRESS_LEVEL) {
+    } else if (fieldType == Enums.DATA_STRESS_LEVEL) {
       return getStressLevel();
     } else {
       return null;
@@ -103,23 +104,23 @@ module DataFieldInfo {
   }
 
   //! status should be `null` when getting icons for settings
-  function getIconDrawableForType(fieldType as Number, status as Numeric?) as IconDrawable {
+  function getIconDrawableForType(fieldType as FieldType, status as Numeric?) as IconDrawable {
     var icon = null;
-    if (fieldType == FieldType.HEART_RATE) {
+    if (fieldType == Enums.DATA_HEART_RATE) {
       icon = new IconDrawable(fieldType, status == null || status > 0 ? "p" : "P", false);
-    } else if (fieldType == FieldType.CALORIES || fieldType == FieldType.ACTIVE_CALORIES) {
+    } else if (fieldType == Enums.DATA_CALORIES || fieldType == Enums.DATA_ACTIVE_CALORIES) {
       icon = new IconDrawable(fieldType, "c", false);
-    } else if (fieldType == FieldType.NOTIFICATION) {
+    } else if (fieldType == Enums.DATA_NOTIFICATION) {
       icon = new IconDrawable(fieldType, status == null || status > 0 ? "n" : "N", true);
-    } else if (fieldType == FieldType.STEPS) {
+    } else if (fieldType == Enums.DATA_STEPS) {
       icon = new IconDrawable(fieldType, "s", false);
-    } else if (fieldType == FieldType.FLOORS_UP) {
+    } else if (fieldType == Enums.DATA_FLOORS_UP) {
       icon = new IconDrawable(fieldType, "F", false);
-    } else if (fieldType == FieldType.FLOORS_DOWN) {
+    } else if (fieldType == Enums.DATA_FLOORS_DOWN) {
       icon = new IconDrawable(fieldType, "f", false);
-    } else if (fieldType == FieldType.ACTIVE_MINUTES) {
+    } else if (fieldType == Enums.DATA_ACTIVE_MINUTES) {
       icon = new IconDrawable(fieldType, "t", false);
-    } else if (fieldType == FieldType.BATTERY) {
+    } else if (fieldType == Enums.DATA_BATTERY) {
       var iconText = "m";
       if (status != null && status >= 0.9) {
         iconText = "h";
@@ -132,11 +133,11 @@ module DataFieldInfo {
         iconText = "l";
       }
       icon = new IconDrawable(fieldType, iconText, status != null);
-    } else if (fieldType == FieldType.BLUETOOTH) {
+    } else if (fieldType == Enums.DATA_BLUETOOTH) {
       icon = new IconDrawable(fieldType, status == null || status > 0 ? "b" : "B", false);
-    } else if (fieldType == FieldType.ALARMS) {
+    } else if (fieldType == Enums.DATA_ALARMS) {
       icon = new IconDrawable(fieldType, status == null || status > 0 ? "a" : "A", false);
-    } else if (fieldType == FieldType.BODY_BATTERY) {
+    } else if (fieldType == Enums.DATA_BODY_BATTERY) {
       var iconText = "o";
       if (Properties.getValue("dynamicBodyBattery")) {
         if (status != null && status <= 0.05) {
@@ -146,7 +147,7 @@ module DataFieldInfo {
         }
       }
       icon = new IconDrawable(fieldType, iconText, false);
-    } else if (fieldType == FieldType.STRESS_LEVEL) {
+    } else if (fieldType == Enums.DATA_STRESS_LEVEL) {
       icon = new IconDrawable(fieldType, "x", false);
     } else {
       icon = new IconDrawable(fieldType, null, false);
@@ -167,23 +168,23 @@ module DataFieldInfo {
       }
     }
     if (heartRate != null && heartRate != ActivityMonitor.INVALID_HR_SAMPLE) {
-      return new DataFieldProperties(FieldType.HEART_RATE, heartRate.format(Format.INT), 1, false);
+      return new DataFieldProperties(Enums.DATA_HEART_RATE, heartRate.format(Format.INT), 1, false);
     }
 
-    return new DataFieldProperties(FieldType.HEART_RATE, null, 0, false);
+    return new DataFieldProperties(Enums.DATA_HEART_RATE, null, 0, false);
   }
 
   function getCalorieInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
     var current = activityInfo.calories.toDouble(); // turn to double for division
 
-    return new DataFieldProperties(FieldType.CALORIES, current.format(Format.INT), current / Properties.getValue("caloriesGoal"), false);
+    return new DataFieldProperties(Enums.DATA_CALORIES, current.format(Format.INT), current / Properties.getValue("caloriesGoal"), false);
   }
 
   function getActiveCalorieInfo() as DataFieldProperties {
     var profile = UserProfile.getProfile();
     if (profile.birthYear == null && profile.height == null && profile.weight == null) {
-      return new DataFieldProperties(FieldType.ACTIVE_CALORIES, null, 0, false);
+      return new DataFieldProperties(Enums.DATA_ACTIVE_CALORIES, null, 0, false);
     }
     var activityInfo = ActivityMonitor.getInfo();
     var now = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
@@ -199,24 +200,24 @@ module DataFieldInfo {
     var relResting = Math.round(((now.hour * 60 + now.min) * resting) / 1440);
     var active = activityInfo.calories.toDouble() - relResting;
 
-    return new DataFieldProperties(FieldType.ACTIVE_CALORIES, active.format(Format.INT), active / Properties.getValue("caloriesGoal"), false);
+    return new DataFieldProperties(Enums.DATA_ACTIVE_CALORIES, active.format(Format.INT), active / Properties.getValue("caloriesGoal"), false);
   }
 
   function getNotificationInfo() as DataFieldProperties {
     var notifications = System.getDeviceSettings().notificationCount;
 
     if (notifications > 0) {
-      return new DataFieldProperties(FieldType.NOTIFICATION, notifications.format(Format.INT), 1, false);
+      return new DataFieldProperties(Enums.DATA_NOTIFICATION, notifications.format(Format.INT), 1, false);
     }
 
-    return new DataFieldProperties(FieldType.NOTIFICATION, "0", 0, false);
+    return new DataFieldProperties(Enums.DATA_NOTIFICATION, "0", 0, false);
   }
 
   function getBatteryInfo() as DataFieldProperties {
     var stats = System.getSystemStats();
     var current = stats.battery;
 
-    return new DataFieldProperties(FieldType.BATTERY, current.format("%2.0d"), current / 100, true);
+    return new DataFieldProperties(Enums.DATA_BATTERY, current.format("%2.0d"), current / 100, true);
   }
 
   function getStepInfo() as DataFieldProperties {
@@ -224,7 +225,7 @@ module DataFieldInfo {
     var current = activityInfo.steps != null ? activityInfo.steps.toDouble() : 0;
     var goal = activityInfo.stepGoal != null ? activityInfo.stepGoal : 10000;
 
-    return new DataFieldProperties(FieldType.STEPS, current.format(Format.INT), current / goal, false);
+    return new DataFieldProperties(Enums.DATA_STEPS, current.format(Format.INT), current / goal, false);
   }
 
   function getFloorsClimbedInfo() as DataFieldProperties {
@@ -237,7 +238,7 @@ module DataFieldInfo {
         goal = activityInfo.floorsClimbedGoal;
       }
     }
-    return new DataFieldProperties(FieldType.FLOORS_UP, current.format(Format.INT), current / goal, false);
+    return new DataFieldProperties(Enums.DATA_FLOORS_UP, current.format(Format.INT), current / goal, false);
   }
 
   function getFloorsDescentInfo() as DataFieldProperties {
@@ -251,7 +252,7 @@ module DataFieldInfo {
         goal = activityInfo.floorsClimbedGoal;
       }
     }
-    return new DataFieldProperties(FieldType.FLOORS_DOWN, current.format(Format.INT), current / goal, false);
+    return new DataFieldProperties(Enums.DATA_FLOORS_DOWN, current.format(Format.INT), current / goal, false);
   }
 
   function getActiveMinuteInfo() as DataFieldProperties {
@@ -259,17 +260,17 @@ module DataFieldInfo {
       var activityInfo = ActivityMonitor.getInfo();
       var current = activityInfo.activeMinutesWeek.total.toDouble();
 
-      return new DataFieldProperties(FieldType.ACTIVE_MINUTES, current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal, false);
+      return new DataFieldProperties(Enums.DATA_ACTIVE_MINUTES, current.format(Format.INT), current / activityInfo.activeMinutesWeekGoal, false);
     }
 
-    return new DataFieldProperties(FieldType.ACTIVE_MINUTES, null, 0, false);
+    return new DataFieldProperties(Enums.DATA_ACTIVE_MINUTES, null, 0, false);
   }
 
   function getBluetoothInfo() as DataFieldProperties {
     if (System.getDeviceSettings().phoneConnected) {
-      return new DataFieldProperties(FieldType.BLUETOOTH, null, 1, false);
+      return new DataFieldProperties(Enums.DATA_BLUETOOTH, null, 1, false);
     } else {
-      return new DataFieldProperties(FieldType.BLUETOOTH, null, 0, false);
+      return new DataFieldProperties(Enums.DATA_BLUETOOTH, null, 0, false);
     }
   }
 
@@ -277,9 +278,9 @@ module DataFieldInfo {
     var alarmCount = 0;
     alarmCount = System.getDeviceSettings().alarmCount;
     if (alarmCount > 0) {
-      return new DataFieldProperties(FieldType.ALARMS, alarmCount.format(Format.INT), 1, false);
+      return new DataFieldProperties(Enums.DATA_ALARMS, alarmCount.format(Format.INT), 1, false);
     }
-    return new DataFieldProperties(FieldType.ALARMS, "0", 0, false);
+    return new DataFieldProperties(Enums.DATA_ALARMS, "0", 0, false);
   }
 
   function getBodyBattery() as Number {
@@ -312,9 +313,9 @@ module DataFieldInfo {
   function getBodyBatteryInfo() as DataFieldProperties {
     if (Toybox has :SensorHistory && SensorHistory has :getBodyBatteryHistory) {
       var bodyBattery = getBodyBattery();
-      return new DataFieldProperties(FieldType.BODY_BATTERY, bodyBattery.format(Format.INT), bodyBattery / 100.0, true);
+      return new DataFieldProperties(Enums.DATA_BODY_BATTERY, bodyBattery.format(Format.INT), bodyBattery / 100.0, true);
     }
-    return new DataFieldProperties(FieldType.BODY_BATTERY, null, 0, true);
+    return new DataFieldProperties(Enums.DATA_BODY_BATTERY, null, 0, true);
   }
 
   function getStressLevel() as DataFieldProperties {
@@ -328,10 +329,10 @@ module DataFieldInfo {
     if (stressLevel == null && Toybox has :SensorHistory && Toybox.SensorHistory has :getStressHistory) {
       stressLevel = getLatestStressLevelFromSensorHistory();
     } else if (stressLevel == null) {
-      return new DataFieldProperties(FieldType.STRESS_LEVEL, null, 0, true);
+      return new DataFieldProperties(Enums.DATA_STRESS_LEVEL, null, 0, true);
     }
 
-    return new DataFieldProperties(FieldType.STRESS_LEVEL, stressLevel.format(Format.INT), stressLevel / 100.0, true);
+    return new DataFieldProperties(Enums.DATA_STRESS_LEVEL, stressLevel.format(Format.INT), stressLevel / 100.0, true);
   }
 
   function getLatestStressLevelFromSensorHistory() as Number {

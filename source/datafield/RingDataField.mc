@@ -2,6 +2,7 @@ import Toybox.Graphics;
 import Toybox.Math;
 import Toybox.WatchUi;
 import Toybox.Lang;
+import Enums;
 
 class RingDataField extends DataFieldDrawable {
   hidden var mShowIcon as Boolean;
@@ -16,7 +17,7 @@ class RingDataField extends DataFieldDrawable {
         :width as Numeric,
         :height as Numeric,
         :visible as Boolean,
-        :fieldId as Number,
+        :fieldId as FieldId,
         :showIcon as Boolean,
         :radius as Numeric,
         :x as Numeric,
@@ -89,16 +90,16 @@ class RingDataField extends DataFieldDrawable {
   }
 
   hidden function getForeground() as ColorType {
-    if (mFieldId == FieldId.OUTER || mFieldId == FieldId.SLEEP_UP) {
-      return $.themeColor(Color.PRIMARY);
-    } else if (mFieldId == FieldId.UPPER_1) {
-      return $.themeColor(Color.SECONDARY_1);
-    } else if (mFieldId == FieldId.UPPER_2) {
-      return $.themeColor(Color.SECONDARY_1);
-    } else if (mFieldId == FieldId.LOWER_1) {
-      return $.themeColor(Color.SECONDARY_2);
-    } else if (mFieldId == FieldId.LOWER_2) {
-      return $.themeColor(Color.SECONDARY_2);
+    if (mFieldId == Enums.FIELD_OUTER || mFieldId == Enums.FIELD_SLEEP_UP) {
+      return $.themeColor(Enums.COLOR_PRIMARY);
+    } else if (mFieldId == Enums.FIELD_UPPER_1) {
+      return $.themeColor(Enums.COLOR_SECONDARY_1);
+    } else if (mFieldId == Enums.FIELD_UPPER_2) {
+      return $.themeColor(Enums.COLOR_SECONDARY_1);
+    } else if (mFieldId == Enums.FIELD_LOWER_1) {
+      return $.themeColor(Enums.COLOR_SECONDARY_2);
+    } else if (mFieldId == Enums.FIELD_LOWER_2) {
+      return $.themeColor(Enums.COLOR_SECONDARY_2);
     }
     return Graphics.COLOR_WHITE;
   }

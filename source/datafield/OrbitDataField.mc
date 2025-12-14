@@ -3,6 +3,7 @@ import Toybox.Graphics;
 import Toybox.Math;
 import Toybox.WatchUi;
 import Toybox.Lang;
+import Enums;
 
 class OrbitDataField extends DataFieldDrawable {
   hidden var mStartDegree as Numeric;
@@ -18,7 +19,7 @@ class OrbitDataField extends DataFieldDrawable {
         :width as Numeric,
         :height as Numeric,
         :visible as Boolean,
-        :fieldId as Number,
+        :fieldId as FieldId,
         :x as Numeric,
         :y as Numeric,
         :startDegree as Numeric,
@@ -106,13 +107,13 @@ class OrbitDataField extends DataFieldDrawable {
     var x = locX;
     var y = locY;
     var showT = Properties.getValue("showOrbitIndicatorText");
-    if (mFieldId == FieldId.ORBIT_LEFT) {
+    if (mFieldId == Enums.FIELD_ORBIT_LEFT) {
       x = getX(dc, mStartDegree - mTotalDegree) - Settings.iconSize / 2;
       y = getY(dc, mStartDegree - mTotalDegree) + Settings.iconSize;
-    } else if (mFieldId == FieldId.ORBIT_RIGHT) {
+    } else if (mFieldId == Enums.FIELD_ORBIT_RIGHT) {
       x = getX(dc, mStartDegree) + Settings.iconSize / 2;
       y = getY(dc, mStartDegree) + Settings.iconSize;
-    } else if (mFieldId == FieldId.ORBIT_OUTER) {
+    } else if (mFieldId == Enums.FIELD_ORBIT_OUTER) {
       y = locY + mRadius - Settings.iconSize * (showT ? 2 : 1);
     }
     mLastInfo.icon.drawAt(dc, x, y);
@@ -141,12 +142,12 @@ class OrbitDataField extends DataFieldDrawable {
   }
 
   hidden function getForeground() as ColorType {
-    if (mFieldId == FieldId.ORBIT_OUTER) {
-      return $.themeColor(Color.PRIMARY);
-    } else if (mFieldId == FieldId.ORBIT_LEFT) {
-      return $.themeColor(Color.SECONDARY_1);
-    } else if (mFieldId == FieldId.ORBIT_RIGHT) {
-      return $.themeColor(Color.SECONDARY_2);
+    if (mFieldId == Enums.FIELD_ORBIT_OUTER) {
+      return $.themeColor(Enums.COLOR_PRIMARY);
+    } else if (mFieldId == Enums.FIELD_ORBIT_LEFT) {
+      return $.themeColor(Enums.COLOR_SECONDARY_1);
+    } else if (mFieldId == Enums.FIELD_ORBIT_RIGHT) {
+      return $.themeColor(Enums.COLOR_SECONDARY_2);
     }
     return Graphics.COLOR_WHITE;
   }

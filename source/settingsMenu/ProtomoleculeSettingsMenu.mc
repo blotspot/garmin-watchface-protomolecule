@@ -3,14 +3,15 @@ import Toybox.Application.Properties;
 import Toybox.Graphics;
 import Toybox.System;
 import Toybox.Lang;
+import Enums;
 
 class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
   function initialize() {
     Menu2.initialize({ :title => Settings.resource(Rez.Strings.SettingsMenuLabel) });
 
-    Menu2.addItem($.menuItem("layout", Settings.resource(Rez.Strings.SettingsLayoutTitle), $.getLayoutString(Properties.getValue("layout") as Number)));
+    Menu2.addItem($.menuItem("layout", Settings.resource(Rez.Strings.SettingsLayoutTitle), $.getLayoutString(Properties.getValue("layout") as Layout)));
     Menu2.addItem($.menuItem("layoutSettings", Settings.resource(Rez.Strings.SettingsLayoutSettingsTitle), null));
-    Menu2.addItem($.menuItem("theme", Settings.resource(Rez.Strings.SettingsThemeTitle), $.getThemeString(Properties.getValue("theme") as Number)));
+    Menu2.addItem($.menuItem("theme", Settings.resource(Rez.Strings.SettingsThemeTitle), $.getThemeString(Properties.getValue("theme") as Theme)));
 
     Menu2.addItem(
       $.toggleItem(
@@ -76,35 +77,35 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
             Settings.resource(Rez.Strings.ToggleMenuShowIndicatorTextDisabled)
           )
         );
-        menu.addItem($.menuItem("leftOrbitDataField", Settings.resource(Rez.Strings.ODSettingsLeftOrbitTitle), $.getDataFieldString(Properties.getValue("leftOrbitDataField") as Number)));
-        menu.addItem($.menuItem("rightOrbitDataField", Settings.resource(Rez.Strings.ODSettingsRightOrbitTitle), $.getDataFieldString(Properties.getValue("rightOrbitDataField") as Number)));
-        menu.addItem($.menuItem("outerOrbitDataField", Settings.resource(Rez.Strings.ODSettingsOuterOrbitTitle), $.getDataFieldString(Properties.getValue("outerOrbitDataField") as Number)));
-        menu.addItem($.menuItem("noProgressDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), $.getDataFieldString(Properties.getValue("noProgressDataField1") as Number)));
-        menu.addItem($.menuItem("noProgressDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), $.getDataFieldString(Properties.getValue("noProgressDataField2") as Number)));
-        menu.addItem($.menuItem("noProgressDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), $.getDataFieldString(Properties.getValue("noProgressDataField3") as Number)));
+        menu.addItem($.menuItem("leftOrbitDataField", Settings.resource(Rez.Strings.ODSettingsLeftOrbitTitle), $.getDataFieldString(Properties.getValue("leftOrbitDataField") as FieldType)));
+        menu.addItem($.menuItem("rightOrbitDataField", Settings.resource(Rez.Strings.ODSettingsRightOrbitTitle), $.getDataFieldString(Properties.getValue("rightOrbitDataField") as FieldType)));
+        menu.addItem($.menuItem("outerOrbitDataField", Settings.resource(Rez.Strings.ODSettingsOuterOrbitTitle), $.getDataFieldString(Properties.getValue("outerOrbitDataField") as FieldType)));
+        menu.addItem($.menuItem("noProgressDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), $.getDataFieldString(Properties.getValue("noProgressDataField1") as FieldType)));
+        menu.addItem($.menuItem("noProgressDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), $.getDataFieldString(Properties.getValue("noProgressDataField2") as FieldType)));
+        menu.addItem($.menuItem("noProgressDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), $.getDataFieldString(Properties.getValue("noProgressDataField3") as FieldType)));
 
         WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
         return;
       } else {
         var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsCirclesLayoutGroupTitle) });
-        menu.addItem($.menuItem("upperDataField1", Settings.resource(Rez.Strings.ODSettingsUpper1Title), $.getDataFieldString(Properties.getValue("upperDataField1") as Number)));
-        menu.addItem($.menuItem("upperDataField2", Settings.resource(Rez.Strings.ODSettingsUpper2Title), $.getDataFieldString(Properties.getValue("upperDataField2") as Number)));
-        menu.addItem($.menuItem("lowerDataField1", Settings.resource(Rez.Strings.ODSettingsLower1Title), $.getDataFieldString(Properties.getValue("lowerDataField1") as Number)));
-        menu.addItem($.menuItem("lowerDataField2", Settings.resource(Rez.Strings.ODSettingsLower2Title), $.getDataFieldString(Properties.getValue("lowerDataField2") as Number)));
-        menu.addItem($.menuItem("outerDataField", Settings.resource(Rez.Strings.ODSettingsOuterTitle), $.getDataFieldString(Properties.getValue("outerDataField") as Number)));
-        menu.addItem($.menuItem("noProgressDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), $.getDataFieldString(Properties.getValue("noProgressDataField1") as Number)));
-        menu.addItem($.menuItem("noProgressDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), $.getDataFieldString(Properties.getValue("noProgressDataField2") as Number)));
-        menu.addItem($.menuItem("noProgressDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), $.getDataFieldString(Properties.getValue("noProgressDataField3") as Number)));
+        menu.addItem($.menuItem("upperDataField1", Settings.resource(Rez.Strings.ODSettingsUpper1Title), $.getDataFieldString(Properties.getValue("upperDataField1") as FieldType)));
+        menu.addItem($.menuItem("upperDataField2", Settings.resource(Rez.Strings.ODSettingsUpper2Title), $.getDataFieldString(Properties.getValue("upperDataField2") as FieldType)));
+        menu.addItem($.menuItem("lowerDataField1", Settings.resource(Rez.Strings.ODSettingsLower1Title), $.getDataFieldString(Properties.getValue("lowerDataField1") as FieldType)));
+        menu.addItem($.menuItem("lowerDataField2", Settings.resource(Rez.Strings.ODSettingsLower2Title), $.getDataFieldString(Properties.getValue("lowerDataField2") as FieldType)));
+        menu.addItem($.menuItem("outerDataField", Settings.resource(Rez.Strings.ODSettingsOuterTitle), $.getDataFieldString(Properties.getValue("outerDataField") as FieldType)));
+        menu.addItem($.menuItem("noProgressDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), $.getDataFieldString(Properties.getValue("noProgressDataField1") as FieldType)));
+        menu.addItem($.menuItem("noProgressDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), $.getDataFieldString(Properties.getValue("noProgressDataField2") as FieldType)));
+        menu.addItem($.menuItem("noProgressDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), $.getDataFieldString(Properties.getValue("noProgressDataField3") as FieldType)));
 
         WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
         return;
       }
     } else if ("sleepLayoutSettings".equals(id)) {
       var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsSleepLayoutSettingsTitle) });
-      menu.addItem($.menuItem("sleepModeDataFieldUp", Settings.resource(Rez.Strings.ODSettingsSleepModeDFUpTitle), $.getDataFieldString(Properties.getValue("sleepModeDataFieldUp") as Number)));
-      menu.addItem($.menuItem("sleepModeDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), $.getDataFieldString(Properties.getValue("sleepModeDataField1") as Number)));
-      menu.addItem($.menuItem("sleepModeDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), $.getDataFieldString(Properties.getValue("sleepModeDataField2") as Number)));
-      menu.addItem($.menuItem("sleepModeDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), $.getDataFieldString(Properties.getValue("sleepModeDataField3") as Number)));
+      menu.addItem($.menuItem("sleepModeDataFieldUp", Settings.resource(Rez.Strings.ODSettingsSleepModeDFUpTitle), $.getDataFieldString(Properties.getValue("sleepModeDataFieldUp") as FieldType)));
+      menu.addItem($.menuItem("sleepModeDataField1", Settings.resource(Rez.Strings.SettingsSecondary1Title), $.getDataFieldString(Properties.getValue("sleepModeDataField1") as FieldType)));
+      menu.addItem($.menuItem("sleepModeDataField2", Settings.resource(Rez.Strings.SettingsSecondary2Title), $.getDataFieldString(Properties.getValue("sleepModeDataField2") as FieldType)));
+      menu.addItem($.menuItem("sleepModeDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), $.getDataFieldString(Properties.getValue("sleepModeDataField3") as FieldType)));
 
       WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
       return;
@@ -116,10 +117,14 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     if (item instanceof MenuItem) {
       var options = new OptionsMenu2Delegate(item);
       if ("layout".equals(id)) {
-        options.holder = new FixedValuesFactory([$.getLayoutString(0), $.getLayoutString(1)], id, {});
+        options.holder = new FixedValuesFactory([$.getLayoutString(Enums.LAYOUT_ORBIT), $.getLayoutString(Enums.LAYOUT_CIRCLES)], id, {});
       }
       if ("theme".equals(id)) {
-        options.holder = new FixedValuesFactory([$.getThemeString(0), $.getThemeString(1), $.getThemeString(2), $.getThemeString(3)], id, {});
+        options.holder = new FixedValuesFactory(
+          [$.getThemeString(Enums.THEME_EXPANSE), $.getThemeString(Enums.THEME_EARTH), $.getThemeString(Enums.THEME_MARS), $.getThemeString(Enums.THEME_BELT)],
+          id,
+          {}
+        );
       }
       if (
         "noProgressDataField1".equals(id) ||
@@ -130,16 +135,61 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
         "sleepModeDataField2".equals(id) ||
         "sleepModeDataField3".equals(id)
       ) {
-        options.holder = new DataFieldFactory([0, 2, 4, 5, 6, 7, 8, 9, 10, 11, 13], id, {});
+        options.holder = new DataFieldFactory(
+          [
+            Enums.DATA_NOTHING,
+            Enums.DATA_BATTERY,
+            Enums.DATA_ACTIVE_MINUTES,
+            Enums.DATA_HEART_RATE,
+            Enums.DATA_NOTIFICATION,
+            Enums.DATA_FLOORS_UP,
+            Enums.DATA_FLOORS_DOWN,
+            Enums.DATA_BLUETOOTH,
+            Enums.DATA_ALARMS,
+            Enums.DATA_BODY_BATTERY,
+            Enums.DATA_STRESS_LEVEL,
+          ],
+          id,
+          {}
+        );
       }
       if ("outerOrbitDataField".equals(id) || "leftOrbitDataField".equals(id) || "rightOrbitDataField".equals(id)) {
-        options.holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 11, 13], id, {});
+        options.holder = new DataFieldFactory(
+          [
+            Enums.DATA_NOTHING,
+            Enums.DATA_STEPS,
+            Enums.DATA_BATTERY,
+            Enums.DATA_CALORIES,
+            Enums.DATA_ACTIVE_MINUTES,
+            Enums.DATA_FLOORS_UP,
+            Enums.DATA_FLOORS_DOWN,
+            Enums.DATA_BODY_BATTERY,
+            Enums.DATA_STRESS_LEVEL,
+          ],
+          id,
+          {}
+        );
       }
       if ("outerDataField".equals(id)) {
-        options.holder = new DataFieldFactory([0, 1, 2, 3, 11], id, {});
+        options.holder = new DataFieldFactory([Enums.DATA_NOTHING, Enums.DATA_STEPS, Enums.DATA_BATTERY, Enums.DATA_CALORIES, Enums.DATA_BODY_BATTERY], id, {});
       }
       if ("upperDataField1".equals(id) || "upperDataField2".equals(id) || "lowerDataField1".equals(id) || "lowerDataField2".equals(id)) {
-        options.holder = new DataFieldFactory([0, 1, 2, 3, 4, 7, 8, 9, 11, 13], id, {});
+        options.holder = new DataFieldFactory(
+          [
+            Enums.DATA_NOTHING,
+            Enums.DATA_STEPS,
+            Enums.DATA_BATTERY,
+            Enums.DATA_CALORIES,
+            Enums.DATA_ACTIVE_MINUTES,
+            Enums.DATA_FLOORS_UP,
+            Enums.DATA_FLOORS_DOWN,
+            Enums.DATA_BLUETOOTH,
+            Enums.DATA_BODY_BATTERY,
+            Enums.DATA_STRESS_LEVEL,
+          ],
+          id,
+          {}
+        );
       }
       if ("caloriesGoal".equals(id)) {
         options.holder = new NumberFactory(1500, 4000, 100, id, {});
@@ -168,17 +218,17 @@ function menuItem(id as String, label as String, subLabel as String?) {
   return new WatchUi.MenuItem(label, subLabel, id, null);
 }
 
-function getThemeString(themeId as Number) {
+function getThemeString(themeId as Theme) {
   var _theme = [Rez.Strings.ThemeExpanse, Rez.Strings.ThemeEarth, Rez.Strings.ThemeMars, Rez.Strings.ThemeBelt];
   return Settings.resource(_theme[themeId]);
 }
 
-function getLayoutString(layoutId as Number) {
+function getLayoutString(layoutId as Layout) {
   var _layout = [Rez.Strings.LayoutOrbitItem, Rez.Strings.LayoutCirclesItem];
   return Settings.resource(_layout[layoutId]);
 }
 
-function getDataFieldString(dfId as Number) {
+function getDataFieldString(dfId as FieldType) {
   var DataFieldRez = [
     /*  0 */ Rez.Strings.NoDataField,
     /*  1 */ Rez.Strings.DataFieldSteps,

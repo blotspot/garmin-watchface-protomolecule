@@ -5,19 +5,19 @@
   </drawable>
 
   <drawable id="NoProgressDataField1" class="SecondaryDataField">
-    <param name="fieldId">FieldId.NO_PROGRESS_1</param>
+    <param name="fieldId">Enums.FIELD_NO_PROGRESS_1</param>
     <param name="position">2</param>
     <param name="x">0.168 * dc.getWidth()</param>
     <param name="y">0.685 * dc.getHeight()</param>
   </drawable>
   <drawable id="NoProgressDataField2" class="SecondaryDataField">
-    <param name="fieldId">FieldId.NO_PROGRESS_2</param>
+    <param name="fieldId">Enums.FIELD_NO_PROGRESS_2</param>
     <param name="position">1</param>
     <param name="x">0.5 * dc.getWidth()</param>
     <param name="y">0.685 * dc.getHeight()</param>
   </drawable>
   <drawable id="NoProgressDataField3" class="SecondaryDataField">
-    <param name="fieldId">FieldId.NO_PROGRESS_3</param>
+    <param name="fieldId">Enums.FIELD_NO_PROGRESS_3</param>
     <param name="position">0</param>
     <param name="x">0.832 * dc.getWidth()</param>
     <param name="y">0.685 * dc.getHeight()</param>

@@ -3,9 +3,10 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 import DataFieldInfo;
+import Enums;
 
 class DataFieldDrawable extends WatchUi.Drawable {
-  hidden var mFieldId as Number;
+  hidden var mFieldId as FieldId;
   hidden var mLastInfo as DataFieldProperties? = null;
 
   function initialize(
@@ -17,7 +18,7 @@ class DataFieldDrawable extends WatchUi.Drawable {
         :width as Numeric,
         :height as Numeric,
         :visible as Boolean,
-        :fieldId as Number,
+        :fieldId as FieldId,
       }
   ) {
     mFieldId = params[:fieldId];

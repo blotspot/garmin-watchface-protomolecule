@@ -7,48 +7,67 @@ module Format {
   const INT as String = "%i";
 }
 
-module FieldId {
-  const NO_PROGRESS_1 as Number = 0;
-  const NO_PROGRESS_2 as Number = 1;
-  const NO_PROGRESS_3 as Number = 2;
-  const ORBIT_OUTER as Number = 3;
-  const ORBIT_LEFT as Number = 4;
-  const ORBIT_RIGHT as Number = 5;
-  const OUTER as Number = 6;
-  const UPPER_1 as Number = 7;
-  const UPPER_2 as Number = 8;
-  const LOWER_1 as Number = 9;
-  const LOWER_2 as Number = 10;
-  const SLEEP_UP as Number = 11;
-  const SLEEP_LEFT as Number = 12;
-  const SLEEP_RIGHT as Number = 13;
-  const SLEEP_MIDDLE as Number = 14;
-  const DATE_AND_TIME as Number = 15;
-}
+module Enums {
+  enum Layout {
+    LAYOUT_ORBIT,
+    LAYOUT_CIRCLES,
+    LAYOUT_BIP,
+    LAYOUT_LPM,
+    LAYOUT_SLEEP,
+  }
 
-module FieldType {
-  const NOTHING as Number = 0;
-  const STEPS as Number = 1;
-  const BATTERY as Number = 2;
-  const CALORIES as Number = 3;
-  const ACTIVE_MINUTES as Number = 4;
-  const HEART_RATE as Number = 5;
-  const NOTIFICATION as Number = 6;
-  const FLOORS_UP as Number = 7;
-  const FLOORS_DOWN as Number = 8;
-  const BLUETOOTH as Number = 9;
-  const ALARMS as Number = 10;
-  const BODY_BATTERY as Number = 11;
-  const SECONDS as Number = 12;
-  const STRESS_LEVEL as Number = 13;
-  const ACTIVE_CALORIES as Number = 14;
+  enum Theme {
+    THEME_EXPANSE,
+    THEME_EARTH,
+    THEME_MARS,
+    THEME_BELT,
+  }
+
+  enum Color {
+    COLOR_PRIMARY,
+    COLOR_SECONDARY_1,
+    COLOR_SECONDARY_2,
+  }
+
+  enum FieldId {
+    FIELD_NO_PROGRESS_1,
+    FIELD_NO_PROGRESS_2,
+    FIELD_NO_PROGRESS_3,
+    FIELD_ORBIT_OUTER,
+    FIELD_ORBIT_LEFT,
+    FIELD_ORBIT_RIGHT,
+    FIELD_OUTER,
+    FIELD_UPPER_1,
+    FIELD_UPPER_2,
+    FIELD_LOWER_1,
+    FIELD_LOWER_2,
+    FIELD_SLEEP_UP,
+    FIELD_SLEEP_LEFT,
+    FIELD_SLEEP_RIGHT,
+    FIELD_SLEEP_MIDDLE,
+    FIELD_DATE_AND_TIME,
+  }
+
+  enum FieldType {
+    DATA_NOTHING,
+    DATA_STEPS,
+    DATA_BATTERY,
+    DATA_CALORIES,
+    DATA_ACTIVE_MINUTES,
+    DATA_HEART_RATE,
+    DATA_NOTIFICATION,
+    DATA_FLOORS_UP,
+    DATA_FLOORS_DOWN,
+    DATA_BLUETOOTH,
+    DATA_ALARMS,
+    DATA_BODY_BATTERY,
+    DATA_SECONDS,
+    DATA_STRESS_LEVEL,
+    DATA_ACTIVE_CALORIES,
+  }
 }
 
 module Color {
-  const PRIMARY as Number = 0;
-  const SECONDARY_1 as Number = 1;
-  const SECONDARY_2 as Number = 2;
-
   const _COLORS as Array<ColorType> = [
     /* EXPANSE */
     0xffaa00, // PRIMARY
@@ -69,8 +88,8 @@ module Color {
   ];
 }
 
-function themeColor(sectionId as Number) as ColorType {
-  return Color._COLORS[(Properties.getValue("theme") as Number) * 3 /* MAX_COLOR_ID */ + sectionId];
+function themeColor(sectionId as Enums.Color) as ColorType {
+  return Color._COLORS[(Properties.getValue("theme") as Enums.Theme) * 3 /* MAX_COLOR_ID */ + sectionId];
 }
 
 function saveSetAntiAlias(dc, enabled as Boolean) as Void {
