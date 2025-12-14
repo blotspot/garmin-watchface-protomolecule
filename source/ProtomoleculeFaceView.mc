@@ -199,12 +199,8 @@ class ProtomoleculeFaceViewDelegate extends WatchUi.WatchFaceDelegate {
   function onPress(clickEvent as WatchUi.ClickEvent) as Boolean {
     var coords = clickEvent.getCoordinates();
     var drawables = _view.getCurrentLayout();
-    if (Log.isDebugEnabled) {
-      Log.debug("onPress x:" + coords[0] + ", y:" + coords[1]);
-    }
     for (var i = 0; i < drawables.size(); i += 1) {
       var drawable = drawables[i];
-      Log.debug("iterate over drawable id: " + drawable.identifier);
       if (drawable has :getComplicationForCoordinates) {
         drawable.getComplicationForCoordinates(coords[0], coords[1]);
       }

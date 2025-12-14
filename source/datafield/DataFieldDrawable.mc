@@ -46,8 +46,9 @@ class DataFieldDrawable extends WatchUi.Drawable {
   }
 
   public function getComplicationForCoordinates(x as Number, y as Number) {
-    if (isInHitbox(x, y)) {
+    if (mLastInfo != null && isInHitbox(x, y)) {
       Log.debug("Hit DataFieldDrawable id=" + mFieldId);
+      return null;
     }
     return null;
   }

@@ -10,6 +10,11 @@ class OrbitDataField extends DataFieldDrawable {
   private var mTotalDegree as Numeric;
   private var mRadius as Numeric;
 
+  private var mArcStartX as Numeric;
+  private var mArcStartY as Numeric;
+
+  private var mShowText as Boolean;
+
   function initialize(
     params as
       {
@@ -34,6 +39,29 @@ class OrbitDataField extends DataFieldDrawable {
     mStartDegree = params[:startDegree];
     mTotalDegree = params[:totalDegree];
     mRadius = params[:radius];
+    mShowText = Properties.getValue("showOrbitIndicatorText") as Boolean;
+
+    mArcStartX = locX;
+    mArcStartY = locY;
+
+    mClipWidth = Settings.iconSize * 4;
+    mClipHeight = Settings.iconSize * 3;
+
+    if (mFieldId == Enums.FIELD_ORBIT_LEFT) {
+      mArcStartX = getX(mStartDegree - mTotalDegree) - Settings.iconSize / 2;
+      mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree - mTotalDegree) + Settings.iconSize;
+      mClipX = System.getDeviceSettings().screenWidth / 2 - mClipWidth;
+      mClipY = Settings.iconSize / 2;
+    } else if (mFieldId == Enums.FIELD_ORBIT_RIGHT) {
+      mArcStartX = getX(mStartDegree) + Settings.iconSize / 2;
+      mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree) + Settings.iconSize;
+      mClipX = System.getDeviceSettings().screenWidth / 2;
+      mClipY = Settings.iconSize / 2;
+    } else if (mFieldId == Enums.FIELD_ORBIT_OUTER) {
+      mArcStartY = locY + mRadius - Settings.iconSize * (mShowText ? 2 : 1);
+      mClipX = mArcStartX - mClipWidth / 2;
+      mClipY = mArcStartY - Settings.iconSize / 2;
+    }
   }
 
   function draw(dc) {
@@ -54,7 +82,6 @@ class OrbitDataField extends DataFieldDrawable {
     drawRemainingArc(dc, mLastInfo.progress, mLastInfo.reverse);
     drawProgressArc(dc, mLastInfo.progress, mLastInfo.reverse);
     drawIcon(dc);
-
     $.saveSetAntiAlias(dc, false);
   }
 
@@ -89,8 +116,8 @@ class OrbitDataField extends DataFieldDrawable {
   }
 
   private function drawEndpoint(dc, degree as Numeric) {
-    var x = getX(dc, degree);
-    var y = getY(dc, degree);
+    var x = getX(degree);
+    var y = getY(dc.getHeight(), degree);
     // draw outer colored circle
     dc.fillCircle(x, y, Settings.strokeWidth + Settings.strokeWidth * 0.75);
     // draw inner white circle
@@ -104,45 +131,25 @@ class OrbitDataField extends DataFieldDrawable {
     } else {
       dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     }
-    var x = locX;
-    var y = locY;
-    var showT = Properties.getValue("showOrbitIndicatorText");
-    if (mFieldId == Enums.FIELD_ORBIT_LEFT) {
-      x = getX(dc, mStartDegree - mTotalDegree) - Settings.iconSize / 2;
-      y = getY(dc, mStartDegree - mTotalDegree) + Settings.iconSize;
-    } else if (mFieldId == Enums.FIELD_ORBIT_RIGHT) {
-      x = getX(dc, mStartDegree) + Settings.iconSize / 2;
-      y = getY(dc, mStartDegree) + Settings.iconSize;
-    } else if (mFieldId == Enums.FIELD_ORBIT_OUTER) {
-      y = locY + mRadius - Settings.iconSize * (showT ? 2 : 1);
-    }
+    var x = mArcStartX;
+    var y = mArcStartY;
+
     mLastInfo.icon.drawAt(dc, x, y);
 
-    mClipX = x - Settings.iconSize / 2;
-    mClipY = y - Settings.iconSize / 2;
-    mClipWidth = Settings.iconSize;
-    mClipHeight = Settings.iconSize;
-
-    if (showT && mLastInfo.text != null) {
-      var textDim = dc.getTextDimensions(mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont)) as Array<Number>;
-      if (Settings.iconSize < textDim[0]) {
-        mClipWidth = textDim[0];
-        mClipX = x - Settings.iconSize / 2;
-      }
-      mClipHeight = Settings.iconSize + textDim[1];
+    if (mShowText && mLastInfo.text != null) {
       y += Settings.iconSize;
       dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, 1 | 4);
     }
   }
 
-  private function getX(dc, degree as Numeric) as Numeric {
+  private function getX(degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
     return locX + mRadius * Math.cos(degree);
   }
 
-  private function getY(dc, degree as Numeric) as Numeric {
+  private function getY(height as Number, degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
-    return dc.getHeight() - (locY + mRadius * Math.sin(degree));
+    return height - (locY + mRadius * Math.sin(degree));
   }
 
   private function getFillDegree(fillLevel as Numeric) as Numeric {

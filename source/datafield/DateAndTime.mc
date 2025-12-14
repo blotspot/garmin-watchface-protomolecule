@@ -131,4 +131,17 @@ class DateAndTime extends WatchUi.Drawable {
 
     return offset;
   }
+
+  private function isInHitbox(x as Number, y as Number) as Boolean {
+    return false;
+  }
+
+  public function getComplicationForCoordinates(x as Number, y as Number) {
+    if (isInHitbox(x, y)) {
+      Log.debug("Hit DateAndTime");
+      // Calender events for date
+      // sunset / sunrise for time
+    }
+    return null;
+  }
 }
