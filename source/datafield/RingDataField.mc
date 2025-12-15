@@ -18,11 +18,10 @@ class RingDataField extends AbstractRingDataField {
     mHitbox = getHitbox();
   }
 
+  (:debug)
   function draw(dc) {
     AbstractRingDataField.draw(dc);
-    if (Log.isDebugEnabled) {
-      drawHitbox(dc, Graphics.COLOR_GREEN);
-    }
+    drawHitbox(dc, Graphics.COLOR_BLUE);
   }
 
   hidden function getHitbox() {

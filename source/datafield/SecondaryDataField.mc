@@ -19,11 +19,10 @@ class SecondaryDataField extends AbstractSecondaryDataField {
     mHitbox = getHitbox();
   }
 
+  (:debug)
   function draw(dc) {
     AbstractSecondaryDataField.draw(dc);
-    if (Log.isDebugEnabled) {
-      drawHitbox(dc, Graphics.COLOR_BLUE);
-    }
+    DataFieldDrawable.drawHitbox(dc, Graphics.COLOR_BLUE);
   }
 
   hidden function getHitbox() {
@@ -80,7 +79,7 @@ class AbstractSecondaryDataField extends DataFieldDrawable {
   function update(dc, partial as Boolean) {
     //! stroke width acts as buffer used in the clipping region and between icon and text
     var dim = getDimensions(dc);
-    // setClippingRegion(dc, dim);
+    setClippingRegion(dc, dim);
     if (partial) {
       clearForPartialUpdate(dc);
     }

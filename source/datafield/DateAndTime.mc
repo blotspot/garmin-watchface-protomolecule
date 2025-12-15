@@ -167,11 +167,10 @@ class DateAndTime extends AbstractDateAndTime {
     mTimeHitbox = getTimeHitbox();
   }
 
+  (:debug)
   function draw(dc) {
     AbstractDateAndTime.draw(dc);
-    if (Log.isDebugEnabled) {
-      drawHitbox(dc);
-    }
+    drawHitbox(dc);
   }
 
   (:debug)

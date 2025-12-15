@@ -176,11 +176,10 @@ class OrbitDataField extends AbastractOrbitDataField {
     mHitbox = getHitbox();
   }
 
+  (:debug)
   function draw(dc) {
     AbastractOrbitDataField.draw(dc);
-    if (Log.isDebugEnabled) {
-      drawHitbox(dc, Graphics.COLOR_GREEN);
-    }
+    DataFieldDrawable.drawHitbox(dc, Graphics.COLOR_BLUE);
   }
 
   private function getHitbox() {
