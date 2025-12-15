@@ -90,7 +90,7 @@ class DataFieldDrawable extends DataFieldDrawableAbstract {
     if (mLastInfo != null && isInHitbox(x, y)) {
       Log.debug("Hit DataFieldDrawable id=" + mLastInfo.fieldType);
       var complicationType = mLastInfo.getComplicationType();
-      if (complicationType != null) {
+      if (complicationType != null && complicationType != Toybox.Complications.COMPLICATION_TYPE_INVALID) {
         return new Complications.Id(complicationType);
       }
     }

@@ -111,8 +111,10 @@ module DataFieldInfo {
   (:api420AndAbove)
   function getComplicationsTypeForField(fieldType as FieldType) as Toybox.Complications.Type? {
     switch (fieldType) {
+      case Enums.DATA_STEPS:
+        return Toybox.Complications.COMPLICATION_TYPE_STEPS;
       case Enums.DATA_BATTERY:
-        return Toybox.Complications.COMPLICATION_TYPE_BATTERY;
+        return Toybox.Complications.COMPLICATION_TYPE_BATTERY; // does nothing
       case Enums.DATA_CALORIES:
       case Enums.DATA_ACTIVE_CALORIES:
         return Toybox.Complications.COMPLICATION_TYPE_CALORIES;
@@ -125,6 +127,10 @@ module DataFieldInfo {
       case Enums.DATA_FLOORS_UP:
       case Enums.DATA_FLOORS_DOWN:
         return Toybox.Complications.COMPLICATION_TYPE_FLOORS_CLIMBED;
+      case Enums.DATA_BLUETOOTH:
+        return Toybox.Complications.COMPLICATION_TYPE_INVALID;
+      case Enums.DATA_ALARMS:
+        return Toybox.Complications.COMPLICATION_TYPE_INVALID;
       case Enums.DATA_BODY_BATTERY:
         return Toybox.Complications.COMPLICATION_TYPE_BODY_BATTERY;
       case Enums.DATA_STRESS_LEVEL:

@@ -206,13 +206,24 @@ class ProtomoleculeFaceViewDelegate extends WatchUi.WatchFaceDelegate {
     for (var i = 0; i < drawables.size(); i += 1) {
       var drawable = drawables[i];
       if (drawable instanceof DataFieldDrawable || drawable instanceof DateAndTime) {
-        var complication = drawable.getComplicationForCoordinates(coordinates[0], coordinates[1]);
-        if (complication != null) {
-          Complications.exitTo(complication);
+        var complicationId = drawable.getComplicationForCoordinates(coordinates[0], coordinates[1]);
+        if (complicationId != null) {
+          startGlance(complicationId);
           return true;
         }
       }
     }
     return false;
+  }
+
+  (:debug)
+  private function startGlance(complicationId) {
+    var c = Complications.getComplication(complicationId);
+    Log.debug("Clicked complication: " + c.longLabel);
+  }
+
+  (:release)
+  private function startGlance(complicationId) {
+    Complications.exitTo(complicationId);
   }
 }
