@@ -1,1 +1,4 @@
 project.manifest = manifest.xml
+
+base.excludeAnnotations = api420AndAbove
+fenix843mm.excludeAnnotations = apiBelow420

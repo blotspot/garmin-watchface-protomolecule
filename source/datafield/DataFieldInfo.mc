@@ -27,6 +27,11 @@ module DataFieldInfo {
       icon = getIconDrawableForType(fieldType, progress);
     }
 
+    (:api420AndAbove)
+    function getComplicationType() as Toybox.Complications.Type? {
+      return getComplicationsTypeForField(fieldType);
+    }
+
     function equals(other) as Boolean {
       if (other != null && other instanceof DataFieldProperties) {
         return other.fieldType == fieldType && other.icon.equals(icon) && (other.text == null ? other.text == text : other.text.equals(text)) && other.progress == progress;
@@ -100,6 +105,32 @@ module DataFieldInfo {
       return getStressLevel();
     } else {
       return null;
+    }
+  }
+
+  (:api420AndAbove)
+  function getComplicationsTypeForField(fieldType as FieldType) as Toybox.Complications.Type? {
+    switch (fieldType) {
+      case Enums.DATA_BATTERY:
+        return Toybox.Complications.COMPLICATION_TYPE_BATTERY;
+      case Enums.DATA_CALORIES:
+      case Enums.DATA_ACTIVE_CALORIES:
+        return Toybox.Complications.COMPLICATION_TYPE_CALORIES;
+      case Enums.DATA_ACTIVE_MINUTES:
+        return Toybox.Complications.COMPLICATION_TYPE_INTENSITY_MINUTES;
+      case Enums.DATA_HEART_RATE:
+        return Toybox.Complications.COMPLICATION_TYPE_HEART_RATE;
+      case Enums.DATA_NOTIFICATION:
+        return Toybox.Complications.COMPLICATION_TYPE_NOTIFICATION_COUNT;
+      case Enums.DATA_FLOORS_UP:
+      case Enums.DATA_FLOORS_DOWN:
+        return Toybox.Complications.COMPLICATION_TYPE_FLOORS_CLIMBED;
+      case Enums.DATA_BODY_BATTERY:
+        return Toybox.Complications.COMPLICATION_TYPE_BODY_BATTERY;
+      case Enums.DATA_STRESS_LEVEL:
+        return Toybox.Complications.COMPLICATION_TYPE_STRESS;
+      default:
+        return null;
     }
   }
 

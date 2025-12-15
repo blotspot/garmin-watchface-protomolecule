@@ -22,6 +22,18 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   function onStop(state) {}
 
   // Return the initial view of your application here
+  (:apiBelow420)
+  function getInitialView() {
+    if (Log.isDebugEnabled) {
+      Log.debug("getInitialView");
+    }
+    Settings.initSettings();
+    initBackground();
+    return [new ProtomoleculeFaceView()];
+  }
+
+  // Return the initial view of your application here
+  (:api420AndAbove)
   function getInitialView() {
     if (Log.isDebugEnabled) {
       Log.debug("getInitialView");

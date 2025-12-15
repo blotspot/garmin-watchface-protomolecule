@@ -4,9 +4,50 @@ import Toybox.WatchUi;
 import Toybox.Lang;
 import Enums;
 
-class RingDataField extends DataFieldDrawable {
+(:apiBelow420)
+class RingDataField extends AbstractRingDataField {
+  function initialize(params) {
+    AbstractRingDataField.initialize(params);
+  }
+}
+
+(:api420AndAbove)
+class RingDataField extends AbstractRingDataField {
+  function initialize(params) {
+    AbstractRingDataField.initialize(params);
+    mHitbox = getHitbox();
+  }
+
+  function draw(dc) {
+    AbstractRingDataField.draw(dc);
+    if (Log.isDebugEnabled) {
+      drawHitbox(dc, Graphics.COLOR_GREEN);
+    }
+  }
+
+  hidden function getHitbox() {
+    if (mFieldId == Enums.FIELD_OUTER) {
+      var height = (Settings.iconSize + Settings.strokeWidth) * 2;
+      return {
+        :width => Settings.iconSize * 1.75,
+        :height => height,
+        :x => 0,
+        :y => System.getDeviceSettings().screenHeight / 2 - height / 2,
+      };
+    } else {
+      return {
+        :width => (mRadius + Settings.strokeWidth) * 2,
+        :height => (mRadius + Settings.strokeWidth) * 2,
+        :x => locX - (mRadius + Settings.strokeWidth),
+        :y => locY - (mRadius + Settings.strokeWidth),
+      };
+    }
+  }
+}
+
+class AbstractRingDataField extends DataFieldDrawable {
   private var mShowIcon as Boolean;
-  private var mRadius as Numeric;
+  hidden var mRadius as Numeric;
 
   function initialize(
     params as
@@ -24,25 +65,13 @@ class RingDataField extends DataFieldDrawable {
         :y as Numeric,
       }
   ) {
+    //! redefine locX / locY.
+    //! Doing it the stupid way because the layout isn't allowing a `dc` call in their definition.
+    params[:locX] = params[:x];
+    params[:locY] = params[:y];
     DataFieldDrawable.initialize(params);
     mShowIcon = params[:showIcon];
     mRadius = params[:radius];
-    //! redefine locX / locY.
-    //! Doing it the stupid way because the layout isn't allowing a `dc` call in their definition.
-    locX = params[:x];
-    locY = params[:y];
-
-    mClipX = locX - (mRadius + Settings.strokeWidth);
-    mClipY = locY - (mRadius + Settings.strokeWidth);
-    mClipWidth = (mRadius + Settings.strokeWidth) * 2;
-    mClipHeight = (mRadius + Settings.strokeWidth) * 2;
-
-    if (mFieldId == Enums.FIELD_OUTER) {
-      mClipHeight = (Settings.iconSize + Settings.strokeWidth) * 2;
-      mClipWidth = Settings.iconSize + Settings.strokeWidth * 4;
-      mClipX = 0;
-      mClipY = System.getDeviceSettings().screenHeight / 2 - mClipHeight / 2;
-    }
   }
 
   function draw(dc) {
@@ -70,7 +99,6 @@ class RingDataField extends DataFieldDrawable {
       mLastInfo.icon.resetOffset();
       mLastInfo.icon.drawAt(dc, locX, locY);
     }
-
     $.saveSetAntiAlias(dc, false);
   }
 

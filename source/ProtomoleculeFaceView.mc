@@ -188,6 +188,9 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 }
 
+import Toybox.Complications;
+
+(:api420AndAbove)
 class ProtomoleculeFaceViewDelegate extends WatchUi.WatchFaceDelegate {
   private var _view as ProtomoleculeFaceView;
 
@@ -197,12 +200,17 @@ class ProtomoleculeFaceViewDelegate extends WatchUi.WatchFaceDelegate {
   }
 
   function onPress(clickEvent as WatchUi.ClickEvent) as Boolean {
-    var coords = clickEvent.getCoordinates();
+    var coordinates = clickEvent.getCoordinates();
     var drawables = _view.getCurrentLayout();
+
     for (var i = 0; i < drawables.size(); i += 1) {
       var drawable = drawables[i];
-      if (drawable has :getComplicationForCoordinates) {
-        drawable.getComplicationForCoordinates(coords[0], coords[1]);
+      if (drawable instanceof DataFieldDrawable || drawable instanceof DateAndTime) {
+        var complication = drawable.getComplicationForCoordinates(coordinates[0], coordinates[1]);
+        if (complication != null) {
+          Complications.exitTo(complication);
+          return true;
+        }
       }
     }
     return false;

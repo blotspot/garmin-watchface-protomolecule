@@ -5,13 +5,13 @@ import Toybox.WatchUi;
 import Toybox.Lang;
 import Enums;
 
-class OrbitDataField extends DataFieldDrawable {
-  private var mStartDegree as Numeric;
-  private var mTotalDegree as Numeric;
-  private var mRadius as Numeric;
+class AbastractOrbitDataField extends DataFieldDrawable {
+  hidden var mStartDegree as Numeric;
+  hidden var mTotalDegree as Numeric;
+  hidden var mRadius as Numeric;
 
-  private var mArcStartX as Numeric;
-  private var mArcStartY as Numeric;
+  hidden var mArcStartX as Numeric;
+  hidden var mArcStartY as Numeric;
 
   private var mShowText as Boolean;
 
@@ -44,23 +44,14 @@ class OrbitDataField extends DataFieldDrawable {
     mArcStartX = locX;
     mArcStartY = locY;
 
-    mClipWidth = Settings.iconSize * 4;
-    mClipHeight = Settings.iconSize * 3;
-
     if (mFieldId == Enums.FIELD_ORBIT_LEFT) {
       mArcStartX = getX(mStartDegree - mTotalDegree) - Settings.iconSize / 2;
       mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree - mTotalDegree) + Settings.iconSize;
-      mClipX = System.getDeviceSettings().screenWidth / 2 - mClipWidth;
-      mClipY = Settings.iconSize / 2;
     } else if (mFieldId == Enums.FIELD_ORBIT_RIGHT) {
       mArcStartX = getX(mStartDegree) + Settings.iconSize / 2;
       mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree) + Settings.iconSize;
-      mClipX = System.getDeviceSettings().screenWidth / 2;
-      mClipY = Settings.iconSize / 2;
     } else if (mFieldId == Enums.FIELD_ORBIT_OUTER) {
       mArcStartY = locY + mRadius - Settings.iconSize * (mShowText ? 2 : 1);
-      mClipX = mArcStartX - mClipWidth / 2;
-      mClipY = mArcStartY - Settings.iconSize / 2;
     }
   }
 
@@ -169,5 +160,55 @@ class OrbitDataField extends DataFieldDrawable {
       return $.themeColor(Enums.COLOR_SECONDARY_2);
     }
     return Graphics.COLOR_WHITE;
+  }
+}
+(:apiBelow420)
+class OrbitDataField extends AbastractOrbitDataField {
+  function initialize(params) {
+    AbastractOrbitDataField.initialize(params);
+  }
+}
+
+(:api420AndAbove)
+class OrbitDataField extends AbastractOrbitDataField {
+  function initialize(params) {
+    AbastractOrbitDataField.initialize(params);
+    mHitbox = getHitbox();
+  }
+
+  function draw(dc) {
+    AbastractOrbitDataField.draw(dc);
+    if (Log.isDebugEnabled) {
+      drawHitbox(dc, Graphics.COLOR_GREEN);
+    }
+  }
+
+  private function getHitbox() {
+    var width = Settings.iconSize * 4;
+    var height = Settings.iconSize * 3;
+
+    if (mFieldId == Enums.FIELD_ORBIT_LEFT) {
+      return {
+        :width => width,
+        :height => height,
+        :x => System.getDeviceSettings().screenWidth / 2 - width,
+        :y => 0,
+      };
+    } else if (mFieldId == Enums.FIELD_ORBIT_RIGHT) {
+      return {
+        :width => width,
+        :height => height,
+        :x => System.getDeviceSettings().screenWidth / 2,
+        :y => 0,
+      };
+    } else if (mFieldId == Enums.FIELD_ORBIT_OUTER) {
+      return {
+        :width => width,
+        :height => height,
+        :x => mArcStartX - width / 2,
+        :y => mArcStartY - Settings.iconSize / 2,
+      };
+    }
+    return null;
   }
 }

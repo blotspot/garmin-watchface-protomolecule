@@ -5,14 +5,25 @@ import Toybox.Lang;
 import Toybox.System;
 import Toybox.Time;
 
-class DateAndTime extends WatchUi.Drawable {
-  private var _burnInProtectionMode as Boolean;
-  private var _burnInProtectionModeEnteredAt as Number?;
+class AbstractDateAndTime extends WatchUi.Drawable {
+  private var mBurnInProtectionMode as Boolean;
+  private var mBurnInProtectionModeEnteredAt as Number?;
 
-  private var _justifyDate as Number;
+  hidden var mDateX as Numeric;
+  hidden var mDateY as Numeric;
+  hidden var mJustifyDate as Number;
+  hidden var mDateFont as WatchUi.Resource;
 
-  private var DayOfWeek as Array<ResourceId> = [];
-  private var Months as Array<ResourceId> = [];
+  hidden var mTimeY as Numeric;
+  hidden var mHoursX as Numeric;
+  hidden var mIs12Hour as Boolean;
+  hidden var mMinutesX as Numeric;
+
+  private var mShowSeconds as Boolean;
+  private var mShowMeridiem as Boolean;
+
+  private var DayOfWeek as Array<ResourceId>;
+  private var Months as Array<ResourceId>;
 
   function initialize(
     params as
@@ -23,11 +34,26 @@ class DateAndTime extends WatchUi.Drawable {
         :width as Number,
         :height as Number,
         :visible as Boolean,
-        :justifyDate as Numeric,
+        :justifyDate as Number,
+        :dateY as Numeric,
       }
   ) {
-    _burnInProtectionMode = Settings.burnInProtectionMode && !Settings.hasDisplayMode;
-    _justifyDate = params[:justifyDate];
+    Drawable.initialize(params);
+
+    mBurnInProtectionMode = Settings.burnInProtectionMode && !Settings.hasDisplayMode;
+
+    mJustifyDate = params[:justifyDate];
+    mDateFont = Properties.getValue("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont);
+    mDateX = (mJustifyDate == 0 ? 0.832 : 0.5) * System.getDeviceSettings().screenWidth;
+    mDateY = 0.31 * System.getDeviceSettings().screenHeight;
+
+    mIs12Hour = !System.getDeviceSettings().is24Hour;
+    mHoursX = 0.485 * System.getDeviceSettings().screenWidth;
+    mMinutesX = 0.515 * System.getDeviceSettings().screenWidth;
+    mTimeY = 0.48 * System.getDeviceSettings().screenHeight;
+
+    mShowSeconds = Properties.getValue("showSeconds") as Boolean;
+    mShowMeridiem = Properties.getValue("showMeridiemText") as Boolean;
 
     Months = [
       Rez.Strings.DateMonth1,
@@ -45,61 +71,51 @@ class DateAndTime extends WatchUi.Drawable {
     ];
 
     DayOfWeek = [Rez.Strings.DateWeek1, Rez.Strings.DateWeek2, Rez.Strings.DateWeek3, Rez.Strings.DateWeek4, Rez.Strings.DateWeek5, Rez.Strings.DateWeek6, Rez.Strings.DateWeek7];
-    Drawable.initialize(params);
   }
 
   function draw(dc) {
     var now = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-    if (_burnInProtectionMode && _burnInProtectionModeEnteredAt == null) {
-      _burnInProtectionModeEnteredAt = now.min;
+    if (mBurnInProtectionMode && mBurnInProtectionModeEnteredAt == null) {
+      mBurnInProtectionModeEnteredAt = now.min;
     }
-    var is12Hour = !System.getDeviceSettings().is24Hour;
 
-    var hours = getHours(now, is12Hour);
+    var hours = getHours(now);
     var minutes = now.min.format(Format.INT_ZERO);
 
     var offsetY = 0;
-    if (_burnInProtectionMode) {
+    if (mBurnInProtectionMode) {
       offsetY = calculateLegacyBIPModeOffset(dc, now.min);
     }
-
-    var timeY = 0.48 * dc.getHeight();
-
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     // Date
-    var font = Properties.getValue("useSystemFontForDate") ? 1 /* Graphics.FONT_TINY */ : Settings.resource(Rez.Fonts.DateFont);
     var date = getDateLine(now);
-    var dim = dc.getTextDimensions(date, font);
-    var x = (_justifyDate == 0 ? 0.832 : 0.5) * dc.getWidth();
-    var y = 0.31 * dc.getHeight() - dim[1] / 2.0 + offsetY;
-    dc.drawText(x, y, font, date, _justifyDate);
-    // Hours
-    dim = dc.getTextDimensions(hours, Settings.resource(Rez.Fonts.HoursFont));
-    x = 0.485 * dc.getWidth();
-    y = timeY - dim[1] / 2.0 + offsetY;
-    dc.drawText(x, y, Settings.resource(Rez.Fonts.HoursFont), hours, 0);
-    // Minutes
-    dim = dc.getTextDimensions(minutes, Settings.resource(Rez.Fonts.MinutesFont));
-    x = 0.515 * dc.getWidth();
-    y = timeY - dim[1] / 2.0 + offsetY;
-    dc.drawText(x, y, Settings.resource(Rez.Fonts.MinutesFont), minutes, 2);
-    // Meridiem / Seconds
-    x += dim[0];
-    y = y + dim[1] / 2 - Settings.strokeWidth;
-    var showSec = Properties.getValue("showSeconds") as Boolean;
-    var showMeridiem = Properties.getValue("showMeridiemText") as Boolean;
-    if (is12Hour && showMeridiem) {
-      var meridiem = now.hour < 12 ? "am" : "pm";
-      dim = dc.getTextDimensions(meridiem, Settings.resource(Rez.Fonts.MeridiemFont));
-      y = y - (Settings.strokeWidth / 2 + dim[1]) * (Settings.burnInProtectionMode || !showSec ? 0 : 0.5);
-      dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, 2);
-    }
-    if (!Settings.lowPowerMode && showSec) {
-      dim = dc.getTextDimensions("99", Settings.resource(Rez.Fonts.MeridiemFont)) as Array<Number>;
-      y += System.getDeviceSettings().is24Hour || !showMeridiem ? 0 : dim[1] + Settings.strokeWidth;
+    var dim = dc.getTextDimensions(date, mDateFont);
+    var y = mDateY - dim[1] / 2.0 + offsetY;
+    dc.drawText(mDateX, y, mDateFont, date, mJustifyDate);
 
-      dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-      dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), now.sec.format(Format.INT), 2);
+    // Hours
+    dim = dc.getTextDimensions(minutes, Settings.resource(Rez.Fonts.MinutesFont));
+    y = mTimeY - dim[1] / 2.0 + offsetY;
+    dc.drawText(mHoursX, y, Settings.resource(Rez.Fonts.HoursFont), hours, 0);
+    // Minutes
+    dc.drawText(mMinutesX, y, Settings.resource(Rez.Fonts.MinutesFont), minutes, 2);
+
+    // Meridiem / Seconds
+    if ((mIs12Hour && mShowMeridiem) || (!Settings.lowPowerMode && mShowSeconds)) {
+      y += dim[1] / 2 - Settings.strokeWidth;
+      var x = mMinutesX + dim[0];
+      var addendumHeight = dc.getTextDimensions("00", Settings.resource(Rez.Fonts.MeridiemFont))[1];
+      if (mIs12Hour && mShowMeridiem) {
+        var meridiem = now.hour < 12 ? "am" : "pm";
+        y -= (Settings.strokeWidth / 2 + addendumHeight) * (Settings.burnInProtectionMode || !mShowSeconds ? 0 : 0.5);
+        dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, 2);
+      }
+      if (!Settings.lowPowerMode && mShowSeconds) {
+        y += System.getDeviceSettings().is24Hour || !mShowMeridiem ? 0 : addendumHeight + Settings.strokeWidth;
+
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), now.sec.format(Format.INT), 2);
+      }
     }
   }
 
@@ -107,9 +123,9 @@ class DateAndTime extends WatchUi.Drawable {
     return format("$1$ $2$ $3$", [Settings.resource(DayOfWeek[(now.day_of_week as Number) - 1]), now.day.format(Format.INT_ZERO), Settings.resource(Months[(now.month as Number) - 1])]);
   }
 
-  private function getHours(now as Gregorian.Info, is12Hour as Boolean) as String {
+  private function getHours(now as Gregorian.Info) as String {
     var hours = now.hour;
-    if (is12Hour) {
+    if (mIs12Hour) {
       if (hours == 0) {
         hours = 12;
       }
@@ -122,25 +138,96 @@ class DateAndTime extends WatchUi.Drawable {
 
   private function calculateLegacyBIPModeOffset(dc, min as Number) as Numeric {
     var timeMod = 2;
-    if (min < _burnInProtectionModeEnteredAt) {
+    if (min < mBurnInProtectionModeEnteredAt) {
       timeMod = 62;
     }
-    var pos = ((min - _burnInProtectionModeEnteredAt + timeMod) % 5) - 2; // -2, -1, 0, 1, 2, will always start at 0
+    var pos = ((min - mBurnInProtectionModeEnteredAt + timeMod) % 5) - 2; // -2, -1, 0, 1, 2, will always start at 0
     var window = dc.getHeight() / 8;
     var offset = window * pos;
 
     return offset;
   }
+}
+(:apiBelow420)
+class DateAndTime extends AbstractDateAndTime {
+  function initialize(params) {
+    AbstractDateAndTime.initialize(params);
+  }
+}
 
-  private function isInHitbox(x as Number, y as Number) as Boolean {
+(:api420AndAbove)
+class DateAndTime extends AbstractDateAndTime {
+  private var mDateHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
+  private var mTimeHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
+
+  function initialize(params) {
+    AbstractDateAndTime.initialize(params);
+
+    mDateHitbox = getDateHitbox();
+    mTimeHitbox = getTimeHitbox();
+  }
+
+  function draw(dc) {
+    AbstractDateAndTime.draw(dc);
+    if (Log.isDebugEnabled) {
+      drawHitbox(dc);
+    }
+  }
+
+  (:debug)
+  hidden function drawHitbox(dc) {
+    dc.setPenWidth(1);
+    dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+    dc.drawRectangle(mDateHitbox[:x], mDateHitbox[:y], mDateHitbox[:width], mDateHitbox[:height]);
+    dc.drawRectangle(mTimeHitbox[:x], mTimeHitbox[:y], mTimeHitbox[:width], mTimeHitbox[:height]);
+  }
+
+  private function getDateHitbox() {
+    var height = Settings.iconSize * 1.5;
+    var width = System.getDeviceSettings().screenWidth * 0.45;
+    return {
+      :height => height,
+      :width => width,
+      :x => mDateX - (mJustifyDate == 0 ? width : width / 2),
+      :y => mDateY - height / 2,
+    };
+  }
+
+  private function getTimeHitbox() {
+    var height = System.getDeviceSettings().screenHeight * 0.25;
+    var width = System.getDeviceSettings().screenWidth * 0.7;
+    return {
+      :height => height,
+      :width => width,
+      :y => System.getDeviceSettings().screenHeight / 2 - height / 2,
+      :x => System.getDeviceSettings().screenWidth / 2 - width / 2,
+    };
+  }
+
+  private function isInDateHitbox(x as Number, y as Number) as Boolean {
+    if (mDateHitbox != null) {
+      return y >= mDateHitbox[:y] && y <= mDateHitbox[:y] + mDateHitbox[:height] && x >= mDateHitbox[:x] && x <= mDateHitbox[:x] + mDateHitbox[:width];
+    }
+    return false;
+  }
+
+  private function isInTimeHitbox(x as Number, y as Number) as Boolean {
+    if (mTimeHitbox != null) {
+      return y >= mTimeHitbox[:y] && y <= mTimeHitbox[:y] + mTimeHitbox[:height] && x >= mTimeHitbox[:x] && x <= mTimeHitbox[:x] + mTimeHitbox[:width];
+    }
     return false;
   }
 
   public function getComplicationForCoordinates(x as Number, y as Number) {
-    if (isInHitbox(x, y)) {
-      Log.debug("Hit DateAndTime");
+    if (isInDateHitbox(x, y)) {
       // Calender events for date
+      Log.debug("Hit Date");
+      return new Complications.Id(Complications.COMPLICATION_TYPE_CALENDAR_EVENTS);
+    }
+    if (isInTimeHitbox(x, y)) {
       // sunset / sunrise for time
+      Log.debug("Hit Time");
+      return new Complications.Id(Complications.COMPLICATION_TYPE_SUNSET);
     }
     return null;
   }

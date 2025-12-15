@@ -5,8 +5,42 @@ import Toybox.Lang;
 import Color;
 import Enums;
 
-class SecondaryDataField extends DataFieldDrawable {
-  private var mOffsetMod as Numeric;
+(:apiBelow420)
+class SecondaryDataField extends AbstractSecondaryDataField {
+  function initialize(params) {
+    AbstractSecondaryDataField.initialize(params);
+  }
+}
+
+(:api420AndAbove)
+class SecondaryDataField extends AbstractSecondaryDataField {
+  function initialize(params) {
+    AbstractSecondaryDataField.initialize(params);
+    mHitbox = getHitbox();
+  }
+
+  function draw(dc) {
+    AbstractSecondaryDataField.draw(dc);
+    if (Log.isDebugEnabled) {
+      drawHitbox(dc, Graphics.COLOR_BLUE);
+    }
+  }
+
+  hidden function getHitbox() {
+    var width = Settings.iconSize * 2.7;
+    var height = Settings.iconSize * 1.5;
+
+    return {
+      :width => width,
+      :height => height,
+      :x => locX - width * mOffsetMod - Settings.strokeWidth,
+      :y => locY - height / 2,
+    };
+  }
+}
+
+class AbstractSecondaryDataField extends DataFieldDrawable {
+  hidden var mOffsetMod as Numeric;
   private var mColor as Number;
 
   function initialize(
@@ -34,10 +68,6 @@ class SecondaryDataField extends DataFieldDrawable {
     var pos = params[:position];
     mOffsetMod = pos == 2 ? 0 : pos == 1 ? 0.5 : 1;
     mColor = params.hasKey(:color) ? $.themeColor(params[:color]) : Graphics.COLOR_WHITE;
-    mClipWidth = Settings.iconSize * 2.7;
-    mClipHeight = Settings.iconSize + Settings.strokeWidth * 4;
-    mClipX = locX - mClipWidth * mOffsetMod - Settings.strokeWidth;
-    mClipY = locY - mClipHeight / 2;
   }
 
   function draw(dc) {
@@ -50,7 +80,7 @@ class SecondaryDataField extends DataFieldDrawable {
   function update(dc, partial as Boolean) {
     //! stroke width acts as buffer used in the clipping region and between icon and text
     var dim = getDimensions(dc);
-    setClippingRegion(dc, dim);
+    // setClippingRegion(dc, dim);
     if (partial) {
       clearForPartialUpdate(dc);
     }
