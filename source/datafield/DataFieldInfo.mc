@@ -53,15 +53,15 @@ module DataFieldInfo {
       return getInfoForType(Properties.getValue("leftOrbitDataField") as FieldType);
     } else if (fieldId == Enums.FIELD_ORBIT_RIGHT) {
       return getInfoForType(Properties.getValue("rightOrbitDataField") as FieldType);
-    } else if (fieldId == Enums.FIELD_OUTER) {
+    } else if (fieldId == Enums.FIELD_CIRCLES_OUTER) {
       return getInfoForType(Properties.getValue("outerDataField") as FieldType);
-    } else if (fieldId == Enums.FIELD_UPPER_1) {
+    } else if (fieldId == Enums.FIELD_CIRCLES_UPPER_1) {
       return getInfoForType(Properties.getValue("upperDataField1") as FieldType);
-    } else if (fieldId == Enums.FIELD_UPPER_2) {
+    } else if (fieldId == Enums.FIELD_CIRCLES_UPPER_2) {
       return getInfoForType(Properties.getValue("upperDataField2") as FieldType);
-    } else if (fieldId == Enums.FIELD_LOWER_1) {
+    } else if (fieldId == Enums.FIELD_CIRCLES_LOWER_1) {
       return getInfoForType(Properties.getValue("lowerDataField1") as FieldType);
-    } else if (fieldId == Enums.FIELD_LOWER_2) {
+    } else if (fieldId == Enums.FIELD_CIRCLES_LOWER_2) {
       return getInfoForType(Properties.getValue("lowerDataField2") as FieldType);
     } else if (fieldId == Enums.FIELD_SLEEP_LEFT) {
       return getInfoForType(Properties.getValue("sleepModeDataField1") as FieldType);

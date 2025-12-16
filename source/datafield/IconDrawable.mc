@@ -4,7 +4,7 @@ import Toybox.Application;
 import Toybox.Lang;
 
 class IconDrawable extends WatchUi.Drawable {
-  private var mIcon as String?;
+  protected var mIcon as String?;
   private var mOffestY as Boolean;
 
   function initialize(identifier as Number, icon as String?, offsetY as Boolean) {
@@ -14,6 +14,9 @@ class IconDrawable extends WatchUi.Drawable {
     Drawable.initialize({ :identifier => identifier });
   }
 
+  //! draws a text resource icon centered on given x, y coordinates
+  //! @param atLocX center x position
+  //! @param atLocY center y position
   //! manual (DataField) call
   function drawAt(dc, atLocX as Numeric, atLocY as Numeric) {
     if (mIcon != null) {
@@ -25,7 +28,7 @@ class IconDrawable extends WatchUi.Drawable {
     }
   }
 
-  //! system call
+  //! ovveride system call
   function draw(dc) {
     if (mIcon != null) {
       locX = dc.getWidth() / 2;
@@ -45,7 +48,7 @@ class IconDrawable extends WatchUi.Drawable {
 
   private function drawInternal(dc) {
     var font = Settings.resource(Rez.Fonts.IconsFont);
-    dc.drawText(locX, locY, font, mIcon, 1 | 4);
+    dc.drawText(locX, locY, font, mIcon, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
   }
 
   function equals(other) as Boolean {

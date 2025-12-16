@@ -9,15 +9,15 @@ class AbstractDateAndTime extends WatchUi.Drawable {
   private var mBurnInProtectionMode as Boolean;
   private var mBurnInProtectionModeEnteredAt as Number?;
 
-  hidden var mDateX as Numeric;
-  hidden var mDateY as Numeric;
-  hidden var mJustifyDate as Number;
-  hidden var mDateFont as WatchUi.Resource;
+  protected var mDateX as Numeric;
+  protected var mDateY as Numeric;
+  protected var mJustifyDate as Number;
+  protected var mDateFont as WatchUi.Resource;
 
-  hidden var mTimeY as Numeric;
-  hidden var mHoursX as Numeric;
-  hidden var mIs12Hour as Boolean;
-  hidden var mMinutesX as Numeric;
+  protected var mTimeY as Numeric;
+  protected var mHoursX as Numeric;
+  protected var mIs12Hour as Boolean;
+  protected var mMinutesX as Numeric;
 
   private var mShowSeconds as Boolean;
   private var mShowMeridiem as Boolean;
@@ -159,12 +159,16 @@ class DateAndTime extends AbstractDateAndTime {
 class DateAndTime extends AbstractDateAndTime {
   private var mDateHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
   private var mTimeHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
+  private var mLeftHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
+  private var mRightHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
 
   function initialize(params) {
     AbstractDateAndTime.initialize(params);
 
     mDateHitbox = getDateHitbox();
     mTimeHitbox = getTimeHitbox();
+    mLeftHitbox = getLeftHitbox();
+    mRightHitbox = getRightHitbox();
   }
 
   (:debug)
@@ -174,56 +178,80 @@ class DateAndTime extends AbstractDateAndTime {
   }
 
   (:debug)
-  hidden function drawHitbox(dc) {
+  protected function drawHitbox(dc) {
     dc.setPenWidth(1);
     dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-    dc.drawRectangle(mDateHitbox[:x], mDateHitbox[:y], mDateHitbox[:width], mDateHitbox[:height]);
-    dc.drawRectangle(mTimeHitbox[:x], mTimeHitbox[:y], mTimeHitbox[:width], mTimeHitbox[:height]);
+    dc.drawRoundedRectangle(mDateHitbox[:x], mDateHitbox[:y], mDateHitbox[:width], mDateHitbox[:height], Settings.iconSize * 0.5);
+    dc.drawRoundedRectangle(mTimeHitbox[:x], mTimeHitbox[:y], mTimeHitbox[:width], mTimeHitbox[:height], Settings.iconSize * 0.5);
+    dc.drawRoundedRectangle(mLeftHitbox[:x], mLeftHitbox[:y], mLeftHitbox[:width], mLeftHitbox[:height], Settings.iconSize * 0.5);
+    dc.drawRoundedRectangle(mRightHitbox[:x], mRightHitbox[:y], mRightHitbox[:width], mRightHitbox[:height], Settings.iconSize * 0.5);
   }
 
   private function getDateHitbox() {
-    var height = Settings.iconSize * 1.5;
     var width = System.getDeviceSettings().screenWidth * 0.45;
+    var height = Settings.iconSize * 1.5;
     return {
-      :height => height,
-      :width => width,
       :x => mDateX - (mJustifyDate == 0 ? width : width / 2),
       :y => mDateY - height / 2,
+      :width => width,
+      :height => height,
     };
   }
 
   private function getTimeHitbox() {
+    var width = System.getDeviceSettings().screenWidth * 0.68;
     var height = System.getDeviceSettings().screenHeight * 0.25;
-    var width = System.getDeviceSettings().screenWidth * 0.7;
     return {
-      :height => height,
-      :width => width,
-      :y => System.getDeviceSettings().screenHeight / 2 - height / 2,
       :x => System.getDeviceSettings().screenWidth / 2 - width / 2,
+      :y => System.getDeviceSettings().screenHeight / 2 - height / 2,
+      :width => width,
+      :height => height,
     };
   }
 
-  private function isInDateHitbox(x as Number, y as Number) as Boolean {
-    if (mDateHitbox != null) {
-      return y >= mDateHitbox[:y] && y <= mDateHitbox[:y] + mDateHitbox[:height] && x >= mDateHitbox[:x] && x <= mDateHitbox[:x] + mDateHitbox[:width];
-    }
-    return false;
+  private function getLeftHitbox() {
+    var width = Settings.iconSize * 2;
+    var height = Settings.iconSize * 2.7;
+    return {
+      :x => 0,
+      :y => System.getDeviceSettings().screenHeight / 2 - height / 2,
+      :width => width,
+      :height => height,
+    };
   }
 
-  private function isInTimeHitbox(x as Number, y as Number) as Boolean {
-    if (mTimeHitbox != null) {
-      return y >= mTimeHitbox[:y] && y <= mTimeHitbox[:y] + mTimeHitbox[:height] && x >= mTimeHitbox[:x] && x <= mTimeHitbox[:x] + mTimeHitbox[:width];
-    }
-    return false;
+  private function getRightHitbox() {
+    var width = Settings.iconSize * 2;
+    var height = Settings.iconSize * 2.7;
+    return {
+      :x => System.getDeviceSettings().screenWidth - width,
+      :y => System.getDeviceSettings().screenHeight / 2 - height / 2,
+      :width => width,
+      :height => height,
+    };
+  }
+
+  private function isInHitbox(hitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?, x as Number, y as Number) as Boolean {
+    return hitbox != null && y >= hitbox[:y] && y <= hitbox[:y] + hitbox[:height] && x >= hitbox[:x] && x <= hitbox[:x] + hitbox[:width];
   }
 
   public function getComplicationForCoordinates(x as Number, y as Number) {
-    if (isInDateHitbox(x, y)) {
+    if (isInHitbox(mLeftHitbox, x, y)) {
+      // sunset / sunrise for time
+      Log.debug("Hit Left");
+      return new Complications.Id(Complications.COMPLICATION_TYPE_CURRENT_WEATHER);
+    }
+    if (isInHitbox(mRightHitbox, x, y)) {
+      // sunset / sunrise for time
+      Log.debug("Hit Right");
+      return new Complications.Id(Complications.COMPLICATION_TYPE_DATE);
+    }
+    if (isInHitbox(mDateHitbox, x, y)) {
       // Calender events for date
       Log.debug("Hit Date");
       return new Complications.Id(Complications.COMPLICATION_TYPE_CALENDAR_EVENTS);
     }
-    if (isInTimeHitbox(x, y)) {
+    if (isInHitbox(mTimeHitbox, x, y)) {
       // sunset / sunrise for time
       Log.debug("Hit Time");
       return new Complications.Id(Complications.COMPLICATION_TYPE_SUNSET);

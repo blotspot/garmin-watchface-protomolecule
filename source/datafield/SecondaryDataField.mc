@@ -25,7 +25,12 @@ class SecondaryDataField extends AbstractSecondaryDataField {
     DataFieldDrawable.drawHitbox(dc, Graphics.COLOR_BLUE);
   }
 
-  hidden function getHitbox() {
+  (:debug)
+  protected function setClippingRegion(dc, dim as Array<Numeric>) {
+    dc.setClip(mHitbox[:x], mHitbox[:y], mHitbox[:width], mHitbox[:height]);
+  }
+
+  protected function getHitbox() {
     var width = Settings.iconSize * 2.7;
     var height = Settings.iconSize * 1.5;
 
@@ -39,7 +44,7 @@ class SecondaryDataField extends AbstractSecondaryDataField {
 }
 
 class AbstractSecondaryDataField extends DataFieldDrawable {
-  hidden var mOffsetMod as Numeric;
+  protected var mOffsetMod as Numeric;
   private var mColor as Number;
 
   function initialize(
@@ -72,14 +77,14 @@ class AbstractSecondaryDataField extends DataFieldDrawable {
   function draw(dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
-      update(dc, false);
+      drawDataField(dc, false);
     }
   }
 
-  function update(dc, partial as Boolean) {
+  protected function drawDataField(dc, partial as Boolean) {
     //! stroke width acts as buffer used in the clipping region and between icon and text
     var dim = getDimensions(dc);
-    setClippingRegion(dc, dim);
+    self.setClippingRegion(dc, dim);
     if (partial) {
       clearForPartialUpdate(dc);
     }
@@ -97,23 +102,19 @@ class AbstractSecondaryDataField extends DataFieldDrawable {
         locY - 1, // just txt font things :shrug:
         Settings.resource(Rez.Fonts.SecondaryIndicatorFont),
         mLastInfo.text,
-        2 | 4
+        Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
       );
     }
   }
 
-  function partialUpdate(dc) {
-    DataFieldDrawable.drawPartialUpdate(dc, method(:update));
-  }
-
-  private function setClippingRegion(dc, dim as Array<Numeric>) {
+  protected function setClippingRegion(dc, dim as Array<Numeric>) {
     var offsetX = dim[0] * mOffsetMod;
     dc.setClip(locX - offsetX, locY - dim[1] / 2, dim[0], dim[1]);
   }
 
   private function clearForPartialUpdate(dc) {
     // clear with background color so we don't draw over existing text
-    dc.setColor(Graphics.COLOR_WHITE, 0);
+    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
     dc.clear();
   }
 

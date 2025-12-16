@@ -50,7 +50,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     return null;
   }
 
-  hidden function chooseLayoutByPriority(dc) {
+  protected function chooseLayoutByPriority(dc) {
     var layout = null;
     // Prio 1: Legacy BIP (pixes cycling)
     if (Settings.burnInProtectionMode && !Settings.hasDisplayMode) {
@@ -154,7 +154,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   function onPartialUpdate(dc) {
-    if (!Settings.isSleepTime && Properties.getValue("activeHeartrate")) {
+    if (!Settings.useSleepTimeLayout() && Properties.getValue("activeHeartrate")) {
       _dataFieldUpdateCounter += 1;
       _dataFieldUpdateCounter = _dataFieldUpdateCounter % 10;
 
@@ -183,7 +183,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   //! check if watch requires burn-in protection (AMOLED)
-  hidden function requiresBurnInProtection() as Boolean {
+  protected function requiresBurnInProtection() as Boolean {
     return _settings() has :requiresBurnInProtection && _settings().requiresBurnInProtection;
   }
 }
@@ -206,10 +206,15 @@ class ProtomoleculeFaceViewDelegate extends WatchUi.WatchFaceDelegate {
     for (var i = 0; i < drawables.size(); i += 1) {
       var drawable = drawables[i];
       if (drawable instanceof DataFieldDrawable || drawable instanceof DateAndTime) {
-        var complicationId = drawable.getComplicationForCoordinates(coordinates[0], coordinates[1]);
-        if (complicationId != null) {
-          startGlance(complicationId);
-          return true;
+        try {
+          var complicationId = drawable.getComplicationForCoordinates(coordinates[0], coordinates[1]);
+          if (complicationId != null) {
+            startGlance(complicationId);
+            return true;
+          }
+        } catch (error) {
+          Log.debug(error.getErrorMessage());
+          return false;
         }
       }
     }

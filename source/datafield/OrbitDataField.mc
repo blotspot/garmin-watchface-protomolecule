@@ -6,12 +6,12 @@ import Toybox.Lang;
 import Enums;
 
 class AbastractOrbitDataField extends DataFieldDrawable {
-  hidden var mStartDegree as Numeric;
-  hidden var mTotalDegree as Numeric;
-  hidden var mRadius as Numeric;
+  protected var mStartDegree as Numeric;
+  protected var mTotalDegree as Numeric;
+  protected var mRadius as Numeric;
 
-  hidden var mArcStartX as Numeric;
-  hidden var mArcStartY as Numeric;
+  protected var mArcStartX as Numeric;
+  protected var mArcStartY as Numeric;
 
   private var mShowText as Boolean;
 
@@ -43,7 +43,7 @@ class AbastractOrbitDataField extends DataFieldDrawable {
 
     mArcStartX = locX;
     mArcStartY = locY;
-
+    Log.debug("locX:" + locX + ", locY: " + locY);
     if (mFieldId == Enums.FIELD_ORBIT_LEFT) {
       mArcStartX = getX(mStartDegree - mTotalDegree) - Settings.iconSize / 2;
       mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree - mTotalDegree) + Settings.iconSize;
@@ -58,13 +58,12 @@ class AbastractOrbitDataField extends DataFieldDrawable {
   function draw(dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
-      update(dc);
+      drawDataField(dc, false);
     }
   }
 
-  function update(dc) {
+  protected function drawDataField(dc, partial as Boolean) {
     setClippingRegion(dc);
-    $.saveSetAntiAlias(dc, true);
     dc.setPenWidth(Settings.strokeWidth);
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
@@ -73,11 +72,6 @@ class AbastractOrbitDataField extends DataFieldDrawable {
     drawRemainingArc(dc, mLastInfo.progress, mLastInfo.reverse);
     drawProgressArc(dc, mLastInfo.progress, mLastInfo.reverse);
     drawIcon(dc);
-    $.saveSetAntiAlias(dc, false);
-  }
-
-  function partialUpdate(dc) {
-    DataFieldDrawable.drawPartialUpdate(dc, method(:update));
   }
 
   private function drawProgressArc(dc, fillLevel as Numeric, reverse as Boolean) {
@@ -110,10 +104,10 @@ class AbastractOrbitDataField extends DataFieldDrawable {
     var x = getX(degree);
     var y = getY(dc.getHeight(), degree);
     // draw outer colored circle
-    dc.fillCircle(x, y, Settings.strokeWidth + Settings.strokeWidth * 0.75);
+    dc.fillCircle(x, y, Settings.strokeWidth * 1.75);
     // draw inner white circle
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-    dc.fillCircle(x, y, Settings.strokeWidth + Settings.strokeWidth * 0.25);
+    dc.fillCircle(x, y, Settings.strokeWidth * 1.25);
   }
 
   private function drawIcon(dc) {
@@ -148,7 +142,14 @@ class AbastractOrbitDataField extends DataFieldDrawable {
   }
 
   private function setClippingRegion(dc) {
-    $.saveClearClip(dc);
+    switch (mFieldId) {
+      case Enums.FIELD_ORBIT_LEFT:
+        dc.setClip(0, 0, dc.getWidth(), dc.getHeight());
+      case Enums.FIELD_ORBIT_RIGHT:
+        dc.setClip(locX, 0, dc.getWidth(), dc.getHeight());
+      default:
+        $.saveClearClip(dc);
+    }
   }
 
   private function getForeground() as ColorType {
@@ -190,15 +191,15 @@ class OrbitDataField extends AbastractOrbitDataField {
       return {
         :width => width,
         :height => height,
-        :x => System.getDeviceSettings().screenWidth / 2 - width,
-        :y => 0,
+        :x => mArcStartX + Settings.iconSize - width,
+        :y => mArcStartY - Settings.iconSize,
       };
     } else if (mFieldId == Enums.FIELD_ORBIT_RIGHT) {
       return {
         :width => width,
         :height => height,
-        :x => System.getDeviceSettings().screenWidth / 2,
-        :y => 0,
+        :x => mArcStartX - Settings.iconSize,
+        :y => mArcStartY - Settings.iconSize,
       };
     } else if (mFieldId == Enums.FIELD_ORBIT_OUTER) {
       return {

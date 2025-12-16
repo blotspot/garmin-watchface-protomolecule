@@ -24,21 +24,21 @@ class RingDataField extends AbstractRingDataField {
     drawHitbox(dc, Graphics.COLOR_BLUE);
   }
 
-  hidden function getHitbox() {
-    if (mFieldId == Enums.FIELD_OUTER) {
-      var height = (Settings.iconSize + Settings.strokeWidth) * 2;
+  protected function getHitbox() {
+    if (mFieldId == Enums.FIELD_CIRCLES_OUTER) {
+      var height = Settings.iconSize * 1.5;
       return {
-        :width => Settings.iconSize * 1.75,
+        :width => Settings.iconSize * 2,
         :height => height,
-        :x => 0,
-        :y => System.getDeviceSettings().screenHeight / 2 - height / 2,
+        :x => System.getDeviceSettings().screenWidth / 2 - Settings.iconSize,
+        :y => System.getDeviceSettings().screenHeight - height,
       };
     } else {
       return {
-        :width => (mRadius + Settings.strokeWidth) * 2,
-        :height => (mRadius + Settings.strokeWidth) * 2,
-        :x => locX - (mRadius + Settings.strokeWidth),
-        :y => locY - (mRadius + Settings.strokeWidth),
+        :width => mRadius * 2,
+        :height => mRadius * 2,
+        :x => locX - mRadius,
+        :y => locY - mRadius,
       };
     }
   }
@@ -46,7 +46,7 @@ class RingDataField extends AbstractRingDataField {
 
 class AbstractRingDataField extends DataFieldDrawable {
   private var mShowIcon as Boolean;
-  hidden var mRadius as Numeric;
+  protected var mRadius as Numeric;
 
   function initialize(
     params as
@@ -76,13 +76,12 @@ class AbstractRingDataField extends DataFieldDrawable {
   function draw(dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
-      update(dc);
+      drawDataField(dc, false);
     }
   }
 
-  function update(dc) {
+  protected function drawDataField(dc, partial as Boolean) {
     setClippingRegion(dc);
-    $.saveSetAntiAlias(dc, true);
     dc.setPenWidth(Settings.strokeWidth * 1.5);
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
@@ -98,11 +97,6 @@ class AbstractRingDataField extends DataFieldDrawable {
       mLastInfo.icon.resetOffset();
       mLastInfo.icon.drawAt(dc, locX, locY);
     }
-    $.saveSetAntiAlias(dc, false);
-  }
-
-  function partialUpdate(dc) {
-    DataFieldDrawable.drawPartialUpdate(dc, method(:update));
   }
 
   private function drawProgressArc(dc, fillLevel as Numeric) {
@@ -122,23 +116,22 @@ class AbstractRingDataField extends DataFieldDrawable {
   }
 
   private function setClippingRegion(dc) {
-    dc.setColor(getForeground(), -1);
+    dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     dc.setClip(locX - (mRadius + Settings.strokeWidth), locY - (mRadius + Settings.strokeWidth), (mRadius + Settings.strokeWidth) * 2, (mRadius + Settings.strokeWidth) * 2);
-    dc.clear();
   }
 
   private function getForeground() as ColorType {
-    if (mFieldId == Enums.FIELD_OUTER || mFieldId == Enums.FIELD_SLEEP_UP) {
-      return $.themeColor(Enums.COLOR_PRIMARY);
-    } else if (mFieldId == Enums.FIELD_UPPER_1) {
-      return $.themeColor(Enums.COLOR_SECONDARY_1);
-    } else if (mFieldId == Enums.FIELD_UPPER_2) {
-      return $.themeColor(Enums.COLOR_SECONDARY_1);
-    } else if (mFieldId == Enums.FIELD_LOWER_1) {
-      return $.themeColor(Enums.COLOR_SECONDARY_2);
-    } else if (mFieldId == Enums.FIELD_LOWER_2) {
-      return $.themeColor(Enums.COLOR_SECONDARY_2);
+    switch (mFieldId) {
+      case Enums.FIELD_CIRCLES_OUTER:
+        return $.themeColor(Enums.COLOR_PRIMARY);
+      case Enums.FIELD_CIRCLES_UPPER_1:
+      case Enums.FIELD_CIRCLES_UPPER_2:
+        return $.themeColor(Enums.COLOR_SECONDARY_1);
+      case Enums.FIELD_CIRCLES_LOWER_1:
+      case Enums.FIELD_CIRCLES_LOWER_2:
+        return $.themeColor(Enums.COLOR_SECONDARY_2);
+      default:
+        return Graphics.COLOR_WHITE;
     }
-    return Graphics.COLOR_WHITE;
   }
 }

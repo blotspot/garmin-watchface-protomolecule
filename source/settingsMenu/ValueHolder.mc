@@ -5,13 +5,8 @@ import Toybox.WatchUi;
 import Enums;
 
 class ValueHolder {
-  hidden var mPrefix as String;
-  hidden var mSuffix as String;
-  hidden var sizeCallback as Method;
-  hidden var indexCallback as Method;
-  hidden var textValueCallback as Method;
-  hidden var settingsValueCallback as Method;
-  hidden var iconDrawableCallback as Method;
+  protected var mPrefix as String;
+  protected var mSuffix as String;
 
   protected var mSettingsId as String;
   protected var mSelectionIndex as Number?;
@@ -22,21 +17,11 @@ class ValueHolder {
       {
         :prefix as String,
         :suffix as String,
-        :size as Method,
-        :index as Method,
-        :textValue as Method,
-        :settingsValue as Method,
-        :iconDrawable as Method,
       }?
   ) {
     mSettingsId = settingsId;
     mPrefix = options.hasKey(:prefix) ? options[:prefix] : "";
     mSuffix = options.hasKey(:suffix) ? options[:suffix] : "";
-    sizeCallback = options[:size];
-    indexCallback = options[:index];
-    textValueCallback = options[:textValue];
-    settingsValueCallback = options[:settingsValue];
-    iconDrawableCallback = options[:iconDrawable];
     if (mSelectionIndex == null) {
       mSelectionIndex = 0;
     }
@@ -56,31 +41,31 @@ class ValueHolder {
 
   //! get the settings value of the element at this index.
   function getSettingsValue(index as Number) as Number {
-    return settingsValueCallback.invoke(index);
+    return self.getSettingsValue(index);
   }
 
   function getIconDrawable(index as Number) as Drawable? {
-    return iconDrawableCallback.invoke(index);
+    return self.getIconDrawable(index);
   }
 
   //! get the amount of elements in this Holder object
   function getSize() as Number {
-    return sizeCallback.invoke();
+    return self.getSize();
   }
 
   //! gets the raw text value at the requested index
   protected function getTextValue(index as Number) as String {
-    return textValueCallback.invoke(index);
+    return self.getTextValue(index);
   }
 
   //! get the index based on the value
   protected function getIndex(value) as Number {
-    return indexCallback.invoke(value);
+    return self.getIndex(value);
   }
 }
 
 class FixedValuesFactory extends ValueHolder {
-  hidden var mValues as Array<String>;
+  protected var mValues as Array<String>;
 
   function initialize(
     values as Array<String>,
@@ -97,11 +82,6 @@ class FixedValuesFactory extends ValueHolder {
     if (options == null) {
       options = {};
     }
-    options[:size] = method(:getSize);
-    options[:index] = method(:getIndex);
-    options[:textValue] = method(:getTextValue);
-    options[:settingsValue] = method(:getSettingsValue);
-    options[:iconDrawable] = method(:getIconDrawable);
     ValueHolder.initialize(settingsId, options);
   }
 
@@ -127,7 +107,7 @@ class FixedValuesFactory extends ValueHolder {
 }
 
 class DataFieldFactory extends ValueHolder {
-  hidden var mValues as Array<FieldType>;
+  protected var mValues as Array<FieldType>;
 
   function initialize(
     values as Array<FieldType>,
@@ -144,11 +124,6 @@ class DataFieldFactory extends ValueHolder {
     if (options == null) {
       options = {};
     }
-    options[:size] = method(:getSize);
-    options[:index] = method(:getIndex);
-    options[:textValue] = method(:getTextValue);
-    options[:settingsValue] = method(:getSettingsValue);
-    options[:iconDrawable] = method(:getIconDrawable);
     ValueHolder.initialize(settingsId, options);
   }
 
@@ -190,11 +165,11 @@ class DataFieldFactory extends ValueHolder {
 }
 
 class NumberFactory extends ValueHolder {
-  hidden var mStart as Number;
-  hidden var mStop as Number;
-  hidden var mIncrement as Number;
+  protected var mStart as Number;
+  protected var mStop as Number;
+  protected var mIncrement as Number;
 
-  hidden var mFormatString as String;
+  protected var mFormatString as String;
 
   function initialize(
     start as Number,
@@ -217,13 +192,6 @@ class NumberFactory extends ValueHolder {
       options = {};
     }
     mFormatString = options.hasKey(:format) ? options[:format] : "%d";
-
-    options[:size] = method(:getSize);
-    options[:index] = method(:getIndex);
-    options[:textValue] = method(:getTextValue);
-    options[:settingsValue] = method(:getSettingsValue);
-    options[:iconDrawable] = method(:getIconDrawable);
-
     ValueHolder.initialize(settingsId, options);
   }
 

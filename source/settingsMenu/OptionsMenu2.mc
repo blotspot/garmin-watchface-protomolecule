@@ -19,7 +19,7 @@ class OptionsMenu2 extends WatchUi.Menu2 {
 
 class OptionsMenu2Delegate extends WatchUi.Menu2InputDelegate {
   var holder as ValueHolder?;
-  hidden var mParent as MenuItem;
+  protected var mParent as MenuItem;
 
   function initialize(parent as MenuItem) {
     Menu2InputDelegate.initialize();
