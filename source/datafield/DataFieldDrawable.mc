@@ -3,7 +3,7 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 import DataFieldInfo;
-import Enums;
+import Config;
 
 class DataFieldDrawableAbstract extends WatchUi.Drawable {
   protected var mFieldId as FieldId;

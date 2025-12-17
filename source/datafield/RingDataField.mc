@@ -2,7 +2,7 @@ import Toybox.Graphics;
 import Toybox.Math;
 import Toybox.WatchUi;
 import Toybox.Lang;
-import Enums;
+import Config;
 
 (:apiBelow420)
 class RingDataField extends AbstractRingDataField {
@@ -25,7 +25,7 @@ class RingDataField extends AbstractRingDataField {
   }
 
   protected function getHitbox() {
-    if (mFieldId == Enums.FIELD_CIRCLES_OUTER) {
+    if (mFieldId == Config.FIELD_CIRCLES_OUTER) {
       var height = Settings.iconSize * 1.5;
       return {
         :width => Settings.iconSize * 2,
@@ -122,14 +122,14 @@ class AbstractRingDataField extends DataFieldDrawable {
 
   private function getForeground() as ColorType {
     switch (mFieldId) {
-      case Enums.FIELD_CIRCLES_OUTER:
-        return $.themeColor(Enums.COLOR_PRIMARY);
-      case Enums.FIELD_CIRCLES_UPPER_1:
-      case Enums.FIELD_CIRCLES_UPPER_2:
-        return $.themeColor(Enums.COLOR_SECONDARY_1);
-      case Enums.FIELD_CIRCLES_LOWER_1:
-      case Enums.FIELD_CIRCLES_LOWER_2:
-        return $.themeColor(Enums.COLOR_SECONDARY_2);
+      case Config.FIELD_CIRCLES_OUTER:
+        return $.themeColor(Config.COLOR_PRIMARY);
+      case Config.FIELD_CIRCLES_UPPER_1:
+      case Config.FIELD_CIRCLES_UPPER_2:
+        return $.themeColor(Config.COLOR_SECONDARY_1);
+      case Config.FIELD_CIRCLES_LOWER_1:
+      case Config.FIELD_CIRCLES_LOWER_2:
+        return $.themeColor(Config.COLOR_SECONDARY_2);
       default:
         return Graphics.COLOR_WHITE;
     }

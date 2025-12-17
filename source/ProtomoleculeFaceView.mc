@@ -78,7 +78,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       if (Log.isDebugEnabled) {
         Log.debug("set default layout");
       }
-      layout = _activeDefaultLayout == Enums.LAYOUT_ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
+      layout = _activeDefaultLayout == Config.LAYOUT_ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
     }
     _currentLayout = layout;
 

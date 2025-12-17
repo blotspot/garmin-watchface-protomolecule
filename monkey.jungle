@@ -1,4 +1,6 @@
 project.manifest = manifest.xml
 
-base.excludeAnnotations = api420AndAbove
-fenix843mm.excludeAnnotations = apiBelow420
+base.excludeAnnotations = api420AndAbove;mipDisplay
+vivoactive4s.excludeAnnotations = api420AndAbove;amoledDisplay
+fenix6spro.excludeAnnotations = api420AndAbove;amoledDisplay
+fenix843mm.excludeAnnotations = apiBelow420;mipDisplay

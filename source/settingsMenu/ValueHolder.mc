@@ -2,7 +2,7 @@ import Toybox.Application.Properties;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
-import Enums;
+import Config;
 
 class ValueHolder {
   protected var mPrefix as String;

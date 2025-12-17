@@ -2,8 +2,7 @@ import Toybox.WatchUi;
 import Toybox.Graphics;
 import Toybox.Application;
 import Toybox.Lang;
-import Color;
-import Enums;
+import Config;
 
 (:apiBelow420)
 class SecondaryDataField extends AbstractSecondaryDataField {
@@ -60,7 +59,7 @@ class AbstractSecondaryDataField extends DataFieldDrawable {
         :position as Number,
         :x as Numeric,
         :y as Numeric,
-        :color as Enums.Color,
+        :color as Config.Color,
       }
   ) {
     //! redefine locX / locY.

@@ -9,15 +9,19 @@ class AbstractDateAndTime extends WatchUi.Drawable {
   private var mBurnInProtectionMode as Boolean;
   private var mBurnInProtectionModeEnteredAt as Number?;
 
-  protected var mDateX as Numeric;
-  protected var mDateY as Numeric;
+  protected var mDateX as Number;
+  protected var mDateY as Number;
   protected var mJustifyDate as Number;
   protected var mDateFont as WatchUi.Resource;
 
-  protected var mTimeY as Numeric;
-  protected var mHoursX as Numeric;
+  protected var mTimeY as Number;
+  protected var mHoursX as Number;
   protected var mIs12Hour as Boolean;
-  protected var mMinutesX as Numeric;
+  protected var mMinutesX as Number;
+
+  protected var mSecondsX as Number;
+  protected var mSecondsY as Number;
+  protected var mSecondsDim as [Number, Number]?;
 
   private var mShowSeconds as Boolean;
   private var mShowMeridiem as Boolean;
@@ -35,7 +39,6 @@ class AbstractDateAndTime extends WatchUi.Drawable {
         :height as Number,
         :visible as Boolean,
         :justifyDate as Number,
-        :dateY as Numeric,
       }
   ) {
     Drawable.initialize(params);
@@ -43,15 +46,18 @@ class AbstractDateAndTime extends WatchUi.Drawable {
     mBurnInProtectionMode = Settings.burnInProtectionMode && !Settings.hasDisplayMode;
 
     mJustifyDate = params[:justifyDate];
-    mDateFont = Properties.getValue("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont);
-    mDateX = (mJustifyDate == 0 ? 0.832 : 0.5) * System.getDeviceSettings().screenWidth;
-    mDateY = 0.31 * System.getDeviceSettings().screenHeight;
+    mDateX = ((mJustifyDate == 0 ? 0.832 : 0.5) * System.getDeviceSettings().screenWidth).toNumber();
+    mDateY = (0.31 * System.getDeviceSettings().screenHeight).toNumber();
+
+    mHoursX = (0.485 * System.getDeviceSettings().screenWidth).toNumber();
+    mMinutesX = (0.515 * System.getDeviceSettings().screenWidth).toNumber();
+    mTimeY = (0.48 * System.getDeviceSettings().screenHeight).toNumber();
+
+    mSecondsX = (0.85 * System.getDeviceSettings().screenWidth).toNumber();
+    mSecondsY = (0.49 * System.getDeviceSettings().screenHeight).toNumber();
 
     mIs12Hour = !System.getDeviceSettings().is24Hour;
-    mHoursX = 0.485 * System.getDeviceSettings().screenWidth;
-    mMinutesX = 0.515 * System.getDeviceSettings().screenWidth;
-    mTimeY = 0.48 * System.getDeviceSettings().screenHeight;
-
+    mDateFont = Properties.getValue("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont);
     mShowSeconds = Properties.getValue("showSeconds") as Boolean;
     mShowMeridiem = Properties.getValue("showMeridiemText") as Boolean;
 
@@ -89,32 +95,28 @@ class AbstractDateAndTime extends WatchUi.Drawable {
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     // Date
     var date = getDateLine(now);
-    var dim = dc.getTextDimensions(date, mDateFont);
-    var y = mDateY - dim[1] / 2.0 + offsetY;
-    dc.drawText(mDateX, y, mDateFont, date, mJustifyDate);
+    var y = mDateY + offsetY;
+    dc.drawText(mDateX, y, mDateFont, date, mJustifyDate | Graphics.TEXT_JUSTIFY_VCENTER);
 
     // Hours
-    dim = dc.getTextDimensions(minutes, Settings.resource(Rez.Fonts.MinutesFont));
-    y = mTimeY - dim[1] / 2.0 + offsetY;
-    dc.drawText(mHoursX, y, Settings.resource(Rez.Fonts.HoursFont), hours, 0);
+    y = mTimeY + offsetY;
+    dc.drawText(mHoursX, y, Settings.resource(Rez.Fonts.HoursFont), hours, Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER);
     // Minutes
-    dc.drawText(mMinutesX, y, Settings.resource(Rez.Fonts.MinutesFont), minutes, 2);
+    dc.drawText(mMinutesX, y, Settings.resource(Rez.Fonts.MinutesFont), minutes, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
 
     // Meridiem / Seconds
     if ((mIs12Hour && mShowMeridiem) || (!Settings.lowPowerMode && mShowSeconds)) {
-      y += dim[1] / 2 - Settings.strokeWidth;
-      var x = mMinutesX + dim[0];
-      var addendumHeight = dc.getTextDimensions("00", Settings.resource(Rez.Fonts.MeridiemFont))[1];
+      if (mSecondsDim == null) {
+        mSecondsDim = dc.getTextDimensions("00", Settings.resource(Rez.Fonts.MeridiemFont));
+      }
       if (mIs12Hour && mShowMeridiem) {
         var meridiem = now.hour < 12 ? "am" : "pm";
-        y -= (Settings.strokeWidth / 2 + addendumHeight) * (Settings.burnInProtectionMode || !mShowSeconds ? 0 : 0.5);
-        dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, 2);
+        y = mSecondsY - (Settings.burnInProtectionMode || !mShowSeconds ? 0 : mSecondsDim[1] / 2);
+        dc.drawText(mSecondsX, y, Settings.resource(Rez.Fonts.MeridiemFont), meridiem, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
       }
       if (!Settings.lowPowerMode && mShowSeconds) {
-        y += System.getDeviceSettings().is24Hour || !mShowMeridiem ? 0 : addendumHeight + Settings.strokeWidth;
-
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(x, y, Settings.resource(Rez.Fonts.MeridiemFont), now.sec.format(Format.INT), 2);
+        y = mSecondsY + (!mIs12Hour || !mShowMeridiem ? 0 : mSecondsDim[1] / 2);
+        dc.drawText(mSecondsX, y, Settings.resource(Rez.Fonts.MeridiemFont), now.sec.format(Format.INT), Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
       }
     }
   }
@@ -199,8 +201,8 @@ class DateAndTime extends AbstractDateAndTime {
   }
 
   private function getTimeHitbox() {
-    var width = System.getDeviceSettings().screenWidth * 0.68;
-    var height = System.getDeviceSettings().screenHeight * 0.25;
+    var width = System.getDeviceSettings().screenWidth * 0.6;
+    var height = Settings.iconSize * 2.7;
     return {
       :x => System.getDeviceSettings().screenWidth / 2 - width / 2,
       :y => System.getDeviceSettings().screenHeight / 2 - height / 2,
@@ -210,7 +212,7 @@ class DateAndTime extends AbstractDateAndTime {
   }
 
   private function getLeftHitbox() {
-    var width = Settings.iconSize * 2;
+    var width = Settings.iconSize * 2.5;
     var height = Settings.iconSize * 2.7;
     return {
       :x => 0,
@@ -221,7 +223,7 @@ class DateAndTime extends AbstractDateAndTime {
   }
 
   private function getRightHitbox() {
-    var width = Settings.iconSize * 2;
+    var width = Settings.iconSize * 2.5;
     var height = Settings.iconSize * 2.7;
     return {
       :x => System.getDeviceSettings().screenWidth - width,
@@ -244,7 +246,7 @@ class DateAndTime extends AbstractDateAndTime {
     if (isInHitbox(mRightHitbox, x, y)) {
       // sunset / sunrise for time
       Log.debug("Hit Right");
-      return new Complications.Id(Complications.COMPLICATION_TYPE_DATE);
+      return new Complications.Id(Complications.COMPLICATION_TYPE_SEA_LEVEL_PRESSURE);
     }
     if (isInHitbox(mDateHitbox, x, y)) {
       // Calender events for date

@@ -3,7 +3,7 @@ import Toybox.Graphics;
 import Toybox.Math;
 import Toybox.WatchUi;
 import Toybox.Lang;
-import Enums;
+import Config;
 
 class AbastractOrbitDataField extends DataFieldDrawable {
   protected var mStartDegree as Numeric;
@@ -44,13 +44,13 @@ class AbastractOrbitDataField extends DataFieldDrawable {
     mArcStartX = locX;
     mArcStartY = locY;
     Log.debug("locX:" + locX + ", locY: " + locY);
-    if (mFieldId == Enums.FIELD_ORBIT_LEFT) {
+    if (mFieldId == Config.FIELD_ORBIT_LEFT) {
       mArcStartX = getX(mStartDegree - mTotalDegree) - Settings.iconSize / 2;
       mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree - mTotalDegree) + Settings.iconSize;
-    } else if (mFieldId == Enums.FIELD_ORBIT_RIGHT) {
+    } else if (mFieldId == Config.FIELD_ORBIT_RIGHT) {
       mArcStartX = getX(mStartDegree) + Settings.iconSize / 2;
       mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree) + Settings.iconSize;
-    } else if (mFieldId == Enums.FIELD_ORBIT_OUTER) {
+    } else if (mFieldId == Config.FIELD_ORBIT_OUTER) {
       mArcStartY = locY + mRadius - Settings.iconSize * (mShowText ? 2 : 1);
     }
   }
@@ -143,9 +143,9 @@ class AbastractOrbitDataField extends DataFieldDrawable {
 
   private function setClippingRegion(dc) {
     switch (mFieldId) {
-      case Enums.FIELD_ORBIT_LEFT:
+      case Config.FIELD_ORBIT_LEFT:
         dc.setClip(0, 0, dc.getWidth(), dc.getHeight());
-      case Enums.FIELD_ORBIT_RIGHT:
+      case Config.FIELD_ORBIT_RIGHT:
         dc.setClip(locX, 0, dc.getWidth(), dc.getHeight());
       default:
         $.saveClearClip(dc);
@@ -153,12 +153,12 @@ class AbastractOrbitDataField extends DataFieldDrawable {
   }
 
   private function getForeground() as ColorType {
-    if (mFieldId == Enums.FIELD_ORBIT_OUTER) {
-      return $.themeColor(Enums.COLOR_PRIMARY);
-    } else if (mFieldId == Enums.FIELD_ORBIT_LEFT) {
-      return $.themeColor(Enums.COLOR_SECONDARY_1);
-    } else if (mFieldId == Enums.FIELD_ORBIT_RIGHT) {
-      return $.themeColor(Enums.COLOR_SECONDARY_2);
+    if (mFieldId == Config.FIELD_ORBIT_OUTER) {
+      return $.themeColor(Config.COLOR_PRIMARY);
+    } else if (mFieldId == Config.FIELD_ORBIT_LEFT) {
+      return $.themeColor(Config.COLOR_SECONDARY_1);
+    } else if (mFieldId == Config.FIELD_ORBIT_RIGHT) {
+      return $.themeColor(Config.COLOR_SECONDARY_2);
     }
     return Graphics.COLOR_WHITE;
   }
@@ -187,21 +187,21 @@ class OrbitDataField extends AbastractOrbitDataField {
     var width = Settings.iconSize * 4;
     var height = Settings.iconSize * 3;
 
-    if (mFieldId == Enums.FIELD_ORBIT_LEFT) {
+    if (mFieldId == Config.FIELD_ORBIT_LEFT) {
       return {
         :width => width,
         :height => height,
         :x => mArcStartX + Settings.iconSize - width,
         :y => mArcStartY - Settings.iconSize,
       };
-    } else if (mFieldId == Enums.FIELD_ORBIT_RIGHT) {
+    } else if (mFieldId == Config.FIELD_ORBIT_RIGHT) {
       return {
         :width => width,
         :height => height,
         :x => mArcStartX - Settings.iconSize,
         :y => mArcStartY - Settings.iconSize,
       };
-    } else if (mFieldId == Enums.FIELD_ORBIT_OUTER) {
+    } else if (mFieldId == Config.FIELD_ORBIT_OUTER) {
       return {
         :width => width,
         :height => height,
