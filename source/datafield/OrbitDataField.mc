@@ -5,7 +5,7 @@ import Toybox.WatchUi;
 import Toybox.Lang;
 import Config;
 
-class AbastractOrbitDataField extends DataFieldDrawable {
+class OrbitDataField extends DataFieldDrawable {
   protected var mStartDegree as Numeric;
   protected var mTotalDegree as Numeric;
   protected var mRadius as Numeric;
@@ -43,28 +43,32 @@ class AbastractOrbitDataField extends DataFieldDrawable {
 
     mArcStartX = locX;
     mArcStartY = locY;
-    Log.debug("locX:" + locX + ", locY: " + locY);
+
     if (mFieldId == Config.FIELD_ORBIT_LEFT) {
-      mArcStartX = getX(mStartDegree - mTotalDegree) - Settings.iconSize / 2;
-      mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree - mTotalDegree) + Settings.iconSize;
+      mArcStartX = getX(mStartDegree - mTotalDegree) - Settings.ICON_SIZE / 2;
+      mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree - mTotalDegree) + Settings.ICON_SIZE;
     } else if (mFieldId == Config.FIELD_ORBIT_RIGHT) {
-      mArcStartX = getX(mStartDegree) + Settings.iconSize / 2;
-      mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree) + Settings.iconSize;
+      mArcStartX = getX(mStartDegree) + Settings.ICON_SIZE / 2;
+      mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree) + Settings.ICON_SIZE;
     } else if (mFieldId == Config.FIELD_ORBIT_OUTER) {
-      mArcStartY = locY + mRadius - Settings.iconSize * (mShowText ? 2 : 1);
+      mArcStartY = locY + mRadius - Settings.ICON_SIZE * (mShowText ? 2 : 1);
+    }
+
+    if (self has :setHitbox && !Settings.useSleepTimeLayout() && !Settings.lowPowerMode) {
+      setHitbox();
     }
   }
 
   function draw(dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
-      drawDataField(dc, false);
+      DataFieldDrawable.drawDataField(dc, false);
     }
   }
 
   protected function drawDataField(dc, partial as Boolean) {
     setClippingRegion(dc);
-    dc.setPenWidth(Settings.strokeWidth);
+    dc.setPenWidth(Settings.PEN_WIDTH);
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
     }
@@ -104,10 +108,10 @@ class AbastractOrbitDataField extends DataFieldDrawable {
     var x = getX(degree);
     var y = getY(dc.getHeight(), degree);
     // draw outer colored circle
-    dc.fillCircle(x, y, Settings.strokeWidth * 1.75);
+    dc.fillCircle(x, y, Settings.PEN_WIDTH * 1.75);
     // draw inner white circle
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-    dc.fillCircle(x, y, Settings.strokeWidth * 1.25);
+    dc.fillCircle(x, y, Settings.PEN_WIDTH * 1.25);
   }
 
   private function drawIcon(dc) {
@@ -122,7 +126,7 @@ class AbastractOrbitDataField extends DataFieldDrawable {
     mLastInfo.icon.drawAt(dc, x, y);
 
     if (mShowText && mLastInfo.text != null) {
-      y += Settings.iconSize;
+      y += Settings.ICON_SIZE;
       dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, 1 | 4);
     }
   }
@@ -162,53 +166,38 @@ class AbastractOrbitDataField extends DataFieldDrawable {
     }
     return Graphics.COLOR_WHITE;
   }
-}
-(:apiBelow420)
-class OrbitDataField extends AbastractOrbitDataField {
-  function initialize(params) {
-    AbastractOrbitDataField.initialize(params);
-  }
-}
 
-(:api420AndAbove)
-class OrbitDataField extends AbastractOrbitDataField {
-  function initialize(params) {
-    AbastractOrbitDataField.initialize(params);
-    mHitbox = getHitbox();
-  }
-
-  (:debug)
-  function draw(dc) {
-    AbastractOrbitDataField.draw(dc);
-    DataFieldDrawable.drawHitbox(dc, Graphics.COLOR_BLUE);
-  }
-
-  private function getHitbox() {
-    var width = Settings.iconSize * 4;
-    var height = Settings.iconSize * 3;
-
-    if (mFieldId == Config.FIELD_ORBIT_LEFT) {
-      return {
-        :width => width,
-        :height => height,
-        :x => mArcStartX + Settings.iconSize - width,
-        :y => mArcStartY - Settings.iconSize,
-      };
-    } else if (mFieldId == Config.FIELD_ORBIT_RIGHT) {
-      return {
-        :width => width,
-        :height => height,
-        :x => mArcStartX - Settings.iconSize,
-        :y => mArcStartY - Settings.iconSize,
-      };
-    } else if (mFieldId == Config.FIELD_ORBIT_OUTER) {
-      return {
-        :width => width,
-        :height => height,
-        :x => mArcStartX - width / 2,
-        :y => mArcStartY - Settings.iconSize / 2,
-      };
+  (:onPressComplication)
+  protected function setHitbox() {
+    var width = Settings.ICON_SIZE * 4;
+    var height = Settings.ICON_SIZE * 3;
+    switch (mFieldId) {
+      case Config.FIELD_ORBIT_LEFT:
+        mHitbox = {
+          :width => width,
+          :height => height,
+          :x => mArcStartX + Settings.ICON_SIZE - width,
+          :y => 0,
+        };
+        break;
+      case Config.FIELD_ORBIT_RIGHT:
+        mHitbox = {
+          :width => width,
+          :height => height,
+          :x => mArcStartX - Settings.ICON_SIZE,
+          :y => 0,
+        };
+        break;
+      case Config.FIELD_ORBIT_OUTER:
+        mHitbox = {
+          :width => width,
+          :height => height,
+          :x => mArcStartX - width / 2,
+          :y => mArcStartY - Settings.ICON_SIZE / 2,
+        };
+        break;
+      default:
+        break;
     }
-    return null;
   }
 }

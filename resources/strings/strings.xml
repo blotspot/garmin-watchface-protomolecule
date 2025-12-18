@@ -4,11 +4,9 @@
 
   <string id="LayoutOrbit">Orbit (6 Data Fields)</string>
   <string id="LayoutOrbitItem">Orbit</string>
-  <string id="LayoutOrbitItemSub">6 Data Fields</string>
   <string id="LayoutCircles">Circles (8 Data Fields)</string>
   <string id="LayoutCirclesItem">Circles</string>
-  <string id="LayoutCirclesItemSub">8 Data Fields</string>
-
+  
   <string id="ThemeExpanse">Expanse</string>
   <string id="ThemeEarth">UN</string>
   <string id="ThemeMars">MCR</string>
@@ -40,15 +38,13 @@
   <string id="ToggleMenuActiveHeartrateLabel">Update Heartrate</string>
   <string id="ToggleMenuActiveHeartrateEnabled">10 sec</string>
   <string id="ToggleMenuActiveHeartrateDisabled">1 min</string>
-  <string id="ToggleMenuRemainingArcLabel">Draw arc</string>
-  <string id="ToggleMenuRemainingArcEnabled">Unfinished grey</string>
-  <string id="ToggleMenuRemainingArcDisabled">Completed only</string>
   <string id="ToggleMenuShowAmPmLabel">Show AM / PM</string>
-  <string id="ToggleMenuSleepTimeLayoutLabel">SleepTime Layout</string>
+  <string id="ToggleMenuSleepTimeLayoutLabel">Use sleep Layout</string>
   <string id="ToggleMenuEnabled">On</string>
   <string id="ToggleMenuDisabled">Off</string>
   
   <string id="SettingsLayoutSettingsTitle">Layout Settings</string>
+  <string id="SettingsTimeSettingsTitle">Date and Time Settings</string>
   <string id="SettingsSleepLayoutSettingsTitle">Sleep Layout Settings</string>
   <string id="SettingsOrbitLayoutGroupTitle">Orbit Layout Settings</string>
   <string id="SettingsOrbitIndicatorTextTitle">[Orbit] Show Text for primary DataFields</string>
@@ -84,7 +80,7 @@
   
   <string id="ODSettingsSleepModeDFUpTitle">DF Date Line</string>
   
-  <string id="NoDataField">Nothing</string>
+  <string id="NoDataField">Don't show</string>
   <string id="DataFieldSteps">Steps</string>
   <string id="DataFieldBattery">Battery</string>
   <string id="DataFieldCalories">Calories</string>

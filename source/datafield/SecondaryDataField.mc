@@ -4,45 +4,7 @@ import Toybox.Application;
 import Toybox.Lang;
 import Config;
 
-(:apiBelow420)
-class SecondaryDataField extends AbstractSecondaryDataField {
-  function initialize(params) {
-    AbstractSecondaryDataField.initialize(params);
-  }
-}
-
-(:api420AndAbove)
-class SecondaryDataField extends AbstractSecondaryDataField {
-  function initialize(params) {
-    AbstractSecondaryDataField.initialize(params);
-    mHitbox = getHitbox();
-  }
-
-  (:debug)
-  function draw(dc) {
-    AbstractSecondaryDataField.draw(dc);
-    DataFieldDrawable.drawHitbox(dc, Graphics.COLOR_BLUE);
-  }
-
-  (:debug)
-  protected function setClippingRegion(dc, dim as Array<Numeric>) {
-    dc.setClip(mHitbox[:x], mHitbox[:y], mHitbox[:width], mHitbox[:height]);
-  }
-
-  protected function getHitbox() {
-    var width = Settings.iconSize * 2.7;
-    var height = Settings.iconSize * 1.5;
-
-    return {
-      :width => width,
-      :height => height,
-      :x => locX - width * mOffsetMod - Settings.strokeWidth,
-      :y => locY - height / 2,
-    };
-  }
-}
-
-class AbstractSecondaryDataField extends DataFieldDrawable {
+class SecondaryDataField extends DataFieldDrawable {
   protected var mOffsetMod as Numeric;
   private var mColor as Number;
 
@@ -71,19 +33,27 @@ class AbstractSecondaryDataField extends DataFieldDrawable {
     var pos = params[:position];
     mOffsetMod = pos == 2 ? 0 : pos == 1 ? 0.5 : 1;
     mColor = params.hasKey(:color) ? $.themeColor(params[:color]) : Graphics.COLOR_WHITE;
+
+    if (self has :setHitbox && !Settings.useSleepTimeLayout() && !Settings.lowPowerMode) {
+      setHitbox();
+    }
   }
 
   function draw(dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
-      drawDataField(dc, false);
+      DataFieldDrawable.drawDataField(dc, false);
     }
   }
 
   protected function drawDataField(dc, partial as Boolean) {
     //! stroke width acts as buffer used in the clipping region and between icon and text
     var dim = getDimensions(dc);
-    self.setClippingRegion(dc, dim);
+    if (self has :setClippingRegionToHitbox) {
+      setClippingRegionToHitbox(dc, dim);
+    } else {
+      setClippingRegion(dc, dim);
+    }
     if (partial) {
       clearForPartialUpdate(dc);
     }
@@ -93,11 +63,11 @@ class AbstractSecondaryDataField extends DataFieldDrawable {
       dc.setColor(mColor, Graphics.COLOR_TRANSPARENT);
     }
 
-    var offsetX = dim[0] * mOffsetMod + Settings.strokeWidth / 2d;
-    mLastInfo.icon.drawAt(dc, locX - offsetX + Settings.iconSize / 2d /* icon will be centered at x, so add half icon size */, locY);
+    var offsetX = dim[0] * mOffsetMod + Settings.PEN_WIDTH / 2d;
+    mLastInfo.icon.drawAt(dc, locX - offsetX + Settings.ICON_SIZE / 2d /* icon will be centered at x, so add half icon size */, locY);
     if (mLastInfo.text != null) {
       dc.drawText(
-        locX - offsetX + Settings.iconSize + Settings.strokeWidth,
+        locX - offsetX + Settings.ICON_SIZE + Settings.PEN_WIDTH,
         locY - 1, // just txt font things :shrug:
         Settings.resource(Rez.Fonts.SecondaryIndicatorFont),
         mLastInfo.text,
@@ -111,6 +81,29 @@ class AbstractSecondaryDataField extends DataFieldDrawable {
     dc.setClip(locX - offsetX, locY - dim[1] / 2, dim[0], dim[1]);
   }
 
+  (:debug,:onPressComplication)
+  protected function setClippingRegionToHitbox(dc, dim as Array<Numeric>) {
+    if (self has :mHitbox && mHitbox != null) {
+      dc.setClip(mHitbox[:x], mHitbox[:y], mHitbox[:width], mHitbox[:height]);
+    } else {
+      var offsetX = dim[0] * mOffsetMod;
+      dc.setClip(locX - offsetX, locY - dim[1] / 2, dim[0], dim[1]);
+    }
+  }
+
+  (:onPressComplication)
+  protected function setHitbox() {
+    var width = Settings.ICON_SIZE * 2.7;
+    var height = Settings.ICON_SIZE * 1.5;
+
+    mHitbox = {
+      :width => width,
+      :height => height,
+      :x => locX - width * mOffsetMod - Settings.PEN_WIDTH,
+      :y => locY - height / 2,
+    };
+  }
+
   private function clearForPartialUpdate(dc) {
     // clear with background color so we don't draw over existing text
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
@@ -122,8 +115,8 @@ class AbstractSecondaryDataField extends DataFieldDrawable {
     if (mLastInfo.text != null) {
       textWidth = dc.getTextWidthInPixels(mLastInfo.text, Settings.resource(Rez.Fonts.SecondaryIndicatorFont));
     }
-    var fieldWidth = textWidth + Settings.iconSize + Settings.strokeWidth * 2;
+    var fieldWidth = textWidth + Settings.ICON_SIZE + Settings.PEN_WIDTH * 2;
     // NOTE: +1 makes me less nervous about the bounds on 218x218 size displays and that's a good thing
-    return [fieldWidth, Settings.iconSize + Settings.strokeWidth * 2 + 1];
+    return [fieldWidth, Settings.ICON_SIZE + Settings.PEN_WIDTH * 2 + 1];
   }
 }

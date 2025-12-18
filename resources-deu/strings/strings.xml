@@ -4,11 +4,9 @@
 
   <string id="LayoutOrbit">Orbit (6 Datenfelder)</string>
   <string id="LayoutOrbitItem">Orbit</string>
-  <string id="LayoutOrbitItemSub">6 Datenfelder</string>
   <string id="LayoutCircles">Kreise (8 Datenfelder)</string>
   <string id="LayoutCirclesItem">Kreise</string>
-  <string id="LayoutCirclesItemSub">8 Datenfelder</string>
-
+  
   <string id="ThemeExpanse">Expanse</string>
   <string id="ThemeEarth">UN</string>
   <string id="ThemeMars">MCR</string>
@@ -40,9 +38,6 @@
   <string id="ToggleMenuActiveHeartrateLabel">HF aktualisieren</string>
   <string id="ToggleMenuActiveHeartrateEnabled">10 Sek</string>
   <string id="ToggleMenuActiveHeartrateDisabled">1 Min</string>
-  <string id="ToggleMenuRemainingArcLabel">Indikator</string>
-  <string id="ToggleMenuRemainingArcEnabled">Komplett</string>
-  <string id="ToggleMenuRemainingArcDisabled">Nur fertigen Teil</string>
   <string id="ToggleMenuShowAmPmLabel">Zeige AM / PM</string>
   <string id="ToggleMenuSleepTimeLayoutLabel">Nacht Layout</string>
   <string id="ToggleMenuEnabled">An</string>

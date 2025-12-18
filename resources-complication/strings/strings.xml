@@ -1,0 +1,6 @@
+<strings>
+  <string id="ComplicationTriggerDate">Complication Date</string>
+  <string id="ComplicationTriggerTime">Complication Time</string>
+  <string id="ComplicationTriggerLeft">Complication Left</string>
+  <string id="ComplicationTriggerRight">Complication Right</string>
+</strings>

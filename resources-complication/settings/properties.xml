@@ -1,0 +1,6 @@
+<properties>  
+  <property id="dateComplicationTrigger" type="number">12</property>
+  <property id="timeComplicationTrigger" type="number">13</property>
+  <property id="leftComplicationTrigger" type="number">8</property>
+  <property id="rightComplicationTrigger" type="number">16</property>
+</properties>

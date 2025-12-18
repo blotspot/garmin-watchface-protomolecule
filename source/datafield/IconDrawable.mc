@@ -22,7 +22,7 @@ class IconDrawable extends WatchUi.Drawable {
     if (mIcon != null) {
       $.saveSetAntiAlias(dc, true);
       locX = atLocX;
-      locY = mOffestY ? atLocY + Settings.iconSize * 0.1 : atLocY;
+      locY = mOffestY ? atLocY + Settings.ICON_SIZE * 0.1 : atLocY;
       drawInternal(dc);
       $.saveSetAntiAlias(dc, false);
     }
@@ -34,8 +34,8 @@ class IconDrawable extends WatchUi.Drawable {
       locX = dc.getWidth() / 2;
       locY = dc.getHeight() / 2;
       $.saveSetAntiAlias(dc, true);
-      dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-      dc.fillCircle(locX, locY, Math.floor(Settings.iconSize) - 1);
+      dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
+      dc.fillCircle(locX, locY, Math.floor(Settings.ICON_SIZE) - 1);
       dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
       drawInternal(dc);
       $.saveSetAntiAlias(dc, false);

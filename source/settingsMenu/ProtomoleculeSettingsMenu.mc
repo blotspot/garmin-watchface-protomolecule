@@ -3,20 +3,13 @@ import Toybox.Application.Properties;
 import Toybox.Graphics;
 import Toybox.System;
 import Toybox.Lang;
+import Toybox.Complications;
 import Config;
 
 class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
-  (:api420AndAbove)
-  private function addComplicationsMenuItem() {
-    Menu2.addItem($.menuItem("complications", "Complications", null));
-  }
-
-  (:apiBelow420)
-  private function addComplicationsMenuItem() {}
-
   (:mipDisplay)
-  private function addActiveHeartRateMenuItem() {
-    Menu2.addItem(
+  protected function addActiveHeartRateMenuItem() {
+    addItem(
       $.toggleItem(
         "activeHeartrate",
         Settings.resource(Rez.Strings.ToggleMenuActiveHeartrateLabel),
@@ -26,24 +19,26 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
     );
   }
 
-  (:amoledDisplay)
-  private function addActiveHeartRateMenuItem() {}
-
   function initialize() {
     Menu2.initialize({ :title => Settings.resource(Rez.Strings.SettingsMenuLabel) });
 
-    Menu2.addItem($.menuItem("layout", Settings.resource(Rez.Strings.SettingsLayoutTitle), $.getLayoutString(Properties.getValue("layout") as Layout)));
-    Menu2.addItem($.menuItem("layoutSettings", Settings.resource(Rez.Strings.SettingsLayoutSettingsTitle), null));
-    Menu2.addItem($.menuItem("theme", Settings.resource(Rez.Strings.SettingsThemeTitle), $.getThemeString(Properties.getValue("theme") as Theme)));
-    Menu2.addItem(
-      $.toggleItem("showSeconds", Settings.resource(Rez.Strings.SettingsShowSecondsTitle), Settings.resource(Rez.Strings.ToggleMenuEnabled), Settings.resource(Rez.Strings.ToggleMenuDisabled))
+    addItem($.menuItem("layout", Settings.resource(Rez.Strings.SettingsLayoutTitle), $.getLayoutString(Properties.getValue("layout") as Layout)));
+    addItem($.menuItem("layoutSettings", Settings.resource(Rez.Strings.SettingsLayoutSettingsTitle), null));
+    addItem($.menuItem("theme", Settings.resource(Rez.Strings.SettingsThemeTitle), $.getThemeString(Properties.getValue("theme") as Theme)));
+    addItem($.menuItem("timeSettings", Settings.resource(Rez.Strings.SettingsTimeSettingsTitle), null));
+    if (self has :addActiveHeartRateMenuItem) {
+      addActiveHeartRateMenuItem();
+    }
+    addItem(
+      $.menuItem(
+        "sleepLayoutSettings",
+        Settings.resource(Rez.Strings.SettingsSleepLayoutSettingsTitle),
+        Settings.resource(Rez.Strings.ToggleMenuSleepTimeLayoutLabel) +
+          ": " +
+          (Properties.getValue("sleepLayoutActive") ? Settings.resource(Rez.Strings.ToggleMenuEnabled) : Settings.resource(Rez.Strings.ToggleMenuDisabled))
+      )
     );
-    Menu2.addItem(
-      $.toggleItem("showMeridiemText", Settings.resource(Rez.Strings.ToggleMenuShowAmPmLabel), Settings.resource(Rez.Strings.ToggleMenuEnabled), Settings.resource(Rez.Strings.ToggleMenuDisabled))
-    );
-    addActiveHeartRateMenuItem();
-    Menu2.addItem($.menuItem("sleepLayoutSettings", Settings.resource(Rez.Strings.SettingsSleepLayoutSettingsTitle), null));
-    Menu2.addItem(
+    addItem(
       $.toggleItem(
         "useSystemFontForDate",
         Settings.resource(Rez.Strings.ToggleMenuSystemFontLabel),
@@ -52,9 +47,9 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
       )
     );
 
-    Menu2.addItem($.menuItem("caloriesGoal", Settings.resource(Rez.Strings.SettingsCaloriesGoalTitle), Properties.getValue("caloriesGoal").toString()));
-    Menu2.addItem($.menuItem("batteryThreshold", Settings.resource(Rez.Strings.SettingsBatteryThresholdTitle), Properties.getValue("batteryThreshold").toString()));
-    Menu2.addItem(
+    addItem($.menuItem("caloriesGoal", Settings.resource(Rez.Strings.SettingsCaloriesGoalTitle), Properties.getValue("caloriesGoal").toString()));
+    addItem($.menuItem("batteryThreshold", Settings.resource(Rez.Strings.SettingsBatteryThresholdTitle), Properties.getValue("batteryThreshold").toString()));
+    addItem(
       $.toggleItem(
         "dynamicBodyBattery",
         Settings.resource(Rez.Strings.SettingsDynamicBodyBatteryTitle),
@@ -62,12 +57,13 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
         Settings.resource(Rez.Strings.ToggleMenuDisabled)
       )
     );
-    Menu2.addItem($.menuItem("bodyBatteryThreshold", Settings.resource(Rez.Strings.SettingsBodyBatteryThresholdTitle), Properties.getValue("bodyBatteryThreshold").toString()));
-    addComplicationsMenuItem();
+    addItem($.menuItem("bodyBatteryThreshold", Settings.resource(Rez.Strings.SettingsBodyBatteryThresholdTitle), Properties.getValue("bodyBatteryThreshold").toString()));
   }
 }
 
 class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
+  private var sleepLayoutMenuItem as MenuItem?;
+
   function initialize() {
     Menu2InputDelegate.initialize();
   }
@@ -81,11 +77,12 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
         pushCirclesLayoutSettingsMenu();
       }
       return;
-    } else if ("sleepLayoutSettings".equals(id)) {
-      pushSleepLayoutSettingsMenu();
+    } else if ("timeSettings".equals(id)) {
+      pushTimeSettingsMenu();
       return;
-    } else if ("complications".equals(id)) {
-      pushComplicationsMenu();
+    } else if ("sleepLayoutSettings".equals(id)) {
+      sleepLayoutMenuItem = item;
+      pushSleepLayoutSettingsMenu();
       return;
     }
     if (item instanceof ToggleMenuItem) {
@@ -99,15 +96,15 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   }
 
   function onBack() {
+    if (sleepLayoutMenuItem != null) {
+      sleepLayoutMenuItem.setSubLabel(
+        Settings.resource(Rez.Strings.ToggleMenuSleepTimeLayoutLabel) +
+          ": " +
+          (Properties.getValue("sleepLayoutActive") ? Settings.resource(Rez.Strings.ToggleMenuEnabled) : Settings.resource(Rez.Strings.ToggleMenuDisabled))
+      );
+      sleepLayoutMenuItem = null;
+    }
     WatchUi.popView(WatchUi.SLIDE_RIGHT);
-  }
-
-  (:apiBelow420)
-  private function pushComplicationsMenu() {}
-
-  (:api420AndAbove)
-  private function pushComplicationsMenu() {
-    WatchUi.pushView(new ComplicationsSettingsMenu(), new ComplicationsMenuDelegate(), WatchUi.SLIDE_LEFT);
   }
 
   private function pushOrbitLayoutSettingsMenu() {
@@ -130,7 +127,6 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
   }
 
-  //! Creates
   private function pushCirclesLayoutSettingsMenu() {
     var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsCirclesLayoutGroupTitle) });
     menu.addItem($.menuItem("upperDataField1", Settings.resource(Rez.Strings.ODSettingsUpper1Title), $.getDataFieldString(Properties.getValue("upperDataField1") as FieldType)));
@@ -143,6 +139,32 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     menu.addItem($.menuItem("noProgressDataField3", Settings.resource(Rez.Strings.SettingsSecondary3Title), $.getDataFieldString(Properties.getValue("noProgressDataField3") as FieldType)));
 
     WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
+  }
+
+  private function pushTimeSettingsMenu() {
+    var menu = new WatchUi.Menu2({ :title => Settings.resource(Rez.Strings.SettingsTimeSettingsTitle) });
+    menu.addItem(
+      $.toggleItem("showSeconds", Settings.resource(Rez.Strings.SettingsShowSecondsTitle), Settings.resource(Rez.Strings.ToggleMenuEnabled), Settings.resource(Rez.Strings.ToggleMenuDisabled))
+    );
+    menu.addItem(
+      $.toggleItem("showMeridiemText", Settings.resource(Rez.Strings.ToggleMenuShowAmPmLabel), Settings.resource(Rez.Strings.ToggleMenuEnabled), Settings.resource(Rez.Strings.ToggleMenuDisabled))
+    );
+    if (self has :addComplicationTimeSettings) {
+      addComplicationTimeSettings(menu);
+    }
+    WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
+  }
+
+  (:onPressComplication)
+  protected function addComplicationTimeSettings(menu) {
+    var dateSubLabel = Settings.getComplicationLongLabelFromFroperty("dateComplicationTrigger");
+    var timeSubLabel = Settings.getComplicationLongLabelFromFroperty("timeComplicationTrigger");
+    var leftSubLabel = Settings.getComplicationLongLabelFromFroperty("leftComplicationTrigger");
+    var rightSubLabel = Settings.getComplicationLongLabelFromFroperty("rightComplicationTrigger");
+    menu.addItem($.menuItem("dateComplicationTrigger", Settings.resource(Rez.Strings.ComplicationTriggerDate), dateSubLabel));
+    menu.addItem($.menuItem("timeComplicationTrigger", Settings.resource(Rez.Strings.ComplicationTriggerTime), timeSubLabel));
+    menu.addItem($.menuItem("leftComplicationTrigger", Settings.resource(Rez.Strings.ComplicationTriggerLeft), leftSubLabel));
+    menu.addItem($.menuItem("rightComplicationTrigger", Settings.resource(Rez.Strings.ComplicationTriggerRight), rightSubLabel));
   }
 
   private function pushSleepLayoutSettingsMenu() {
@@ -163,7 +185,12 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
   }
 
-  hidden function pushOptionsMenu(item as MenuItem, id as String) {
+  (:onPressComplication)
+  protected function pushComplicationsMenu(item as MenuItem) {
+    WatchUi.pushView(new ComplicationsSettingsMenu(Properties.getValue(item.getId() as String)), new ComplicationsMenuDelegate(item), WatchUi.SLIDE_LEFT);
+  }
+
+  protected function pushOptionsMenu(item as MenuItem, id as String) {
     var options = new OptionsMenu2Delegate(item);
     if ("layout".equals(id)) {
       options.holder = new FixedValuesFactory([$.getLayoutString(Config.LAYOUT_ORBIT), $.getLayoutString(Config.LAYOUT_CIRCLES)], id, {});
@@ -174,6 +201,13 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
         id,
         {}
       );
+    }
+    if (
+      self has :pushComplicationsMenu &&
+      ("timeComplicationTrigger".equals(id) || "dateComplicationTrigger".equals(id) || "leftComplicationTrigger".equals(id) || "rightComplicationTrigger".equals(id))
+    ) {
+      pushComplicationsMenu(item);
+      return;
     }
     if (
       "noProgressDataField1".equals(id) ||

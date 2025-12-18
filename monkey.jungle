@@ -1,6 +1,9 @@
 project.manifest = manifest.xml
+optimization = 3pz
 
-base.excludeAnnotations = api420AndAbove;mipDisplay
-vivoactive4s.excludeAnnotations = api420AndAbove;amoledDisplay
-fenix6spro.excludeAnnotations = api420AndAbove;amoledDisplay
-fenix843mm.excludeAnnotations = apiBelow420;mipDisplay
+# base is a default exclusion profile for every face not specified  
+base.excludeAnnotations = mipDisplay 
+vivoactive4s.excludeAnnotations = onPressComplication
+fenix6spro.excludeAnnotations = onPressComplication
+venu.excludeAnnotations = onPressComplication;mipDisplay
+fenix843mm.resourcePath = $(fenix843mm.resourcePath);resources-complication

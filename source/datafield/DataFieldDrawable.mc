@@ -5,9 +5,12 @@ import Toybox.WatchUi;
 import DataFieldInfo;
 import Config;
 
-class DataFieldDrawableAbstract extends WatchUi.Drawable {
+class DataFieldDrawable extends WatchUi.Drawable {
   protected var mFieldId as FieldId;
   protected var mLastInfo as DataFieldProperties? = null;
+
+  (:onPressComplication)
+  protected var mHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
 
   function initialize(
     params as
@@ -29,6 +32,7 @@ class DataFieldDrawableAbstract extends WatchUi.Drawable {
     mLastInfo = DataFieldInfo.getInfoForField(mFieldId);
   }
 
+  (:mipDisplay)
   function partialUpdate(dc) {
     var currentInfo = DataFieldInfo.getInfoForField(mFieldId);
     if (currentInfo != null && !currentInfo.equals(mLastInfo)) {
@@ -40,39 +44,27 @@ class DataFieldDrawableAbstract extends WatchUi.Drawable {
   protected function drawDataField(dc, partial as Boolean) {
     $.saveSetAntiAlias(dc, true);
     self.drawDataField(dc, partial);
+    if (self has :mHitbox && mHitbox != null && self has :drawHitbox) {
+      drawHitbox(dc, Graphics.COLOR_BLUE);
+    }
     $.saveSetAntiAlias(dc, false);
   }
-}
 
-(:apiBelow420)
-class DataFieldDrawable extends DataFieldDrawableAbstract {
-  function initialize(params) {
-    DataFieldDrawableAbstract.initialize(params);
-  }
-}
-
-(:api420AndAbove)
-class DataFieldDrawable extends DataFieldDrawableAbstract {
-  protected var mHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
-
-  function initialize(params) {
-    DataFieldDrawableAbstract.initialize(params);
-  }
-
-  (:debug)
+  (:debug,:onPressComplication)
   protected function drawHitbox(dc, color) {
     dc.setPenWidth(1);
     dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-    dc.drawRoundedRectangle(mHitbox[:x], mHitbox[:y], mHitbox[:width], mHitbox[:height], Settings.iconSize * 0.5);
+    dc.drawRoundedRectangle(mHitbox[:x], mHitbox[:y], mHitbox[:width], mHitbox[:height], Settings.ICON_SIZE * 0.5);
   }
 
-  private function isInHitbox(x as Number, y as Number) as Boolean {
+  (:onPressComplication)
+  protected function isInHitbox(x as Number, y as Number) as Boolean {
     return x >= mHitbox[:x] && x <= mHitbox[:x] + mHitbox[:width] && y >= mHitbox[:y] && y <= mHitbox[:y] + mHitbox[:height];
   }
 
-  public function getComplicationForCoordinates(x as Number, y as Number) {
+  (:onPressComplication)
+  public function getComplicationForCoordinates(x as Number, y as Number) as Toybox.Complications.Id? {
     if (mLastInfo != null && isInHitbox(x, y)) {
-      Log.debug("Hit DataFieldDrawable id=" + mLastInfo.fieldType);
       var complicationType = mLastInfo.getComplicationType();
       if (complicationType != null && complicationType != Toybox.Complications.COMPLICATION_TYPE_INVALID) {
         return new Complications.Id(complicationType);

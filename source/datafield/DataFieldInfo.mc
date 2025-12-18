@@ -27,7 +27,7 @@ module DataFieldInfo {
       icon = getIconDrawableForType(fieldType, progress);
     }
 
-    (:api420AndAbove)
+    (:onPressComplication)
     function getComplicationType() as Toybox.Complications.Type? {
       return getComplicationsTypeForField(fieldType);
     }
@@ -108,7 +108,7 @@ module DataFieldInfo {
     }
   }
 
-  (:api420AndAbove)
+  (:onPressComplication)
   function getComplicationsTypeForField(fieldType as FieldType) as Toybox.Complications.Type? {
     switch (fieldType) {
       case Config.DATA_STEPS:

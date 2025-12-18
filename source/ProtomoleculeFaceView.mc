@@ -11,7 +11,8 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   private var _currentLayout as Array<WatchUi.Drawable>?;
 
-  private var _dataFieldUpdateCounter = 0;
+  (:mipDisplay)
+  protected var mDataFieldUpdateCounter = 0;
 
   function initialize() {
     _lastBIPModeState = Settings.burnInProtectionMode;
@@ -21,27 +22,27 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   function chooseLayout(dc, onLayoutCall) {
     if (onLayoutCall) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("onLayoutCall");
       }
       return chooseLayoutByPriority(dc);
     }
     if (_lastBIPModeState != Settings.burnInProtectionMode) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("enter / exit low power mode triggered");
       }
       _lastBIPModeState = Settings.burnInProtectionMode;
       return chooseLayoutByPriority(dc);
     }
     if (_lastSleepLayoutState != Settings.useSleepTimeLayout()) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("sleep / wake time event triggered (and not in legacy BIP mode)");
       }
       _lastSleepLayoutState = Settings.useSleepTimeLayout();
       return chooseLayoutByPriority(dc);
     }
     if (_activeDefaultLayout != Properties.getValue("layout")) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("layout switch triggered");
       }
       _activeDefaultLayout = Properties.getValue("layout") as Number;
@@ -51,43 +52,41 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   protected function chooseLayoutByPriority(dc) {
-    var layout = null;
     // Prio 1: Legacy BIP (pixes cycling)
-    if (Settings.burnInProtectionMode && !Settings.hasDisplayMode) {
-      if (Log.isDebugEnabled) {
+    if (Settings.burnInProtectionMode && !Settings.HAS_DISPLAY_MODE) {
+      if (Log has :debug) {
         Log.debug("set burn-in protection layout (AMOLEDs below API 5)");
       }
-      layout = Rez.Layouts.BurnInProtectionLayout(dc);
+      _currentLayout = Rez.Layouts.BurnInProtectionLayout(dc);
     }
     // Prio 2: Sleep Time (when enabled in settings)
-    if (Settings.useSleepTimeLayout()) {
-      if (Log.isDebugEnabled) {
+    else if (Settings.useSleepTimeLayout()) {
+      if (Log has :debug) {
         Log.debug("set sleep time layout");
       }
-      layout = Rez.Layouts.SleepLayout(dc);
+      _currentLayout = Rez.Layouts.SleepLayout(dc);
     }
     // Prio 3: AMOLED Low Power Mode (<10% luminance)
-    if (Settings.burnInProtectionMode && Settings.hasDisplayMode) {
-      if (Log.isDebugEnabled) {
+    else if (Settings.burnInProtectionMode && Settings.HAS_DISPLAY_MODE) {
+      if (Log has :debug) {
         Log.debug("set low power mode layout (AMOLEDs above API 5)");
       }
-      layout = Rez.Layouts.LowPowerModeLayout(dc);
+      _currentLayout = Rez.Layouts.LowPowerModeLayout(dc);
     }
-    if (layout == null) {
-      // If no special Layouts found, choose default layout
-      if (Log.isDebugEnabled) {
+    // DEFAULT: choose default layout
+    else {
+      if (Log has :debug) {
         Log.debug("set default layout");
       }
-      layout = _activeDefaultLayout == Config.LAYOUT_ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
+      _currentLayout = _activeDefaultLayout == Config.LAYOUT_ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
     }
-    _currentLayout = layout;
 
     return _currentLayout;
   }
 
   // Load your resources here
   function onLayout(dc) {
-    Settings.loadProperties();
+    Settings.determineSleepTime();
     setLayout(chooseLayout(dc, true));
   }
 
@@ -95,7 +94,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // the state of this View and prepare it to be shown. This includes
   // loading resources into memory.
   function onShow() {
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("onShow");
     }
   }
@@ -116,7 +115,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // state of this View here. This includes freeing resources from
   // memory.
   function onHide() {
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("onHide");
     }
     Settings.purge();
@@ -125,13 +124,13 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // The user has just looked at their watch. Timers and animations may be started here.
   function onExitSleep() {
     if (requiresBurnInProtection()) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("onExitSleep burnInProtectionMode");
       }
       Settings.burnInProtectionMode = false;
       WatchUi.requestUpdate();
     }
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("onExitSleep lowPowerMode");
     }
     Settings.lowPowerMode = false;
@@ -139,26 +138,29 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // Terminate any active timers and prepare for slow updates.
   function onEnterSleep() {
-    _dataFieldUpdateCounter = 0;
+    if (self has :mDataFieldUpdateCounter) {
+      mDataFieldUpdateCounter = 0;
+    }
     if (requiresBurnInProtection()) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("onEnterSleep burnInProtectionMode");
       }
       Settings.burnInProtectionMode = true;
       WatchUi.requestUpdate();
     }
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("onEnterSleep lowPowerMode");
     }
     Settings.lowPowerMode = true;
   }
 
+  (:mipDisplay)
   function onPartialUpdate(dc) {
     if (!Settings.useSleepTimeLayout() && Properties.getValue("activeHeartrate")) {
-      _dataFieldUpdateCounter += 1;
-      _dataFieldUpdateCounter = _dataFieldUpdateCounter % 10;
+      mDataFieldUpdateCounter += 1;
+      mDataFieldUpdateCounter = mDataFieldUpdateCounter % 10;
 
-      if (_dataFieldUpdateCounter == 0) {
+      if (mDataFieldUpdateCounter == 0) {
         for (var i = 0; i < _currentLayout.size(); i += 1) {
           var drawable = _currentLayout[i];
           if (drawable instanceof SecondaryDataField) {
@@ -190,7 +192,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
 import Toybox.Complications;
 
-(:api420AndAbove)
+(:onPressComplication)
 class ProtomoleculeFaceViewDelegate extends WatchUi.WatchFaceDelegate {
   private var _view as ProtomoleculeFaceView;
 
@@ -200,21 +202,25 @@ class ProtomoleculeFaceViewDelegate extends WatchUi.WatchFaceDelegate {
   }
 
   function onPress(clickEvent as WatchUi.ClickEvent) as Boolean {
-    var coordinates = clickEvent.getCoordinates();
-    var drawables = _view.getCurrentLayout();
+    if (!Settings.useSleepTimeLayout() && !Settings.lowPowerMode) {
+      var coordinates = clickEvent.getCoordinates();
+      var drawables = _view.getCurrentLayout();
 
-    for (var i = 0; i < drawables.size(); i += 1) {
-      var drawable = drawables[i];
-      if (drawable instanceof DataFieldDrawable || drawable instanceof DateAndTime) {
-        try {
-          var complicationId = drawable.getComplicationForCoordinates(coordinates[0], coordinates[1]);
-          if (complicationId != null) {
-            startGlance(complicationId);
-            return true;
+      for (var i = 0; i < drawables.size(); i += 1) {
+        var drawable = drawables[i];
+        if (drawable instanceof DataFieldDrawable || drawable instanceof DateAndTime) {
+          try {
+            var complicationId = drawable.getComplicationForCoordinates(coordinates[0], coordinates[1]);
+            if (complicationId != null) {
+              startGlance(complicationId);
+              return true;
+            }
+          } catch (error) {
+            if (Log has :debug) {
+              Log.debug("Could not handle onPress. Error: " + error.getErrorMessage());
+            }
+            return false;
           }
-        } catch (error) {
-          Log.debug(error.getErrorMessage());
-          return false;
         }
       }
     }
@@ -223,8 +229,12 @@ class ProtomoleculeFaceViewDelegate extends WatchUi.WatchFaceDelegate {
 
   (:debug)
   private function startGlance(complicationId) {
-    var c = Complications.getComplication(complicationId);
-    Log.debug("Clicked complication: " + c.longLabel);
+    try {
+      var c = Complications.getComplication(complicationId);
+      Log.debug("Clicked complication: " + c.longLabel);
+    } catch (e) {
+      Log.debug("Eror on " + complicationId);
+    }
   }
 
   (:release)

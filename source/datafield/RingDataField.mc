@@ -4,47 +4,7 @@ import Toybox.WatchUi;
 import Toybox.Lang;
 import Config;
 
-(:apiBelow420)
-class RingDataField extends AbstractRingDataField {
-  function initialize(params) {
-    AbstractRingDataField.initialize(params);
-  }
-}
-
-(:api420AndAbove)
-class RingDataField extends AbstractRingDataField {
-  function initialize(params) {
-    AbstractRingDataField.initialize(params);
-    mHitbox = getHitbox();
-  }
-
-  (:debug)
-  function draw(dc) {
-    AbstractRingDataField.draw(dc);
-    drawHitbox(dc, Graphics.COLOR_BLUE);
-  }
-
-  protected function getHitbox() {
-    if (mFieldId == Config.FIELD_CIRCLES_OUTER) {
-      var height = Settings.iconSize * 1.5;
-      return {
-        :width => Settings.iconSize * 2,
-        :height => height,
-        :x => System.getDeviceSettings().screenWidth / 2 - Settings.iconSize,
-        :y => System.getDeviceSettings().screenHeight - height,
-      };
-    } else {
-      return {
-        :width => mRadius * 2,
-        :height => mRadius * 2,
-        :x => locX - mRadius,
-        :y => locY - mRadius,
-      };
-    }
-  }
-}
-
-class AbstractRingDataField extends DataFieldDrawable {
+class RingDataField extends DataFieldDrawable {
   private var mShowIcon as Boolean;
   protected var mRadius as Numeric;
 
@@ -69,20 +29,25 @@ class AbstractRingDataField extends DataFieldDrawable {
     params[:locX] = params[:x];
     params[:locY] = params[:y];
     DataFieldDrawable.initialize(params);
+
     mShowIcon = params[:showIcon];
     mRadius = params[:radius];
+
+    if (self has :setHitbox && !Settings.useSleepTimeLayout() && !Settings.lowPowerMode) {
+      setHitbox();
+    }
   }
 
   function draw(dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
-      drawDataField(dc, false);
+      DataFieldDrawable.drawDataField(dc, false);
     }
   }
 
   protected function drawDataField(dc, partial as Boolean) {
     setClippingRegion(dc);
-    dc.setPenWidth(Settings.strokeWidth * 1.5);
+    dc.setPenWidth(Settings.PEN_WIDTH * 1.5);
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
     }
@@ -96,6 +61,26 @@ class AbstractRingDataField extends DataFieldDrawable {
       }
       mLastInfo.icon.resetOffset();
       mLastInfo.icon.drawAt(dc, locX, locY);
+    }
+  }
+
+  (:onPressComplication)
+  protected function setHitbox() {
+    if (mFieldId == Config.FIELD_CIRCLES_OUTER) {
+      var height = Settings.ICON_SIZE * 1.5;
+      mHitbox = {
+        :width => Settings.ICON_SIZE * 2,
+        :height => height,
+        :x => System.getDeviceSettings().screenWidth / 2 - Settings.ICON_SIZE,
+        :y => System.getDeviceSettings().screenHeight - height,
+      };
+    } else {
+      mHitbox = {
+        :width => mRadius * 2,
+        :height => mRadius * 2,
+        :x => locX - mRadius,
+        :y => locY - mRadius,
+      };
     }
   }
 
@@ -117,7 +102,7 @@ class AbstractRingDataField extends DataFieldDrawable {
 
   private function setClippingRegion(dc) {
     dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
-    dc.setClip(locX - (mRadius + Settings.strokeWidth), locY - (mRadius + Settings.strokeWidth), (mRadius + Settings.strokeWidth) * 2, (mRadius + Settings.strokeWidth) * 2);
+    dc.setClip(locX - (mRadius + Settings.PEN_WIDTH), locY - (mRadius + Settings.PEN_WIDTH), (mRadius + Settings.PEN_WIDTH) * 2, (mRadius + Settings.PEN_WIDTH) * 2);
   }
 
   private function getForeground() as ColorType {

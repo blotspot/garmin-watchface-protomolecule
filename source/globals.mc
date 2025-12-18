@@ -67,7 +67,7 @@ module Config {
     DATA_ACTIVE_CALORIES,
   }
 
-  (:api420AndAbove)
+  (:onPressComplication)
   enum ComplicationTrigger {
     TRIGGER_DATE,
     TRIGGER_TIME,
