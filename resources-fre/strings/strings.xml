@@ -17,6 +17,7 @@
   <string id="SettingsLayoutTitle">Disposition</string>
   <string id="SettingsChooseThemeTitle">Choisir le Thème</string>
   <string id="SettingsThemeTitle">Thème</string>
+  <string id="SettingsTimeSettingsTitle">Paramètres Date et Temps</string>
   <string id="SettingsShowSecondsTitle">Afficher les Secondes</string>
   <string id="SettingsShowMeridiemTitle">Afficher AM/PM en format 12 Heures</string>
   <string id="SettingsShowRemainingIndicator">Afficher la Partie Restante de l'Indicateur</string>

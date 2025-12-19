@@ -17,6 +17,7 @@
   <string id="SettingsChooseLayoutTitle">Wähle Layout</string>
   <string id="SettingsThemeTitle">Design</string>
   <string id="SettingsChooseThemeTitle">Wähle Design</string>
+  <string id="SettingsTimeSettingsTitle">Datum und Uhrzeit</string>
   <string id="SettingsShowSecondsTitle">Zeige Sekunden</string>
   <string id="SettingsShowMeridiemTitle">Zeige AM / PM bei 12-Stunden Zeit</string>
   <string id="SettingsShowRemainingIndicator">Zeige den verbleibenden Teil des Indikators</string>

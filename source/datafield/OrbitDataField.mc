@@ -6,14 +6,14 @@ import Toybox.Lang;
 import Config;
 
 class OrbitDataField extends DataFieldDrawable {
-  protected var mStartDegree as Numeric;
-  protected var mTotalDegree as Numeric;
-  protected var mRadius as Numeric;
+  private var _startDegree as Numeric;
+  private var _totalDegree as Numeric;
+  private var _radius as Numeric;
 
-  protected var mArcStartX as Numeric;
-  protected var mArcStartY as Numeric;
+  private var _arcStartX as Numeric;
+  private var _arcStartY as Numeric;
 
-  private var mShowText as Boolean;
+  private var _showText as Boolean;
 
   function initialize(
     params as
@@ -30,28 +30,32 @@ class OrbitDataField extends DataFieldDrawable {
         :startDegree as Numeric,
         :totalDegree as Numeric,
         :radius as Numeric,
+        :drawHeight as Number,
+        :drawWidth as Number,
       }
   ) {
-    params[:locX] = params.hasKey(:x) ? params[:x] : System.getDeviceSettings().screenWidth * 0.5;
-    params[:locY] = params.hasKey(:y) ? params[:y] : System.getDeviceSettings().screenHeight * 0.5;
+    //! redefine locX / locY.
+    //! Doing it the stupid way because the layout isn't allowing a `dc` call in their definition.
+    params[:locX] = params[:x] * params[:drawWidth];
+    params[:locY] = params[:y] * params[:drawHeight];
     DataFieldDrawable.initialize(params);
 
-    mStartDegree = params[:startDegree];
-    mTotalDegree = params[:totalDegree];
-    mRadius = params[:radius];
-    mShowText = Properties.getValue("showOrbitIndicatorText") as Boolean;
+    _startDegree = params[:startDegree];
+    _totalDegree = params[:totalDegree];
+    _radius = params[:radius] * params[:drawWidth];
+    _showText = Properties.getValue("showOrbitIndicatorText") as Boolean;
 
-    mArcStartX = locX;
-    mArcStartY = locY;
+    _arcStartX = locX;
+    _arcStartY = locY;
 
     if (mFieldId == Config.FIELD_ORBIT_LEFT) {
-      mArcStartX = getX(mStartDegree - mTotalDegree) - Settings.ICON_SIZE / 2;
-      mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree - mTotalDegree) + Settings.ICON_SIZE;
+      _arcStartX = getX(_startDegree - _totalDegree) - Settings.ICON_SIZE / 2;
+      _arcStartY = getY(params[:drawHeight], _startDegree - _totalDegree) + Settings.ICON_SIZE;
     } else if (mFieldId == Config.FIELD_ORBIT_RIGHT) {
-      mArcStartX = getX(mStartDegree) + Settings.ICON_SIZE / 2;
-      mArcStartY = getY(System.getDeviceSettings().screenHeight, mStartDegree) + Settings.ICON_SIZE;
+      _arcStartX = getX(_startDegree) + Settings.ICON_SIZE / 2;
+      _arcStartY = getY(params[:drawHeight], _startDegree) + Settings.ICON_SIZE;
     } else if (mFieldId == Config.FIELD_ORBIT_OUTER) {
-      mArcStartY = locY + mRadius - Settings.ICON_SIZE * (mShowText ? 2 : 1);
+      _arcStartY = locY + _radius - Settings.ICON_SIZE * (_showText ? 2 : 1);
     }
 
     if (self has :setHitbox && !Settings.useSleepTimeLayout() && !Settings.lowPowerMode) {
@@ -79,12 +83,12 @@ class OrbitDataField extends DataFieldDrawable {
   }
 
   private function drawProgressArc(dc, fillLevel as Numeric, reverse as Boolean) {
-    dc.setColor(getForeground(), -1);
+    dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     if (fillLevel > 0.0) {
-      var startDegree = reverse ? mStartDegree - mTotalDegree + getFillDegree(fillLevel) : mStartDegree;
-      var endDegree = reverse ? mStartDegree - mTotalDegree : mStartDegree - getFillDegree(fillLevel);
+      var startDegree = reverse ? _startDegree - _totalDegree + getFillDegree(fillLevel) : _startDegree;
+      var endDegree = reverse ? _startDegree - _totalDegree : _startDegree - getFillDegree(fillLevel);
 
-      dc.drawArc(locX, locY, mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
+      dc.drawArc(locX, locY, _radius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
       if (fillLevel < 1.0) {
         drawEndpoint(dc, reverse ? startDegree : endDegree);
       }
@@ -94,13 +98,13 @@ class OrbitDataField extends DataFieldDrawable {
   private function drawRemainingArc(dc, fillLevel as Numeric, reverse as Boolean) {
     if (fillLevel < 1.0) {
       dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-      var startDegree = reverse ? mStartDegree : mStartDegree - getFillDegree(fillLevel);
-      var endDegree = mStartDegree - mTotalDegree;
+      var startDegree = reverse ? _startDegree : _startDegree - getFillDegree(fillLevel);
+      var endDegree = _startDegree - _totalDegree;
       if (reverse) {
         endDegree += getFillDegree(fillLevel);
       }
 
-      dc.drawArc(locX, locY, mRadius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
+      dc.drawArc(locX, locY, _radius, Graphics.ARC_CLOCKWISE, startDegree, endDegree);
     }
   }
 
@@ -120,29 +124,29 @@ class OrbitDataField extends DataFieldDrawable {
     } else {
       dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
     }
-    var x = mArcStartX;
-    var y = mArcStartY;
+    var x = _arcStartX;
+    var y = _arcStartY;
 
     mLastInfo.icon.drawAt(dc, x, y);
 
-    if (mShowText && mLastInfo.text != null) {
+    if (_showText && mLastInfo.text != null) {
       y += Settings.ICON_SIZE;
-      dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, 1 | 4);
+      dc.drawText(x, y - 1, Settings.resource(Rez.Fonts.SecondaryIndicatorFont), mLastInfo.text, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
   }
 
   private function getX(degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
-    return locX + mRadius * Math.cos(degree);
+    return locX + _radius * Math.cos(degree);
   }
 
   private function getY(height as Number, degree as Numeric) as Numeric {
     degree = Math.toRadians(degree);
-    return height - (locY + mRadius * Math.sin(degree));
+    return height - (locY + _radius * Math.sin(degree));
   }
 
   private function getFillDegree(fillLevel as Numeric) as Numeric {
-    return mTotalDegree * fillLevel;
+    return _totalDegree * fillLevel;
   }
 
   private function setClippingRegion(dc) {
@@ -176,7 +180,7 @@ class OrbitDataField extends DataFieldDrawable {
         mHitbox = {
           :width => width,
           :height => height,
-          :x => mArcStartX + Settings.ICON_SIZE - width,
+          :x => _arcStartX + Settings.ICON_SIZE - width,
           :y => 0,
         };
         break;
@@ -184,7 +188,7 @@ class OrbitDataField extends DataFieldDrawable {
         mHitbox = {
           :width => width,
           :height => height,
-          :x => mArcStartX - Settings.ICON_SIZE,
+          :x => _arcStartX - Settings.ICON_SIZE,
           :y => 0,
         };
         break;
@@ -192,8 +196,8 @@ class OrbitDataField extends DataFieldDrawable {
         mHitbox = {
           :width => width,
           :height => height,
-          :x => mArcStartX - width / 2,
-          :y => mArcStartY - Settings.ICON_SIZE / 2,
+          :x => _arcStartX - width / 2,
+          :y => _arcStartY - Settings.ICON_SIZE / 2,
         };
         break;
       default:

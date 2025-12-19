@@ -61,7 +61,7 @@ module Settings {
   }
 
   (:onPressComplication)
-  function getComplicationIdFromFroperty(property as String) as Complications.Id? {
+  function getComplicationIdFromProperty(property as String) as Complications.Id? {
     var type = Properties.getValue(property) as Number;
     try {
       if (type > 0) {
@@ -76,8 +76,8 @@ module Settings {
   }
 
   (:onPressComplication)
-  function getComplicationLongLabelFromFroperty(property as String) as String? {
-    var id = getComplicationIdFromFroperty(property);
+  function getComplicationLongLabelFromProperty(property as String) as String? {
+    var id = getComplicationIdFromProperty(property);
     if (id != null) {
       return Complications.getComplication(id).longLabel;
     }

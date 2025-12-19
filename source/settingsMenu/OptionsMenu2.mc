@@ -20,16 +20,16 @@ class OptionsMenu2 extends WatchUi.Menu2 {
 
 class OptionsMenu2Delegate extends WatchUi.Menu2InputDelegate {
   var holder as ValueHolder?;
-  protected var mParent as MenuItem;
+  private var _parent as MenuItem;
 
   function initialize(parent as MenuItem) {
     Menu2InputDelegate.initialize();
-    mParent = parent;
+    _parent = parent;
   }
 
   function onSelect(item as WatchUi.MenuItem) {
     holder.save(item.getId());
-    mParent.setSubLabel(holder.getLabel(item.getId()));
+    _parent.setSubLabel(holder.getLabel(item.getId()));
     WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
   }
 
@@ -65,22 +65,22 @@ class ComplicationsSettingsMenu extends WatchUi.Menu2 {
 
 (:onPressComplication)
 class ComplicationsMenuDelegate extends WatchUi.Menu2InputDelegate {
-  protected var mParent as MenuItem;
+  private var _parent as MenuItem;
 
   function initialize(parent as MenuItem) {
     Menu2InputDelegate.initialize();
-    mParent = parent;
+    _parent = parent;
   }
 
   function onSelect(item as WatchUi.MenuItem) {
     try {
       var compType = item.getId() as Complications.Type;
-      Properties.setValue(mParent.getId() as String, compType);
-      mParent.setSubLabel(Complications.getComplication(new Complications.Id(compType)).longLabel);
+      Properties.setValue(_parent.getId() as String, compType);
+      _parent.setSubLabel(Complications.getComplication(new Complications.Id(compType)).longLabel);
       WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
     } catch (error) {
       if (Log has :debug) {
-        Log.debug("Error at '" + mParent.getId() + "'. Couldn't save selected item " + item.getId());
+        Log.debug("Error at '" + _parent.getId() + "'. Couldn't save selected item " + item.getId());
       }
       onBack();
     }

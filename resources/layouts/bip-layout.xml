@@ -1,4 +1,7 @@
 <layout id="BurnInProtectionLayout">
 	<drawable id="Background" class="Background"/>
-  <drawable id="DateAndTime" class="DateAndTime"/>
+  <drawable id="DateAndTime" class="DateAndTime">
+    <param name="drawHeight">dc.getHeight()</param>
+    <param name="drawWidth">dc.getWidth()</param>
+  </drawable>
 </layout>

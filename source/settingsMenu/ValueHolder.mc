@@ -65,7 +65,7 @@ class ValueHolder {
 }
 
 class FixedValuesFactory extends ValueHolder {
-  protected var mValues as Array<String>;
+  private var _values as Array<String>;
 
   function initialize(
     values as Array<String>,
@@ -76,7 +76,7 @@ class FixedValuesFactory extends ValueHolder {
         :suffix as String,
       }?
   ) {
-    mValues = values;
+    _values = values;
     mSelectionIndex = Properties.getValue(settingsId) as Number;
 
     if (options == null) {
@@ -86,7 +86,7 @@ class FixedValuesFactory extends ValueHolder {
   }
 
   protected function getTextValue(index as Number) as String {
-    return mValues[index].toString();
+    return _values[index].toString();
   }
 
   function getSettingsValue(index as Number) as Number {
@@ -98,16 +98,16 @@ class FixedValuesFactory extends ValueHolder {
   }
 
   function getIndex(value as String) as Number {
-    return mValues.indexOf(value);
+    return _values.indexOf(value);
   }
 
   function getSize() as Number {
-    return mValues.size();
+    return _values.size();
   }
 }
 
 class DataFieldFactory extends ValueHolder {
-  protected var mValues as Array<FieldType>;
+  private var _values as Array<FieldType>;
 
   function initialize(
     values as Array<FieldType>,
@@ -118,7 +118,7 @@ class DataFieldFactory extends ValueHolder {
         :suffix as String,
       }?
   ) {
-    mValues = values;
+    _values = values;
     mSelectionIndex = getIndex(Properties.getValue(settingsId) as FieldType);
 
     if (options == null) {
@@ -144,32 +144,31 @@ class DataFieldFactory extends ValueHolder {
       /* 12 */ Rez.Strings.DataFieldSeconds,
       /* 13 */ Rez.Strings.DataFieldStressLevel,
     ];
-    return Settings.resource(DataFieldRez[mValues[index]]).toString();
+    return Settings.resource(DataFieldRez[_values[index]]).toString();
   }
 
   function getSettingsValue(index as Number) as Number {
-    return mValues[index];
+    return _values[index];
   }
 
   function getIconDrawable(index as Number) as Drawable? {
-    return DataFieldInfo.getIconDrawableForType(mValues[index], null);
+    return DataFieldInfo.getIconDrawableForType(_values[index], null);
   }
 
   function getIndex(value as FieldType) as Number {
-    return mValues.indexOf(value);
+    return _values.indexOf(value);
   }
 
   function getSize() as Number {
-    return mValues.size();
+    return _values.size();
   }
 }
 
 class NumberFactory extends ValueHolder {
-  protected var mStart as Number;
-  protected var mStop as Number;
-  protected var mIncrement as Number;
-
-  protected var mFormatString as String;
+  private var _start as Number;
+  private var _stop as Number;
+  private var _increment as Number;
+  private var _formatString as String;
 
   function initialize(
     start as Number,
@@ -183,24 +182,24 @@ class NumberFactory extends ValueHolder {
         :format as String,
       }?
   ) {
-    mStart = start;
-    mStop = stop;
-    mIncrement = increment;
+    _start = start;
+    _stop = stop;
+    _increment = increment;
     mSelectionIndex = getIndex(Properties.getValue(settingsId) as Number);
 
     if (options == null) {
       options = {};
     }
-    mFormatString = options.hasKey(:format) ? options[:format] : "%d";
+    _formatString = options.hasKey(:format) ? options[:format] : "%d";
     ValueHolder.initialize(settingsId, options);
   }
 
   protected function getTextValue(index as Number) as String {
-    return getSettingsValue(index).format(mFormatString);
+    return getSettingsValue(index).format(_formatString);
   }
 
   function getSettingsValue(index as Number) as Number {
-    return mStart + index * mIncrement;
+    return _start + index * _increment;
   }
 
   function getIconDrawable(index as Number) as Drawable? {
@@ -208,10 +207,10 @@ class NumberFactory extends ValueHolder {
   }
 
   function getIndex(value as Number) as Number {
-    return (value - mStart) / mIncrement;
+    return (value - _start) / _increment;
   }
 
   function getSize() as Number {
-    return (mStop - mStart) / mIncrement + 1;
+    return (_stop - _start) / _increment + 1;
   }
 }

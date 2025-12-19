@@ -38,14 +38,6 @@ class ProtomoleculeSettingsMenu extends WatchUi.Menu2 {
           (Properties.getValue("sleepLayoutActive") ? Settings.resource(Rez.Strings.ToggleMenuEnabled) : Settings.resource(Rez.Strings.ToggleMenuDisabled))
       )
     );
-    addItem(
-      $.toggleItem(
-        "useSystemFontForDate",
-        Settings.resource(Rez.Strings.ToggleMenuSystemFontLabel),
-        Settings.resource(Rez.Strings.ToggleMenuSystemFontEnabled),
-        Settings.resource(Rez.Strings.ToggleMenuSystemFontDisabled)
-      )
-    );
 
     addItem($.menuItem("caloriesGoal", Settings.resource(Rez.Strings.SettingsCaloriesGoalTitle), Properties.getValue("caloriesGoal").toString()));
     addItem($.menuItem("batteryThreshold", Settings.resource(Rez.Strings.SettingsBatteryThresholdTitle), Properties.getValue("batteryThreshold").toString()));
@@ -152,15 +144,23 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
     if (self has :addComplicationTimeSettings) {
       addComplicationTimeSettings(menu);
     }
+    menu.addItem(
+      $.toggleItem(
+        "useSystemFontForDate",
+        Settings.resource(Rez.Strings.ToggleMenuSystemFontLabel),
+        Settings.resource(Rez.Strings.ToggleMenuSystemFontEnabled),
+        Settings.resource(Rez.Strings.ToggleMenuSystemFontDisabled)
+      )
+    );
     WatchUi.pushView(menu, self, WatchUi.SLIDE_LEFT);
   }
 
   (:onPressComplication)
   protected function addComplicationTimeSettings(menu) {
-    var dateSubLabel = Settings.getComplicationLongLabelFromFroperty("dateComplicationTrigger");
-    var timeSubLabel = Settings.getComplicationLongLabelFromFroperty("timeComplicationTrigger");
-    var leftSubLabel = Settings.getComplicationLongLabelFromFroperty("leftComplicationTrigger");
-    var rightSubLabel = Settings.getComplicationLongLabelFromFroperty("rightComplicationTrigger");
+    var dateSubLabel = Settings.getComplicationLongLabelFromProperty("dateComplicationTrigger");
+    var timeSubLabel = Settings.getComplicationLongLabelFromProperty("timeComplicationTrigger");
+    var leftSubLabel = Settings.getComplicationLongLabelFromProperty("leftComplicationTrigger");
+    var rightSubLabel = Settings.getComplicationLongLabelFromProperty("rightComplicationTrigger");
     menu.addItem($.menuItem("dateComplicationTrigger", Settings.resource(Rez.Strings.ComplicationTriggerDate), dateSubLabel));
     menu.addItem($.menuItem("timeComplicationTrigger", Settings.resource(Rez.Strings.ComplicationTriggerTime), timeSubLabel));
     menu.addItem($.menuItem("leftComplicationTrigger", Settings.resource(Rez.Strings.ComplicationTriggerLeft), leftSubLabel));

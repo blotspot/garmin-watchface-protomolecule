@@ -6,17 +6,16 @@ import Toybox.System;
 
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
   private var _lastBIPModeState as Boolean;
-  private var _lastSleepLayoutState as Boolean;
+  private var _lastSleepLayoutState as Boolean = false;
   private var _activeDefaultLayout as Number?;
 
   private var _currentLayout as Array<WatchUi.Drawable>?;
 
   (:mipDisplay)
-  protected var mDataFieldUpdateCounter = 0;
+  protected var _dataFieldUpdateCounter = 0;
 
   function initialize() {
     _lastBIPModeState = Settings.burnInProtectionMode;
-    _lastSleepLayoutState = Settings.useSleepTimeLayout();
     WatchFace.initialize();
   }
 
@@ -64,6 +63,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       if (Log has :debug) {
         Log.debug("set sleep time layout");
       }
+      _lastSleepLayoutState = true;
       _currentLayout = Rez.Layouts.SleepLayout(dc);
     }
     // Prio 3: AMOLED Low Power Mode (<10% luminance)
@@ -138,8 +138,8 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // Terminate any active timers and prepare for slow updates.
   function onEnterSleep() {
-    if (self has :mDataFieldUpdateCounter) {
-      mDataFieldUpdateCounter = 0;
+    if (self has :_dataFieldUpdateCounter) {
+      _dataFieldUpdateCounter = 0;
     }
     if (requiresBurnInProtection()) {
       if (Log has :debug) {
@@ -157,10 +157,10 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   (:mipDisplay)
   function onPartialUpdate(dc) {
     if (!Settings.useSleepTimeLayout() && Properties.getValue("activeHeartrate")) {
-      mDataFieldUpdateCounter += 1;
-      mDataFieldUpdateCounter = mDataFieldUpdateCounter % 10;
+      _dataFieldUpdateCounter += 1;
+      _dataFieldUpdateCounter = _dataFieldUpdateCounter % 10;
 
-      if (mDataFieldUpdateCounter == 0) {
+      if (_dataFieldUpdateCounter == 0) {
         for (var i = 0; i < _currentLayout.size(); i += 1) {
           var drawable = _currentLayout[i];
           if (drawable instanceof SecondaryDataField) {

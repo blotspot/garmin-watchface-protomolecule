@@ -7,36 +7,36 @@ import Toybox.System;
 import Toybox.Time;
 
 class DateAndTime extends WatchUi.Drawable {
-  private var mBurnInProtectionMode as Boolean;
-  private var mBurnInProtectionModeEnteredAt as Number?;
+  private var _burnInProtectionMode as Boolean;
+  private var _burnInProtectionModeEnteredAt as Number?;
 
-  protected var mDateX as Number;
-  protected var mDateY as Number;
-  protected var mDateFont as WatchUi.Resource;
+  private var _dateX as Number;
+  private var _dateY as Number;
+  private var _dateFont as WatchUi.Resource;
 
-  protected var mTimeY as Number;
-  protected var mHoursX as Number;
-  protected var mIs12Hour as Boolean;
-  protected var mMinutesX as Number;
+  private var _timeY as Number;
+  private var _hoursX as Number;
+  private var _is12Hour as Boolean;
+  private var _minutesX as Number;
 
-  protected var mSecondsX as Number;
-  protected var mSecondsY as Number;
-  protected var mSecondsHeight as Number?;
+  private var _secondsX as Number;
+  private var _secondsY as Number;
+  private var _secondsHeight as Number?;
 
-  private var mShowSeconds as Boolean;
-  private var mShowMeridiem as Boolean;
+  private var _showSeconds as Boolean;
+  private var _showMeridiem as Boolean;
 
   private var DayOfWeek as Array<ResourceId>;
   private var Months as Array<ResourceId>;
 
   (:onPressComplication)
-  protected var mDateHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
+  protected var _dateHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
   (:onPressComplication)
-  protected var mTimeHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
+  protected var _timeHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
   (:onPressComplication)
-  protected var mLeftHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
+  protected var _leftHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
   (:onPressComplication)
-  protected var mRightHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
+  protected var _rightHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
 
   function initialize(
     params as
@@ -47,27 +47,28 @@ class DateAndTime extends WatchUi.Drawable {
         :width as Number,
         :height as Number,
         :visible as Boolean,
-        :justifyDate as Number,
+        :drawHeight as Number,
+        :drawWidth as Number,
       }
   ) {
     Drawable.initialize(params);
 
-    mBurnInProtectionMode = Settings.burnInProtectionMode && !Settings.HAS_DISPLAY_MODE;
+    _burnInProtectionMode = Settings.burnInProtectionMode && !Settings.HAS_DISPLAY_MODE;
 
-    mDateX = ((Settings.useSleepTimeLayout() ? 0.832 : 0.5) * System.getDeviceSettings().screenWidth).toNumber();
-    mDateY = (0.31 * System.getDeviceSettings().screenHeight).toNumber();
+    _dateX = ((Settings.useSleepTimeLayout() ? 0.832 : 0.5) * params[:drawWidth]).toNumber();
+    _dateY = (0.31 * params[:drawHeight]).toNumber();
 
-    mHoursX = (0.485 * System.getDeviceSettings().screenWidth).toNumber();
-    mMinutesX = (0.515 * System.getDeviceSettings().screenWidth).toNumber();
-    mTimeY = (0.48 * System.getDeviceSettings().screenHeight).toNumber();
+    _hoursX = (0.485 * params[:drawWidth]).toNumber();
+    _minutesX = (0.515 * params[:drawWidth]).toNumber();
+    _timeY = (0.48 * params[:drawHeight]).toNumber();
 
-    mSecondsX = (0.85 * System.getDeviceSettings().screenWidth).toNumber();
-    mSecondsY = (0.49 * System.getDeviceSettings().screenHeight).toNumber();
+    _secondsX = (0.85 * params[:drawWidth]).toNumber();
+    _secondsY = (0.49 * params[:drawHeight]).toNumber();
 
-    mIs12Hour = !System.getDeviceSettings().is24Hour;
-    mDateFont = Properties.getValue("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont);
-    mShowSeconds = !Settings.lowPowerMode && (Properties.getValue("showSeconds") as Boolean);
-    mShowMeridiem = mIs12Hour && (Properties.getValue("showMeridiemText") as Boolean);
+    _is12Hour = !System.getDeviceSettings().is24Hour;
+    _dateFont = Properties.getValue("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont);
+    _showSeconds = !Settings.lowPowerMode && (Properties.getValue("showSeconds") as Boolean);
+    _showMeridiem = _is12Hour && (Properties.getValue("showMeridiemText") as Boolean);
 
     Months = [
       Rez.Strings.DateMonth1,
@@ -87,50 +88,55 @@ class DateAndTime extends WatchUi.Drawable {
     DayOfWeek = [Rez.Strings.DateWeek1, Rez.Strings.DateWeek2, Rez.Strings.DateWeek3, Rez.Strings.DateWeek4, Rez.Strings.DateWeek5, Rez.Strings.DateWeek6, Rez.Strings.DateWeek7];
 
     if (self has :setHitboxes && !Settings.useSleepTimeLayout() && !Settings.lowPowerMode) {
-      setHitboxes();
+      setHitboxes(params);
     }
   }
 
   function draw(dc) {
     var now = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-    if (mBurnInProtectionMode && mBurnInProtectionModeEnteredAt == null) {
-      mBurnInProtectionModeEnteredAt = now.min;
+    if (_burnInProtectionMode && _burnInProtectionModeEnteredAt == null) {
+      _burnInProtectionModeEnteredAt = now.min;
     }
 
     var hours = getHours(now);
     var minutes = now.min.format(Format.INT_ZERO);
 
     var offsetY = 0;
-    if (mBurnInProtectionMode) {
+    if (_burnInProtectionMode) {
       offsetY = calculateLegacyBIPModeOffset(dc, now.min);
     }
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     // Date
     var date = getDateLine(now);
-    var y = mDateY + offsetY;
-    dc.drawText(mDateX, y, mDateFont, date, (Settings.useSleepTimeLayout() ? 0 : 1) | Graphics.TEXT_JUSTIFY_VCENTER);
-
+    dc.drawText(_dateX, _dateY + offsetY, _dateFont, date, (Settings.useSleepTimeLayout() ? 0 : 1) | Graphics.TEXT_JUSTIFY_VCENTER);
     // Hours
-    y = mTimeY + offsetY;
-    dc.drawText(mHoursX, y, Settings.resource(Rez.Fonts.HoursFont), hours, Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER);
+    dc.drawText(_hoursX, _timeY + offsetY, Settings.resource(Rez.Fonts.HoursFont), hours, Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER);
     // Minutes
-    dc.drawText(mMinutesX, y, Settings.resource(Rez.Fonts.MinutesFont), minutes, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
-
+    dc.drawText(_minutesX, _timeY + offsetY, Settings.resource(Rez.Fonts.MinutesFont), minutes, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     // Meridiem / Seconds
-    if (mShowMeridiem || mShowSeconds) {
-      if (mSecondsHeight == null) {
-        mSecondsHeight = dc.getFontHeight(Settings.resource(Rez.Fonts.MeridiemFont));
+    if (_showMeridiem || _showSeconds) {
+      if (_secondsHeight == null) {
+        _secondsHeight = dc.getFontHeight(Settings.resource(Rez.Fonts.MeridiemFont));
       }
-      if (mShowMeridiem) {
-        y = mSecondsY - (!mShowSeconds ? 0 : mSecondsHeight / 2) + offsetY;
-        dc.drawText(mSecondsX, y, Settings.resource(Rez.Fonts.MeridiemFont), now.hour < 12 ? "am" : "pm", Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+      if (_showMeridiem) {
+        dc.drawText(
+          _secondsX,
+          _secondsY - (!_showSeconds ? 0 : _secondsHeight / 2) + offsetY,
+          Settings.resource(Rez.Fonts.MeridiemFont),
+          now.hour < 12 ? "am" : "pm",
+          Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
+        );
       }
-      if (mShowSeconds) {
-        y = mSecondsY + (!mShowMeridiem ? 0 : mSecondsHeight / 2);
-        dc.drawText(mSecondsX, y, Settings.resource(Rez.Fonts.MeridiemFont), now.sec.format(Format.INT), Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+      if (_showSeconds) {
+        dc.drawText(
+          _secondsX,
+          _secondsY + (!_showMeridiem ? 0 : _secondsHeight / 2),
+          Settings.resource(Rez.Fonts.MeridiemFont),
+          now.sec.format(Format.INT),
+          Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
+        );
       }
     }
-
     if (self has :drawHitbox) {
       drawHitbox(dc);
     }
@@ -142,7 +148,7 @@ class DateAndTime extends WatchUi.Drawable {
 
   private function getHours(now as Gregorian.Info) as String {
     var hours = now.hour;
-    if (mIs12Hour) {
+    if (_is12Hour) {
       if (hours == 0) {
         hours = 12;
       }
@@ -155,10 +161,10 @@ class DateAndTime extends WatchUi.Drawable {
 
   private function calculateLegacyBIPModeOffset(dc, min as Number) as Numeric {
     var timeMod = 2;
-    if (min < mBurnInProtectionModeEnteredAt) {
+    if (min < _burnInProtectionModeEnteredAt) {
       timeMod = 62;
     }
-    var pos = ((min - mBurnInProtectionModeEnteredAt + timeMod) % 5) - 2; // -2, -1, 0, 1, 2, will always start at 0
+    var pos = ((min - _burnInProtectionModeEnteredAt + timeMod) % 5) - 2; // -2, -1, 0, 1, 2, will always start at 0
     var window = dc.getHeight() / 8;
     var offset = window * pos;
 
@@ -167,49 +173,49 @@ class DateAndTime extends WatchUi.Drawable {
 
   (:debug,:onPressComplication)
   protected function drawHitbox(dc) {
-    dc.setPenWidth(1);
     dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-    if (mDateHitbox != null) {
-      dc.drawRoundedRectangle(mDateHitbox[:x], mDateHitbox[:y], mDateHitbox[:width], mDateHitbox[:height], Settings.ICON_SIZE * 0.5);
+    dc.setPenWidth(1);
+    if (_dateHitbox != null) {
+      dc.drawRoundedRectangle(_dateHitbox[:x], _dateHitbox[:y], _dateHitbox[:width], _dateHitbox[:height], Settings.ICON_SIZE * 0.5);
     }
-    if (mTimeHitbox != null) {
-      dc.drawRoundedRectangle(mTimeHitbox[:x], mTimeHitbox[:y], mTimeHitbox[:width], mTimeHitbox[:height], Settings.ICON_SIZE * 0.5);
+    if (_timeHitbox != null) {
+      dc.drawRoundedRectangle(_timeHitbox[:x], _timeHitbox[:y], _timeHitbox[:width], _timeHitbox[:height], Settings.ICON_SIZE * 0.5);
     }
-    if (mLeftHitbox != null) {
-      dc.drawRoundedRectangle(mLeftHitbox[:x], mLeftHitbox[:y], mLeftHitbox[:width], mLeftHitbox[:height], Settings.ICON_SIZE * 0.5);
+    if (_leftHitbox != null) {
+      dc.drawRoundedRectangle(_leftHitbox[:x], _leftHitbox[:y], _leftHitbox[:width], _leftHitbox[:height], Settings.ICON_SIZE * 0.5);
     }
-    if (mRightHitbox != null) {
-      dc.drawRoundedRectangle(mRightHitbox[:x], mRightHitbox[:y], mRightHitbox[:width], mRightHitbox[:height], Settings.ICON_SIZE * 0.5);
+    if (_rightHitbox != null) {
+      dc.drawRoundedRectangle(_rightHitbox[:x], _rightHitbox[:y], _rightHitbox[:width], _rightHitbox[:height], Settings.ICON_SIZE * 0.5);
     }
   }
 
   (:onPressComplication)
-  protected function setHitboxes() {
-    mDateHitbox = getDateHitbox();
-    mTimeHitbox = getTimeHitbox();
-    mLeftHitbox = getLeftHitbox();
-    mRightHitbox = getRightHitbox();
+  protected function setHitboxes(params as { :drawWidth as Number, :drawHeight as Number }) {
+    _dateHitbox = getDateHitbox(params);
+    _timeHitbox = getTimeHitbox(params);
+    _leftHitbox = getLeftHitbox();
+    _rightHitbox = getRightHitbox();
   }
 
   (:onPressComplication)
-  private function getDateHitbox() {
-    var width = System.getDeviceSettings().screenWidth * 0.45;
-    var height = Settings.ICON_SIZE * 1.5;
+  private function getDateHitbox(params as { :drawWidth as Number, :drawHeight as Number }) {
+    var width = params[:drawWidth] * 0.4;
+    var height = params[:drawHeight] * 0.12;
     return {
-      :x => mDateX - width / 2,
-      :y => mDateY - height / 2,
+      :x => _dateX - width / 2,
+      :y => _dateY - height / 2,
       :width => width,
       :height => height,
     };
   }
 
   (:onPressComplication)
-  private function getTimeHitbox() {
-    var width = System.getDeviceSettings().screenWidth * 0.6;
-    var height = Settings.ICON_SIZE * 2.7;
+  private function getTimeHitbox(params as { :drawWidth as Number, :drawHeight as Number }) {
+    var width = params[:drawWidth] * 0.6;
+    var height = params[:drawHeight] * 0.24;
     return {
-      :x => System.getDeviceSettings().screenWidth / 2 - width / 2,
-      :y => System.getDeviceSettings().screenHeight / 2 - height / 2,
+      :x => _hoursX + (_minutesX - _hoursX) / 2 - width / 2,
+      :y => (params[:drawHeight] - height) / 2,
       :width => width,
       :height => height,
     };
@@ -246,17 +252,17 @@ class DateAndTime extends WatchUi.Drawable {
 
   (:onPressComplication)
   public function getComplicationForCoordinates(x as Number, y as Number) as Complications.Id? {
-    if (isInHitbox(mLeftHitbox, x, y)) {
-      return Settings.getComplicationIdFromFroperty("leftComplicationTrigger");
+    if (isInHitbox(_leftHitbox, x, y)) {
+      return Settings.getComplicationIdFromProperty("leftComplicationTrigger");
     }
-    if (isInHitbox(mRightHitbox, x, y)) {
-      return Settings.getComplicationIdFromFroperty("rightComplicationTrigger");
+    if (isInHitbox(_rightHitbox, x, y)) {
+      return Settings.getComplicationIdFromProperty("rightComplicationTrigger");
     }
-    if (isInHitbox(mDateHitbox, x, y)) {
-      return Settings.getComplicationIdFromFroperty("dateComplicationTrigger");
+    if (isInHitbox(_dateHitbox, x, y)) {
+      return Settings.getComplicationIdFromProperty("dateComplicationTrigger");
     }
-    if (isInHitbox(mTimeHitbox, x, y)) {
-      return Settings.getComplicationIdFromFroperty("timeComplicationTrigger");
+    if (isInHitbox(_timeHitbox, x, y)) {
+      return Settings.getComplicationIdFromProperty("timeComplicationTrigger");
     }
     return null;
   }

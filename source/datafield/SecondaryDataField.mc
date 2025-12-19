@@ -5,8 +5,8 @@ import Toybox.Lang;
 import Config;
 
 class SecondaryDataField extends DataFieldDrawable {
-  protected var mOffsetMod as Numeric;
-  private var mColor as Number;
+  private var _offsetMod as Numeric;
+  private var _color as Number;
 
   function initialize(
     params as
@@ -17,22 +17,24 @@ class SecondaryDataField extends DataFieldDrawable {
         :width as Numeric,
         :height as Numeric,
         :visible as Boolean,
-        :fieldId as Number,
+        :fieldId as FieldId,
         :position as Number,
         :x as Numeric,
         :y as Numeric,
         :color as Config.Color,
+        :drawWidth as Number,
+        :drawHeight as Number,
       }
   ) {
     //! redefine locX / locY.
     //! Doing it the stupid way because the layout isn't allowing a `dc` call in their definition.
-    params[:locX] = params[:x];
-    params[:locY] = params[:y];
+    params[:locX] = params[:x] * params[:drawWidth];
+    params[:locY] = params[:y] * params[:drawHeight];
     DataFieldDrawable.initialize(params);
 
     var pos = params[:position];
-    mOffsetMod = pos == 2 ? 0 : pos == 1 ? 0.5 : 1;
-    mColor = params.hasKey(:color) ? $.themeColor(params[:color]) : Graphics.COLOR_WHITE;
+    _offsetMod = pos == 2 ? 0 : pos == 1 ? 0.5 : 1;
+    _color = params.hasKey(:color) ? $.themeColor(params[:color]) : Graphics.COLOR_WHITE;
 
     if (self has :setHitbox && !Settings.useSleepTimeLayout() && !Settings.lowPowerMode) {
       setHitbox();
@@ -49,21 +51,18 @@ class SecondaryDataField extends DataFieldDrawable {
   protected function drawDataField(dc, partial as Boolean) {
     //! stroke width acts as buffer used in the clipping region and between icon and text
     var dim = getDimensions(dc);
-    if (self has :setClippingRegionToHitbox) {
-      setClippingRegionToHitbox(dc, dim);
-    } else {
-      setClippingRegion(dc, dim);
-    }
+    setClippingRegion(dc, dim);
+
     if (partial) {
       clearForPartialUpdate(dc);
     }
     if (mLastInfo.progress == 0) {
       dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
     } else {
-      dc.setColor(mColor, Graphics.COLOR_TRANSPARENT);
+      dc.setColor(_color, Graphics.COLOR_TRANSPARENT);
     }
 
-    var offsetX = dim[0] * mOffsetMod + Settings.PEN_WIDTH / 2d;
+    var offsetX = dim[0] * _offsetMod + Settings.PEN_WIDTH / 2d;
     mLastInfo.icon.drawAt(dc, locX - offsetX + Settings.ICON_SIZE / 2d /* icon will be centered at x, so add half icon size */, locY);
     if (mLastInfo.text != null) {
       dc.drawText(
@@ -77,18 +76,8 @@ class SecondaryDataField extends DataFieldDrawable {
   }
 
   protected function setClippingRegion(dc, dim as Array<Numeric>) {
-    var offsetX = dim[0] * mOffsetMod;
+    var offsetX = dim[0] * _offsetMod;
     dc.setClip(locX - offsetX, locY - dim[1] / 2, dim[0], dim[1]);
-  }
-
-  (:debug,:onPressComplication)
-  protected function setClippingRegionToHitbox(dc, dim as Array<Numeric>) {
-    if (self has :mHitbox && mHitbox != null) {
-      dc.setClip(mHitbox[:x], mHitbox[:y], mHitbox[:width], mHitbox[:height]);
-    } else {
-      var offsetX = dim[0] * mOffsetMod;
-      dc.setClip(locX - offsetX, locY - dim[1] / 2, dim[0], dim[1]);
-    }
   }
 
   (:onPressComplication)
@@ -99,7 +88,7 @@ class SecondaryDataField extends DataFieldDrawable {
     mHitbox = {
       :width => width,
       :height => height,
-      :x => locX - width * mOffsetMod - Settings.PEN_WIDTH,
+      :x => locX - width * _offsetMod - Settings.PEN_WIDTH,
       :y => locY - height / 2,
     };
   }

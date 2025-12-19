@@ -8,7 +8,7 @@ Can now be found in the Garmin store: https://apps.garmin.com/en-US/apps/d9f524c
 
 - **Orbit** - Three Indicators that show the progress towards a certain goal
 - **Circles** - Five Indicators, one big ring that doesn't shows an icon and 4 small ones (two over and two under the date and time element) with a respective icon in the middle.
-- **(optional) Sleep Time** - Design that will active during the configured hours of sleep. Only showes the minimum datafields (currently not configurable).
+- **(optional) Sleep Time** - Design that will active during the configured hours of sleep. Only shows the minimum datafields.
 
 ### Supported DataFields
 

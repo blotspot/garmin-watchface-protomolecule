@@ -5,8 +5,8 @@ import Toybox.Lang;
 import Config;
 
 class RingDataField extends DataFieldDrawable {
-  private var mShowIcon as Boolean;
-  protected var mRadius as Numeric;
+  private var _showIcon as Boolean;
+  private var _radius as Numeric;
 
   function initialize(
     params as
@@ -22,16 +22,18 @@ class RingDataField extends DataFieldDrawable {
         :radius as Numeric,
         :x as Numeric,
         :y as Numeric,
+        :drawHeight as Number,
+        :drawWidth as Number,
       }
   ) {
     //! redefine locX / locY.
     //! Doing it the stupid way because the layout isn't allowing a `dc` call in their definition.
-    params[:locX] = params[:x];
-    params[:locY] = params[:y];
+    params[:locX] = params[:x] * params[:drawWidth];
+    params[:locY] = params[:y] * params[:drawHeight];
     DataFieldDrawable.initialize(params);
 
-    mShowIcon = params[:showIcon];
-    mRadius = params[:radius];
+    _showIcon = params[:showIcon];
+    _radius = params[:radius];
 
     if (self has :setHitbox && !Settings.useSleepTimeLayout() && !Settings.lowPowerMode) {
       setHitbox();
@@ -53,7 +55,7 @@ class RingDataField extends DataFieldDrawable {
     }
     drawProgressArc(dc, mLastInfo.progress);
 
-    if (mShowIcon) {
+    if (_showIcon) {
       if (mLastInfo.progress == 0) {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
       } else {
@@ -76,10 +78,10 @@ class RingDataField extends DataFieldDrawable {
       };
     } else {
       mHitbox = {
-        :width => mRadius * 2,
-        :height => mRadius * 2,
-        :x => locX - mRadius,
-        :y => locY - mRadius,
+        :width => _radius * 2,
+        :height => _radius * 2,
+        :x => locX - _radius,
+        :y => locY - _radius,
       };
     }
   }
@@ -92,7 +94,7 @@ class RingDataField extends DataFieldDrawable {
       dc.drawArc(
         locX, // x center of ring
         locY, // y center of ring
-        mRadius,
+        _radius,
         Graphics.ARC_CLOCKWISE,
         startDegree,
         endDegree
@@ -102,7 +104,7 @@ class RingDataField extends DataFieldDrawable {
 
   private function setClippingRegion(dc) {
     dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
-    dc.setClip(locX - (mRadius + Settings.PEN_WIDTH), locY - (mRadius + Settings.PEN_WIDTH), (mRadius + Settings.PEN_WIDTH) * 2, (mRadius + Settings.PEN_WIDTH) * 2);
+    dc.setClip(locX - (_radius + Settings.PEN_WIDTH), locY - (_radius + Settings.PEN_WIDTH), (_radius + Settings.PEN_WIDTH) * 2, (_radius + Settings.PEN_WIDTH) * 2);
   }
 
   private function getForeground() as ColorType {
