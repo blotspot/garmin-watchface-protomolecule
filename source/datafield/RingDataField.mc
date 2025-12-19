@@ -2,7 +2,7 @@ import Toybox.Graphics;
 import Toybox.Math;
 import Toybox.WatchUi;
 import Toybox.Lang;
-import Enums;
+import Config;
 
 class RingDataField extends DataFieldDrawable {
   private var _showIcon as Boolean;
@@ -22,33 +22,34 @@ class RingDataField extends DataFieldDrawable {
         :radius as Numeric,
         :x as Numeric,
         :y as Numeric,
+        :drawHeight as Number,
+        :drawWidth as Number,
       }
   ) {
-    DataFieldDrawable.initialize(params);
-    _showIcon = params[:showIcon];
-    _radius = params[:radius];
     //! redefine locX / locY.
     //! Doing it the stupid way because the layout isn't allowing a `dc` call in their definition.
-    locX = params[:x];
-    locY = params[:y];
+    params[:locX] = params[:x] * params[:drawWidth];
+    params[:locY] = params[:y] * params[:drawHeight];
+    DataFieldDrawable.initialize(params);
 
-    mClipX = locX - (_radius + Settings.strokeWidth);
-    mClipY = locY - (_radius + Settings.strokeWidth);
-    mClipWidth = (_radius + Settings.strokeWidth * 2) * 2;
-    mClipHeight = (_radius + Settings.strokeWidth * 2) * 2;
+    _showIcon = params[:showIcon];
+    _radius = params[:radius];
+
+    if (self has :setHitbox && !Settings.useSleepTimeLayout() && !Settings.lowPowerMode) {
+      setHitbox();
+    }
   }
 
   function draw(dc) {
     DataFieldDrawable.draw(dc);
     if (mLastInfo != null) {
-      update(dc);
+      DataFieldDrawable.drawDataField(dc, false);
     }
   }
 
-  function update(dc) {
+  protected function drawDataField(dc, partial as Boolean) {
     setClippingRegion(dc);
-    $.saveSetAntiAlias(dc, true);
-    dc.setPenWidth(Settings.strokeWidth * 1.5);
+    dc.setPenWidth(Settings.PEN_WIDTH * 1.5);
     if (mLastInfo.progress > 1.0) {
       mLastInfo.progress = 1.0;
     }
@@ -63,12 +64,26 @@ class RingDataField extends DataFieldDrawable {
       mLastInfo.icon.resetOffset();
       mLastInfo.icon.drawAt(dc, locX, locY);
     }
-
-    $.saveSetAntiAlias(dc, false);
   }
 
-  function partialUpdate(dc) {
-    DataFieldDrawable.drawPartialUpdate(dc, method(:update));
+  (:onPressComplication)
+  protected function setHitbox() {
+    if (mFieldId == Config.FIELD_CIRCLES_OUTER) {
+      var height = Settings.ICON_SIZE * 1.5;
+      mHitbox = {
+        :width => Settings.ICON_SIZE * 2,
+        :height => height,
+        :x => System.getDeviceSettings().screenWidth / 2 - Settings.ICON_SIZE,
+        :y => System.getDeviceSettings().screenHeight - height,
+      };
+    } else {
+      mHitbox = {
+        :width => _radius * 2,
+        :height => _radius * 2,
+        :x => locX - _radius,
+        :y => locY - _radius,
+      };
+    }
   }
 
   private function drawProgressArc(dc, fillLevel as Numeric) {
@@ -88,23 +103,22 @@ class RingDataField extends DataFieldDrawable {
   }
 
   private function setClippingRegion(dc) {
-    dc.setColor(getForeground(), -1);
-    dc.setClip(mClipX, mClipY, mClipWidth, mClipHeight);
-    dc.clear();
+    dc.setColor(getForeground(), Graphics.COLOR_TRANSPARENT);
+    dc.setClip(locX - (_radius + Settings.PEN_WIDTH), locY - (_radius + Settings.PEN_WIDTH), (_radius + Settings.PEN_WIDTH) * 2, (_radius + Settings.PEN_WIDTH) * 2);
   }
 
   private function getForeground() as ColorType {
-    if (mFieldId == Enums.FIELD_OUTER || mFieldId == Enums.FIELD_SLEEP_UP) {
-      return $.themeColor(Enums.COLOR_PRIMARY);
-    } else if (mFieldId == Enums.FIELD_UPPER_1) {
-      return $.themeColor(Enums.COLOR_SECONDARY_1);
-    } else if (mFieldId == Enums.FIELD_UPPER_2) {
-      return $.themeColor(Enums.COLOR_SECONDARY_1);
-    } else if (mFieldId == Enums.FIELD_LOWER_1) {
-      return $.themeColor(Enums.COLOR_SECONDARY_2);
-    } else if (mFieldId == Enums.FIELD_LOWER_2) {
-      return $.themeColor(Enums.COLOR_SECONDARY_2);
+    switch (mFieldId) {
+      case Config.FIELD_CIRCLES_OUTER:
+        return $.themeColor(Config.COLOR_PRIMARY);
+      case Config.FIELD_CIRCLES_UPPER_1:
+      case Config.FIELD_CIRCLES_UPPER_2:
+        return $.themeColor(Config.COLOR_SECONDARY_1);
+      case Config.FIELD_CIRCLES_LOWER_1:
+      case Config.FIELD_CIRCLES_LOWER_2:
+        return $.themeColor(Config.COLOR_SECONDARY_2);
+      default:
+        return Graphics.COLOR_WHITE;
     }
-    return Graphics.COLOR_WHITE;
   }
 }

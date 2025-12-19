@@ -3,15 +3,14 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 import DataFieldInfo;
-import Enums;
+import Config;
 
 class DataFieldDrawable extends WatchUi.Drawable {
-  hidden var mFieldId as FieldId;
-  hidden var mLastInfo as DataFieldProperties? = null;
-  hidden var mClipX as Numeric?;
-  hidden var mClipY as Numeric?;
-  hidden var mClipWidth as Numeric?;
-  hidden var mClipHeight as Numeric?;
+  protected var mFieldId as FieldId;
+  protected var mLastInfo as DataFieldProperties? = null;
+
+  (:onPressComplication)
+  protected var mHitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?;
 
   function initialize(
     params as
@@ -33,21 +32,43 @@ class DataFieldDrawable extends WatchUi.Drawable {
     mLastInfo = DataFieldInfo.getInfoForField(mFieldId);
   }
 
-  function drawPartialUpdate(dc, drawCallback as Method) {
+  (:mipDisplay)
+  function partialUpdate(dc) {
     var currentInfo = DataFieldInfo.getInfoForField(mFieldId);
     if (currentInfo != null && !currentInfo.equals(mLastInfo)) {
       mLastInfo = currentInfo;
-      drawCallback.invoke(dc, true); // invoke `update(dc)` method of child class
+      drawDataField(dc, true);
     }
   }
 
-  private function isInHitbox(x as Number, y as Number) as Boolean {
-    return x >= mClipX && x <= mClipX + mClipWidth && y >= mClipY && y <= mClipY + mClipHeight;
+  protected function drawDataField(dc, partial as Boolean) {
+    $.saveSetAntiAlias(dc, true);
+    self.drawDataField(dc, partial);
+    if (self has :mHitbox && mHitbox != null && self has :drawHitbox) {
+      drawHitbox(dc, Graphics.COLOR_BLUE);
+    }
+    $.saveSetAntiAlias(dc, false);
   }
 
-  public function getComplicationForCoordinates(x as Number, y as Number) {
-    if (isInHitbox(x, y)) {
-      Log.debug("Hit DataFieldDrawable id=" + mFieldId);
+  (:debug,:onPressComplication)
+  protected function drawHitbox(dc, color) {
+    dc.setPenWidth(1);
+    dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+    dc.drawRoundedRectangle(mHitbox[:x], mHitbox[:y], mHitbox[:width], mHitbox[:height], Settings.ICON_SIZE * 0.5);
+  }
+
+  (:onPressComplication)
+  protected function isInHitbox(x as Number, y as Number) as Boolean {
+    return x >= mHitbox[:x] && x <= mHitbox[:x] + mHitbox[:width] && y >= mHitbox[:y] && y <= mHitbox[:y] + mHitbox[:height];
+  }
+
+  (:onPressComplication)
+  public function getComplicationForCoordinates(x as Number, y as Number) as Toybox.Complications.Id? {
+    if (mLastInfo != null && isInHitbox(x, y)) {
+      var complicationType = mLastInfo.getComplicationType();
+      if (complicationType != null && complicationType != Toybox.Complications.COMPLICATION_TYPE_INVALID) {
+        return new Complications.Id(complicationType);
+      }
     }
     return null;
   }

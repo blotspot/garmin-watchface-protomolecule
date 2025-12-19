@@ -23,11 +23,20 @@ class ProtomoleculeFaceApp extends Application.AppBase {
 
   // Return the initial view of your application here
   function getInitialView() {
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("getInitialView");
     }
     Settings.initSettings();
     initBackground();
+    if (self has :getViewAndDelegate) {
+      return getViewAndDelegate();
+    } else {
+      return [new ProtomoleculeFaceView()];
+    }
+  }
+
+  (:onPressComplication)
+  protected function getViewAndDelegate() {
     var view = new ProtomoleculeFaceView();
     return [view, new ProtomoleculeFaceViewDelegate(view)];
   }
@@ -37,7 +46,7 @@ class ProtomoleculeFaceApp extends Application.AppBase {
   }
 
   function getSettingsView() {
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("getSettingsView");
     }
     return [new ProtomoleculeSettingsMenu(), new ProtomoleculeSettingsDelegate()];
@@ -45,24 +54,22 @@ class ProtomoleculeFaceApp extends Application.AppBase {
 
   // New app settings have been received so trigger a UI update
   function onSettingsChanged() {
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("onSettingsChanged");
     }
-    Settings.loadProperties();
     WatchUi.requestUpdate();
   }
 
   function onDeviceSettingChanged(key as Symbol, value as Object) {
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("onDeviceSettingChanged " + key.toString());
     }
-    Settings.loadProperties();
     WatchUi.requestUpdate();
   }
 
   function onBackgroundData(data) {
     Settings.isSleepTime = data;
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("trigger sleep time:" + data);
     }
     WatchUi.requestUpdate();

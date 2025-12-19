@@ -1,1 +1,11 @@
 project.manifest = manifest.xml
+optimization = 3pz
+
+# base is a default exclusion profile for every face not specified  
+base.excludeAnnotations = mipDisplay 
+vivoactive4s.excludeAnnotations = onPressComplication
+fenix6spro.excludeAnnotations = onPressComplication
+venu.excludeAnnotations = onPressComplication;mipDisplay
+fenix843mm.resourcePath = $(fenix843mm.resourcePath);resources-complication
+fenix843mm.lang.deu = $(fenix843mm.lang.deu);resources-complication-deu
+fenix843mm.lang.fre = $(fenix843mm.lang.fre);resources-complication-fre

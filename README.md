@@ -8,7 +8,7 @@ Can now be found in the Garmin store: https://apps.garmin.com/en-US/apps/d9f524c
 
 - **Orbit** - Three Indicators that show the progress towards a certain goal
 - **Circles** - Five Indicators, one big ring that doesn't shows an icon and 4 small ones (two over and two under the date and time element) with a respective icon in the middle.
-- **(optional) Sleep Time** - Design that will active during the configured hours of sleep. Only showes the minimum datafields (currently not configurable).
+- **(optional) Sleep Time** - Design that will active during the configured hours of sleep. Only shows the minimum datafields.
 
 ### Supported DataFields
 
@@ -23,6 +23,14 @@ Can now be found in the Garmin store: https://apps.garmin.com/en-US/apps/d9f524c
 - Bluetooth connection status
 - Body Battery
 - Stress Level
+
+### Interactive Complications and Press Zones
+
+> [!NOTE]
+> Only for newer watches with a touch screen.
+
+- Many data fields on the watchface are triggerable: long pressing a data field will launch its complication.
+- In addition to per-field triggers, there are four extra configurable trigger zones that can be assigned to launch a desired complication when pressed: the Date area, the Time area, the Right side, and the Left side of the watch. These trigger zones can be configured in the watchface settings to choose which complication each zone launches.
 
 ### Attributions
 

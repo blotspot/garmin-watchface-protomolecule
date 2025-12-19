@@ -1,65 +1,82 @@
 <layout id="CirclesLayout">
 	<drawable id="Background" class="Background"/>
   <drawable id="DateAndTime" class="DateAndTime">
-    <param name="justifyDate">1</param>
+    <param name="drawHeight">dc.getHeight()</param>
+    <param name="drawWidth">dc.getWidth()</param>
   </drawable>
 
   <drawable id="NoProgressDataField1" class="SecondaryDataField">
-    <param name="fieldId">Enums.FIELD_NO_PROGRESS_1</param>
-    <param name="position">2</param>
-    <param name="x">0.168 * dc.getWidth()</param>
-    <param name="y">0.685 * dc.getHeight()</param>
+    <param name="fieldId">Config.FIELD_NO_PROGRESS_1</param>
+    <param name="position">Graphics.TEXT_JUSTIFY_LEFT</param>
+    <param name="x">0.168</param>
+    <param name="y">0.685</param>
+    <param name="drawHeight">dc.getHeight()</param>
+    <param name="drawWidth">dc.getWidth()</param>
   </drawable>
   <drawable id="NoProgressDataField2" class="SecondaryDataField">
-    <param name="fieldId">Enums.FIELD_NO_PROGRESS_2</param>
-    <param name="position">1</param>
-    <param name="x">0.5 * dc.getWidth()</param>
-    <param name="y">0.685 * dc.getHeight()</param>
+    <param name="fieldId">Config.FIELD_NO_PROGRESS_2</param>
+    <param name="position">Graphics.TEXT_JUSTIFY_CENTER</param>
+    <param name="x">0.5</param>
+    <param name="y">0.685</param>
+    <param name="drawHeight">dc.getHeight()</param>
+    <param name="drawWidth">dc.getWidth()</param>
   </drawable>
   <drawable id="NoProgressDataField3" class="SecondaryDataField">
-    <param name="fieldId">Enums.FIELD_NO_PROGRESS_3</param>
-    <param name="position">0</param>
-    <param name="x">0.832 * dc.getWidth()</param>
-    <param name="y">0.685 * dc.getHeight()</param>
+    <param name="fieldId">Config.FIELD_NO_PROGRESS_3</param>
+    <param name="position">Graphics.TEXT_JUSTIFY_RIGHT</param>
+    <param name="x">0.832</param>
+    <param name="y">0.685</param>
+    <param name="drawHeight">dc.getHeight()</param>
+    <param name="drawWidth">dc.getWidth()</param>
   </drawable>
   
   <drawable id="OuterDataField" class="RingDataField">
-    <param name="fieldId">Enums.FIELD_OUTER</param>
+    <param name="fieldId">Config.FIELD_CIRCLES_OUTER</param>
     <param name="showIcon">false</param>
-    <param name="x">0.5 * dc.getWidth()</param>
-    <param name="y">0.5 * dc.getHeight()</param>
+    <param name="x">0.5</param>
+    <param name="y">0.5</param>
+    <param name="drawHeight">dc.getHeight()</param>
+    <param name="drawWidth">dc.getWidth()</param>
     <param name="radius">0.5 * dc.getWidth() - dc.getWidth() * 0.01</param>
   </drawable>
   
   <drawable id="UpperDataField1" class="RingDataField">
-    <param name="fieldId">Enums.FIELD_UPPER_1</param>
+    <param name="fieldId">Config.FIELD_CIRCLES_UPPER_1</param>
     <param name="showIcon">true</param>
-    <param name="x">0.385 * dc.getWidth()</param>
-    <param name="y">0.165 * dc.getHeight()</param>
+    <param name="x">0.385</param>
+    <param name="y">0.165</param>
+    <param name="drawHeight">dc.getHeight()</param>
+    <param name="drawWidth">dc.getWidth()</param>
     <param name="radius">dc.getWidth() / 12.4</param>
   </drawable>
   
   <drawable id="UpperDataField2" class="RingDataField">
-    <param name="fieldId">Enums.FIELD_UPPER_2</param>
+    <param name="fieldId">Config.FIELD_CIRCLES_UPPER_2</param>
     <param name="showIcon">true</param>
-    <param name="x">0.615 * dc.getWidth()</param>
-    <param name="y">0.165 * dc.getHeight()</param>
+    <param name="x">0.615</param>
+    <param name="y">0.165</param>
+    <param name="drawHeight">dc.getHeight()</param>
+    <param name="drawWidth">dc.getWidth()</param>
     <param name="radius">dc.getWidth() / 12.4</param>
   </drawable>
   
   <drawable id="LowerDataField1" class="RingDataField">
-    <param name="fieldId">Enums.FIELD_LOWER_1</param>
+    <param name="fieldId">Config.FIELD_CIRCLES_LOWER_1</param>
     <param name="showIcon">true</param>
-    <param name="x">0.385 * dc.getWidth()</param>
-    <param name="y">0.835 * dc.getHeight()</param>
+    <param name="x">0.385</param>
+    <param name="y">0.835</param>
+    <param name="drawHeight">dc.getHeight()</param>
+    <param name="drawWidth">dc.getWidth()</param>
     <param name="radius">dc.getWidth() / 12.4</param>
   </drawable>
   
   <drawable id="LowerDataField2" class="RingDataField">
-    <param name="fieldId">Enums.FIELD_LOWER_2</param>
+    <param name="fieldId">Config.FIELD_CIRCLES_LOWER_2</param>
     <param name="showIcon">true</param>
-    <param name="x">0.615 * dc.getWidth()</param>
-    <param name="y">0.835 * dc.getHeight()</param>
+    <param name="x">0.615</param>
+    <param name="y">0.835</param>
+    <param name="drawHeight">dc.getHeight()</param>
+    <param name="drawWidth">dc.getWidth()</param>
     <param name="radius">dc.getWidth() / 12.4</param>
   </drawable>
 </layout>

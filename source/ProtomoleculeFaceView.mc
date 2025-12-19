@@ -6,42 +6,42 @@ import Toybox.System;
 
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
   private var _lastBIPModeState as Boolean;
-  private var _lastSleepLayoutState as Boolean;
+  private var _lastSleepLayoutState as Boolean = false;
   private var _activeDefaultLayout as Number?;
 
   private var _currentLayout as Array<WatchUi.Drawable>?;
 
-  private var _dataFieldUpdateCounter = 0;
+  (:mipDisplay)
+  protected var _dataFieldUpdateCounter = 0;
 
   function initialize() {
     _lastBIPModeState = Settings.burnInProtectionMode;
-    _lastSleepLayoutState = Settings.useSleepTimeLayout();
     WatchFace.initialize();
   }
 
   function chooseLayout(dc, onLayoutCall) {
     if (onLayoutCall) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("onLayoutCall");
       }
       return chooseLayoutByPriority(dc);
     }
     if (_lastBIPModeState != Settings.burnInProtectionMode) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("enter / exit low power mode triggered");
       }
       _lastBIPModeState = Settings.burnInProtectionMode;
       return chooseLayoutByPriority(dc);
     }
     if (_lastSleepLayoutState != Settings.useSleepTimeLayout()) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("sleep / wake time event triggered (and not in legacy BIP mode)");
       }
       _lastSleepLayoutState = Settings.useSleepTimeLayout();
       return chooseLayoutByPriority(dc);
     }
     if (_activeDefaultLayout != Properties.getValue("layout")) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("layout switch triggered");
       }
       _activeDefaultLayout = Properties.getValue("layout") as Number;
@@ -50,44 +50,43 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
     return null;
   }
 
-  hidden function chooseLayoutByPriority(dc) {
-    var layout = null;
+  protected function chooseLayoutByPriority(dc) {
     // Prio 1: Legacy BIP (pixes cycling)
-    if (Settings.burnInProtectionMode && !Settings.hasDisplayMode) {
-      if (Log.isDebugEnabled) {
+    if (Settings.burnInProtectionMode && !Settings.HAS_DISPLAY_MODE) {
+      if (Log has :debug) {
         Log.debug("set burn-in protection layout (AMOLEDs below API 5)");
       }
-      layout = Rez.Layouts.BurnInProtectionLayout(dc);
+      _currentLayout = Rez.Layouts.BurnInProtectionLayout(dc);
     }
     // Prio 2: Sleep Time (when enabled in settings)
-    if (Settings.useSleepTimeLayout()) {
-      if (Log.isDebugEnabled) {
+    else if (Settings.useSleepTimeLayout()) {
+      if (Log has :debug) {
         Log.debug("set sleep time layout");
       }
-      layout = Rez.Layouts.SleepLayout(dc);
+      _lastSleepLayoutState = true;
+      _currentLayout = Rez.Layouts.SleepLayout(dc);
     }
     // Prio 3: AMOLED Low Power Mode (<10% luminance)
-    if (Settings.burnInProtectionMode && Settings.hasDisplayMode) {
-      if (Log.isDebugEnabled) {
+    else if (Settings.burnInProtectionMode && Settings.HAS_DISPLAY_MODE) {
+      if (Log has :debug) {
         Log.debug("set low power mode layout (AMOLEDs above API 5)");
       }
-      layout = Rez.Layouts.LowPowerModeLayout(dc);
+      _currentLayout = Rez.Layouts.LowPowerModeLayout(dc);
     }
-    if (layout == null) {
-      // If no special Layouts found, choose default layout
-      if (Log.isDebugEnabled) {
+    // DEFAULT: choose default layout
+    else {
+      if (Log has :debug) {
         Log.debug("set default layout");
       }
-      layout = _activeDefaultLayout == Enums.LAYOUT_ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
+      _currentLayout = _activeDefaultLayout == Config.LAYOUT_ORBIT ? Rez.Layouts.OrbitLayout(dc) : Rez.Layouts.CirclesLayout(dc);
     }
-    _currentLayout = layout;
 
     return _currentLayout;
   }
 
   // Load your resources here
   function onLayout(dc) {
-    Settings.loadProperties();
+    Settings.determineSleepTime();
     setLayout(chooseLayout(dc, true));
   }
 
@@ -95,7 +94,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // the state of this View and prepare it to be shown. This includes
   // loading resources into memory.
   function onShow() {
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("onShow");
     }
   }
@@ -116,7 +115,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // state of this View here. This includes freeing resources from
   // memory.
   function onHide() {
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("onHide");
     }
     Settings.purge();
@@ -125,13 +124,13 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   // The user has just looked at their watch. Timers and animations may be started here.
   function onExitSleep() {
     if (requiresBurnInProtection()) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("onExitSleep burnInProtectionMode");
       }
       Settings.burnInProtectionMode = false;
       WatchUi.requestUpdate();
     }
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("onExitSleep lowPowerMode");
     }
     Settings.lowPowerMode = false;
@@ -139,22 +138,25 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   // Terminate any active timers and prepare for slow updates.
   function onEnterSleep() {
-    _dataFieldUpdateCounter = 0;
+    if (self has :_dataFieldUpdateCounter) {
+      _dataFieldUpdateCounter = 0;
+    }
     if (requiresBurnInProtection()) {
-      if (Log.isDebugEnabled) {
+      if (Log has :debug) {
         Log.debug("onEnterSleep burnInProtectionMode");
       }
       Settings.burnInProtectionMode = true;
       WatchUi.requestUpdate();
     }
-    if (Log.isDebugEnabled) {
+    if (Log has :debug) {
       Log.debug("onEnterSleep lowPowerMode");
     }
     Settings.lowPowerMode = true;
   }
 
+  (:mipDisplay)
   function onPartialUpdate(dc) {
-    if (!Settings.isSleepTime && Properties.getValue("activeHeartrate")) {
+    if (!Settings.useSleepTimeLayout() && Properties.getValue("activeHeartrate")) {
       _dataFieldUpdateCounter += 1;
       _dataFieldUpdateCounter = _dataFieldUpdateCounter % 10;
 
@@ -183,11 +185,14 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
   }
 
   //! check if watch requires burn-in protection (AMOLED)
-  hidden function requiresBurnInProtection() as Boolean {
+  protected function requiresBurnInProtection() as Boolean {
     return _settings() has :requiresBurnInProtection && _settings().requiresBurnInProtection;
   }
 }
 
+import Toybox.Complications;
+
+(:onPressComplication)
 class ProtomoleculeFaceViewDelegate extends WatchUi.WatchFaceDelegate {
   private var _view as ProtomoleculeFaceView;
 
@@ -197,18 +202,43 @@ class ProtomoleculeFaceViewDelegate extends WatchUi.WatchFaceDelegate {
   }
 
   function onPress(clickEvent as WatchUi.ClickEvent) as Boolean {
-    var coords = clickEvent.getCoordinates();
-    var drawables = _view.getCurrentLayout();
-    if (Log.isDebugEnabled) {
-      Log.debug("onPress x:" + coords[0] + ", y:" + coords[1]);
-    }
-    for (var i = 0; i < drawables.size(); i += 1) {
-      var drawable = drawables[i];
-      Log.debug("iterate over drawable id: " + drawable.identifier);
-      if (drawable has :getComplicationForCoordinates) {
-        drawable.getComplicationForCoordinates(coords[0], coords[1]);
+    if (!Settings.useSleepTimeLayout() && !Settings.lowPowerMode) {
+      var coordinates = clickEvent.getCoordinates();
+      var drawables = _view.getCurrentLayout();
+
+      for (var i = 0; i < drawables.size(); i += 1) {
+        var drawable = drawables[i];
+        if (drawable instanceof DataFieldDrawable || drawable instanceof DateAndTime) {
+          try {
+            var complicationId = drawable.getComplicationForCoordinates(coordinates[0], coordinates[1]);
+            if (complicationId != null) {
+              startGlance(complicationId);
+              return true;
+            }
+          } catch (error) {
+            if (Log has :debug) {
+              Log.debug("Could not handle onPress. Error: " + error.getErrorMessage());
+            }
+            return false;
+          }
+        }
       }
     }
     return false;
+  }
+
+  (:debug)
+  private function startGlance(complicationId) {
+    try {
+      var c = Complications.getComplication(complicationId);
+      Log.debug("Clicked complication: " + c.longLabel);
+    } catch (e) {
+      Log.debug("Eror on " + complicationId);
+    }
+  }
+
+  (:release)
+  private function startGlance(complicationId) {
+    Complications.exitTo(complicationId);
   }
 }

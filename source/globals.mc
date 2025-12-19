@@ -7,7 +7,7 @@ module Format {
   const INT as String = "%i";
 }
 
-module Enums {
+module Config {
   enum Layout {
     LAYOUT_ORBIT,
     LAYOUT_CIRCLES,
@@ -24,6 +24,7 @@ module Enums {
   }
 
   enum Color {
+    COLOR_CUSTOM = -1,
     COLOR_PRIMARY,
     COLOR_SECONDARY_1,
     COLOR_SECONDARY_2,
@@ -36,11 +37,11 @@ module Enums {
     FIELD_ORBIT_OUTER,
     FIELD_ORBIT_LEFT,
     FIELD_ORBIT_RIGHT,
-    FIELD_OUTER,
-    FIELD_UPPER_1,
-    FIELD_UPPER_2,
-    FIELD_LOWER_1,
-    FIELD_LOWER_2,
+    FIELD_CIRCLES_OUTER,
+    FIELD_CIRCLES_UPPER_1,
+    FIELD_CIRCLES_UPPER_2,
+    FIELD_CIRCLES_LOWER_1,
+    FIELD_CIRCLES_LOWER_2,
     FIELD_SLEEP_UP,
     FIELD_SLEEP_LEFT,
     FIELD_SLEEP_RIGHT,
@@ -65,31 +66,41 @@ module Enums {
     DATA_STRESS_LEVEL,
     DATA_ACTIVE_CALORIES,
   }
+
+  (:onPressComplication)
+  enum ComplicationTrigger {
+    TRIGGER_DATE,
+    TRIGGER_TIME,
+    TRIGGER_LEFT,
+    TRIGGER_RIGHT,
+  }
 }
 
-module Color {
-  const _COLORS as Array<ColorType> = [
-    /* EXPANSE */
-    0xffaa00, // PRIMARY
-    0x00aaff, // SECONDARY_1
-    0xff0000, // SECONDARY_2
-    /* EARTH */
-    0x00aaff, // PRIMARY
-    0x00ffff, // SECONDARY_1
-    0x00ffff, // SECONDARY_2
-    /* MARS */
-    0xff0000, // PRIMARY
-    0xff5500, // SECONDARY_1
-    0xff5500, // SECONDARY_2
-    /* BELT */
-    0xffaa00, // PRIMARY
-    0xffff00, // SECONDARY_1
-    0xffff00, // SECONDARY_2
-  ];
-}
-
-function themeColor(sectionId as Enums.Color) as ColorType {
-  return Color._COLORS[(Properties.getValue("theme") as Enums.Theme) * 3 /* MAX_COLOR_ID */ + sectionId];
+function themeColor(sectionId as Config.Color) as ColorType {
+  if (sectionId == Config.COLOR_CUSTOM) {
+    // do something
+    return Graphics.COLOR_WHITE;
+  } else {
+    var _COLORS = [
+      /* EXPANSE */
+      0xffaa00, // PRIMARY
+      0x00aaff, // SECONDARY_1
+      0xff0000, // SECONDARY_2
+      /* EARTH */
+      0x00aaff, // PRIMARY
+      0x00ffff, // SECONDARY_1
+      0x00ffff, // SECONDARY_2
+      /* MARS */
+      0xff0000, // PRIMARY
+      0xff5500, // SECONDARY_1
+      0xff5500, // SECONDARY_2
+      /* BELT */
+      0xffaa00, // PRIMARY
+      0xffff00, // SECONDARY_1
+      0xffff00, // SECONDARY_2
+    ];
+    return _COLORS[(Properties.getValue("theme") as Config.Theme) * 3 /* MAX_COLOR_ID */ + sectionId];
+  }
 }
 
 function saveSetAntiAlias(dc, enabled as Boolean) as Void {
