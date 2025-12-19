@@ -24,6 +24,14 @@ Can now be found in the Garmin store: https://apps.garmin.com/en-US/apps/d9f524c
 - Body Battery
 - Stress Level
 
+### Interactive Complications and Press Zones
+
+> [!NOTE]
+> Only for newer watches with a touch screen.
+
+- Many data fields on the watchface are triggerable: long pressing a data field will launch its complication.
+- In addition to per-field triggers, there are four extra configurable trigger zones that can be assigned to launch a desired complication when pressed: the Date area, the Time area, the Right side, and the Left side of the watch. These trigger zones can be configured in the watchface settings to choose which complication each zone launches.
+
 ### Attributions
 
 - Uses a slightly modified Version of the [DINish Font](https://github.com/playbeing/dinish) for the date and time elements.
