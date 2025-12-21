@@ -173,15 +173,15 @@ class OrbitDataField extends DataFieldDrawable {
 
   (:onPressComplication)
   protected function setHitbox() {
-    var width = Settings.ICON_SIZE * 4;
-    var height = Settings.ICON_SIZE * 3;
+    var width = Settings.ICON_SIZE * 3.2;
+    var height = Settings.ICON_SIZE * 2;
     switch (mFieldId) {
       case Config.FIELD_ORBIT_LEFT:
         mHitbox = {
           :width => width,
           :height => height,
           :x => _arcStartX + Settings.ICON_SIZE - width,
-          :y => 0,
+          :y => _arcStartY - Settings.ICON_SIZE / 2,
         };
         break;
       case Config.FIELD_ORBIT_RIGHT:
@@ -189,7 +189,7 @@ class OrbitDataField extends DataFieldDrawable {
           :width => width,
           :height => height,
           :x => _arcStartX - Settings.ICON_SIZE,
-          :y => 0,
+          :y => _arcStartY - Settings.ICON_SIZE / 2,
         };
         break;
       case Config.FIELD_ORBIT_OUTER:

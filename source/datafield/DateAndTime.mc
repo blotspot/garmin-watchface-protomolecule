@@ -23,7 +23,6 @@ class DateAndTime extends WatchUi.Drawable {
   private var _secondsY as Number;
   private var _secondsHeight as Number?;
 
-  private var _showSeconds as Boolean;
   private var _showMeridiem as Boolean;
 
   private var DayOfWeek as Array<ResourceId>;
@@ -67,7 +66,6 @@ class DateAndTime extends WatchUi.Drawable {
 
     _is12Hour = !System.getDeviceSettings().is24Hour;
     _dateFont = Properties.getValue("useSystemFontForDate") ? Graphics.FONT_TINY : Settings.resource(Rez.Fonts.DateFont);
-    _showSeconds = !Settings.lowPowerMode && (Properties.getValue("showSeconds") as Boolean);
     _showMeridiem = _is12Hour && (Properties.getValue("showMeridiemText") as Boolean);
 
     Months = [
@@ -93,6 +91,7 @@ class DateAndTime extends WatchUi.Drawable {
   }
 
   function draw(dc) {
+    var showSeconds = !Settings.lowPowerMode && (Properties.getValue("showSeconds") as Boolean);
     var now = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
     if (_burnInProtectionMode && _burnInProtectionModeEnteredAt == null) {
       _burnInProtectionModeEnteredAt = now.min;
@@ -114,20 +113,20 @@ class DateAndTime extends WatchUi.Drawable {
     // Minutes
     dc.drawText(_minutesX, _timeY + offsetY, Settings.resource(Rez.Fonts.MinutesFont), minutes, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     // Meridiem / Seconds
-    if (_showMeridiem || _showSeconds) {
+    if (_showMeridiem || showSeconds) {
       if (_secondsHeight == null) {
         _secondsHeight = dc.getFontHeight(Settings.resource(Rez.Fonts.MeridiemFont));
       }
       if (_showMeridiem) {
         dc.drawText(
           _secondsX,
-          _secondsY - (!_showSeconds ? 0 : _secondsHeight / 2) + offsetY,
+          _secondsY - (!showSeconds ? 0 : _secondsHeight / 2) + offsetY,
           Settings.resource(Rez.Fonts.MeridiemFont),
           now.hour < 12 ? "am" : "pm",
           Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
         );
       }
-      if (_showSeconds) {
+      if (showSeconds) {
         dc.drawText(
           _secondsX,
           _secondsY + (!_showMeridiem ? 0 : _secondsHeight / 2),
@@ -203,7 +202,7 @@ class DateAndTime extends WatchUi.Drawable {
     var height = params[:drawHeight] * 0.12;
     return {
       :x => _dateX - width / 2,
-      :y => _dateY - height / 2,
+      :y => _dateY - height / 2 + Settings.PEN_WIDTH,
       :width => width,
       :height => height,
     };
