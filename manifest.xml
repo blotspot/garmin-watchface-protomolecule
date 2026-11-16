@@ -6,6 +6,8 @@
       <iq:product id="approachs50"/>
       <iq:product id="approachs7042mm"/>
       <iq:product id="approachs7047mm"/>
+      <iq:product id="approachs7243mm"/>
+      <iq:product id="approachs7247mm"/>
       <iq:product id="d2air"/>
       <iq:product id="d2airx10"/>
       <iq:product id="d2delta"/>
@@ -13,6 +15,7 @@
       <iq:product id="d2deltas"/>
       <iq:product id="d2mach1"/>
       <iq:product id="d2mach2"/>
+      <iq:product id="d2mach2pro"/>
       <iq:product id="descentg2"/>
       <iq:product id="descentmk1"/>
       <iq:product id="descentmk2"/>
@@ -21,6 +24,7 @@
       <iq:product id="descentmk351mm"/>
       <iq:product id="enduro"/>
       <iq:product id="enduro3"/>
+      <iq:product id="enduro4"/>
       <iq:product id="epix2"/>
       <iq:product id="epix2pro42mm"/>
       <iq:product id="epix2pro47mm"/>
@@ -49,10 +53,18 @@
       <iq:product id="fenix8pro47mm"/>
       <iq:product id="fenix8solar47mm"/>
       <iq:product id="fenix8solar51mm"/>
+      <iq:product id="fenix943mm"/>
+      <iq:product id="fenix947mm"/>
+      <iq:product id="fenix9pro43mm"/>
+      <iq:product id="fenix9pro47mm"/>
+      <iq:product id="fenix9prosolar47mm"/>
+      <iq:product id="fenix9prosolar51mm"/>
       <iq:product id="fenixchronos"/>
       <iq:product id="fenixe"/>
       <iq:product id="fr165"/>
       <iq:product id="fr165m"/>
+      <iq:product id="fr170"/>
+      <iq:product id="fr170m"/>
       <iq:product id="fr245"/>
       <iq:product id="fr245m"/>
       <iq:product id="fr255"/>
@@ -65,6 +77,7 @@
       <iq:product id="fr57047mm"/>
       <iq:product id="fr645"/>
       <iq:product id="fr645m"/>
+      <iq:product id="fr70"/>
       <iq:product id="fr745"/>
       <iq:product id="fr935"/>
       <iq:product id="fr945"/>
@@ -81,6 +94,7 @@
       <iq:product id="legacysagarey"/>
       <iq:product id="marq2"/>
       <iq:product id="marq2aviator"/>
+      <iq:product id="marq3"/>
       <iq:product id="marqadventurer"/>
       <iq:product id="marqathlete"/>
       <iq:product id="marqaviator"/>
@@ -101,6 +115,7 @@
       <iq:product id="vivoactive3"/>
       <iq:product id="vivoactive3m"/>
       <iq:product id="vivoactive3mlte"/>
+      <iq:product id="vivoactive6"/>
       <iq:product id="vivoactive4"/>
       <iq:product id="vivoactive4s"/>
       <iq:product id="vivoactive5"/>
