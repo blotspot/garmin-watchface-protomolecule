@@ -4,3 +4,6 @@
 *.iml
 *.code-workspace
 .vscode
+.fonts
+__pycache__
+.venv

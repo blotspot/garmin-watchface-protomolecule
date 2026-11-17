@@ -57,6 +57,7 @@
       <iq:product id="fenix947mm"/>
       <iq:product id="fenix9pro43mm"/>
       <iq:product id="fenix9pro47mm"/>
+      <iq:product id="fenix9pro51mm"/>
       <iq:product id="fenix9prosolar47mm"/>
       <iq:product id="fenix9prosolar51mm"/>
       <iq:product id="fenixchronos"/>
@@ -115,7 +116,6 @@
       <iq:product id="vivoactive3"/>
       <iq:product id="vivoactive3m"/>
       <iq:product id="vivoactive3mlte"/>
-      <iq:product id="vivoactive6"/>
       <iq:product id="vivoactive4"/>
       <iq:product id="vivoactive4s"/>
       <iq:product id="vivoactive5"/>

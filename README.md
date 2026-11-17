@@ -32,6 +32,23 @@ Can now be found in the Garmin store: https://apps.garmin.com/en-US/apps/d9f524c
 - Many data fields on the watchface are triggerable: long pressing a data field will launch its complication.
 - In addition to per-field triggers, there are four extra configurable trigger zones that can be assigned to launch a desired complication when pressed: the Date area, the Time area, the Right side, and the Left side of the watch. These trigger zones can be configured in the watchface settings to choose which complication each zone launches.
 
+### Device Configuration
+
+After adding or removing products in `manifest.xml`, synchronize the per-device
+settings in `monkey.jungle` from the latest Garmin device specs release:
+
+```sh
+python tools/sync_jungle.py
+```
+
+The command downloads `garmin_devices.json` from the latest
+[device-specs release](https://github.com/blotspot/garmin-device-specs/releases/latest).
+For offline use, pass `--specs-file path/to/garmin_devices.json`. To check for
+drift without writing changes, run `python tools/sync_jungle.py --check`.
+The generated device configuration block is owned by this script. Press
+complications require touch and API level 4.2.0 or above; complication resources
+are included for touch devices at API level 4.2.0 or above.
+
 ### Attributions
 
 - Uses a slightly modified Version of the [DINish Font](https://github.com/playbeing/dinish) for the date and time elements.
