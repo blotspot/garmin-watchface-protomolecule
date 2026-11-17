@@ -7,3 +7,4 @@
 .fonts
 __pycache__
 .venv
+py_tests
