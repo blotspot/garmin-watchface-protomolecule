@@ -40,12 +40,17 @@ module Settings {
       Log.debug("Sleep Time: " + (profile.sleepTime.value() / 3600).format(Format.INT_ZERO) + ":" + ((profile.sleepTime.value() % 3600) / 60).format(Format.INT_ZERO));
       Log.debug("Wake Time: " + (profile.wakeTime.value() / 3600).format(Format.INT_ZERO) + ":" + ((profile.wakeTime.value() % 3600) / 60).format(Format.INT_ZERO));
     }
-    Settings.isSleepTime = false;
-    if (profile.wakeTime.lessThan(profile.sleepTime)) {
-      Settings.isSleepTime = current.greaterThan(profile.sleepTime) || current.lessThan(profile.wakeTime);
-    } else if (profile.wakeTime.greaterThan(profile.sleepTime)) {
-      Settings.isSleepTime = current.greaterThan(profile.sleepTime) && current.lessThan(profile.wakeTime);
+    Settings.isSleepTime = isWithinSleepWindow(current, profile.sleepTime, profile.wakeTime);
+  }
+
+  function isWithinSleepWindow(current as Time.Duration, sleepTime as Time.Duration, wakeTime as Time.Duration) as Boolean {
+    if (wakeTime.lessThan(sleepTime)) {
+      return current.greaterThan(sleepTime) || current.lessThan(wakeTime);
     }
+    if (wakeTime.greaterThan(sleepTime)) {
+      return current.greaterThan(sleepTime) && current.lessThan(wakeTime);
+    }
+    return false;
   }
 
   const ICON_SIZE = (System.getDeviceSettings().screenWidth + System.getDeviceSettings().screenHeight) / 2 / 12.4;
