@@ -1,9 +1,0 @@
-<fonts>
-  <font id="IconsFont" filename="icons-50px.fnt" antialias="true" />
-  <font id="HoursFont" filename="PM_192_bold.fnt" antialias="true"/>
-  <font id="MinutesFont" filename="PM_192_regular.fnt" antialias="true"/>
-  <font id="DateFont" filename="PM_45_regular.fnt" antialias="true"/>
-  <font id="PrimaryIndicatorFont" filename="PM_45_medium.fnt" filter="1234567890 " antialias="true"/>
-  <font id="SecondaryIndicatorFont" filename="PM_45_regular.fnt" filter="1234567890 " antialias="true"/>
-  <font id="MeridiemFont" filename="PM_27_regular.fnt" antialias="true"/>
-</fonts>
