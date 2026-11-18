@@ -144,19 +144,19 @@ module DataFieldInfo {
   function getIconDrawableForType(fieldType as FieldType, status as Numeric?) as IconDrawable {
     var icon = null;
     if (fieldType == Config.DATA_HEART_RATE) {
-      icon = new IconDrawable(fieldType, status == null || status > 0 ? "p" : "P", false);
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "p" : "P");
     } else if (fieldType == Config.DATA_CALORIES || fieldType == Config.DATA_ACTIVE_CALORIES) {
-      icon = new IconDrawable(fieldType, "c", false);
+      icon = new IconDrawable(fieldType, "c");
     } else if (fieldType == Config.DATA_NOTIFICATION) {
-      icon = new IconDrawable(fieldType, status == null || status > 0 ? "n" : "N", true);
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "n" : "N");
     } else if (fieldType == Config.DATA_STEPS) {
-      icon = new IconDrawable(fieldType, "s", false);
+      icon = new IconDrawable(fieldType, "s");
     } else if (fieldType == Config.DATA_FLOORS_UP) {
-      icon = new IconDrawable(fieldType, "F", false);
+      icon = new IconDrawable(fieldType, "F");
     } else if (fieldType == Config.DATA_FLOORS_DOWN) {
-      icon = new IconDrawable(fieldType, "f", false);
+      icon = new IconDrawable(fieldType, "f");
     } else if (fieldType == Config.DATA_ACTIVE_MINUTES) {
-      icon = new IconDrawable(fieldType, "t", false);
+      icon = new IconDrawable(fieldType, "t");
     } else if (fieldType == Config.DATA_BATTERY) {
       var iconText = "m";
       if (status != null && status >= 0.9) {
@@ -169,11 +169,11 @@ module DataFieldInfo {
       if (status != null && stats.charging) {
         iconText = "l";
       }
-      icon = new IconDrawable(fieldType, iconText, status != null);
+      icon = new IconDrawable(fieldType, iconText);
     } else if (fieldType == Config.DATA_BLUETOOTH) {
-      icon = new IconDrawable(fieldType, status == null || status > 0 ? "b" : "B", false);
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "b" : "B");
     } else if (fieldType == Config.DATA_ALARMS) {
-      icon = new IconDrawable(fieldType, status == null || status > 0 ? "a" : "A", false);
+      icon = new IconDrawable(fieldType, status == null || status > 0 ? "a" : "A");
     } else if (fieldType == Config.DATA_BODY_BATTERY) {
       var iconText = "o";
       if (Properties.getValue("dynamicBodyBattery")) {
@@ -183,11 +183,11 @@ module DataFieldInfo {
           iconText = "y";
         }
       }
-      icon = new IconDrawable(fieldType, iconText, false);
+      icon = new IconDrawable(fieldType, iconText);
     } else if (fieldType == Config.DATA_STRESS_LEVEL) {
-      icon = new IconDrawable(fieldType, "x", false);
+      icon = new IconDrawable(fieldType, "x");
     } else {
-      icon = new IconDrawable(fieldType, null, false);
+      icon = new IconDrawable(fieldType, null);
     }
 
     return icon;

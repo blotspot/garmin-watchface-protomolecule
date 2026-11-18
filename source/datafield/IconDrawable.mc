@@ -5,11 +5,9 @@ import Toybox.Lang;
 
 class IconDrawable extends WatchUi.Drawable {
   protected var mIcon as String?;
-  private var mOffestY as Boolean;
 
-  function initialize(identifier as Number, icon as String?, offsetY as Boolean) {
+  function initialize(identifier as Number, icon as String?) {
     mIcon = icon;
-    mOffestY = offsetY;
 
     Drawable.initialize({ :identifier => identifier });
   }
@@ -22,7 +20,7 @@ class IconDrawable extends WatchUi.Drawable {
     if (mIcon != null) {
       $.saveSetAntiAlias(dc, true);
       locX = atLocX;
-      locY = mOffestY ? atLocY + Settings.ICON_SIZE * 0.1 : atLocY;
+      locY = atLocY;
       drawInternal(dc);
       $.saveSetAntiAlias(dc, false);
     }
@@ -40,10 +38,6 @@ class IconDrawable extends WatchUi.Drawable {
       drawInternal(dc);
       $.saveSetAntiAlias(dc, false);
     }
-  }
-
-  function resetOffset() {
-    mOffestY = false;
   }
 
   private function drawInternal(dc) {
