@@ -50,7 +50,7 @@ function testFixedValuesFactoryConversion(logger as Test.Logger) as Boolean {
     && factory.getLabel(1).equals("two");
 }
 
-(:test)
+(:test,:onPressComplication)
 function testDataFieldComplicationMappings(logger as Test.Logger) as Boolean {
   var steps = DataFieldInfo.getComplicationsTypeForField(Config.DATA_STEPS);
   var calories = DataFieldInfo.getComplicationsTypeForField(Config.DATA_ACTIVE_CALORIES);
