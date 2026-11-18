@@ -7,7 +7,7 @@ import Toybox.System;
 class ProtomoleculeFaceView extends WatchUi.WatchFace {
   private var _lastBIPModeState as Boolean;
   private var _lastSleepLayoutState as Boolean = false;
-  private var _activeDefaultLayout as Number?;
+  private var _activeDefaultLayout as Config.Layout;
 
   private var _currentLayout as Array<WatchUi.Drawable>?;
 
@@ -16,6 +16,7 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
 
   function initialize() {
     _lastBIPModeState = Settings.burnInProtectionMode;
+    _activeDefaultLayout = Properties.getValue("layout") as Config.Layout;
     WatchFace.initialize();
   }
 
@@ -44,37 +45,37 @@ class ProtomoleculeFaceView extends WatchUi.WatchFace {
       if (Log has :debug) {
         Log.debug("layout switch triggered");
       }
-      _activeDefaultLayout = Properties.getValue("layout") as Number;
+      _activeDefaultLayout = Properties.getValue("layout") as Config.Layout;
       return chooseLayoutByPriority(dc);
     }
     return null;
   }
 
   protected function chooseLayoutByPriority(dc) {
-    // Prio 1: Legacy BIP (pixes cycling)
-    if (Settings.burnInProtectionMode && !Settings.HAS_DISPLAY_MODE) {
+    var layoutPriority = getLayoutPriority(
+      Settings.burnInProtectionMode,
+      Settings.HAS_DISPLAY_MODE,
+      Settings.useSleepTimeLayout(),
+      _activeDefaultLayout
+    );
+
+    if (layoutPriority == Config.LAYOUT_BIP) {
       if (Log has :debug) {
         Log.debug("set burn-in protection layout (AMOLEDs below API 5)");
       }
       _currentLayout = Rez.Layouts.BurnInProtectionLayout(dc);
-    }
-    // Prio 2: Sleep Time (when enabled in settings)
-    else if (Settings.useSleepTimeLayout()) {
+    } else if (layoutPriority == Config.LAYOUT_SLEEP) {
       if (Log has :debug) {
         Log.debug("set sleep time layout");
       }
       _lastSleepLayoutState = true;
       _currentLayout = Rez.Layouts.SleepLayout(dc);
-    }
-    // Prio 3: AMOLED Low Power Mode (<10% luminance)
-    else if (Settings.burnInProtectionMode && Settings.HAS_DISPLAY_MODE) {
+    } else if (layoutPriority == Config.LAYOUT_LPM) {
       if (Log has :debug) {
         Log.debug("set low power mode layout (AMOLEDs above API 5)");
       }
       _currentLayout = Rez.Layouts.LowPowerModeLayout(dc);
-    }
-    // DEFAULT: choose default layout
-    else {
+    } else {
       if (Log has :debug) {
         Log.debug("set default layout");
       }

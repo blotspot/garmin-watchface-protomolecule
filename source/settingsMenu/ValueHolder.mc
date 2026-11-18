@@ -74,10 +74,15 @@ class FixedValuesFactory extends ValueHolder {
       {
         :prefix as String,
         :suffix as String,
+        :initialIndex as Number,
       }?
   ) {
     _values = values;
-    mSelectionIndex = Properties.getValue(settingsId) as Number;
+    if (options != null && options.hasKey(:initialIndex)) {
+      mSelectionIndex = options[:initialIndex] as Number;
+    } else {
+      mSelectionIndex = Properties.getValue(settingsId) as Number;
+    }
 
     if (options == null) {
       options = {};
@@ -180,12 +185,17 @@ class NumberFactory extends ValueHolder {
         :prefix as String,
         :suffix as String,
         :format as String,
+        :initialIndex as Number,
       }?
   ) {
     _start = start;
     _stop = stop;
     _increment = increment;
-    mSelectionIndex = getIndex(Properties.getValue(settingsId) as Number);
+    if (options != null && options.hasKey(:initialIndex)) {
+      mSelectionIndex = options[:initialIndex] as Number;
+    } else {
+      mSelectionIndex = getIndex(Properties.getValue(settingsId) as Number);
+    }
 
     if (options == null) {
       options = {};

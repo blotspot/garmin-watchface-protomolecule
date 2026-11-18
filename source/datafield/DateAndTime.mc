@@ -246,7 +246,7 @@ class DateAndTime extends WatchUi.Drawable {
 
   (:onPressComplication)
   private function isInHitbox(hitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?, x as Number, y as Number) as Boolean {
-    return hitbox != null && y >= hitbox[:y] && y <= hitbox[:y] + hitbox[:height] && x >= hitbox[:x] && x <= hitbox[:x] + hitbox[:width];
+    return isPointInHitbox(hitbox, x, y);
   }
 
   (:onPressComplication)

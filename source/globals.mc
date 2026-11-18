@@ -114,3 +114,31 @@ function saveClearClip(dc) as Void {
     dc.clearClip();
   }
 }
+
+function isPointInHitbox(hitbox as { :x as Numeric, :y as Numeric, :width as Numeric, :height as Numeric }?, x as Number, y as Number) as Boolean {
+  if (hitbox == null) {
+    return false;
+  }
+  return x >= hitbox[:x]
+    && x <= hitbox[:x] + hitbox[:width]
+    && y >= hitbox[:y]
+    && y <= hitbox[:y] + hitbox[:height];
+}
+
+function getLayoutPriority(
+  burnInProtection as Boolean,
+  hasDisplayMode as Boolean,
+  sleepLayout as Boolean,
+  defaultLayout as Config.Layout
+) as Config.Layout {
+  if (burnInProtection && !hasDisplayMode) {
+    return Config.LAYOUT_BIP;
+  }
+  if (sleepLayout) {
+    return Config.LAYOUT_SLEEP;
+  }
+  if (burnInProtection && hasDisplayMode) {
+    return Config.LAYOUT_LPM;
+  }
+  return defaultLayout;
+}

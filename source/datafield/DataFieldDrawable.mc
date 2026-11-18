@@ -59,7 +59,7 @@ class DataFieldDrawable extends WatchUi.Drawable {
 
   (:onPressComplication)
   protected function isInHitbox(x as Number, y as Number) as Boolean {
-    return x >= mHitbox[:x] && x <= mHitbox[:x] + mHitbox[:width] && y >= mHitbox[:y] && y <= mHitbox[:y] + mHitbox[:height];
+    return isPointInHitbox(mHitbox, x, y);
   }
 
   (:onPressComplication)
