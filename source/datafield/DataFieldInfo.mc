@@ -33,10 +33,16 @@ module DataFieldInfo {
     }
 
     function equals(other) as Boolean {
-      if (other != null && other instanceof DataFieldProperties) {
-        return other.fieldType == fieldType && other.icon.equals(icon) && (other.text == null ? other.text == text : other.text.equals(text)) && other.progress == progress;
+      if (other == null || !(other instanceof DataFieldProperties)) {
+        return false;
       }
-      return false;
+      if (other.fieldType != fieldType || other.progress != progress || other.reverse != reverse) {
+        return false;
+      }
+      if (text == null) {
+        return other.text == null;
+      }
+      return other.text != null && text.equals(other.text);
     }
   }
 
@@ -213,14 +219,15 @@ module DataFieldInfo {
 
   function getCalorieInfo() as DataFieldProperties {
     var activityInfo = ActivityMonitor.getInfo();
-    var current = activityInfo.calories.toDouble(); // turn to double for division
+    var current = activityInfo.calories.toDouble();
+    var goal = Properties.getValue("caloriesGoal") as Numeric?;
 
-    return new DataFieldProperties(Config.DATA_CALORIES, current.format(Format.INT), current / Properties.getValue("caloriesGoal"), false);
+    return new DataFieldProperties(Config.DATA_CALORIES, current.format(Format.INT), safeProgress(current, goal), false);
   }
 
   function getActiveCalorieInfo() as DataFieldProperties {
     var profile = UserProfile.getProfile();
-    if (profile.birthYear == null && profile.height == null && profile.weight == null) {
+    if (!hasCompleteActiveCalorieProfile(profile.birthYear, profile.height, profile.weight)) {
       return new DataFieldProperties(Config.DATA_ACTIVE_CALORIES, null, 0, false);
     }
     var activityInfo = ActivityMonitor.getInfo();
@@ -236,8 +243,9 @@ module DataFieldInfo {
     var resting = genderFactor - ageFactor + heightFactor + weightFactor;
     var relResting = Math.round(((now.hour * 60 + now.min) * resting) / 1440);
     var active = activityInfo.calories.toDouble() - relResting;
+    var goal = Properties.getValue("caloriesGoal") as Numeric?;
 
-    return new DataFieldProperties(Config.DATA_ACTIVE_CALORIES, active.format(Format.INT), active / Properties.getValue("caloriesGoal"), false);
+    return new DataFieldProperties(Config.DATA_ACTIVE_CALORIES, active.format(Format.INT), safeProgress(active, goal), false);
   }
 
   function getNotificationInfo() as DataFieldProperties {

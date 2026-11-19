@@ -63,7 +63,7 @@ class ProtomoleculeSettingsDelegate extends WatchUi.Menu2InputDelegate {
   function onSelect(item) {
     var id = item.getId() as String;
     if ("layoutSettings".equals(id)) {
-      if (Properties.getValue("layout") == 0) {
+      if (Properties.getValue("layout") == Config.LAYOUT_ORBIT) {
         pushOrbitLayoutSettingsMenu();
       } else {
         pushCirclesLayoutSettingsMenu();

@@ -3,6 +3,7 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 import Config;
+import Toybox.Math;
 
 class ValueHolder {
   protected var mPrefix as String;
@@ -217,7 +218,9 @@ class NumberFactory extends ValueHolder {
   }
 
   function getIndex(value as Number) as Number {
-    return (value - _start) / _increment;
+    var rawIndex = (value - _start) / _increment;
+    var alignedIndex = Math.round(rawIndex).toNumber();
+    return clamp(alignedIndex, 0, getSize() - 1).toNumber();
   }
 
   function getSize() as Number {

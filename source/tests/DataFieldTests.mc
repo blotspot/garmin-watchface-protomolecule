@@ -64,3 +64,44 @@ function testDataFieldComplicationMappings(logger as Test.Logger) as Boolean {
     && alarms == Complications.COMPLICATION_TYPE_INVALID
     && unknown == null;
 }
+
+(:test)
+function testCompleteProfileValidation(logger as Test.Logger) as Boolean {
+  var complete = hasCompleteActiveCalorieProfile(1985, 180, 80000);
+  var missingBirthYear = hasCompleteActiveCalorieProfile(null, 180, 80000);
+  var missingHeight = hasCompleteActiveCalorieProfile(1985, null, 80000);
+  var missingWeight = hasCompleteActiveCalorieProfile(1985, 180, null);
+  logger.debug("Profile completeness checks");
+  return complete && !missingBirthYear && !missingHeight && !missingWeight;
+}
+
+(:test)
+function testSafeProgressNeverDividesByZero(logger as Test.Logger) as Boolean {
+  var nullGoal = safeProgress(50, null);
+  var zeroGoal = safeProgress(50, 0);
+  var negativeGoal = safeProgress(50, -10);
+  var normalGoal = safeProgress(50, 100);
+  logger.debug("Safe progress values: null=" + nullGoal + " zero=" + zeroGoal + " negative=" + negativeGoal + " normal=" + normalGoal);
+  return nullGoal == 0 && zeroGoal == 0 && negativeGoal == 0 && normalGoal == 0.5;
+}
+
+(:test)
+function testNumberFactoryBoundsAndAlignment(logger as Test.Logger) as Boolean {
+  var factory = new NumberFactory(50, 90, 10, "testNumberFactoryBounds", { :initialIndex => 0 });
+  var below = factory.getIndex(10);
+  var above = factory.getIndex(200);
+  var between = factory.getIndex(65);
+  var exact = factory.getIndex(80);
+  logger.debug("Number factory bounds and alignment checks");
+  return below == 0 && above == 4 && between == 1 && exact == 3;
+}
+
+(:test)
+function testDataFieldPropertiesReverseEquality(logger as Test.Logger) as Boolean {
+  var forward = new DataFieldInfo.DataFieldProperties(Config.DATA_STEPS, "100", 0.5, false);
+  var reverse = new DataFieldInfo.DataFieldProperties(Config.DATA_STEPS, "100", 0.5, true);
+  var identical = new DataFieldInfo.DataFieldProperties(Config.DATA_STEPS, "100", 0.5, false);
+  logger.debug("Data field reverse equality checks");
+  logger.debug("Reverse equality: identical=" + forward.equals(identical) + " reverse=" + forward.equals(reverse));
+  return forward.equals(identical) && !forward.equals(reverse);
+}

@@ -142,3 +142,24 @@ function getLayoutPriority(
   }
   return defaultLayout;
 }
+
+function hasCompleteActiveCalorieProfile(birthYear as Number?, height as Numeric?, weight as Numeric?) as Boolean {
+  return birthYear != null && height != null && weight != null;
+}
+
+function safeProgress(current as Numeric, goal as Numeric?) as Numeric {
+  if (goal == null || goal <= 0) {
+    return 0;
+  }
+  return current.toDouble() / goal.toDouble();
+}
+
+function clamp(value as Numeric, minimum as Numeric, maximum as Numeric) as Numeric {
+  if (value < minimum) {
+    return minimum;
+  }
+  if (value > maximum) {
+    return maximum;
+  }
+  return value;
+}
